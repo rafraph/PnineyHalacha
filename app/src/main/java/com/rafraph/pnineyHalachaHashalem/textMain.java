@@ -1,8 +1,12 @@
 package com.rafraph.pnineyHalachaHashalem;
 
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStreamWriter;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -11,7 +15,9 @@ import java.util.List;
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Dialog;
+import android.app.DownloadManager;
 import android.content.Context;
+import android.content.ContextWrapper;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -19,12 +25,16 @@ import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
+
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.PopupMenu;
 import android.text.Html;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -43,12 +53,17 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.PopupMenu;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.view.*;
 
 /*jsoup*/
+
+
+
+
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
@@ -56,6 +71,10 @@ import org.jsoup.select.Elements;
 @SuppressLint("SetJavaScriptEnabled")
 public class textMain extends AppCompatActivity implements View.OnClickListener//, OnGestureListener
 {
+
+	// Create a reference from an HTTPS URL
+	// Note that in the URL, characters are URL escaped!
+	//StorageReference httpsReference = storage.getReferenceFromUrl("https://firebasestorage.googleapis.com/b/bucket/o/images%20stars.jpg");
 	private static final int BRACHOT      	= 0;
 	private static final int HAAMVEHAAREZ 	= 1;
 	private static final int ZMANIM    		= 2;
@@ -93,13 +112,13 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 	/*							0	1	2	3	4	5	6	7	8	9  10  11  12  13  14  15  16  17  18 19  20  21  22  23  24  25  26  27  28  29  30*/
 	public int[] lastChapter = {18, 11, 17, 10, 10, 19, 19, 13, 16, 13, 10, 8, 16, 11, 30, 10, 26, 24, 17, 10, 12, 8, 30, 10, 26, 16, 15, 24, 30, 26, 30};
 
-    private static final int HEBREW	 = 0;
-    private static final int ENGLISH = 1;
-    private static final int RUSSIAN = 2;
-    private static final int SPANISH = 3;
-    private static final int FRENCH = 4;
+	private static final int HEBREW	 = 0;
+	private static final int ENGLISH = 1;
+	private static final int RUSSIAN = 2;
+	private static final int SPANISH = 3;
+	private static final int FRENCH = 4;
 
-    WebView webview;
+	WebView webview;
 	public static int[] book_chapter = new int[2];
 	boolean cameFromSearch = false, firstTime = true, ChangeChapter = false;
 	String searchPosition = null, sectionsForToast = null;
@@ -107,7 +126,7 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 	LinearLayout llMainLayout;
 	String stHeadersArr;
 	Elements headers;
-    String fileName, fileNameOnly, lastFileName = null;
+	String fileName, fileNameOnly, lastFileName = null;
 	String[][] chaptersFiles = new String[BOOKS_NUMBER][31];
 	private LinearLayout lnrOptions, lnrFindOptions;
 	public static final String PREFS_NAME = "MyPrefsFile";
@@ -124,9 +143,9 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 	public String audio_id;
 	public Resources resources;
 	static byte fullScreenFlag = 0;
-	public static byte rotate = 0; 
+	public static byte rotate = 0;
 	public String noteStr = "0";
-    public int MyLanguage;
+	public int MyLanguage;
 
 	/*for bookmarks*/
 	public List<String> bookmarks_array_names = new ArrayList<String>();
@@ -140,33 +159,49 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 	//	static int odd=1;
 	public int API;
 	static public boolean jumpToSectionFlag = false;
-
+	public File localFile;
 	public int fontSize;
 
 	@TargetApi(Build.VERSION_CODES.KITKAT)
 	@SuppressLint("JavascriptInterface")
 	@SuppressWarnings("deprecation")
 	@Override
-	protected void onCreate(Bundle savedInstanceState) 
+	protected void onCreate(Bundle savedInstanceState)
 	{
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
+		final Context context = this;
+		Uri uri = Uri.parse("https://ph.yhb.org.il/wp-content/themes/s/brachot_1.html");
+		DownloadManager.Request request = new DownloadManager.Request(uri);
+		request.setDescription("Selected Video is being downloaded");
+		request.setTitle("Downloading Video");
+		//request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+//Set the local destination for the downloaded file to a path within the application's external files directory
+		request.setDestinationInExternalFilesDir(context,getFilesDir().getAbsolutePath(), "brachot_1.html"); //To Store file in External Public Directory use "setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, fileName)"
+		DownloadManager manager = (DownloadManager)
+				context.getSystemService(Context.DOWNLOAD_SERVICE);
+		manager.enqueue(request);
+		manager = (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
+		Uri uri2 = Uri.parse("https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf");
+		DownloadManager.Request request2 = new DownloadManager.Request(uri2);
+		request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE);
+		long reference = manager.enqueue(request2);
 		loadActivity();
 
 	}//onCreate
 
-	private void loadActivity() 
+	private void loadActivity()
 	{
 		mPrefs = getSharedPreferences(PREFS_NAME, 0);
 		shPrefEditor = mPrefs.edit();
 		cbAssistButtons = mPrefs.getInt("cbAssistButtons", 1);
-        MyLanguage = mPrefs.getInt("MyLanguage", 0);
+		MyLanguage = mPrefs.getInt("MyLanguage", 0);
 
 		if(cbAssistButtons==0)
 			setContentView(R.layout.text_main);
 		else
 			setContentView(R.layout.text_main_down);
-		
+
 		firstTime = true;
 		book_chapter[0] = -1;
 		book_chapter[1] = -1;
@@ -174,6 +209,7 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 		lnrOptions = (LinearLayout) findViewById(R.id.lnrOptions);
 		lnrFindOptions = (LinearLayout) findViewById(R.id.lnrFindOptions);
 		final Context context = this;
+
 		webview = (WebView) findViewById(R.id.webView1);
 		WebSettings webSettings = webview.getSettings();
 		webSettings.setDefaultTextEncodingName("utf-8");
@@ -186,6 +222,7 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 		resources = getResources();
 
 		webview.requestFocusFromTouch();
+		webview.getSettings().setAllowFileAccess(true);
 
 		webview.setWebViewClient(new MyWebViewClient());
 
@@ -260,35 +297,45 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 				webviewNote.loadData(content, "text/html; charset=utf-8", "UTF-8");
 				webSettingsNote.setDefaultFontSize(fontSize);
 				dialog.show();
-				
+
 				dialog.setOnCancelListener(new DialogInterface.OnCancelListener()
 				{
-				    @Override
-				    public void onCancel(DialogInterface dialog) 
-				    {
-				        //do whatever you want the back key to do
-				    	dialog.dismiss();
-				    	scrollSpeed = mPrefs.getInt("scrollSpeed", 2);
-				    }
+					@Override
+					public void onCancel(DialogInterface dialog)
+					{
+						//do whatever you want the back key to do
+						dialog.dismiss();
+						scrollSpeed = mPrefs.getInt("scrollSpeed", 2);
+					}
 				});
 			}
 		};
 
 		final Runnable runnableAudio = new Runnable()
 		{
+
 			public void run()
 			{
 				// your code here
 				try
 				{
-					Class ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.myAudio");
-					Intent ourIntent = new Intent(textMain.this, ourClass);
+					if ((isConnected())) {
+						Class ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.myAudio");
+						Intent ourIntent = new Intent(textMain.this, ourClass);
 
-                    ourIntent.putExtra("audio_id", Integer.parseInt(audio_id));
-                    ourIntent.putExtra("book_id", book_chapter[0]);
-                    ourIntent.putExtra("chapter_id", book_chapter[1]);
-					findAllHeaders(ourIntent);
-					startActivity(ourIntent);
+						ourIntent.putExtra("audio_id", Integer.parseInt(audio_id));
+						ourIntent.putExtra("book_id", book_chapter[0]);
+						ourIntent.putExtra("chapter_id", book_chapter[1]);
+						ourIntent.putExtra("chapter_id", book_chapter[1]);
+						ourIntent.putExtra("webLink", chaptersFiles[book_chapter[0]][book_chapter[1]]);
+						//ourIntent.putExtra("webLink", localFile.getPath());
+						ourIntent.putExtra("scroolY", webview.getScrollY());
+						ourIntent.putExtra("fontSize", fontSize);
+						findAllHeaders(ourIntent);
+						startActivity(ourIntent);
+					}
+					else
+						Toast.makeText(getApplicationContext(), "אין חיבור אינטרנט", Toast.LENGTH_LONG).show();
 				}
 				catch (ClassNotFoundException e)
 				{
@@ -302,41 +349,39 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 			@JavascriptInterface
 			public void performClick(String id)
 			{
-			    scrollSpeed = 0;
+				scrollSpeed = 0;
 				setNoteId(id);
 				runOnUiThread(runnableNote);
 			}
 		}, "ok");
 
-        webview.addJavascriptInterface(new Object()
-        {
-            @JavascriptInterface
-            public void performClick(String id)
-            {
+		webview.addJavascriptInterface(new Object()
+		{
+			@JavascriptInterface
+			public void performClick(String id)
+			{
 
-                setAudioId(id);
-                runOnUiThread(runnableAudio);
-            }
-        }, "audio");
+				setAudioId(id);
+				runOnUiThread(runnableAudio);
+			}
+		}, "audio");
 
 		fillChaptersFiles();
 
 
 		BlackBackground = mPrefs.getInt("BlackBackground", 0);
 		cbFullScreen = mPrefs.getInt("cbFullScreen", 1);
-		
+
 		inflater = getMenuInflater();
 		textActionBar = getSupportActionBar();
-
 		Bundle extras = getIntent().getExtras();
-		if (extras != null) 
+		if (extras != null)
 		{
 			cameFromSearch = extras.getBoolean("cameFromSearch",false);
 			searchPosition = extras.getString("searchPosition");
 			if(extras.getIntArray("book_chapter") != null)
 				book_chapter = extras.getIntArray("book_chapter");
 			sectionsForToast = extras.getString("sectionsForToast");
-
 			if(cameFromSearch == true)
 			{
 				query = extras.getString("query");
@@ -383,11 +428,10 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 			bNext_sec.setEnabled(false);
 		else if(book_chapter[1] == 0)
 			bPrevious_sec.setEnabled(false);
-
-		webview.setWebChromeClient(new WebChromeClient() 
+		webview.setWebChromeClient(new WebChromeClient()
 		{
 			@Override
-			public void onProgressChanged(WebView view, int progress) 
+			public void onProgressChanged(WebView view, int progress)
 			{
 				if ( view.getProgress()==100)
 				{
@@ -405,9 +449,9 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 			}
 		});
 
-		
+
 	}
-	
+
 	public void  setNoteId(String id)
 	{
 		note_id=id;
@@ -418,13 +462,26 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 		audio_id=id;
 	}
 
+	boolean isConnected(){
 
+		ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+		NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+
+		if(networkInfo!=null){
+			if(networkInfo.isConnected())
+				return true;
+			else
+				return false;
+		}else
+			return false;
+
+	}
 	private void jumpToY ( int yLocation )
 	{
 		webview.postDelayed( new Runnable ()
 		{
 			public void run()
-			{ 
+			{
 				if(scrollY != 0)
 					webview.scrollTo(0, scrollY);
 			}
@@ -436,7 +493,7 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 		webview.postDelayed( new Runnable ()
 		{
 			public void run()
-			{ 
+			{
 				int a =webview.findAll(query);
 				try
 				{
@@ -447,13 +504,13 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 			}
 		}, 400);/*how much time to delay*/
 	}
-	
+
 	private void WhiteTextAfterDelay (  )
 	{
 		webview.postDelayed( new Runnable ()
 		{
 			public void run()
-			{ 
+			{
 				webview.loadUrl("javascript:function myFunction() {var x = document.body;x.style.color = \"white\";} myFunction(); ");
 				webview.findAll(query);
 				try
@@ -465,7 +522,10 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 			}
 		}, 400);/*how much time to delay*/
 	}
-	
+	private Context getContext() {
+		return null;
+	}
+
 	public void ParseTheDoc()
 	{
 		String prefix;
@@ -480,7 +540,7 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 			lastFileName = fileName;
 			prefix = "file:///android_asset/";
 			fileNameOnly = fileName.substring(prefix.length());
-			try 
+			try
 			{
 				is = getAssets().open(fileNameOnly);
 				size = is.available();
@@ -496,14 +556,14 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 		}
 	}
 
-	protected void onStart() 
+	protected void onStart()
 	{
 		super.onStart();
 		// The activity is about to become visible.
 
 	}//onStart
 
-	protected void onResume() 
+	protected void onResume()
 	{
 		super.onResume();
 		// The activity has become visible (it is now "resumed").
@@ -520,7 +580,7 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 		{
 			webview.setKeepScreenOn (true);
 		}
-		
+
 		if(cbAssistButtons != mPrefs.getInt("cbAssistButtons", 1))
 		{
 			loadActivity();
@@ -541,7 +601,7 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 	}//onPaused
 
 	@Override
-	public boolean onCreateOptionsMenu(Menu menu) 
+	public boolean onCreateOptionsMenu(Menu menu)
 	{
 		// TODO Auto-generated method stub
 		BlackBackground = mPrefs.getInt("BlackBackground", 0);
@@ -549,7 +609,7 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 		if(book_chapter[1]==0)
 			title = convertBookIdToName(book_chapter[0]);
 		else
-			title = convertBookIdToName(book_chapter[0]) + ": " + convertAnchorIdToSection(book_chapter[1]); 
+			title = convertBookIdToName(book_chapter[0]) + ": " + convertAnchorIdToSection(book_chapter[1]);
 
 		if(BlackBackground == 1)
 		{
@@ -590,22 +650,22 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 				bFindPrevious.setImageDrawable(resources.getDrawable(R.drawable.ic_action_up));
 			}
 		}
-		
+
 		MenuInflater DownMenu = getMenuInflater();
-        if(MyLanguage == ENGLISH)
-		    DownMenu.inflate(R.menu.down_menu_english, menu);
+		if(MyLanguage == ENGLISH)
+			DownMenu.inflate(R.menu.down_menu_english, menu);
 		else if(MyLanguage == RUSSIAN)
 			DownMenu.inflate(R.menu.down_menu_russian, menu);
 		else if(MyLanguage == SPANISH)
 			DownMenu.inflate(R.menu.down_menu_spanish, menu);
 		else if(MyLanguage == FRENCH)
 			DownMenu.inflate(R.menu.down_menu_french, menu);
-        else
-            DownMenu.inflate(R.menu.down_menu, menu);
+		else
+			DownMenu.inflate(R.menu.down_menu, menu);
 		return true;
 	}//onCreateOptionsMenu
 
-	public void onBackPressed() 
+	public void onBackPressed()
 	{
 		if(fullScreenFlag == 1)
 		{
@@ -619,141 +679,141 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 		}
 	}
 
-	public void onConfigurationChanged(Configuration newConfig) 
+	public void onConfigurationChanged(Configuration newConfig)
 	{
 		super.onConfigurationChanged(newConfig);
 		// Checks the orientation of the screen
-		if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) 
+		if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE)
 		{
 			rotate=2;
-		} 
-		else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) 
+		}
+		else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT)
 		{
 			rotate=1;
 		}
 	}
-	
-	 @Override
-	 public boolean dispatchKeyEvent(KeyEvent event) 
-	 {
-		 int keyCode = event.getKeyCode();
-		 int keyAction = event.getAction();
-		 switch (keyCode) 
-		 {
-		 case KeyEvent.KEYCODE_VOLUME_UP:
-			 if(keyAction == KeyEvent.ACTION_UP)
-			 {
-				 webview.pageUp(false);
-			 }
-			 return true;
-		 case KeyEvent.KEYCODE_VOLUME_DOWN:
-			 if(keyAction == KeyEvent.ACTION_UP)
-			 {
-				 webview.pageDown(false);
-			 }
-			 return true;
-		 default:
-			 return super.dispatchKeyEvent(event);
-		 }
-	 }
 
-	 int scrollSpeed=1;
-	 private Handler mHandler=new Handler();
-	 public Runnable mScrollDown = new Runnable()
-	 {
-		 public void run()
-		 {
-			 if(scrollSpeed == 0) // in case of note opened
-			 {
-				 mHandler.postDelayed(this, 200);
-			 }
-			 else if(scrollSpeed == -1) // in case that "stop" pressed
-			 {
-				 webview.scrollBy(0, 0);
-			 }
-			 else
-			 {
-				 webview.scrollBy(0, 1);
-				 mHandler.postDelayed(this, 200/scrollSpeed);
-			 }
-		 }
-	 };
-	 	 
+	@Override
+	public boolean dispatchKeyEvent(KeyEvent event)
+	{
+		int keyCode = event.getKeyCode();
+		int keyAction = event.getAction();
+		switch (keyCode)
+		{
+			case KeyEvent.KEYCODE_VOLUME_UP:
+				if(keyAction == KeyEvent.ACTION_UP)
+				{
+					webview.pageUp(false);
+				}
+				return true;
+			case KeyEvent.KEYCODE_VOLUME_DOWN:
+				if(keyAction == KeyEvent.ACTION_UP)
+				{
+					webview.pageDown(false);
+				}
+				return true;
+			default:
+				return super.dispatchKeyEvent(event);
+		}
+	}
+
+	int scrollSpeed=1;
+	private Handler mHandler=new Handler();
+	public Runnable mScrollDown = new Runnable()
+	{
+		public void run()
+		{
+			if(scrollSpeed == 0) // in case of note opened
+			{
+				mHandler.postDelayed(this, 200);
+			}
+			else if(scrollSpeed == -1) // in case that "stop" pressed
+			{
+				webview.scrollBy(0, 0);
+			}
+			else
+			{
+				webview.scrollBy(0, 1);
+				mHandler.postDelayed(this, 200/scrollSpeed);
+			}
+		}
+	};
+
 	@SuppressWarnings("deprecation")
 	@Override
-	public void onClick(View view) 
+	public void onClick(View view)
 	{
 		String currentChapter;
 		// TODO Auto-generated method stub
 		switch(view.getId())
 		{
-		case R.id.ibChapters:
-			findHeaders();
-			showPopupMenu(view);
-			break;
+			case R.id.ibChapters:
+				findHeaders();
+				showPopupMenu(view);
+				break;
 
-		case R.id.ibFullScreen:
-			cbFullScreen = mPrefs.getInt("cbFullScreen", 1);
-			if(cbFullScreen == 0)
-				lnrOptions.setVisibility(View.GONE);
-			getSupportActionBar().hide();
-			Toast.makeText(getApplicationContext(), "לחץ על כפתור 'חזור' כדי לצאת ממסך מלא", Toast.LENGTH_LONG).show();
-			fullScreenFlag = 1;
-			break;
-			
-		case R.id.ibNext:
-			cameFromSearch = false;
-			scrollY = 0;/*In order to jump to the beginning of the chapter*/
-			currentChapter = getClearUrl();
-			getTheArrayLocation(currentChapter);
-			book_chapter[1] += 1;
-			webview.loadUrl(chaptersFiles[book_chapter[0]][book_chapter[1]]);
-			title = convertBookIdToName(book_chapter[0]) + ": " + convertAnchorIdToSection(book_chapter[1]);
-			if(book_chapter[1] == lastChapter[book_chapter[0]])
-				bNext_sec.setEnabled(false);
-			else
-				bPrevious_sec.setEnabled(true);
-			ChangeChapter = true;
+			case R.id.ibFullScreen:
+				cbFullScreen = mPrefs.getInt("cbFullScreen", 1);
+				if(cbFullScreen == 0)
+					lnrOptions.setVisibility(View.GONE);
+				getSupportActionBar().hide();
+				Toast.makeText(getApplicationContext(), "לחץ על כפתור 'חזור' כדי לצאת ממסך מלא", Toast.LENGTH_LONG).show();
+				fullScreenFlag = 1;
+				break;
 
-			shPrefEditor.putInt("fontSize", fontSize);/*in order to keep the fontSize when moving to next chapter*/
-
-			break;
-			
-		case R.id.ibPrevious:
-			cameFromSearch = false;
-			scrollY = 0;/*In order to jump to the beginning of the chapter*/
-			currentChapter = getClearUrl();
-			getTheArrayLocation(currentChapter);
-			book_chapter[1] -= 1;
-			webview.loadUrl(chaptersFiles[book_chapter[0]][book_chapter[1]]);
-			if(book_chapter[1] == 0)
-				title = convertBookIdToName(book_chapter[0]);
-			else
+			case R.id.ibNext:
+				cameFromSearch = false;
+				scrollY = 0;/*In order to jump to the beginning of the chapter*/
+				currentChapter = getClearUrl();
+				getTheArrayLocation(currentChapter);
+				book_chapter[1] += 1;
+				webview.loadUrl(chaptersFiles[book_chapter[0]][book_chapter[1]]);
 				title = convertBookIdToName(book_chapter[0]) + ": " + convertAnchorIdToSection(book_chapter[1]);
-			if(book_chapter[1] == 0)
-				bPrevious_sec.setEnabled(false);
-			else
-				bNext_sec.setEnabled(true);
-			ChangeChapter = true;
+				if(book_chapter[1] == lastChapter[book_chapter[0]])
+					bNext_sec.setEnabled(false);
+				else
+					bPrevious_sec.setEnabled(true);
+				ChangeChapter = true;
 
-			shPrefEditor.putInt("fontSize", fontSize);/*in order to keep the fontSize when moving to next chapter*/
-			break;
-		
-		case R.id.ibNextPage:
-			webview.pageDown(false);
-			break;
-		
-		case R.id.ibPreviousPage:
-			webview.pageUp(false);
-			break;
-		
-		case R.id.ibFindNext:
-			webview.findNext(true);
-			break;
-		
-		case R.id.ibFindPrevious:
-			webview.findNext(false);
-			break;
+				shPrefEditor.putInt("fontSize", fontSize);/*in order to keep the fontSize when moving to next chapter*/
+
+				break;
+
+			case R.id.ibPrevious:
+				cameFromSearch = false;
+				scrollY = 0;/*In order to jump to the beginning of the chapter*/
+				currentChapter = getClearUrl();
+				getTheArrayLocation(currentChapter);
+				book_chapter[1] -= 1;
+				webview.loadUrl(chaptersFiles[book_chapter[0]][book_chapter[1]]);
+				if(book_chapter[1] == 0)
+					title = convertBookIdToName(book_chapter[0]);
+				else
+					title = convertBookIdToName(book_chapter[0]) + ": " + convertAnchorIdToSection(book_chapter[1]);
+				if(book_chapter[1] == 0)
+					bPrevious_sec.setEnabled(false);
+				else
+					bNext_sec.setEnabled(true);
+				ChangeChapter = true;
+
+				shPrefEditor.putInt("fontSize", fontSize);/*in order to keep the fontSize when moving to next chapter*/
+				break;
+
+			case R.id.ibNextPage:
+				webview.pageDown(false);
+				break;
+
+			case R.id.ibPreviousPage:
+				webview.pageUp(false);
+				break;
+
+			case R.id.ibFindNext:
+				webview.findNext(true);
+				break;
+
+			case R.id.ibFindPrevious:
+				webview.findNext(false);
+				break;
 		}
 
 	}//onClick
@@ -761,140 +821,140 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 	public String strBookmark, Bookmarks;
 	@SuppressLint("NewApi")
 	@Override
-	public boolean onOptionsItemSelected(MenuItem item) 
+	public boolean onOptionsItemSelected(MenuItem item)
 	{
 		final Context context = this;
-		
+
 		// TODO Auto-generated method stub
-		switch (item.getItemId()) 
+		switch (item.getItemId())
 		{
-		case R.id.action_search:
-			innerSearch();
-			break;
-		case R.id.action_add_bookmark:
-			// custom dialog
-			bookmarkDialog = new Dialog(context);
-			if(MyLanguage == ENGLISH)
-				bookmarkDialog.setContentView(R.layout.add_bookmark_english);
-			else if(MyLanguage == RUSSIAN)
-				bookmarkDialog.setContentView(R.layout.add_bookmark_russian);
-			else if(MyLanguage == SPANISH)
-				bookmarkDialog.setContentView(R.layout.add_bookmark_spanish);
-			else if(MyLanguage == FRENCH)
-				bookmarkDialog.setContentView(R.layout.add_bookmark_french);
-			else
-				bookmarkDialog.setContentView(R.layout.add_bookmark);
-			bookmarkDialog.setTitle("הוסף סימניה");
+			case R.id.action_search:
+				innerSearch();
+				break;
+			case R.id.action_add_bookmark:
+				// custom dialog
+				bookmarkDialog = new Dialog(context);
+				if(MyLanguage == ENGLISH)
+					bookmarkDialog.setContentView(R.layout.add_bookmark_english);
+				else if(MyLanguage == RUSSIAN)
+					bookmarkDialog.setContentView(R.layout.add_bookmark_russian);
+				else if(MyLanguage == SPANISH)
+					bookmarkDialog.setContentView(R.layout.add_bookmark_spanish);
+				else if(MyLanguage == FRENCH)
+					bookmarkDialog.setContentView(R.layout.add_bookmark_french);
+				else
+					bookmarkDialog.setContentView(R.layout.add_bookmark);
+				bookmarkDialog.setTitle("הוסף סימניה");
 
-			Button dialogButton = (Button) bookmarkDialog.findViewById(R.id.dialogButtonOK);
-			spinner1 = (Spinner) bookmarkDialog.findViewById(R.id.spinner1);
-			BookmarkName = (EditText) bookmarkDialog.findViewById(R.id.editTextBookmarkName);
+				Button dialogButton = (Button) bookmarkDialog.findViewById(R.id.dialogButtonOK);
+				spinner1 = (Spinner) bookmarkDialog.findViewById(R.id.spinner1);
+				BookmarkName = (EditText) bookmarkDialog.findViewById(R.id.editTextBookmarkName);
 
-			// if button is clicked, close the custom dialog
-			dialogButton.setOnClickListener(new OnClickListener()
-			{
-				@Override
-				public void onClick(View v) 
+				// if button is clicked, close the custom dialog
+				dialogButton.setOnClickListener(new OnClickListener()
 				{
-					int index = 0, index_end = 0;
-					String bookmarkText = BookmarkName.getText().toString();
-					bookmarkText.replaceAll(",", "-");/*if the user insert comma, replace it with "-"*/
-					/*		      bookmark name			book					chapter						scroll							fontSize*/
-					strBookmark = bookmarkText + "," + book_chapter[0] + "," + book_chapter[1] + "," + webview.getScrollY() + "," + (int) (fontSize)/*(webview.getScale()*100)*/;
-
-					Bookmarks = mPrefs.getString("Bookmarks", "");
-					if((index = Bookmarks.indexOf(bookmarkText))!=-1)/*if there is already bookmark with the same name override it*/
+					@Override
+					public void onClick(View v)
 					{
-						index_end = index;
-						for(int i=0; i<5; i++)
+						int index = 0, index_end = 0;
+						String bookmarkText = BookmarkName.getText().toString();
+						bookmarkText.replaceAll(",", "-");/*if the user insert comma, replace it with "-"*/
+						/*		      bookmark name			book					chapter						scroll							fontSize*/
+						strBookmark = bookmarkText + "," + book_chapter[0] + "," + book_chapter[1] + "," + webview.getScrollY() + "," + (int) (fontSize)/*(webview.getScale()*100)*/;
+
+						Bookmarks = mPrefs.getString("Bookmarks", "");
+						if((index = Bookmarks.indexOf(bookmarkText))!=-1)/*if there is already bookmark with the same name override it*/
 						{
-							if(Bookmarks.indexOf(",", index_end+1) != -1)
-								index_end = Bookmarks.indexOf(",", index_end + 1);
-							else/*in case that this is the last bookmark*/
-								index_end = Bookmarks.length();							
+							index_end = index;
+							for(int i=0; i<5; i++)
+							{
+								if(Bookmarks.indexOf(",", index_end+1) != -1)
+									index_end = Bookmarks.indexOf(",", index_end + 1);
+								else/*in case that this is the last bookmark*/
+									index_end = Bookmarks.length();
+							}
+							Bookmarks = Bookmarks.substring(0, index) + strBookmark + Bookmarks.substring(index_end, Bookmarks.length());
+							if(MyLanguage == ENGLISH)
+								Toast.makeText(getApplicationContext(),	"Existing bookmark updated", Toast.LENGTH_SHORT).show();
+							else if(MyLanguage == RUSSIAN)
+								Toast.makeText(getApplicationContext(),	"Текущая закладка обновлена", Toast.LENGTH_SHORT).show();
+							else if(MyLanguage == SPANISH)
+								Toast.makeText(getApplicationContext(),	"Marcador existente actualizado", Toast.LENGTH_SHORT).show();
+							else if(MyLanguage == FRENCH)
+								Toast.makeText(getApplicationContext(),	"Le signet existant est mis à jour", Toast.LENGTH_SHORT).show();
+							else
+								Toast.makeText(getApplicationContext(),	"הסימניה הקיימת עודכנה", Toast.LENGTH_SHORT).show();
 						}
-						Bookmarks = Bookmarks.substring(0, index) + strBookmark + Bookmarks.substring(index_end, Bookmarks.length());
-						if(MyLanguage == ENGLISH)
-							Toast.makeText(getApplicationContext(),	"Existing bookmark updated", Toast.LENGTH_SHORT).show();
-						else if(MyLanguage == RUSSIAN)
-							Toast.makeText(getApplicationContext(),	"Текущая закладка обновлена", Toast.LENGTH_SHORT).show();
-						else if(MyLanguage == SPANISH)
-							Toast.makeText(getApplicationContext(),	"Marcador existente actualizado", Toast.LENGTH_SHORT).show();
-						else if(MyLanguage == FRENCH)
-							Toast.makeText(getApplicationContext(),	"Le signet existant est mis à jour", Toast.LENGTH_SHORT).show();
 						else
-							Toast.makeText(getApplicationContext(),	"הסימניה הקיימת עודכנה", Toast.LENGTH_SHORT).show();
+						{
+							Bookmarks += "," + strBookmark;
+							if(MyLanguage == ENGLISH)
+								Toast.makeText(getApplicationContext(),	"New bookmark created", Toast.LENGTH_SHORT).show();
+							else if(MyLanguage == RUSSIAN)
+								Toast.makeText(getApplicationContext(),	"Создана новая закладка", Toast.LENGTH_SHORT).show();
+							else if(MyLanguage == SPANISH)
+								Toast.makeText(getApplicationContext(),	"Nuevo marcador creado", Toast.LENGTH_SHORT).show();
+							else if(MyLanguage == FRENCH)
+								Toast.makeText(getApplicationContext(),	"Nouveau signet créé", Toast.LENGTH_SHORT).show();
+							else
+								Toast.makeText(getApplicationContext(),	"סימניה חדשה נוצרה", Toast.LENGTH_SHORT).show();
+						}
+						shPrefEditor.putString("Bookmarks", Bookmarks);
+						shPrefEditor.commit();
+						bookmarkDialog.dismiss();
 					}
-					else
+				});
+
+				fillChaptersNames();
+				BookmarkName.setText(chaptersNames[book_chapter[0]][book_chapter[1]]);
+
+				addItemsOnSpinner();
+
+				spinner1.setOnItemSelectedListener(new OnItemSelectedListener()
+				{
+					boolean first=true;
+					public void onItemSelected(AdapterView<?> parent, View view, int pos,long id)
 					{
-						Bookmarks += "," + strBookmark;
-						if(MyLanguage == ENGLISH)
-							Toast.makeText(getApplicationContext(),	"New bookmark created", Toast.LENGTH_SHORT).show();
-						else if(MyLanguage == RUSSIAN)
-							Toast.makeText(getApplicationContext(),	"Создана новая закладка", Toast.LENGTH_SHORT).show();
-						else if(MyLanguage == SPANISH)
-							Toast.makeText(getApplicationContext(),	"Nuevo marcador creado", Toast.LENGTH_SHORT).show();
-						else if(MyLanguage == FRENCH)
-							Toast.makeText(getApplicationContext(),	"Nouveau signet créé", Toast.LENGTH_SHORT).show();
-						else
-							Toast.makeText(getApplicationContext(),	"סימניה חדשה נוצרה", Toast.LENGTH_SHORT).show();
+						if (first==false)
+							BookmarkName.setText(parent.getItemAtPosition(pos).toString());
+						first = false;
 					}
-					shPrefEditor.putString("Bookmarks", Bookmarks);
-					shPrefEditor.commit();
-					bookmarkDialog.dismiss();
-				}
-			});
 
-			fillChaptersNames();
-			BookmarkName.setText(chaptersNames[book_chapter[0]][book_chapter[1]]);
+					public void onNothingSelected(AdapterView<?> arg0)
+					{
+						// do nothing
+					}
+				});
 
-			addItemsOnSpinner();
+				bookmarkDialog.show();
 
-			spinner1.setOnItemSelectedListener(new OnItemSelectedListener() 
-			{
-				boolean first=true;
-				public void onItemSelected(AdapterView<?> parent, View view, int pos,long id) 
-				{
-					if (first==false)
-						BookmarkName.setText(parent.getItemAtPosition(pos).toString());
-					first = false;
-				}
+				break;
+			case R.id.action_config:
+				showPopupMenuSettings(findViewById(R.id.action_config));
+				break;
 
-				public void onNothingSelected(AdapterView<?> arg0) 
-				{
-					// do nothing   
-				}
-			});     
+			case R.id.play:
+				scrollSpeed = mPrefs.getInt("scrollSpeed", 2);
+				runOnUiThread(mScrollDown);
+				break;
 
-			bookmarkDialog.show();			
+			case R.id.stop:
+				scrollSpeed = -1;
+				break;
 
-			break;
-		case R.id.action_config:
-			showPopupMenuSettings(findViewById(R.id.action_config));
-			break;
-
-		case R.id.play:
-			scrollSpeed = mPrefs.getInt("scrollSpeed", 2);
-			runOnUiThread(mScrollDown);
-			break;
-			
-		case R.id.stop:
-			scrollSpeed = -1;
-			break;
-
-		case R.id.autoScrollSpeed:
-			autoScrollSpeedDialog();	
-			break;
-		default:
-			break;
+			case R.id.autoScrollSpeed:
+				autoScrollSpeedDialog();
+				break;
+			default:
+				break;
 		}
 
 		return true;
 		//return super.onOptionsItemSelected(item);
 	}
 
-	public void addItemsOnSpinner() 
-	{		 
+	public void addItemsOnSpinner()
+	{
 		List<String> list = new ArrayList<String>();
 		int i, index = 0, index_end=0;
 
@@ -928,7 +988,7 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 			popupMenu.getMenu().add(0,i,i,headers.get(i).text());
 		}
 
-		popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() 
+		popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener()
 		{
 			@Override
 			public boolean onMenuItemClick(MenuItem item)
@@ -952,7 +1012,7 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 		fileName = getClearUrl();
 		prefix = "file:///android_asset/";
 		fileNameOnly = fileName.substring(prefix.length());
-		try 
+		try
 		{
 			InputStream is = getAssets().open(fileNameOnly);
 			int size = is.available();
@@ -989,37 +1049,37 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 	private String getClearUrl()
 	{
 		String ClearUrl;
-		ClearUrl = webview.getUrl();  
+		ClearUrl = webview.getUrl();
 		ClearUrl = ClearUrl.substring(0, ClearUrl.indexOf(".html")+5);
-		return ClearUrl;		  
+		return ClearUrl;
 	}
 
-    private void findAllHeaders(Intent ourIntent)
-    {
-        String prefix, a;
+	private void findAllHeaders(Intent ourIntent)
+	{
+		String prefix, a;
 		int j;
 		ArrayList<String> sections = new ArrayList<String>();
 		ArrayList<String> sections2 = new ArrayList<String>();
-        fileName = getClearUrl();
-        prefix = "file:///android_asset/";
-        fileNameOnly = fileName.substring(prefix.length());
+		fileName = getClearUrl();
+		prefix = "file:///android_asset/";
+		fileNameOnly = fileName.substring(prefix.length());
 		fileNameOnly = fileNameOnly.substring(0, fileNameOnly.lastIndexOf("_")+1);
 
-        for(int i=1; i<=lastChapter[book_chapter[0]]; i++) {
-            try {
-                InputStream is;
-                if (book_chapter[0] == KASHRUT_B)
-                    is = getAssets().open(fileNameOnly+(i+19)+".html");
-                else
-                    is = getAssets().open(fileNameOnly+i+".html");
-                int size = is.available();
-                byte[] buffer = new byte[size];
-                is.read(buffer);
-                is.close();
-                String input = new String(buffer);
+		for(int i=1; i<=lastChapter[book_chapter[0]]; i++) {
+			try {
+				InputStream is;
+				if (book_chapter[0] == KASHRUT_B)
+					is = getAssets().open(fileNameOnly+(i+19)+".html");
+				else
+					is = getAssets().open(fileNameOnly+i+".html");
+				int size = is.available();
+				byte[] buffer = new byte[size];
+				is.read(buffer);
+				is.close();
+				String input = new String(buffer);
 
-                Document doc = Jsoup.parse(input);
-                headers = doc.select("h2");
+				Document doc = Jsoup.parse(input);
+				headers = doc.select("h2");
 
 				sections.clear();
 				for(j = 0; j < headers.size(); j++)
@@ -1036,12 +1096,12 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 
 				ourIntent.putStringArrayListExtra(name, newList);
 
-            } catch (IOException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-        }
-    }
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
 
 
 
@@ -1049,7 +1109,7 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 	{
 		/*BRACHOT*/
 		chaptersFiles[BRACHOT][0] = "file:///android_asset/brachot_tochen.html";
-		chaptersFiles[BRACHOT][1] = "file:///android_asset/brachot_1.html";
+		chaptersFiles[BRACHOT][1] = getFilesDir().getAbsolutePath()+"/brachot_1.html";
 		chaptersFiles[BRACHOT][2] = "file:///android_asset/brachot_2.html";
 		chaptersFiles[BRACHOT][3] = "file:///android_asset/brachot_3.html";
 		chaptersFiles[BRACHOT][4] = "file:///android_asset/brachot_4.html";
@@ -1178,8 +1238,8 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 		chaptersFiles[LIKUTIM_A][9] = "file:///android_asset/likutim_a_9.html";
 		chaptersFiles[LIKUTIM_A][10] = "file:///android_asset/likutim_a_10.html";
 		chaptersFiles[LIKUTIM_A][11] = "file:///android_asset/likutim_a_11.html";
-        chaptersFiles[LIKUTIM_A][12] = "file:///android_asset/likutim_a_12.html";
-        chaptersFiles[LIKUTIM_A][13] = "file:///android_asset/likutim_a_13.html";
+		chaptersFiles[LIKUTIM_A][12] = "file:///android_asset/likutim_a_12.html";
+		chaptersFiles[LIKUTIM_A][13] = "file:///android_asset/likutim_a_13.html";
 		/*LIKUTIM_B*/
 		chaptersFiles[LIKUTIM_B][0] = "file:///android_asset/likutim_b_tochen.html";
 		chaptersFiles[LIKUTIM_B][1] = "file:///android_asset/likutim_b_1.html";
@@ -1493,7 +1553,7 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 		chaptersFiles[E_TEFILA][24] = "file:///android_asset/E_tefila_24.html";
 		chaptersFiles[E_TEFILA][25] = "file:///android_asset/E_tefila_25.html";
 		chaptersFiles[E_TEFILA][26] = "file:///android_asset/E_tefila_26.html";
-		/*E_PESACH*/		
+		/*E_PESACH*/
 		chaptersFiles[E_PESACH][0] = "file:///android_asset/E_pesach_tochen.html";
 		chaptersFiles[E_PESACH][1] = "file:///android_asset/E_pesach_1.html";
 		chaptersFiles[E_PESACH][2] = "file:///android_asset/E_pesach_2.html";
@@ -1670,52 +1730,52 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 	{
 		PopupMenu popupMenu = new PopupMenu(textMain.this, v);
 
-        String configHeaders[] = new String[7];
-        if(MyLanguage == ENGLISH) {
-            configHeaders[0] = "Settings";
-            configHeaders[1] = "About";
-            configHeaders[2] = "Feedback";
-            configHeaders[3] = "Explanation of search results";
-            configHeaders[4] = "Acronyms";
-            configHeaders[5] = "Zoom in";
-            configHeaders[6] = "Zoom out";
-        }
-        else if(MyLanguage == RUSSIAN) {
-            configHeaders[0] = "Настройки";
-            configHeaders[1] = "Около";
-            configHeaders[2] = "Обратная связь";
-            configHeaders[3] = "Объяснение результатов поиска";
-            configHeaders[4] = "Абревиатуры";
-            configHeaders[5] = "Увеличить шрифт";
-            configHeaders[6] = "Уменьшить шрифт";
-        }
-        else if(MyLanguage == SPANISH) {
-            configHeaders[0] = "Ajustes";
-            configHeaders[1] = "Acerca de";
-            configHeaders[2] = "Comentarios";
-            configHeaders[3] = "Explicacion del resultado de la busqueda";
-            configHeaders[4] = "Acronimos";
-            configHeaders[5] = "Aumentar enfoque";
-            configHeaders[6] = "Disminuir enfoque";
-        }
-        else if(MyLanguage == FRENCH) {
-            configHeaders[0] = "Definitions";
-            configHeaders[1] = "A Propos de…";
-            configHeaders[2] = "Commentaires";
-            configHeaders[3] = "Explication de la recherche";
-            configHeaders[4] = "Acronymes";
-            configHeaders[5] = "Zoom avant";
-            configHeaders[6] = "Zoom arrière";
-        }
-        else {/*this is the default*/
-            configHeaders[0] = "הגדרות";
-            configHeaders[1] = "אודות";
-            configHeaders[2] = "משוב";
-            configHeaders[3] = "הסבר על החיפוש";
-            configHeaders[4] = "ראשי תיבות";
-            configHeaders[5] = "הגדל טקסט";
-            configHeaders[6] = "הקטן טקסט";
-        }
+		String configHeaders[] = new String[7];
+		if(MyLanguage == ENGLISH) {
+			configHeaders[0] = "Settings";
+			configHeaders[1] = "About";
+			configHeaders[2] = "Feedback";
+			configHeaders[3] = "Explanation of search results";
+			configHeaders[4] = "Acronyms";
+			configHeaders[5] = "Zoom in";
+			configHeaders[6] = "Zoom out";
+		}
+		else if(MyLanguage == RUSSIAN) {
+			configHeaders[0] = "Настройки";
+			configHeaders[1] = "Около";
+			configHeaders[2] = "Обратная связь";
+			configHeaders[3] = "Объяснение результатов поиска";
+			configHeaders[4] = "Абревиатуры";
+			configHeaders[5] = "Увеличить шрифт";
+			configHeaders[6] = "Уменьшить шрифт";
+		}
+		else if(MyLanguage == SPANISH) {
+			configHeaders[0] = "Ajustes";
+			configHeaders[1] = "Acerca de";
+			configHeaders[2] = "Comentarios";
+			configHeaders[3] = "Explicacion del resultado de la busqueda";
+			configHeaders[4] = "Acronimos";
+			configHeaders[5] = "Aumentar enfoque";
+			configHeaders[6] = "Disminuir enfoque";
+		}
+		else if(MyLanguage == FRENCH) {
+			configHeaders[0] = "Definitions";
+			configHeaders[1] = "A Propos de…";
+			configHeaders[2] = "Commentaires";
+			configHeaders[3] = "Explication de la recherche";
+			configHeaders[4] = "Acronymes";
+			configHeaders[5] = "Zoom avant";
+			configHeaders[6] = "Zoom arrière";
+		}
+		else {/*this is the default*/
+			configHeaders[0] = "הגדרות";
+			configHeaders[1] = "אודות";
+			configHeaders[2] = "משוב";
+			configHeaders[3] = "הסבר על החיפוש";
+			configHeaders[4] = "ראשי תיבות";
+			configHeaders[5] = "הגדל טקסט";
+			configHeaders[6] = "הקטן טקסט";
+		}
 
 		popupMenu.getMenu().add(0,0,0,configHeaders[0]);//(int groupId, int itemId, int order, int titleRes)
 		popupMenu.getMenu().add(0,1,1,configHeaders[1]);
@@ -1728,7 +1788,7 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 			popupMenu.getMenu().add(0,6,6,configHeaders[6]);
 		}
 
-		popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() 
+		popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener()
 		{
 			@Override
 			public boolean onMenuItemClick(MenuItem item)
@@ -1737,144 +1797,144 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 				fontSize = webSettings.getDefaultFontSize();
 				switch (item.getItemId())
 				{
-				case 0:/*settings*/
-					try
-					{
-						Class ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.Settings");
-						Intent ourIntent = new Intent(textMain.this, ourClass);
-						startActivity(ourIntent);
-					}
-					catch (ClassNotFoundException e)
-					{
-						e.printStackTrace();
-					}
-					break;
-				case 1:/*about*/
-					try
-					{
-						Class ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.About");
-						Intent ourIntent = new Intent(textMain.this, ourClass);
-						startActivity(ourIntent);
-					}
-					catch (ClassNotFoundException e)
-					{
-						e.printStackTrace();
-					}
+					case 0:/*settings*/
+						try
+						{
+							Class ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.Settings");
+							Intent ourIntent = new Intent(textMain.this, ourClass);
+							startActivity(ourIntent);
+						}
+						catch (ClassNotFoundException e)
+						{
+							e.printStackTrace();
+						}
+						break;
+					case 1:/*about*/
+						try
+						{
+							Class ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.About");
+							Intent ourIntent = new Intent(textMain.this, ourClass);
+							startActivity(ourIntent);
+						}
+						catch (ClassNotFoundException e)
+						{
+							e.printStackTrace();
+						}
 
-					break;
-				case 2:/*Feedback*/
-					try
-					{
-						Class ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.Feedback");
-						Intent ourIntent = new Intent(textMain.this, ourClass);
-						startActivity(ourIntent);
-					}
-					catch (ClassNotFoundException e)
-					{
-						e.printStackTrace();
-					}
-					break;
-				case 3:/*Explanation for Search*/
-					try
-					{
-						Class ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.SearchHelp");
-						Intent ourIntent = new Intent(textMain.this, ourClass);
-						startActivity(ourIntent);
-					}
-					catch (ClassNotFoundException e)
-					{
-						e.printStackTrace();
-					}
-					break;
-				case 4:/*acronyms*/
-					acronymsDecode();
-					break;
-				case 5:/*increase text*/
-					if(fontSize <= 47) {
-						fontSize += 3;
-						webSettings.setDefaultFontSize(fontSize);
-						shPrefEditor.putInt("fontSize", fontSize);
-						shPrefEditor.commit();
-						switch (MyLanguage){
-							case ENGLISH:
-								Toast.makeText(getApplicationContext(),	"Font size - "+fontSize, Toast.LENGTH_SHORT).show();
-								break;
-							case RUSSIAN:
-								Toast.makeText(getApplicationContext(),	"Размер шрифта - "+fontSize, Toast.LENGTH_SHORT).show();
-								break;
-							case SPANISH:
-								Toast.makeText(getApplicationContext(),	"Tamaño de fuente - "+fontSize, Toast.LENGTH_SHORT).show();
-								break;
-							case FRENCH:
-								Toast.makeText(getApplicationContext(),	"Taille de police - "+fontSize, Toast.LENGTH_SHORT).show();
-								break;
-							default:
-								Toast.makeText(getApplicationContext(),	"גודל גופן - "+fontSize, Toast.LENGTH_SHORT).show();
+						break;
+					case 2:/*Feedback*/
+						try
+						{
+							Class ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.Feedback");
+							Intent ourIntent = new Intent(textMain.this, ourClass);
+							startActivity(ourIntent);
 						}
-					}
-					else{
-						switch (MyLanguage){
-							case ENGLISH:
-								Toast.makeText(getApplicationContext(),	"Maximum font size - "+fontSize, Toast.LENGTH_SHORT).show();
-								break;
-							case RUSSIAN:
-								Toast.makeText(getApplicationContext(),	"Максимальный размер шрифта - "+fontSize, Toast.LENGTH_SHORT).show();
-								break;
-							case SPANISH:
-								Toast.makeText(getApplicationContext(),	"Tamaño máximo de la fuente - "+fontSize, Toast.LENGTH_SHORT).show();
-								break;
-							case FRENCH:
-								Toast.makeText(getApplicationContext(),	"Taille maximale de la police - "+fontSize, Toast.LENGTH_SHORT).show();
-								break;
-							default:
-								Toast.makeText(getApplicationContext(),	"גודל גופן מקסימלי", Toast.LENGTH_SHORT).show();
+						catch (ClassNotFoundException e)
+						{
+							e.printStackTrace();
 						}
-					}
-					break;
-				case 6:/*decrease text*/
-				if(fontSize >= 10 ) {
-					fontSize -= 3;
-					webSettings.setDefaultFontSize(fontSize);
-					shPrefEditor.putInt("fontSize", fontSize);
-					shPrefEditor.commit();
-					switch (MyLanguage){
-						case ENGLISH:
-							Toast.makeText(getApplicationContext(),	"Font size - "+fontSize, Toast.LENGTH_SHORT).show();
-							break;
-						case RUSSIAN:
-							Toast.makeText(getApplicationContext(),	"Размер шрифта - "+fontSize, Toast.LENGTH_SHORT).show();
-							break;
-						case SPANISH:
-							Toast.makeText(getApplicationContext(),	"Tamaño de fuente - "+fontSize, Toast.LENGTH_SHORT).show();
-							break;
-						case FRENCH:
-							Toast.makeText(getApplicationContext(),	"Taille de police - "+fontSize, Toast.LENGTH_SHORT).show();
-							break;
-						default:
-							Toast.makeText(getApplicationContext(),	"גודל גופן - "+fontSize, Toast.LENGTH_SHORT).show();
-					}
-				}
-				else{
-					switch (MyLanguage){
-						case ENGLISH:
-							Toast.makeText(getApplicationContext(),	"Minimum font size - "+fontSize, Toast.LENGTH_SHORT).show();
-							break;
-						case RUSSIAN:
-							Toast.makeText(getApplicationContext(),	"Минимальный размер шрифта - "+fontSize, Toast.LENGTH_SHORT).show();
-							break;
-						case SPANISH:
-							Toast.makeText(getApplicationContext(),	"Tamaño mínimo de fuente - "+fontSize, Toast.LENGTH_SHORT).show();
-							break;
-						case FRENCH:
-							Toast.makeText(getApplicationContext(),	"Taille de police minimale - "+fontSize, Toast.LENGTH_SHORT).show();
-							break;
-						default:
-							Toast.makeText(getApplicationContext(),	"גודל גופן מינימלי", Toast.LENGTH_SHORT).show();
-					}
-				}
-					break;
-				default:
-					break;
+						break;
+					case 3:/*Explanation for Search*/
+						try
+						{
+							Class ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.SearchHelp");
+							Intent ourIntent = new Intent(textMain.this, ourClass);
+							startActivity(ourIntent);
+						}
+						catch (ClassNotFoundException e)
+						{
+							e.printStackTrace();
+						}
+						break;
+					case 4:/*acronyms*/
+						acronymsDecode();
+						break;
+					case 5:/*increase text*/
+						if(fontSize <= 47) {
+							fontSize += 3;
+							webSettings.setDefaultFontSize(fontSize);
+							shPrefEditor.putInt("fontSize", fontSize);
+							shPrefEditor.commit();
+							switch (MyLanguage){
+								case ENGLISH:
+									Toast.makeText(getApplicationContext(),	"Font size - "+fontSize, Toast.LENGTH_SHORT).show();
+									break;
+								case RUSSIAN:
+									Toast.makeText(getApplicationContext(),	"Размер шрифта - "+fontSize, Toast.LENGTH_SHORT).show();
+									break;
+								case SPANISH:
+									Toast.makeText(getApplicationContext(),	"Tamaño de fuente - "+fontSize, Toast.LENGTH_SHORT).show();
+									break;
+								case FRENCH:
+									Toast.makeText(getApplicationContext(),	"Taille de police - "+fontSize, Toast.LENGTH_SHORT).show();
+									break;
+								default:
+									Toast.makeText(getApplicationContext(),	"גודל גופן - "+fontSize, Toast.LENGTH_SHORT).show();
+							}
+						}
+						else{
+							switch (MyLanguage){
+								case ENGLISH:
+									Toast.makeText(getApplicationContext(),	"Maximum font size - "+fontSize, Toast.LENGTH_SHORT).show();
+									break;
+								case RUSSIAN:
+									Toast.makeText(getApplicationContext(),	"Максимальный размер шрифта - "+fontSize, Toast.LENGTH_SHORT).show();
+									break;
+								case SPANISH:
+									Toast.makeText(getApplicationContext(),	"Tamaño máximo de la fuente - "+fontSize, Toast.LENGTH_SHORT).show();
+									break;
+								case FRENCH:
+									Toast.makeText(getApplicationContext(),	"Taille maximale de la police - "+fontSize, Toast.LENGTH_SHORT).show();
+									break;
+								default:
+									Toast.makeText(getApplicationContext(),	"גודל גופן מקסימלי", Toast.LENGTH_SHORT).show();
+							}
+						}
+						break;
+					case 6:/*decrease text*/
+						if(fontSize >= 10 ) {
+							fontSize -= 3;
+							webSettings.setDefaultFontSize(fontSize);
+							shPrefEditor.putInt("fontSize", fontSize);
+							shPrefEditor.commit();
+							switch (MyLanguage){
+								case ENGLISH:
+									Toast.makeText(getApplicationContext(),	"Font size - "+fontSize, Toast.LENGTH_SHORT).show();
+									break;
+								case RUSSIAN:
+									Toast.makeText(getApplicationContext(),	"Размер шрифта - "+fontSize, Toast.LENGTH_SHORT).show();
+									break;
+								case SPANISH:
+									Toast.makeText(getApplicationContext(),	"Tamaño de fuente - "+fontSize, Toast.LENGTH_SHORT).show();
+									break;
+								case FRENCH:
+									Toast.makeText(getApplicationContext(),	"Taille de police - "+fontSize, Toast.LENGTH_SHORT).show();
+									break;
+								default:
+									Toast.makeText(getApplicationContext(),	"גודל גופן - "+fontSize, Toast.LENGTH_SHORT).show();
+							}
+						}
+						else{
+							switch (MyLanguage){
+								case ENGLISH:
+									Toast.makeText(getApplicationContext(),	"Minimum font size - "+fontSize, Toast.LENGTH_SHORT).show();
+									break;
+								case RUSSIAN:
+									Toast.makeText(getApplicationContext(),	"Минимальный размер шрифта - "+fontSize, Toast.LENGTH_SHORT).show();
+									break;
+								case SPANISH:
+									Toast.makeText(getApplicationContext(),	"Tamaño mínimo de fuente - "+fontSize, Toast.LENGTH_SHORT).show();
+									break;
+								case FRENCH:
+									Toast.makeText(getApplicationContext(),	"Taille de police minimale - "+fontSize, Toast.LENGTH_SHORT).show();
+									break;
+								default:
+									Toast.makeText(getApplicationContext(),	"גודל גופן מינימלי", Toast.LENGTH_SHORT).show();
+							}
+						}
+						break;
+					default:
+						break;
 				}
 				return true;
 			}
@@ -1883,11 +1943,11 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 		popupMenu.show();
 	}//showPopupMenuSettings
 
-	private class MyWebViewClient extends WebViewClient 
+	private class MyWebViewClient extends WebViewClient
 	{
 		@SuppressLint("NewApi")
 		@Override
-		public void onPageFinished(WebView view, String url) 
+		public void onPageFinished(WebView view, String url)
 		{
 			// TODO Auto-generated method stub
 			super.onPageFinished(view, url);
@@ -1913,7 +1973,7 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 						strToastSearch = "תוצאות החיפוש נמצאות גם בהערות: " + sectionsForToast;
 					}
 
-					if(API < 16) 
+					if(API < 16)
 					{
 						if(BlackBackground == 1)
 							WhiteTextAfterDelay();
@@ -1928,11 +1988,11 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 				}
 				if(BlackBackground == 1)
 				{
-                    //webview.loadUrl("javascript:function myFunction() {var x = document.body;x.style.color = \"white\";var y = document.getElementsByClassName(\"left_white\"); y[0].style.display = 'none';} myFunction(); ");
+					//webview.loadUrl("javascript:function myFunction() {var x = document.body;x.style.color = \"white\";var y = document.getElementsByClassName(\"left_white\"); y[0].style.display = 'none';} myFunction(); ");
 					webview.loadUrl("javascript:function myFunction() {var x = document.body;x.style.color = \"white\";} myFunction(); ");
 					llMainLayout.setBackgroundColor(Color.BLACK);
 					webview.setBackgroundColor(0xFFFFFF);//black
-				//	textActionBar.setTitle(Html.fromHtml("<font color=\"white\">" + title + "</font>"));
+					//	textActionBar.setTitle(Html.fromHtml("<font color=\"white\">" + title + "</font>"));
 				}
 				else
 				{
@@ -1940,7 +2000,7 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 					webview.loadUrl("javascript:function myFunction() {var x = document.body;x.style.color = \"black\";} myFunction(); ");
 					llMainLayout.setBackgroundColor(Color.WHITE);
 					webview.setBackgroundColor(0x000000);//white
-				//	textActionBar.setTitle(Html.fromHtml("<font color=\"black\">" + title + "</font>"));
+					//	textActionBar.setTitle(Html.fromHtml("<font color=\"black\">" + title + "</font>"));
 				}
 				invalidateOptionsMenu();
 			}
@@ -1951,7 +2011,7 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 	{
 		String bookAndChapter;
 
-		int length= searchPosition.lastIndexOf("#"); 
+		int length= searchPosition.lastIndexOf("#");
 		if(length == -1)/*it means that all the results are in notes*/
 		{
 			length = searchPosition.lastIndexOf(":");
@@ -1982,90 +2042,90 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 			Id = Id + 19;
 		switch (Id)
 		{
-		case 0:
-			return "פתיחה";
-		case 1:
-			return "א";
-		case 2:
-			return "ב";
-		case 3:
-			return "ג";
-		case 4:
-			return "ד";
-		case 5:
-			return "ה";
-		case 6:
-			return "ו";
-		case 7:
-			return "ז";
-		case 8:
-			return "ח";
-		case 9:
-			return "ט";
-		case 10:
-			return "י";
-		case 11:
-			return "יא";
-		case 12:
-			return "יב";
-		case 13:
-			return "יג";
-		case 14:
-			return "יד";
-		case 15:
-			return "טו";
-		case 16:
-			return "טז";
-		case 17:
-			return "יז";
-		case 18:
-			return "יח";
-		case 19:
-			return "יט";
-		case 20:
-			return "כ";
-		case 21:
-			return "כא";
-		case 22:
-			return "כב";
-		case 23:
-			return "כג";
-		case 24:
-			return "כד";
-		case 25:
-			return "כה";
-		case 26:
-			return "כו";
-		case 27:
-			return "כז";
-		case 28:
-			return "כח";
-		case 29:
-			return "כט";
-		case 30:
-			return "ל";
-		case 31:
-			return "לא";
-		case 32:
-			return "לב";
-		case 33:
-			return "לג";
-		case 34:
-			return "לד";
-		case 35:
-			return "לה";
-		case 36:
-			return "לו";
-		case 37:
-			return "לז";
-		case 38:
-			return "לח";
-		case 39:
-			return "לט";
-		case 40:
-			return "מ";
-		default:
-			return "תת";
+			case 0:
+				return "פתיחה";
+			case 1:
+				return "א";
+			case 2:
+				return "ב";
+			case 3:
+				return "ג";
+			case 4:
+				return "ד";
+			case 5:
+				return "ה";
+			case 6:
+				return "ו";
+			case 7:
+				return "ז";
+			case 8:
+				return "ח";
+			case 9:
+				return "ט";
+			case 10:
+				return "י";
+			case 11:
+				return "יא";
+			case 12:
+				return "יב";
+			case 13:
+				return "יג";
+			case 14:
+				return "יד";
+			case 15:
+				return "טו";
+			case 16:
+				return "טז";
+			case 17:
+				return "יז";
+			case 18:
+				return "יח";
+			case 19:
+				return "יט";
+			case 20:
+				return "כ";
+			case 21:
+				return "כא";
+			case 22:
+				return "כב";
+			case 23:
+				return "כג";
+			case 24:
+				return "כד";
+			case 25:
+				return "כה";
+			case 26:
+				return "כו";
+			case 27:
+				return "כז";
+			case 28:
+				return "כח";
+			case 29:
+				return "כט";
+			case 30:
+				return "ל";
+			case 31:
+				return "לא";
+			case 32:
+				return "לב";
+			case 33:
+				return "לג";
+			case 34:
+				return "לד";
+			case 35:
+				return "לה";
+			case 36:
+				return "לו";
+			case 37:
+				return "לז";
+			case 38:
+				return "לח";
+			case 39:
+				return "לט";
+			case 40:
+				return "מ";
+			default:
+				return "תת";
 		}
 	}
 
@@ -2073,70 +2133,70 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 	{
 		switch (bookId)
 		{
-		case BRACHOT:
-			return "ברכות";
-		case HAAMVEHAAREZ:
-			return "העם והא'";
-		case ZMANIM:
-			return "זמנים";
-		case TAHARAT:
-			return "טהרת המש'";
-		case YAMIM:
-			return "ימים נוראים";
-		case KASHRUT_A:
-			return "כשרות א";
-		case KASHRUT_B:
-			return "כשרות ב";
-		case LIKUTIM_A:
-			return "ליקוטים א";
-		case LIKUTIM_B:
-			return "ליקוטים ב";
-		case MISHPACHA:
-			return "משפחה";
-		case MOADIM:
-			return "מועדים";
-		case SUCOT:
-			return "סוכות";
-		case PESACH:
-			return "פסח";
-		case SHVIIT:
-			return "שביעית";
-		case SHABAT:
-			return "שבת";
-		case SIMCHAT:
-			return "שמחת הבית";
-		case TEFILA:
-			return "תפילה";
-		case TEFILAT_NASHIM:
-			return "תפילת נש'";
-		case HAR_MOADIM:
-			return "הר' מועדים";
-		case HAR_SUCOT:
-			return "הר' סוכות";
-		case HAR_SHABAT:
-			return "הר' שבת";
-		case HAR_SIMCHAT:
-			return "הר' שמחת הבית";
-		case HAR_YAMIM:
-			return "הר' ימים נוראים";
-		case HAR_BRACHOT:
-			return "הר' ברכות";
-		case E_TEFILA:
-			return "Tefila";
-		case E_PESACH:
-			return "Pesach";
-		case E_ZMANIM:
-			return "Zmanim";
-		case E_WOMEN_PRAYER:
-			return "Women’s Prayer";
-		case E_SHABAT:
-			return "Shabbat";
-		case F_TEFILA:
-			return "La prière d’Israël";
-		case S_SHABAT:
-			return "Shabbat (Español)";
-		default:
-			return "לא ידוע";
+			case BRACHOT:
+				return "ברכות";
+			case HAAMVEHAAREZ:
+				return "העם והא'";
+			case ZMANIM:
+				return "זמנים";
+			case TAHARAT:
+				return "טהרת המש'";
+			case YAMIM:
+				return "ימים נוראים";
+			case KASHRUT_A:
+				return "כשרות א";
+			case KASHRUT_B:
+				return "כשרות ב";
+			case LIKUTIM_A:
+				return "ליקוטים א";
+			case LIKUTIM_B:
+				return "ליקוטים ב";
+			case MISHPACHA:
+				return "משפחה";
+			case MOADIM:
+				return "מועדים";
+			case SUCOT:
+				return "סוכות";
+			case PESACH:
+				return "פסח";
+			case SHVIIT:
+				return "שביעית";
+			case SHABAT:
+				return "שבת";
+			case SIMCHAT:
+				return "שמחת הבית";
+			case TEFILA:
+				return "תפילה";
+			case TEFILAT_NASHIM:
+				return "תפילת נש'";
+			case HAR_MOADIM:
+				return "הר' מועדים";
+			case HAR_SUCOT:
+				return "הר' סוכות";
+			case HAR_SHABAT:
+				return "הר' שבת";
+			case HAR_SIMCHAT:
+				return "הר' שמחת הבית";
+			case HAR_YAMIM:
+				return "הר' ימים נוראים";
+			case HAR_BRACHOT:
+				return "הר' ברכות";
+			case E_TEFILA:
+				return "Tefila";
+			case E_PESACH:
+				return "Pesach";
+			case E_ZMANIM:
+				return "Zmanim";
+			case E_WOMEN_PRAYER:
+				return "Women’s Prayer";
+			case E_SHABAT:
+				return "Shabbat";
+			case F_TEFILA:
+				return "La prière d’Israël";
+			case S_SHABAT:
+				return "Shabbat (Español)";
+			default:
+				return "לא ידוע";
 		}
 	}
 
@@ -2256,7 +2316,7 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 		/*LIKUTIM_A*/
 		chaptersNames[LIKUTIM_A][1] = "ליקוטים א: א - הלכות תלמוד תורה";
 		chaptersNames[LIKUTIM_A][2] = "ליקוטים א: ב - החינוך לתורה";
-        chaptersNames[LIKUTIM_A][3] = "ליקוטים א: ג - קיום התורה והחינוך";
+		chaptersNames[LIKUTIM_A][3] = "ליקוטים א: ג - קיום התורה והחינוך";
 		chaptersNames[LIKUTIM_A][4] = "ליקוטים א: ד - הלכות ספר תורה";
 		chaptersNames[LIKUTIM_A][5] = "ליקוטים א: ה - מהלכות קריאת התורה";
 		chaptersNames[LIKUTIM_A][6] = "ליקוטים א: ו - כבוד ספר תורה ושמות קדושים";
@@ -2266,7 +2326,7 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 		chaptersNames[LIKUTIM_A][10] = "ליקוטים א: י - מהלכות תפילין";
 		chaptersNames[LIKUTIM_A][11] = "ליקוטים א: יא - מהלכות מזוזה";
 		chaptersNames[LIKUTIM_A][12] = "ליקוטים א: יב - הלכות כהנים";
-        chaptersNames[LIKUTIM_A][13] = "ליקוטים א: יג - שעטנז";
+		chaptersNames[LIKUTIM_A][13] = "ליקוטים א: יג - שעטנז";
 		/*LIKUTIM_B*/
 		chaptersNames[LIKUTIM_B][1] = "ליקוטים ב: א - בין אדם לחברו";
 		chaptersNames[LIKUTIM_B][2] = "ליקוטים ב: ב - הלכות אמירת אמת";
@@ -2346,7 +2406,7 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 		chaptersNames[SHVIIT][8] = "שביעית: ח - אוצר בית דין";
 		chaptersNames[SHVIIT][9] = "שביעית: ט - קניית פירות בשביעית";
 		chaptersNames[SHVIIT][10] = "שביעית: י - מצוות היובל";
-		chaptersNames[SHVIIT][11] = "שביעית: יא - חזון השביעית";		
+		chaptersNames[SHVIIT][11] = "שביעית: יא - חזון השביעית";
 		/*SHABAT*/
 		chaptersNames[SHABAT][1] = "שבת: א - פתיחה";
 		chaptersNames[SHABAT][2] = "שבת: ב - הכנות לשבת";
@@ -2415,7 +2475,7 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 		chaptersNames[TEFILA][23] = "תפילה: כג - סיום שחרית ודיני קדיש";
 		chaptersNames[TEFILA][24] = "תפילה: כד - תפילת מנחה";
 		chaptersNames[TEFILA][25] = "תפילה: כה - תפילת מעריב";
-		chaptersNames[TEFILA][26] = "תפילה: כו - קריאת שמע על המיטה"; 
+		chaptersNames[TEFILA][26] = "תפילה: כו - קריאת שמע על המיטה";
 		/*TEFILAT_NASHIM*/
 		chaptersNames[TEFILAT_NASHIM][1] = "תפילת נשים: א - יסודות הלכות תפילה";
 		chaptersNames[TEFILAT_NASHIM][2] = "תפילת נשים: ב - מצוות תפילה לנשים";
@@ -2553,13 +2613,13 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 		{
 			@SuppressLint("NewApi")
 			@Override
-			public void onClick(View v) 
+			public void onClick(View v)
 			{
 				innerSearchText = TextToSearch.getText().toString();
 
 				innerSearchDialog.dismiss();
 				lnrFindOptions.setVisibility(View.VISIBLE);
-				if(API < 16) 
+				if(API < 16)
 				{
 					int a=webview.findAll(/*"כל"*/innerSearchText);
 					/*to highlight the searched text*/
@@ -2569,8 +2629,8 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 						m.invoke(webview, true);
 					}
 					catch (Throwable ignored){}
-				} 
-				else 
+				}
+				else
 				{
 					webview.findAllAsync(/*"כל"*/innerSearchText);
 				}
@@ -2593,7 +2653,7 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 		final TextView decodedText = (TextView) acronymsDialog.findViewById(R.id.textViewDecodedText);
 		//final byte[] buffer;
 		//final int size;
-		
+
 		TextToDecode = (EditText) acronymsDialog.findViewById(R.id.editTextAcronyms );
 
 		// if button is clicked
@@ -2604,7 +2664,7 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 				acronymsDialog.dismiss();
 			}
 		});
-		
+
 		dialogButtonDecode.setOnClickListener(new OnClickListener() {
 			@SuppressLint("NewApi")
 			@Override
@@ -2642,9 +2702,9 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 
 			}
 		});
-		acronymsDialog.show();	
+		acronymsDialog.show();
 	}
-	
+
 	void autoScrollSpeedDialog()
 	{
 		final Context context = this;
@@ -2655,13 +2715,13 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 		autoScrollDialog.setTitle("מהירות גלילה אוטומטית");
 
 		Button dialogButton = (Button) autoScrollDialog.findViewById(R.id.dialogButtonOK);
-		
+
 		// if button is clicked
 		dialogButton.setOnClickListener(new OnClickListener()
 		{
 			@SuppressLint("NewApi")
 			@Override
-			public void onClick(View v) 
+			public void onClick(View v)
 			{
 				autoScrollDialog.dismiss();
 			}
@@ -2682,7 +2742,7 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 				// do nothing   
 			}
 		});
-		autoScrollDialog.show();	
+		autoScrollDialog.show();
 
 	}
 }

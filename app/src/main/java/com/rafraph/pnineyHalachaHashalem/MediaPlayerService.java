@@ -11,17 +11,22 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
+import android.media.PlaybackParams;
 import android.os.Binder;
+import android.os.Build;
 import android.os.Handler;
 import android.os.IBinder;
-import android.support.v4.content.LocalBroadcastManager;
+
 import android.media.session.MediaSessionManager;
+import android.support.annotation.RequiresApi;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.media.session.MediaControllerCompat;
 import android.support.v4.media.session.MediaSessionCompat;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.widget.Toast;
+
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -71,7 +76,7 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
     boolean wasPlaying = false;
 
     public static final String Broadcast_SERVICE_SKIP_NEXT = "com.rafraph.pnineyHalachaHashalem.ServiceSkipNext";
-
+    public   static float speed=1f;
     private static final int BRACHOT      	= 0;
     private static final int HAAMVEHAAREZ 	= 1;
     private static final int ZMANIM    		= 2;
@@ -131,6 +136,7 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
     }
 
     //The system calls this method when an activity, requests the service be started
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         try {
@@ -262,7 +268,8 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
         }
     }
 
-    private void initMediaPlayer() {
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    private <playbackParams> void initMediaPlayer() {
         mediaPlayer = new MediaPlayer();
         //Set up MediaPlayer event listeners
         mediaPlayer.setOnCompletionListener(this);
@@ -278,6 +285,12 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
         try {
             // Set the data source to the mediaUrl location
             mediaPlayer.setDataSource(mediaUrl);
+            mediaPlayer.getCurrentPosition();
+            PlaybackParams playbackParams;
+            playbackParams = mediaPlayer.getPlaybackParams().setSpeed(speed);
+            mediaPlayer.setPlaybackParams(playbackParams);
+
+            //get option to change the speed not in 3.2
         } catch (IOException e) {
             e.printStackTrace();
             stopSelf();
@@ -285,9 +298,12 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
         mediaPlayer.prepareAsync();
     }
 
-    private void playMedia() {
+    public void playMedia() {
         if (!mediaPlayer.isPlaying()) {
+
             mediaPlayer.start();
+
+
         }
     }
 
@@ -386,6 +402,8 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
         registerReceiver(BR_backward_10_sec, intentFilter);
         intentFilter = new IntentFilter(myAudio.Broadcast_OnTouch);
         registerReceiver(BR_on_Touch, intentFilter);
+        intentFilter = new IntentFilter(myAudio.Broadcast_Speed);
+        registerReceiver(Br_speed, intentFilter);
     }
 
     private BroadcastReceiver BR_forward_10_sec = new BroadcastReceiver() {
@@ -399,7 +417,21 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
             }
         }
     };
+    private BroadcastReceiver Br_speed = new BroadcastReceiver() {
 
+        public void onReceive(Context context, Intent intent) {
+            //check if we can go forward at forwardTime seconds before song ends
+            float sp=intent.getFloatExtra("speed",1f);
+            int play=intent.getIntExtra("play",1);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+
+                mediaPlayer.setPlaybackParams(mediaPlayer.getPlaybackParams().setSpeed(sp));
+                //else
+                if (play!=1)
+                    mediaPlayer.pause();
+            }
+        }
+    };
     private BroadcastReceiver BR_backward_10_sec = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -433,6 +465,7 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
                     //repeat yourself that again in 300 miliseconds
                     durationHandler.postDelayed(this, 300);
                 }
+
             }
         }
     };
@@ -501,6 +534,7 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
         }
         else
             section++;
+
         mediaUrl = String.format("https://cdn1.yhb.org.il/mp3/%02d-%02d-%02d.mp3", book_audio_id, chapter, section );
 
         Intent intent = new Intent("chapterUpdate");
@@ -611,7 +645,6 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
                 .addAction(android.R.drawable.ic_media_previous, "previous", playbackAction(3))
                 .addAction(notificationAction, "pause", play_pauseAction)
                 .addAction(android.R.drawable.ic_media_next, "next", playbackAction(2));
-
         ((NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE)).notify(NOTIFICATION_ID, notificationBuilder.build());*/
     }
 
@@ -724,78 +757,4 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
         }
     }
 
-    /* private void initMediaSession() throws RemoteException {
-        if (mediaSessionManager != null) return; //mediaSessionManager exists
-
-        mediaSessionManager = (MediaSessionManager)getSystemService(Context.MEDIA_SESSION_SERVICE);
-        // Create a new MediaSession
-        mediaSession = new MediaSessionCompat(getApplicationContext(), "AudioPlayer");
-        //Get MediaSessions transport controls
-        transportControls = mediaSession.getController().getTransportControls();
-        //set MediaSession -> ready to receive media commands
-        mediaSession.setActive(true);
-        //indicate that the MediaSession handles transport control commands
-        // through its MediaSessionCompat.Callback.
-        mediaSession.setFlags(MediaSessionCompat.FLAG_HANDLES_TRANSPORT_CONTROLS);
-
-        //Set mediaSession's MetaData
-        updateMetaData();
-
-        // Attach Callback to receive MediaSession updates
-        mediaSession.setCallback(new MediaSessionCompat.Callback() {
-            // Implement callbacks
-            @Override
-            public void onPlay() {
-                super.onPlay();
-                resumeMedia();
-                buildNotification(PlaybackStatus.PLAYING);
-            }
-
-            @Override
-            public void onPause() {
-                super.onPause();
-                pauseMedia();
-                buildNotification(PlaybackStatus.PAUSED);
-            }
-
-            @Override
-            public void onSkipToNext() {
-                super.onSkipToNext();
-                skipToNext();
-                updateMetaData();
-                buildNotification(PlaybackStatus.PLAYING);
-            }
-
-            @Override
-            public void onSkipToPrevious() {
-                super.onSkipToPrevious();
-                skipToPrevious();
-                updateMetaData();
-                buildNotification(PlaybackStatus.PLAYING);
-            }
-
-            @Override
-            public void onStop() {
-                super.onStop();
-                removeNotification();
-                //Stop the service
-                stopSelf();
-            }
-
-            @Override
-            public void onSeekTo(long position) {
-                super.onSeekTo(position);
-            }
-        });
-    }*/
-
-    /*private void updateMetaData() {
-        Bitmap albumArt = BitmapFactory.decodeResource(getResources(),
-                R.drawable.ic_launcher); //replace with medias albumArt
-        // Update the current metadata
-        mediaSession.setMetadata(new MediaMetadataCompat.Builder()
-                .putBitmap(MediaMetadataCompat.METADATA_KEY_ALBUM_ART, albumArt)
-                .putString(MediaMetadataCompat.METADATA_KEY_TITLE, activeAudio.getTitle())
-                .build());
-    }*/
 }

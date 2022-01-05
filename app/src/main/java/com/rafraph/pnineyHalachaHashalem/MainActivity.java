@@ -1,10 +1,10 @@
 package com.rafraph.pnineyHalachaHashalem;
 
 
-import android.support.annotation.NonNull;
+
+
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.PopupMenu;
 import android.text.Html;
 import android.util.Log;
 import android.view.Menu;
@@ -41,18 +41,12 @@ import android.widget.ExpandableListView.OnChildClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.PopupMenu;
 import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
-////
-//import com.google.android.gms.tasks.OnFailureListener;
-//import com.google.android.gms.tasks.OnSuccessListener;
-//import com.google.firebase.storage.FileDownloadTask;
-//import com.google.firebase.storage.StorageReference;
-//import com.google.firebase.storage.FirebaseStorage;
-//import com.google.firebase.auth.FirebaseAuth;
-//import com.google.firebase.auth.AuthResult;
-////
+
+
 
 public class MainActivity extends AppCompatActivity
 {
@@ -62,11 +56,11 @@ public class MainActivity extends AppCompatActivity
 	private static final int TAHARAT   		= 3;
 	private static final int YAMIM    		= 4;
 	private static final int KASHRUT_A 		= 5;
-    private static final int KASHRUT_B 		= 6;
+	private static final int KASHRUT_B 		= 6;
 	private static final int LIKUTIM_A 		= 7;
 	private static final int LIKUTIM_B 		= 8;
 	private static final int MOADIM    		= 9;
-    private static final int MISHPACHA   	= 10;
+	private static final int MISHPACHA   	= 10;
 	private static final int SUCOT			= 11;
 	private static final int PESACH			= 12;
 	private static final int SHVIIT			= 13;
@@ -93,10 +87,10 @@ public class MainActivity extends AppCompatActivity
 
 	private static final int HEBREW	 = 0;
 	private static final int ENGLISH = 1;
-    private static final int RUSSIAN = 2;
-    private static final int SPANISH = 3;
-    private static final int FRENCH = 4;
-	
+	private static final int RUSSIAN = 2;
+	private static final int SPANISH = 3;
+	private static final int FRENCH = 4;
+
 	public ExpandableListAdapter listAdapter;
 	ExpandableListView expListView;
 	LinearLayout LinearLayoutListGroup;
@@ -112,28 +106,28 @@ public class MainActivity extends AppCompatActivity
 	public EditText TextToDecode;
 	public Dialog acronymsDialog, newVersionDialog, simchatDialog, languageDialog, booksDownloadDialog;
 	String acronymsText;
-    public int StartInLastLocation = 1;
+	public int StartInLastLocation = 1;
 	public boolean newVersion = false;
 	public Context context;
 	//private StorageReference storageRef;
-    //private FirebaseStorage storage;
+	//private FirebaseStorage storage;
 	//private FirebaseAuth mAuth;
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState) 
+	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_main);  
-		
+		setContentView(R.layout.activity_main);
+
 		context = this;
 		mPrefs = getSharedPreferences(PREFS_NAME, 0);
 		shPrefEditor = mPrefs.edit();
 		BlackBackground = mPrefs.getInt("BlackBackground", 0);
 		StartInLastLocation = mPrefs.getInt("StartInLastLocation", 1);
 		MyLanguage = mPrefs.getInt("MyLanguage", -1);
-        //storage = FirebaseStorage.getInstance();
-        // Create a storage reference from our app
-        //StorageReference storageRef = storage.getReference();
+		//storage = FirebaseStorage.getInstance();
+		// Create a storage reference from our app
+		//StorageReference storageRef = storage.getReference();
 
 		//mAuth = FirebaseAuth.getInstance();
 
@@ -150,11 +144,11 @@ public class MainActivity extends AppCompatActivity
 		expListView.setAdapter(listAdapter);
 
 		// Listview on child click listener
-		expListView.setOnChildClickListener(new OnChildClickListener() 
+		expListView.setOnChildClickListener(new OnChildClickListener()
 		{
 			@Override
 			public boolean onChildClick(ExpandableListView parent, View v,
-					int groupPosition, int childPosition, long id) 
+										int groupPosition, int childPosition, long id)
 			{
 				// TODO Auto-generated method stub
 
@@ -189,10 +183,10 @@ public class MainActivity extends AppCompatActivity
 		PackageManager packageManager = context.getPackageManager();
 		String packageName = context.getPackageName();
 		String version;
-		try 
+		try
 		{
 			version = packageManager.getPackageInfo(packageName, 0).versionName;
-			
+
 			if(mPrefs.getString("Version", "").equals("3.2") == false)
 			{
 				newVersion = true;
@@ -208,27 +202,27 @@ public class MainActivity extends AppCompatActivity
 				{
 					@SuppressLint("NewApi")
 					@Override
-					public void onClick(View v) 
+					public void onClick(View v)
 					{
 						newVersionDialog.dismiss();
 					}
 				});
-				newVersionDialog.show();	
+				newVersionDialog.show();
 			}
 		}
-		catch (PackageManager.NameNotFoundException e) 
+		catch (PackageManager.NameNotFoundException e)
 		{
-		    e.printStackTrace();
+			e.printStackTrace();
 		}
-        if(StartInLastLocation == 1 && !(mPrefs.getInt("book", 0) == 0 && mPrefs.getInt("chapter", 0) == 0) && newVersion == false)/*check if book and chapter are 0 so this is the first time the user open the application so don't go to the last location*/
-        {
-            goToLastLocation();
-        }
+		if(StartInLastLocation == 1 && !(mPrefs.getInt("book", 0) == 0 && mPrefs.getInt("chapter", 0) == 0) && newVersion == false)/*check if book and chapter are 0 so this is the first time the user open the application so don't go to the last location*/
+		{
+			goToLastLocation();
+		}
 	}//onCreate
 
 
 	@Override
-	public boolean onCreateOptionsMenu(Menu menu) 
+	public boolean onCreateOptionsMenu(Menu menu)
 	{
 		abMenu = menu;
 		// Inflate the menu; this adds items to the action bar if it is present.
@@ -245,7 +239,7 @@ public class MainActivity extends AppCompatActivity
 		else
 		{
 			ab.setBackgroundDrawable(new ColorDrawable(Color.WHITE));
-			inflater.inflate(R.menu.tochen_actionbar, menu);	
+			inflater.inflate(R.menu.tochen_actionbar, menu);
 			ab.setTitle(Html.fromHtml("<font color=\"black\">" + "תוכן" + "</font>"));
 			listAdapter.setTextColor(Color.BLACK);//to set the list text color
 			expListView.setAdapter(listAdapter);//to set the list text color
@@ -254,7 +248,7 @@ public class MainActivity extends AppCompatActivity
 		return true;
 	}//onCreateOptionsMenu
 
-	protected void onResume() 
+	protected void onResume()
 	{
 		// The activity has become visible (it is now "resumed").
 		super.onResume();
@@ -263,34 +257,34 @@ public class MainActivity extends AppCompatActivity
 	}//onResume
 
 	@Override
-	public boolean onOptionsItemSelected(MenuItem item) 
+	public boolean onOptionsItemSelected(MenuItem item)
 	{
 		// TODO Auto-generated method stub
-		switch (item.getItemId()) 
+		switch (item.getItemId())
 		{
-		case R.id.action_search:
-			onSearchRequested();
-			break;
-		case R.id.action_bookmarks:
-			try
-			{
-				Class ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.BookmarkActivity");
-				Intent ourIntent = new Intent(MainActivity.this, ourClass);
-				startActivity(ourIntent);
-			}
-			catch (ClassNotFoundException e)
-			{
-				e.printStackTrace();
-			}
-			break;
-		case R.id.action_place:
-			goToLastLocation();
-			break;
-		case R.id.action_config:
-			showPopupMenuSettings(findViewById(R.id.action_config));
-			break;
-		default:
-			break;
+			case R.id.action_search:
+				onSearchRequested();
+				break;
+			case R.id.action_bookmarks:
+				try
+				{
+					Class ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.BookmarkActivity");
+					Intent ourIntent = new Intent(MainActivity.this, ourClass);
+					startActivity(ourIntent);
+				}
+				catch (ClassNotFoundException e)
+				{
+					e.printStackTrace();
+				}
+				break;
+			case R.id.action_place:
+				goToLastLocation();
+				break;
+			case R.id.action_config:
+				showPopupMenuSettings(findViewById(R.id.action_config));
+				break;
+			default:
+				break;
 		}
 
 		return true;
@@ -346,7 +340,7 @@ public class MainActivity extends AppCompatActivity
 			configHeaders[3] = "הסבר על החיפוש";
 			configHeaders[4] = "ראשי תיבות";
 			configHeaders[5] = "הסכמות";
-           //booksDownload configHeaders[6] = "ספרים להורדה";
+			//booksDownload configHeaders[6] = "ספרים להורדה";
 			configHeaders[6/*booksDownload 7*/] = "Language / שפה";
 		}
 
@@ -357,90 +351,90 @@ public class MainActivity extends AppCompatActivity
 		popupMenu.getMenu().add(0,4,4,configHeaders[4]);
 		popupMenu.getMenu().add(0,5,5,configHeaders[5]);
 		popupMenu.getMenu().add(0,6,6,configHeaders[6]);
-       //booksDownload popupMenu.getMenu().add(0,7,7,configHeaders[7]);
-		
-		popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() 
+		//booksDownload popupMenu.getMenu().add(0,7,7,configHeaders[7]);
+
+		popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener()
 		{
 			@Override
 			public boolean onMenuItemClick(MenuItem item)
 			{
 				switch (item.getItemId())
 				{
-				case 0:/*settings*/
-					try
-					{
-						Class ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.Settings");
-						Intent ourIntent = new Intent(MainActivity.this, ourClass);
-						startActivity(ourIntent);
-					}
-					catch (ClassNotFoundException e)
-					{
-						e.printStackTrace();
-					}
+					case 0:/*settings*/
+						try
+						{
+							Class ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.Settings");
+							Intent ourIntent = new Intent(MainActivity.this, ourClass);
+							startActivity(ourIntent);
+						}
+						catch (ClassNotFoundException e)
+						{
+							e.printStackTrace();
+						}
 
-					break;
-				case 1:/*about*/
-					try
-					{
-						Class ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.About");
-						Intent ourIntent = new Intent(MainActivity.this, ourClass);
-						startActivity(ourIntent);
-					}
-					catch (ClassNotFoundException e)
-					{
-						e.printStackTrace();
-					}
+						break;
+					case 1:/*about*/
+						try
+						{
+							Class ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.About");
+							Intent ourIntent = new Intent(MainActivity.this, ourClass);
+							startActivity(ourIntent);
+						}
+						catch (ClassNotFoundException e)
+						{
+							e.printStackTrace();
+						}
 
-					break;
-				case 2:/*Feedback*/
-					try
-					{
-						Class ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.Feedback");
-						Intent ourIntent = new Intent(MainActivity.this, ourClass);
-						startActivity(ourIntent);
-					}
-					catch (ClassNotFoundException e)
-					{
-						e.printStackTrace();
-					}
-					break;
-				case 3:/*Explanation for Search*/
-					try
-					{
-						Class ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.SearchHelp");
-						Intent ourIntent = new Intent(MainActivity.this, ourClass);
-						startActivity(ourIntent);
-					}
-					catch (ClassNotFoundException e)
-					{
-						e.printStackTrace();
-					}
-					break;
-				case 4:/*acronyms*/
-					acronymsDecode();
-					break;
-				case 5:/*hascamot*/
-					hascamotDialog();
-					break;
-				case 6:/*language*/
-					languageDialog(context);
-					break;
-                                case 7:/*booksDownload*/
-                                        booksDownloadDialog(context);
-                                        break;
-					
-				default:
-					break;
+						break;
+					case 2:/*Feedback*/
+						try
+						{
+							Class ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.Feedback");
+							Intent ourIntent = new Intent(MainActivity.this, ourClass);
+							startActivity(ourIntent);
+						}
+						catch (ClassNotFoundException e)
+						{
+							e.printStackTrace();
+						}
+						break;
+					case 3:/*Explanation for Search*/
+						try
+						{
+							Class ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.SearchHelp");
+							Intent ourIntent = new Intent(MainActivity.this, ourClass);
+							startActivity(ourIntent);
+						}
+						catch (ClassNotFoundException e)
+						{
+							e.printStackTrace();
+						}
+						break;
+					case 4:/*acronyms*/
+						acronymsDecode();
+						break;
+					case 5:/*hascamot*/
+						hascamotDialog();
+						break;
+					case 6:/*language*/
+						languageDialog(context);
+						break;
+					case 7:/*booksDownload*/
+						booksDownloadDialog(context);
+						break;
+
+					default:
+						break;
 				}
 				return true;
 			}
 		});
 
 		popupMenu.show();
-	}	
+	}
 
 	/*Preparing the list data*/
-	private void prepareListData() 
+	private void prepareListData()
 	{
 		listDataHeader = new ArrayList<String>();
 		listDataChild = new HashMap<String, List<String>>();
@@ -456,7 +450,7 @@ public class MainActivity extends AppCompatActivity
 		listDataHeader.add("ליקוטים א");
 		listDataHeader.add("ליקוטים ב");
 		listDataHeader.add("מועדים");
-        listDataHeader.add("משפחה");
+		listDataHeader.add("משפחה");
 		listDataHeader.add("סוכות");
 		listDataHeader.add("פסח");
 		listDataHeader.add("שביעית ויובל");
@@ -562,7 +556,7 @@ public class MainActivity extends AppCompatActivity
 		yamim.add("י - עבודת יום הכיפורים");
 
 		List<String> kashrut_a = new ArrayList<String>();
-        kashrut_a.add("תוכן מפורט, פתח דבר");
+		kashrut_a.add("תוכן מפורט, פתח דבר");
 		kashrut_a.add("א - חדש");
 		kashrut_a.add("ב - ערלה ורבעי");
 		kashrut_a.add("ג - כלאי בהמה ואילן");
@@ -583,29 +577,29 @@ public class MainActivity extends AppCompatActivity
 		kashrut_a.add("יח - הלכות שחיטה");
 		kashrut_a.add("יט - מתנות כהונה מהחי");
 
-        List<String> kashrut_b = new ArrayList<String>();
-        kashrut_b.add("תוכן מפורט, פתח דבר, מפתח");
-        kashrut_b.add("כ - טריפות");
-        kashrut_b.add("כא - חֵלֶב וגיד הנשה וניקור");
-        kashrut_b.add("כב - דם והכשרת הבשר");
-        kashrut_b.add("כג - שרצים");
-        kashrut_b.add("כד - מזון מהחי");
-        kashrut_b.add("כה - בשר בחלב");
-        kashrut_b.add("כו - דיני ההפסקה");
-        kashrut_b.add("כז - הגזירות על מאכלי גויים");
-        kashrut_b.add("כח - פת ובישולי גויים");
-        kashrut_b.add("כט - יין ומשקאות גויים");
-        kashrut_b.add("ל - חלב ומוצריו");
-        kashrut_b.add("לא - טבילת כלים");
-        kashrut_b.add("לב - כללי הכשרת כלים");
-        kashrut_b.add("לג - הכשרת כלים ומטבח");
-        kashrut_b.add("לד - דיני תערובות");
-        kashrut_b.add("לה - סוגי בליעות");
-        kashrut_b.add("לו - סכנות");
-        kashrut_b.add("לז - תעשיית המזון");
-        kashrut_b.add("לח - נאמנות והשגחה");
+		List<String> kashrut_b = new ArrayList<String>();
+		kashrut_b.add("תוכן מפורט, פתח דבר, מפתח");
+		kashrut_b.add("כ - טריפות");
+		kashrut_b.add("כא - חֵלֶב וגיד הנשה וניקור");
+		kashrut_b.add("כב - דם והכשרת הבשר");
+		kashrut_b.add("כג - שרצים");
+		kashrut_b.add("כד - מזון מהחי");
+		kashrut_b.add("כה - בשר בחלב");
+		kashrut_b.add("כו - דיני ההפסקה");
+		kashrut_b.add("כז - הגזירות על מאכלי גויים");
+		kashrut_b.add("כח - פת ובישולי גויים");
+		kashrut_b.add("כט - יין ומשקאות גויים");
+		kashrut_b.add("ל - חלב ומוצריו");
+		kashrut_b.add("לא - טבילת כלים");
+		kashrut_b.add("לב - כללי הכשרת כלים");
+		kashrut_b.add("לג - הכשרת כלים ומטבח");
+		kashrut_b.add("לד - דיני תערובות");
+		kashrut_b.add("לה - סוגי בליעות");
+		kashrut_b.add("לו - סכנות");
+		kashrut_b.add("לז - תעשיית המזון");
+		kashrut_b.add("לח - נאמנות והשגחה");
 
-        List<String> likutimA = new ArrayList<String>();
+		List<String> likutimA = new ArrayList<String>();
 		likutimA.add("תוכן מפורט, מבוא");
 		likutimA.add("א - הלכות תלמוד תורה");
 		likutimA.add("ב - החינוך לתורה");
@@ -641,7 +635,7 @@ public class MainActivity extends AppCompatActivity
 		likutimB.add("טז - חברה ושליחות");
 
 		List<String> mishpacha = new ArrayList<String>();
-        mishpacha.add("תוכן מפורט, מבוא");
+		mishpacha.add("תוכן מפורט, מבוא");
 		mishpacha.add("א - כיבוד הורים");
 		mishpacha.add("ב - מצוות הנישואין");
 		mishpacha.add("ג - שידוכים");
@@ -758,7 +752,7 @@ public class MainActivity extends AppCompatActivity
 		simchat.add("ח - נחמת חשוכי ילדים");
 		simchat.add("ט - הפסקת הריון");
 		simchat.add("י - האיש והאשה");
-				
+
 		List<String> tefila = new ArrayList<String>();
 		tefila.add("תוכן מפורט, מבוא, מפתח");
 		tefila.add("א - יסודות הלכות תפילה");
@@ -786,7 +780,7 @@ public class MainActivity extends AppCompatActivity
 		tefila.add("כג - סיום שחרית ודיני קדיש");
 		tefila.add("כד - תפילת מנחה");
 		tefila.add("כה - תפילת מעריב");
-		tefila.add("כו - קריאת שמע על המיטה"); 
+		tefila.add("כו - קריאת שמע על המיטה");
 
 		List<String> tefilatNashim = new ArrayList<String>();
 		tefilatNashim.add("תוכן מפורט, מבוא, מפתח");
@@ -906,7 +900,7 @@ public class MainActivity extends AppCompatActivity
 		harchavot_brachot.add("טו - ברכות הראייה");
 		harchavot_brachot.add("טז - ברכת הגומל");
 		harchavot_brachot.add("יז - ברכות ההודאה והשמחה");
-		
+
 		List<String> harchavot_yamim = new ArrayList<String>();
 		harchavot_yamim.add("תוכן מפורט, מבוא");
 		harchavot_yamim.add("א - הדין השכר והעונש");
@@ -919,7 +913,7 @@ public class MainActivity extends AppCompatActivity
 		harchavot_yamim.add("ח - דיני התענית");
 		harchavot_yamim.add("ט - שאר עינויים");
 		harchavot_yamim.add("י - עבודת יום הכיפורים");
-		
+
 		List<String> E_tefila = new ArrayList<String>();
 		E_tefila.add("Contents, Introduction, Glossary and Index");
 		E_tefila.add("1 - Fundamentals of the Laws of Prayer");
@@ -1114,11 +1108,11 @@ public class MainActivity extends AppCompatActivity
 		listDataChild.put(listDataHeader.get(TAHARAT), taharat);
 		listDataChild.put(listDataHeader.get(YAMIM), yamim);
 		listDataChild.put(listDataHeader.get(KASHRUT_A), kashrut_a);
-        listDataChild.put(listDataHeader.get(KASHRUT_B), kashrut_b);
+		listDataChild.put(listDataHeader.get(KASHRUT_B), kashrut_b);
 		listDataChild.put(listDataHeader.get(LIKUTIM_A), likutimA);
 		listDataChild.put(listDataHeader.get(LIKUTIM_B), likutimB);
 		listDataChild.put(listDataHeader.get(MOADIM), moadim);
-        listDataChild.put(listDataHeader.get(MISHPACHA), mishpacha);
+		listDataChild.put(listDataHeader.get(MISHPACHA), mishpacha);
 		listDataChild.put(listDataHeader.get(SUCOT), sucot);
 		listDataChild.put(listDataHeader.get(PESACH), pesach);
 		listDataChild.put(listDataHeader.get(SHVIIT), shviit);
@@ -1156,7 +1150,7 @@ public class MainActivity extends AppCompatActivity
 		final TextView decodedText = (TextView) acronymsDialog.findViewById(R.id.textViewDecodedText);
 		//final byte[] buffer;
 		//final int size;
-		
+
 		TextToDecode = (EditText) acronymsDialog.findViewById(R.id.editTextAcronyms );
 
 		// if button is clicked
@@ -1164,17 +1158,17 @@ public class MainActivity extends AppCompatActivity
 		{
 			@SuppressLint("NewApi")
 			@Override
-			public void onClick(View v) 
+			public void onClick(View v)
 			{
 				acronymsDialog.dismiss();
 			}
 		});
-		
+
 		dialogButtonDecode.setOnClickListener(new OnClickListener()
 		{
 			@SuppressLint("NewApi")
 			@Override
-			public void onClick(View v) 
+			public void onClick(View v)
 			{
 				acronymsText = "\r\n" + /*"י\"א" */TextToDecode.getText().toString() + " - ";
 				acronymsText = acronymsText.replace("\"", "");
@@ -1182,7 +1176,7 @@ public class MainActivity extends AppCompatActivity
 				InputStream is;
 				String r="לא נמצאו תוצאות";
 				int index=0, index_end=0, first=1;
-				try 
+				try
 				{
 					is = getAssets().open("acronyms.txt");
 					int size = is.available();
@@ -1190,10 +1184,10 @@ public class MainActivity extends AppCompatActivity
 					is.read(buffer);
 					is.close();
 					String strText  = new String(buffer);
-					
+
 					while (strText.indexOf(acronymsText, index_end) != -1)
 					{
-						index = strText.indexOf(acronymsText, index);	
+						index = strText.indexOf(acronymsText, index);
 						index = strText.indexOf("-", index+1) + 2;
 						index_end = strText.indexOf("\r\n", index);
 						if(first==1)
@@ -1214,7 +1208,7 @@ public class MainActivity extends AppCompatActivity
 
 			}
 		});
-		acronymsDialog.show();	
+		acronymsDialog.show();
 	}
 
 	@SuppressLint("SetJavaScriptEnabled")
@@ -1235,7 +1229,7 @@ public class MainActivity extends AppCompatActivity
 		webSettingsHascamot.setJavaScriptEnabled(true);
 		webSettingsHascamot.setDefaultTextEncodingName("utf-8");
 		webviewHascmot.requestFocusFromTouch();
-	//	if(API < 19)
+		//	if(API < 19)
 		//	webSettingsNote.setBuiltInZoomControls(true);
 
 		fontSize = mPrefs.getInt("fontSize", 20);
@@ -1321,47 +1315,47 @@ public class MainActivity extends AppCompatActivity
 	}
 
 
-    void booksDownloadDialog(Context context)
-    {
-        booksDownloadDialog = new Dialog(context);
-        booksDownloadDialog.setContentView(R.layout.books_download);
+	void booksDownloadDialog(Context context)
+	{
+		booksDownloadDialog = new Dialog(context);
+		booksDownloadDialog.setContentView(R.layout.books_download);
 
-        Button ButtonDownloadBooks = (Button) booksDownloadDialog.findViewById(R.id.dialogButtonDownload);
-        final CheckBox CheckBoxEnglish = (CheckBox) booksDownloadDialog.findViewById(R.id.checkBoxEnglish);
-        final CheckBox CheckBoxRussian = (CheckBox) booksDownloadDialog.findViewById(R.id.checkBoxRussian);
-        final CheckBox CheckBoxSpanish = (CheckBox) booksDownloadDialog.findViewById(R.id.checkBoxSpanish);
-        final CheckBox CheckBoxFrench  = (CheckBox) booksDownloadDialog.findViewById(R.id.checkBoxFrench);
+		Button ButtonDownloadBooks = (Button) booksDownloadDialog.findViewById(R.id.dialogButtonDownload);
+		final CheckBox CheckBoxEnglish = (CheckBox) booksDownloadDialog.findViewById(R.id.checkBoxEnglish);
+		final CheckBox CheckBoxRussian = (CheckBox) booksDownloadDialog.findViewById(R.id.checkBoxRussian);
+		final CheckBox CheckBoxSpanish = (CheckBox) booksDownloadDialog.findViewById(R.id.checkBoxSpanish);
+		final CheckBox CheckBoxFrench  = (CheckBox) booksDownloadDialog.findViewById(R.id.checkBoxFrench);
 
-        // if button is clicked
+		// if button is clicked
 		ButtonDownloadBooks.setOnClickListener(new OnClickListener()
-        {
-            @SuppressLint("NewApi")
-            @Override
-            public void onClick(View v)
-            {
-            	if(CheckBoxEnglish.isChecked())
-                {
-                    downloadEnglishBooks();
-                }
-                if(CheckBoxRussian.isChecked())
-                {
+		{
+			@SuppressLint("NewApi")
+			@Override
+			public void onClick(View v)
+			{
+				if(CheckBoxEnglish.isChecked())
+				{
+					downloadEnglishBooks();
+				}
+				if(CheckBoxRussian.isChecked())
+				{
 
-                }
-                if(CheckBoxSpanish.isChecked())
-                {
+				}
+				if(CheckBoxSpanish.isChecked())
+				{
 
-                }
-                if(CheckBoxFrench.isChecked())
-                {
+				}
+				if(CheckBoxFrench.isChecked())
+				{
 
-                }
+				}
 
-                booksDownloadDialog.dismiss();
-            }
-        });
+				booksDownloadDialog.dismiss();
+			}
+		});
 
-        booksDownloadDialog.show();
-    }
+		booksDownloadDialog.show();
+	}
 
 
 	void goToLastLocation()
@@ -1384,17 +1378,17 @@ public class MainActivity extends AppCompatActivity
 
 	void downloadEnglishBooks()
 	{
-	    File f = null;
+		File f = null;
 
-	    f = new File("ftp_brachot.html");
-        // find the absolute path
-        String a = f.getAbsolutePath();
-        // prints absolute path
-        System.out.print(a);
+		f = new File("ftp_brachot.html");
+		// find the absolute path
+		String a = f.getAbsolutePath();
+		// prints absolute path
+		System.out.print(a);
 
-      //  try {
-            downloadAndSaveFile("ftp.hesder.org", 21,
-                    "pnineyapp@hesder.org", "pnineyapp312", "brachot_1.html", f);
+		//  try {
+		downloadAndSaveFile("ftp.hesder.org", 21,
+				"pnineyapp@hesder.org", "pnineyapp312", "brachot_1.html", f);
         /*}
         catch (IOException e){
             e.printStackTrace();
@@ -1414,10 +1408,10 @@ public class MainActivity extends AppCompatActivity
         });
     }*/
 
-    static final String LOG_TAG = "MyFtpTest";
+	static final String LOG_TAG = "MyFtpTest";
 
-    private void downloadAndSaveFile(String server, int portNumber,
-                                        String user, String password, String filename, File localFile){}
+	private void downloadAndSaveFile(String server, int portNumber,
+									 String user, String password, String filename, File localFile){}
 			/*throws IOException {
 		try{
 		File fileFromFB = File.createTempFile("E_pesach_1", "html");

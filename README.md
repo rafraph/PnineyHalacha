@@ -11,4 +11,3 @@ Pniney Halacha Development Guide.docx
 רשימה של באגים ופיתוחים נצרכים אפשר לראות ב-
 
 issues
-test commit
