@@ -3,7 +3,18 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/naamag/AndroidStudioProjects/PnineyHalachaGit1/app/src/main/res/layout/acronyms.xml" value="0.20520833333333333" />
+        <entry key="..\:/Users/naamag/AndroidStudioProjects/PnineyHalachaGit1/app/src/main/res/layout/activity_about.xml" value="0.20520833333333333" />
+        <entry key="..\:/Users/naamag/AndroidStudioProjects/PnineyHalachaGit1/app/src/main/res/layout/activity_audio.xml" value="0.20520833333333333" />
+        <entry key="..\:/Users/naamag/AndroidStudioProjects/PnineyHalachaGit1/app/src/main/res/layout/activity_feedback.xml" value="0.33" />
+        <entry key="..\:/Users/naamag/AndroidStudioProjects/PnineyHalachaGit1/app/src/main/res/layout/activity_switch_modes.xml" value="0.20520833333333333" />
+        <entry key="..\:/Users/naamag/AndroidStudioProjects/PnineyHalachaGit1/app/src/main/res/layout/activity_switch_modes2.xml" value="0.25" />
+        <entry key="..\:/Users/naamag/AndroidStudioProjects/PnineyHalachaGit1/app/src/main/res/layout/content_switch_modes.xml" value="0.20520833333333333" />
+        <entry key="..\:/Users/naamag/AndroidStudioProjects/PnineyHalachaGit1/app/src/main/res/layout/dialogModes.xml" value="0.20520833333333333" />
+        <entry key="..\:/Users/naamag/AndroidStudioProjects/PnineyHalachaGit1/app/src/main/res/layout/new_version.xml" value="0.5" />
+        <entry key="..\:/Users/naamag/AndroidStudioProjects/PnineyHalachaGit1/app/src/main/res/layout/note.xml" value="0.20520833333333333" />
         <entry key="..\:/Users/naamag/AndroidStudioProjects/PnineyHalachaGit1/app/src/main/res/layout/text_main_audio.xml" value="0.20520833333333333" />
+        <entry key="..\:/Users/naamag/AndroidStudioProjects/PnineyHalachaGit1/app/src/main/res/layout/text_main_down.xml" value="0.1" />
       </map>
     </option>
   </component>

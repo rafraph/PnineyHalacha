@@ -8,90 +8,91 @@
     android:background="#F6EBCD"
     >
 
-<ScrollView
-    android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical">
-<LinearLayout
-     android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical">
-
-    <TextView
-        android:id="@+id/textView5"
-        android:layout_width="wrap_content"
+    <ScrollView
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="@string/version"
-        android:textSize="28dp"
-        android:textColor="#00546c"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
+        android:orientation="vertical">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="right"
-        android:text='1. נוסף שמע לספרים: העם והארץ, שביעית ויובל וטהרת המשפחה'
-        android:textSize="20dp"
-        android:textColor="#5A9B85"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="right"
-        android:text='             '
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textColor="#5A9B85"
-        android:textSize="20dp" />
+            <TextView
+                android:id="@+id/textView5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/version"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textColor="#00546c"
+                android:textSize="28dp" />
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="right"
-        android:text='2. תיקונים כלליים'
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textColor="#5A9B85"
-        android:textSize="20dp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:text='1. נוסף שמע לספרים: העם והארץ, שביעית ויובל וטהרת המשפחה'
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textColor="#5A9B85"
+                android:textSize="20dp" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="right"
-        android:text='             '
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textColor="#5A9B85"
-        android:textSize="20dp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:text='             '
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textColor="#5A9B85"
+                android:textSize="20dp" />
 
-    <TextView
-        android:id="@+id/textView1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="right"
-        android:text="תודה רבה למסייעים במלאכה: \n אלישע הנשקה והלל ג'אן - עריכת הטקסט \n אדיר מולאים - בודק ראשי \n הרב יונדב זר - הקראה \n אבישלום ג'אן ודוד זר - עזרה בתכנות \n פדות ליברמן - עיצוב השער"
-        android:textSize="15dp"
-        android:textColor="#730005"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:text='2. תיקונים כלליים'
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textColor="#5A9B85"
+                android:textSize="20dp" />
 
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="right"
-        android:text="מתרגמים:\nג'ניפר בוסירה - ספרדית\nיאיר ארונשטם - רוסית\nמיכאל זמור - צרפתית"
-        android:textSize="15dp"
-        android:textColor="#0033cc"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:text='             '
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textColor="#5A9B85"
+                android:textSize="20dp" />
 
-    <Button
-        android:id="@+id/dialogButtonExit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginRight="5dp"
-        android:layout_marginTop="5dp"
-        android:text=" יציאה " />
+            <TextView
+                android:id="@+id/textView1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:text="תודה רבה למסייעים במלאכה: \n אלישע הנשקה והלל ג'אן - עריכת הטקסט \n אדיר מולאים - בודק ראשי \n הרב יונדב זר - הקראה \n אבישלום ג'אן ודוד זר - עזרה בתכנות \n פדות ליברמן - עיצוב השער"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textColor="#730005"
+                android:textSize="15dp" />
 
-</LinearLayout>
-</ScrollView>
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:text="מתרגמים:\nג'ניפר בוסירה - ספרדית\nיאיר ארונשטם - רוסית\nמיכאל זמור - צרפתית"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textColor="#0033cc"
+                android:textSize="15dp" />
+
+            <Button
+                android:id="@+id/dialogButtonExit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginRight="5dp"
+                android:text=" יציאה " />
+
+        </LinearLayout>
+    </ScrollView>
 </RelativeLayout>

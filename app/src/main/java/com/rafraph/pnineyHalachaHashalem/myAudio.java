@@ -119,6 +119,7 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
     public static WebView webview;
     public static WebSettings webSettings;
     public  static Context context;
+    public Boolean hearAndRead;
     void ParseTheDoc()
     {
         String prefix;
@@ -169,9 +170,10 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
         //PRAPRE TO READ AND LISTEN VIEW
         setContentView(R.layout.text_main_audio);
         context = this;
+        extras = getIntent().getExtras();
+        hearAndRead=extras.getBoolean("hearAndRead");
         //to swich to read and hear mode change here and 269+- to if(true)
-        if (true) {
-
+        if (hearAndRead) {
 
             webview=(WebView)  findViewById(R.id.webView1);
             webSettings=webview.getSettings();
@@ -280,14 +282,14 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
         sections = new ArrayList<String>();
         book = extras.getInt("book_id");
         chapter = extras.getInt("chapter_id");
-        if (true) {
+        if(hearAndRead) {
             int scroolYto = extras.getInt("scroolY");
             webview.scrollTo(0,scroolYto-90);
             int fontSize = extras.getInt("fontSize");
             webSettings.setMinimumFontSize(fontSize);
-            RelativeLayout l1= (RelativeLayout) findViewById(R.id.footer);
+;
             //l1.setAlpha(0);
-            l1.setEnabled(true);
+
         }
 
         if(book == KASHRUT_B)//KASHRUT_B is starting from chapter 20

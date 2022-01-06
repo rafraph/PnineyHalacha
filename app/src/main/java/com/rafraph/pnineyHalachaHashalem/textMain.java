@@ -2,14 +2,10 @@ package com.rafraph.pnineyHalachaHashalem;
 
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStreamWriter;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 import android.annotation.SuppressLint;
@@ -17,7 +13,6 @@ import android.annotation.TargetApi;
 import android.app.Dialog;
 import android.app.DownloadManager;
 import android.content.Context;
-import android.content.ContextWrapper;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -30,7 +25,6 @@ import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Handler;
 
 import android.support.v7.app.ActionBar;
@@ -49,11 +43,11 @@ import android.webkit.WebViewClient;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.PopupMenu;
+import android.widget.RatingBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -111,6 +105,7 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 
 	/*							0	1	2	3	4	5	6	7	8	9  10  11  12  13  14  15  16  17  18 19  20  21  22  23  24  25  26  27  28  29  30*/
 	public int[] lastChapter = {18, 11, 17, 10, 10, 19, 19, 13, 16, 13, 10, 8, 16, 11, 30, 10, 26, 24, 17, 10, 12, 8, 30, 10, 26, 16, 15, 24, 30, 26, 30};
+	public Dialog dialogModes;
 
 	private static final int HEBREW	 = 0;
 	private static final int ENGLISH = 1;
@@ -122,7 +117,7 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 	public static int[] book_chapter = new int[2];
 	boolean cameFromSearch = false, firstTime = true, ChangeChapter = false;
 	String searchPosition = null, sectionsForToast = null;
-	ImageButton bParagraphs, bFullScreen, bNext_sec, bPrevious_sec, bNext_page, bPrevious_page, bFindNext, bFindPrevious;
+	ImageButton bParagraphs, bSwitchModes, bNext_sec, bPrevious_sec, bNext_page, bPrevious_page, bFindNext, bFindPrevious;
 	LinearLayout llMainLayout;
 	String stHeadersArr;
 	Elements headers;
@@ -227,7 +222,7 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 		webview.setWebViewClient(new MyWebViewClient());
 
 		bParagraphs    = (ImageButton) findViewById(R.id.ibChapters);
-		bFullScreen    = (ImageButton) findViewById(R.id.ibFullScreen);
+		bSwitchModes = (ImageButton) findViewById(R.id.switchModes);
 		bNext_sec      = (ImageButton) findViewById(R.id.ibNext);
 		bPrevious_sec  = (ImageButton) findViewById(R.id.ibPrevious);
 		bNext_page     = (ImageButton) findViewById(R.id.ibNextPage);
@@ -238,7 +233,7 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 		bFindPrevious  = (ImageButton) findViewById(R.id.ibFindPrevious);
 
 		bParagraphs.setOnClickListener(this);
-		bFullScreen.setOnClickListener(this);
+		bSwitchModes.setOnClickListener(this);
 		bNext_sec.setOnClickListener(this);
 		bPrevious_sec.setOnClickListener(this);
 		bNext_page.setOnClickListener(this);
@@ -324,12 +319,13 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 						Intent ourIntent = new Intent(textMain.this, ourClass);
 
 						ourIntent.putExtra("audio_id", Integer.parseInt(audio_id));
-						ourIntent.putExtra("book_id", book_chapter[0]);
-						ourIntent.putExtra("chapter_id", book_chapter[1]);
+			ourIntent.putExtra("book_id", book_chapter[0]);
+									ourIntent.putExtra("chapter_id", book_chapter[1]);
 						ourIntent.putExtra("chapter_id", book_chapter[1]);
 						ourIntent.putExtra("webLink", chaptersFiles[book_chapter[0]][book_chapter[1]]);
 						//ourIntent.putExtra("webLink", localFile.getPath());
 						ourIntent.putExtra("scroolY", webview.getScrollY());
+						ourIntent.putExtra("hearAndRead", false);
 						ourIntent.putExtra("fontSize", fontSize);
 						findAllHeaders(ourIntent);
 						startActivity(ourIntent);
@@ -370,7 +366,7 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 
 
 		BlackBackground = mPrefs.getInt("BlackBackground", 0);
-		cbFullScreen = mPrefs.getInt("cbFullScreen", 1);
+
 
 		inflater = getMenuInflater();
 		textActionBar = getSupportActionBar();
@@ -620,7 +616,7 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 			llMainLayout.setBackgroundColor(Color.BLACK);
 			textActionBar.setTitle(Html.fromHtml("<font color=\"#ffffff\">" + title + "</font>"));
 			bParagraphs.setImageDrawable(resources.getDrawable(R.drawable.ic_action_view_as_list));
-			bFullScreen.setImageDrawable(resources.getDrawable(R.drawable.ic_action_full_screen));
+			bSwitchModes.setImageDrawable(resources.getDrawable(R.drawable.ic_action_switches_modes));
 			bNext_sec.setImageDrawable(resources.getDrawable(R.drawable.ic_action_next_item));
 			bPrevious_sec.setImageDrawable(resources.getDrawable(R.drawable.ic_action_previous_item));
 			bNext_page.setImageDrawable(resources.getDrawable(R.drawable.ic_action_down));
@@ -639,7 +635,7 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 			llMainLayout.setBackgroundColor(Color.WHITE);
 			textActionBar.setTitle(Html.fromHtml("<font color=\"black\">" + title + "</font>"));
 			bParagraphs.setImageDrawable(resources.getDrawable(R.drawable.ic_action_view_as_list));
-			bFullScreen.setImageDrawable(resources.getDrawable(R.drawable.ic_action_full_screen));
+			bSwitchModes.setImageDrawable(resources.getDrawable(R.drawable.ic_action_switches_modes));
 			bNext_sec.setImageDrawable(resources.getDrawable(R.drawable.ic_action_next_item));
 			bPrevious_sec.setImageDrawable(resources.getDrawable(R.drawable.ic_action_previous_item));
 			bNext_page.setImageDrawable(resources.getDrawable(R.drawable.ic_action_down));
@@ -752,13 +748,73 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 				showPopupMenu(view);
 				break;
 
-			case R.id.ibFullScreen:
-				cbFullScreen = mPrefs.getInt("cbFullScreen", 1);
-				if(cbFullScreen == 0)
-					lnrOptions.setVisibility(View.GONE);
-				getSupportActionBar().hide();
-				Toast.makeText(getApplicationContext(), "לחץ על כפתור 'חזור' כדי לצאת ממסך מלא", Toast.LENGTH_LONG).show();
-				fullScreenFlag = 1;
+			case R.id.switchModes:
+
+
+
+
+
+				final Context context = this;
+				dialogModes = new Dialog(context);
+				dialogModes.setTitle("בחר מצב משתמש");
+				dialogModes.setContentView(R.layout.activity_switch_modes);
+				Button bt1 = (Button) dialogModes.findViewById(R.id.button);
+				Button bt2 = (Button) dialogModes.findViewById(R.id.button2);
+				bt1.setOnClickListener(new View.OnClickListener()
+				{
+					@Override
+					public void onClick(View v)
+					{
+						try {
+							Class ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.myAudio");
+							Intent ourIntent = new Intent(textMain.this,ourClass);
+							ourIntent.putExtra("audio_id", Integer.parseInt("1"));
+							ourIntent.putExtra("book_id", book_chapter[0]);
+							ourIntent.putExtra("chapter_id", book_chapter[1]);
+							ourIntent.putExtra("chapter_id", book_chapter[1]);
+							ourIntent.putExtra("webLink", chaptersFiles[book_chapter[0]][book_chapter[1]]);
+							ourIntent.putExtra("hearAndRead", true);
+
+							ourIntent.putExtra("scroolY", webview.getScrollY());
+							ourIntent.putExtra("fontSize", fontSize);
+							findAllHeaders(ourIntent);
+							startActivity(ourIntent);
+							dialogModes.dismiss();
+						} catch (ClassNotFoundException e) {
+							e.printStackTrace();
+						}
+
+
+					}
+				});
+				bt2.setOnClickListener(new View.OnClickListener()
+				{
+					@Override
+					public void onClick(View v)
+					{
+						try {
+							Class ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.myAudio");
+							Intent ourIntent = new Intent(textMain.this,ourClass);
+							ourIntent.putExtra("audio_id", Integer.parseInt("1"));
+							ourIntent.putExtra("book_id", book_chapter[0]);
+							ourIntent.putExtra("chapter_id", book_chapter[1]);
+							ourIntent.putExtra("chapter_id", book_chapter[1]);
+							ourIntent.putExtra("webLink", chaptersFiles[book_chapter[0]][book_chapter[1]]);
+							ourIntent.putExtra("hearAndRead", false);
+
+							ourIntent.putExtra("scroolY", webview.getScrollY());
+							ourIntent.putExtra("fontSize", fontSize);
+							findAllHeaders(ourIntent);
+							startActivity(ourIntent);
+							dialogModes.dismiss();
+						} catch (ClassNotFoundException e) {
+							e.printStackTrace();
+						}
+					}
+				});
+				dialogModes.show();
+
+
 				break;
 
 			case R.id.ibNext:

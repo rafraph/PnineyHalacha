@@ -7,68 +7,67 @@
     android:background="@drawable/feedback_design"
     tools:context=".Feedback" >
 
-    <ScrollView
-        android:layout_width="fill_parent"
-        android:layout_height="0dp"
-        android:layout_weight="90" >
-		
-		<LinearLayout 
-		    android:orientation="vertical"
-			android:layout_width="match_parent" 
-			android:layout_height="match_parent">
-			
-			<TextView
-			    android:id="@+id/tvName"
-				android:layout_width="wrap_content"
-		        android:layout_height="wrap_content"
-		        android:layout_gravity="right"
-		        android:layout_marginTop="44dp"
-		        android:text="שם" />
+	<ScrollView
+		android:layout_width="fill_parent"
+		android:layout_height="0dp"
+		android:layout_weight="90">
 
-		    <EditText
-		        android:id="@+id/etName"
-		        android:layout_width="match_parent"
-		        android:layout_height="wrap_content"
-		        android:layout_gravity="right"
-		        android:ems="10" />
-					
-		    <TextView
-		        android:id="@+id/tvHeader"
-		        android:layout_width="wrap_content"
-		        android:layout_height="wrap_content"
-		        android:layout_alignLeft="@+id/textView2"
-		        android:layout_below="@+id/textView2"
-		        android:layout_gravity="right"
-		        android:layout_marginTop="24dp"
-		        android:text="כותרת" />
-		
-			<EditText
-			    android:id="@+id/etHeader"
-			    android:layout_width="match_parent"
-			    android:layout_height="wrap_content"
-			    android:layout_gravity="right" />
-							    
+		<LinearLayout
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:orientation="vertical">
+
 			<TextView
-			    android:id="@+id/tvContent"
-			    android:layout_width="wrap_content"
-			    android:layout_height="wrap_content"
-			    android:layout_alignLeft="@+id/textView2"
-			    android:layout_below="@+id/textView2"
-			    android:layout_gravity="right"
-			    android:layout_marginTop="24dp"
-			    android:text="תוכן הפניה" />
-		
+				android:id="@+id/tvName"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_gravity="right"
+				android:layout_marginTop="44dp"
+				android:text="שם" />
+
 			<EditText
-			    android:id="@+id/etContent"
-			    android:layout_width="match_parent"
-			    android:layout_height="100dp"
-			    android:layout_gravity="right"
-			    android:ems="10"
-			    android:inputType="textMultiLine" >
-			</EditText>
-			
+				android:id="@+id/etName"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_gravity="right"
+				android:ems="10" />
+
+			<TextView
+				android:id="@+id/tvHeader"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_below="@+id/textView2"
+				android:layout_alignLeft="@+id/textView2"
+				android:layout_gravity="right"
+				android:layout_marginTop="24dp"
+				android:text="כותרת" />
+
+			<EditText
+				android:id="@+id/etHeader"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_gravity="right" />
+
+			<TextView
+				android:id="@+id/tvContent"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_below="@+id/textView2"
+				android:layout_alignLeft="@+id/textView2"
+				android:layout_gravity="right"
+				android:layout_marginTop="24dp"
+				android:text="תוכן הפניה" />
+
+			<EditText
+				android:id="@+id/etContent"
+				android:layout_width="match_parent"
+				android:layout_height="100dp"
+				android:layout_gravity="right"
+				android:ems="10"
+				android:inputType="textMultiLine"></EditText>
+
 		</LinearLayout>
-		
+
 	</ScrollView>
 
 	<Button
