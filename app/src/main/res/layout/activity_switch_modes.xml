@@ -31,10 +31,9 @@
         android:id="@+id/textView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="220dp"
         android:layout_centerHorizontal="true"
-        android:text="מצב משולב מאפשר
-לשמוע ולקורא באותו זמן"
+        android:layout_marginTop="220dp"
+        android:text="מצב משולב מאפשר להאזין ולקרוא באותו זמן"
         android:textSize="15dp" />
 
     <Button
@@ -43,15 +42,15 @@
         android:layout_height="62dp"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="300dp"
-        android:text="מצב שמיעה" />
+        android:text="מצב האזנה" />
 
     <TextView
         android:id="@+id/textView4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="370dp"
         android:layout_centerHorizontal="true"
-        android:text="מצב שמיעה מאפשר לך לשמוע את הפרקים"
+        android:layout_marginTop="370dp"
+        android:text="מצב האזנה מאפשר לך לשמוע את הפרקים"
         android:textSize="15dp" />
 
 </RelativeLayout>
