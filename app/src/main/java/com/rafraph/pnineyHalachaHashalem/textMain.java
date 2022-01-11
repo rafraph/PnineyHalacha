@@ -1165,7 +1165,7 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 	{
 		/*BRACHOT*/
 		chaptersFiles[BRACHOT][0] = "file:///android_asset/brachot_tochen.html";
-		chaptersFiles[BRACHOT][1] = getFilesDir().getAbsolutePath()+"/brachot_1.html";
+		chaptersFiles[BRACHOT][1] = "file:///android_asset/brachot_1.html";
 		chaptersFiles[BRACHOT][2] = "file:///android_asset/brachot_2.html";
 		chaptersFiles[BRACHOT][3] = "file:///android_asset/brachot_3.html";
 		chaptersFiles[BRACHOT][4] = "file:///android_asset/brachot_4.html";
