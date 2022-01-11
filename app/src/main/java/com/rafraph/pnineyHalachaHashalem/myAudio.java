@@ -7,13 +7,11 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
-import android.os.Build;
 import android.os.Bundle;
 import android.app.Activity;
 import android.os.IBinder;
 
 import android.support.v4.content.LocalBroadcastManager;
-import android.text.Layout;
 import android.view.View;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebSettings;
@@ -21,13 +19,9 @@ import android.webkit.WebView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.SimpleAdapter;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -97,14 +91,13 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
     private String header;
     public ListView listview;
     public String book_name;
-    public TextView txtI;
+    public TextView playerInfo;
     Bundle extras;
     private MediaPlayerService playerService;
     boolean serviceBound = false;
     boolean firstCall;
     private Intent playerIntent;
     boolean clickOnItemFromList = false;
-    public Bundle b=null;
     public String note_id;
     public String audio_id;
     public static final String Broadcast_START = "com.rafraph.pnineyHalachaHashalem.StartPlay";
@@ -120,6 +113,7 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
     public static WebSettings webSettings;
     public  static Context context;
     public Boolean hearAndRead;
+    public float[] sppedArray={2f,1.5f,1f,0.75f};
     void ParseTheDoc()
     {
         String prefix;
@@ -164,7 +158,7 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        b=savedInstanceState;
+
         int count=0;
         super.onCreate(savedInstanceState);
         //PRAPRE TO READ AND LISTEN VIEW
@@ -277,7 +271,7 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
         firstCall = true;
         registerAllBroadcast();
         initializeViews();
-        txtI = (TextView) findViewById(R.id.txt1);
+        playerInfo = (TextView) findViewById(R.id.playerInfo);
         extras = getIntent().getExtras();
         sections = new ArrayList<String>();
         book = extras.getInt("book_id");
@@ -299,7 +293,7 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
         sections = extras.getStringArrayList("sections_"+chapter);
 
         book_name = get_book_name_by_id();
-        txtI.setText(book_name + " " +   convert_character_to_id(chapter)+", "+convert_character_to_id(section));
+        playerInfo.setText(book_name + " " +   convert_character_to_id(chapter)+", "+convert_character_to_id(section));
 
 
 
@@ -358,14 +352,7 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
         sendBroadcast(broadcastIntent);
         broadcastIntent = new Intent(Broadcast_Speed);
         int choice=spinner.getSelectedItemPosition();
-        if(choice==0)
-            speed=2f;
-        if(choice==1)
-            speed=1.5f;
-        if(choice==2)
-            speed=1f;
-        if(choice==3)
-            speed=0.75f;
+        speed=sppedArray[choice];
         broadcastIntent.putExtra("speed",speed);
         if (playing==0)
             broadcastIntent.putExtra("play",0);
@@ -381,7 +368,7 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
         playing = 2;
         Intent broadcastIntent = new Intent(Broadcast_SKIP_TO_SPECIFIC_SECTION);
         broadcastIntent.putExtra("audio_id", selectedSection);
-        txtI.setText(book_name + " " +   convert_character_to_id(chapter)+", "+convert_character_to_id(selectedSection));
+        playerInfo.setText(book_name + " " +   convert_character_to_id(chapter)+", "+convert_character_to_id(selectedSection));
         section=selectedSection;
         sendBroadcast(broadcastIntent);
     }
@@ -580,26 +567,19 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
         sendBroadcast(broadcastIntent);
         broadcastIntent = new Intent(Broadcast_Speed);
         int choice=spinner.getSelectedItemPosition();
-        if(choice==0)
-            speed=2f;
-        if(choice==1)
-            speed=1.5f;
-        if(choice==2)
-            speed=1f;
-        if(choice==3)
-            speed=0.75f;
+        speed=sppedArray[choice];
         broadcastIntent.putExtra("speed",speed);
         if (playing==0)
             broadcastIntent.putExtra("play",0);
         sendBroadcast(broadcastIntent);
-        txtI.setText(book_name + " " +   convert_character_to_id(chapter)+", "+convert_character_to_id(section+1));
+        playerInfo.setText(book_name + " " +   convert_character_to_id(chapter)+", "+convert_character_to_id(section+1));
 
     }
 
     public void restartPage()
     {
         header = book_name + " " +   convert_character_to_id(chapter)+", א";
-        txtI.setText(header);
+        playerInfo.setText(header);
         // TODO: fill the list of sections of the new chapter
         sections = extras.getStringArrayList("sections_"+chapter);
         List<HashMap<String, String>> aList = new ArrayList<HashMap<String, String>>();
@@ -623,20 +603,14 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
         sendBroadcast(broadcastIntent);
         broadcastIntent = new Intent(Broadcast_Speed);
         int choice=spinner.getSelectedItemPosition();
-        if(choice==0)
-            speed=2f;
-        if(choice==1)
-            speed=1.5f;
-        if(choice==2)
-            speed=1f;
-        if(choice==3)
-            speed=0.75f;
+        speed=sppedArray[choice];
         broadcastIntent.putExtra("speed",speed);
         broadcastIntent.putExtra("play",0);
         sendBroadcast(broadcastIntent);
-        txtI.setText(book_name + " " +   convert_character_to_id(chapter)+", "+convert_character_to_id(section-1));
+        playerInfo.setText(book_name + " " +   convert_character_to_id(chapter)+", "+convert_character_to_id(section-1));
+        //check if the user return from brachot it give him back to brachot א,א
         if(section+1486<'א')
-            txtI.setText(book_name + " " +   convert_character_to_id(chapter)+", א");
+            playerInfo.setText(book_name + " " +   convert_character_to_id(chapter)+", א");
     }
 
     public void forward_10_sec(View view) {
