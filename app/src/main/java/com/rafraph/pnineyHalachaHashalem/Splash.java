@@ -62,7 +62,7 @@ public class Splash extends Activity{
 		shPrefEditor.commit();
 		Bundle extras = getIntent().getExtras();
 		// if its not first virsion and have last place
-		if (mPrefs.getInt("StartInLastLocation", 1) == 1 && !(mPrefs.getInt("book", 0) == 0 && mPrefs.getInt("chapter", 0) == 0) && (mPrefs.getString("Version", "").equals("4.1.16") == true)) {
+		if (mPrefs.getInt("StartInLastLocation", 1) == 1 && !(mPrefs.getInt("book", 0) == 0 && mPrefs.getInt("chapter", 0) == 0) && (mPrefs.getString("Version", "").equals("5.1.14") == true)) {
 
 			try {
 				Class ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.textMain");
@@ -95,7 +95,7 @@ public class Splash extends Activity{
 
 		}
 		// if its not first virsion and not last place
-		if (mPrefs.getString("Version", "").equals("4.1.16") == true) {
+		if (mPrefs.getString("Version", "").equals("5.1.14") == true) {
 
 			try {
 				Class ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.textMain");
@@ -115,7 +115,7 @@ public class Splash extends Activity{
 							e.printStackTrace();
 						} finally {
 							stop = 2;
-							if (!(mPrefs.getInt("StartInLastLocation", 1) == 1 && !(mPrefs.getInt("book", 0) == 0 && mPrefs.getInt("chapter", 0) == 0) && (mPrefs.getString("Version", "").equals("4.1.16") == true))) {
+							if (!(mPrefs.getInt("StartInLastLocation", 1) == 1 && !(mPrefs.getInt("book", 0) == 0 && mPrefs.getInt("chapter", 0) == 0) && (mPrefs.getString("Version", "").equals("5.1.14") == true))) {
 								Class ourClass = null;
 								try {
 									ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.HomePage");
@@ -204,7 +204,7 @@ public class Splash extends Activity{
 						e.printStackTrace();
 					} finally {
 						stop = 2;
-						if (!(mPrefs.getInt("StartInLastLocation", 1) == 1 && !(mPrefs.getInt("book", 0) == 0 && mPrefs.getInt("chapter", 0) == 0) && (mPrefs.getString("Version", "").equals("4.1.16") == true))) {
+						if (!(mPrefs.getInt("StartInLastLocation", 1) == 1 && !(mPrefs.getInt("book", 0) == 0 && mPrefs.getInt("chapter", 0) == 0) && (mPrefs.getString("Version", "").equals("5.1.14") == true))) {
 							Class ourClass = null;
 							try {
 								ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.HomePage");

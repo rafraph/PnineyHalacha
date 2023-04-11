@@ -21,7 +21,6 @@ import android.widget.PopupMenu;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 
 import java.io.IOException;
 import java.io.InputStream;

@@ -3,19 +3,13 @@ package com.rafraph.pnineyHalachaHashalem;
 
 
 
-import android.Manifest;
-import android.app.AlertDialog;
-import android.app.DownloadManager;
-import android.app.ProgressDialog;
+
 import android.content.DialogInterface;
 import android.net.Uri;
 import android.os.Build;
-import android.os.Environment;
 import android.os.Handler;
-import android.provider.Settings;
 import android.support.annotation.RequiresApi;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
+
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.ContextThemeWrapper;
@@ -188,394 +182,355 @@ public class MainActivity extends AppCompatActivity
 	}
 	@RequiresApi(api = Build.VERSION_CODES.KITKAT)
 	@Override
-	protected void onCreate(Bundle savedInstanceState)
-	{
+	protected void onCreate(Bundle savedInstanceState) {
 
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 //		if (mPrefs.getInt("BlackBackground", 0)==0)
 //			Toast.makeText(getApplicationContext(), "אין חיבור אינטרנט", Toast.LENGTH_LONG).show();
-		context = this;
-		mPrefs = getSharedPreferences(PREFS_NAME, 0);
-		shPrefEditor = mPrefs.edit();
-		BlackBackground = mPrefs.getInt("BlackBackground", 0);
-		StartInLastLocation = mPrefs.getInt("StartInLastLocation", 1);
-		MyLanguage = mPrefs.getInt("MyLanguage", -1);
+			context = this;
+			mPrefs = getSharedPreferences(PREFS_NAME, 0);
+			shPrefEditor = mPrefs.edit();
+			BlackBackground = mPrefs.getInt("BlackBackground", 0);
+			StartInLastLocation = mPrefs.getInt("StartInLastLocation", 1);
+			MyLanguage = mPrefs.getInt("MyLanguage", -1);
 
 
-		//storage = FirebaseStorage.getInstance();
-		// Create a storage reference from our app
-		//StorageReference storageRef = storage.getReference();
+			//storage = FirebaseStorage.getInstance();
+			// Create a storage reference from our app
+			//StorageReference storageRef = storage.getReference();
 
-		//mAuth = FirebaseAuth.getInstance();
+			//mAuth = FirebaseAuth.getInstance();
 
-		actionBar = getSupportActionBar();
-		// get the listview
-		expListView = (ExpandableListView) findViewById(R.id.lvExp);
-		expListView.setGroupIndicator(null);
+			actionBar = getSupportActionBar();
+			// get the listview
+			expListView = (ExpandableListView) findViewById(R.id.lvExp);
+			expListView.setGroupIndicator(null);
 
-		// preparing list data
-		prepareListData();
-		if(hebDisplay) {
-			for (int i = heS; i <= heE; i++)
-				listDisplay.add(listDataHeader.get(i));
-		}
-		ImageView toMain= (ImageView) findViewById(R.id.to_main);
-		if(MyLanguage==ENGLISH)
-			toMain.setImageResource(R.drawable.to_main_e);
-		if(MyLanguage==RUSSIAN)
-			toMain.setImageResource(R.drawable.to_main_r);
-		if(MyLanguage==SPANISH)
-			toMain.setImageResource(R.drawable.to_main_s);
-		if(MyLanguage==FRENCH)
-			toMain.setImageResource(R.drawable.to_main_f);
-		toMain.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				try
-				{
-					Class ourClass = null;
-					Intent ourIntent;
-					ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.HomePage");
-					ourIntent = new Intent(MainActivity.this, ourClass);
-					startActivity(ourIntent);
-				}
-				catch (ClassNotFoundException e)
-				{
-					e.printStackTrace();
-				}
+			// preparing list data
+			prepareListData();
+			if (hebDisplay) {
+				for (int i = heS; i <= heE; i++)
+					listDisplay.add(listDataHeader.get(i));
 			}
-		});
-		ImageView menu= (ImageView) findViewById(R.id.menu);
-
-		menu.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				ContextThemeWrapper ctw = new ContextThemeWrapper(MainActivity.this, R.style.CustomPopupTheme);
-				PopupMenu popupMenu = new PopupMenu(ctw, v);
-				//popupMenu.
-
-				if(MyLanguage == ENGLISH) {
-					popupMenu.getMenu().add(0,-1,0,"Homepage");
-					popupMenu.getMenu().add(0,0,0,"Settings");
-					popupMenu.getMenu().add(0,1,0,"Books");
-					popupMenu.getMenu().add(0,2,0,"Daily Study");
-					popupMenu.getMenu().add(0,3,0,"Search");
-					popupMenu.getMenu().add(0,5,0,"Contact Us");
-					popupMenu.getMenu().add(0,6,0,"Purchasing books");
-					popupMenu.getMenu().add(0,7,0,"Ask the Rabbi");
-					//booksDownload configHeaders[6] = "ספרים להורדה";
-					popupMenu.getMenu().add(0,8,0,"About the series");
-					popupMenu.getMenu().add(0,9,0,"About");
-				}
-				else if(MyLanguage == RUSSIAN) {
-					popupMenu.getMenu().add(0,-1,0,"домашняя страница");
-					popupMenu.getMenu().add(0,0,0,"Настройки");
-					popupMenu.getMenu().add(0,1,0,"Книги");
-					popupMenu.getMenu().add(0,2,0,"Ежедневное изучение");
-					popupMenu.getMenu().add(0,3,0,"Поиск");
-					popupMenu.getMenu().add(0,5,0,"Отзыв");
-					popupMenu.getMenu().add(0,6,0,"Список книг");
-					popupMenu.getMenu().add(0,7,0,"Спросить равина");
-					//booksDownload configHeaders[6] = "ספרים להורדה";
-					popupMenu.getMenu().add(0,8,0,"О серии книг");
-					popupMenu.getMenu().add(0,9,0,"О приложении");
-				}
-				else if(MyLanguage == SPANISH) {
-					popupMenu.getMenu().add(0,-1,0,"Página principal");
-					popupMenu.getMenu().add(0,0,0,"Definiciones");
-					popupMenu.getMenu().add(0,1,0,"Libros");
-					popupMenu.getMenu().add(0,2,0,"Estudio diario");
-					popupMenu.getMenu().add(0,3,0,"Búsqueda");
-					popupMenu.getMenu().add(0,5,0,"Retroalimentación");
-					popupMenu.getMenu().add(0,6,0,"Compra de libros");
-					popupMenu.getMenu().add(0,7,0,"Pregúntale al rabino");
-					//booksDownload configHeaders[6] = "ספרים להורדה";
-					popupMenu.getMenu().add(0,8,0,"En la serie");
-					popupMenu.getMenu().add(0,9,0,"Sobre");
-				}
-				else if(MyLanguage == FRENCH) {
-					popupMenu.getMenu().add(0,-1,0,"Page d'accueil");
-					popupMenu.getMenu().add(0,0,0,"Réglages");
-					popupMenu.getMenu().add(0,1,0,"Livres");
-					popupMenu.getMenu().add(0,2,0,"étude quotidienne");
-					popupMenu.getMenu().add(0,3,0,"Recherche");
-					popupMenu.getMenu().add(0,5,0,"Contact Us");
-					popupMenu.getMenu().add(0,6,0,"Achat de livres");
-					popupMenu.getMenu().add(0,7,0,"Demander au rav");
-					//booksDownload configHeaders[6] = "ספרים להורדה";
-					popupMenu.getMenu().add(0,8,0,"Sur la collection");
-					popupMenu.getMenu().add(0,9,0,"À propos");
-				}
-				else {/*this is the default*/
-					popupMenu.getMenu().add(0,-1,0,"דף הבית");
-					popupMenu.getMenu().add(0,0,0,"הגדרות");
-					popupMenu.getMenu().add(0,1,0,"ספרים");
-					popupMenu.getMenu().add(0,2,0,"הלימוד היומי");
-					popupMenu.getMenu().add(0,3,0,"חיפוש");
-					popupMenu.getMenu().add(0,4,0,"ראשי תיבות");
-					popupMenu.getMenu().add(0,5,0,"משוב");
-					popupMenu.getMenu().add(0,6,0,"רכישת ספרים");
-					popupMenu.getMenu().add(0,7,0,"שאל את הרב");
-					//booksDownload configHeaders[6] = "ספרים להורדה";
-					popupMenu.getMenu().add(0,8,0,"על הסדרה");
-					popupMenu.getMenu().add(0,9,0,"אודות");
-				}
-				popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener()
-				{
-
-					@Override
-					public boolean onMenuItemClick(MenuItem item)
-					{
+			ImageView toMain = (ImageView) findViewById(R.id.to_main);
+			if (MyLanguage == ENGLISH)
+				toMain.setImageResource(R.drawable.to_main_e);
+			if (MyLanguage == RUSSIAN)
+				toMain.setImageResource(R.drawable.to_main_r);
+			if (MyLanguage == SPANISH)
+				toMain.setImageResource(R.drawable.to_main_s);
+			if (MyLanguage == FRENCH)
+				toMain.setImageResource(R.drawable.to_main_f);
+			toMain.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					try {
 						Class ourClass = null;
 						Intent ourIntent;
-						Intent intent;
-						switch (item.getItemId())
-						{
-							case -1:/*Home page*/
+						ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.HomePage");
+						ourIntent = new Intent(MainActivity.this, ourClass);
+						startActivity(ourIntent);
+					} catch (ClassNotFoundException e) {
+						e.printStackTrace();
+					}
+				}
+			});
+			ImageView menu = (ImageView) findViewById(R.id.menu);
 
-								try
-								{
-									ourClass = null;
+			menu.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					ContextThemeWrapper ctw = new ContextThemeWrapper(MainActivity.this, R.style.CustomPopupTheme);
+					PopupMenu popupMenu = new PopupMenu(ctw, v);
+					//popupMenu.
 
-									ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.HomePage");
+					if (MyLanguage == ENGLISH) {
+						popupMenu.getMenu().add(0, -1, 0, "Homepage");
+						popupMenu.getMenu().add(0, 0, 0, "Settings");
+						popupMenu.getMenu().add(0, 1, 0, "Books");
+						popupMenu.getMenu().add(0, 2, 0, "Daily Study");
+						popupMenu.getMenu().add(0, 3, 0, "Search");
+						popupMenu.getMenu().add(0, 5, 0, "Contact Us");
+						popupMenu.getMenu().add(0, 6, 0, "Purchasing books");
+						popupMenu.getMenu().add(0, 7, 0, "Ask the Rabbi");
+						//booksDownload configHeaders[6] = "ספרים להורדה";
+						popupMenu.getMenu().add(0, 8, 0, "About the series");
+						popupMenu.getMenu().add(0, 9, 0, "About");
+					} else if (MyLanguage == RUSSIAN) {
+						popupMenu.getMenu().add(0, -1, 0, "домашняя страница");
+						popupMenu.getMenu().add(0, 0, 0, "Настройки");
+						popupMenu.getMenu().add(0, 1, 0, "Книги");
+						popupMenu.getMenu().add(0, 2, 0, "Ежедневное изучение");
+						popupMenu.getMenu().add(0, 3, 0, "Поиск");
+						popupMenu.getMenu().add(0, 5, 0, "Отзыв");
+						popupMenu.getMenu().add(0, 6, 0, "Список книг");
+						popupMenu.getMenu().add(0, 7, 0, "Спросить равина");
+						//booksDownload configHeaders[6] = "ספרים להורדה";
+						popupMenu.getMenu().add(0, 8, 0, "О серии книг");
+						popupMenu.getMenu().add(0, 9, 0, "О приложении");
+					} else if (MyLanguage == SPANISH) {
+						popupMenu.getMenu().add(0, -1, 0, "Página principal");
+						popupMenu.getMenu().add(0, 0, 0, "Definiciones");
+						popupMenu.getMenu().add(0, 1, 0, "Libros");
+						popupMenu.getMenu().add(0, 2, 0, "Estudio diario");
+						popupMenu.getMenu().add(0, 3, 0, "Búsqueda");
+						popupMenu.getMenu().add(0, 5, 0, "Retroalimentación");
+						popupMenu.getMenu().add(0, 6, 0, "Compra de libros");
+						popupMenu.getMenu().add(0, 7, 0, "Pregúntale al rabino");
+						//booksDownload configHeaders[6] = "ספרים להורדה";
+						popupMenu.getMenu().add(0, 8, 0, "En la serie");
+						popupMenu.getMenu().add(0, 9, 0, "Sobre");
+					} else if (MyLanguage == FRENCH) {
+						popupMenu.getMenu().add(0, -1, 0, "Page d'accueil");
+						popupMenu.getMenu().add(0, 0, 0, "Réglages");
+						popupMenu.getMenu().add(0, 1, 0, "Livres");
+						popupMenu.getMenu().add(0, 2, 0, "étude quotidienne");
+						popupMenu.getMenu().add(0, 3, 0, "Recherche");
+						popupMenu.getMenu().add(0, 5, 0, "Contact Us");
+						popupMenu.getMenu().add(0, 6, 0, "Achat de livres");
+						popupMenu.getMenu().add(0, 7, 0, "Demander au rav");
+						//booksDownload configHeaders[6] = "ספרים להורדה";
+						popupMenu.getMenu().add(0, 8, 0, "Sur la collection");
+						popupMenu.getMenu().add(0, 9, 0, "À propos");
+					} else {/*this is the default*/
+						popupMenu.getMenu().add(0, -1, 0, "דף הבית");
+						popupMenu.getMenu().add(0, 0, 0, "הגדרות");
+						popupMenu.getMenu().add(0, 1, 0, "ספרים");
+						popupMenu.getMenu().add(0, 2, 0, "הלימוד היומי");
+						popupMenu.getMenu().add(0, 3, 0, "חיפוש");
+						popupMenu.getMenu().add(0, 4, 0, "ראשי תיבות");
+						popupMenu.getMenu().add(0, 5, 0, "משוב");
+						popupMenu.getMenu().add(0, 6, 0, "רכישת ספרים");
+						popupMenu.getMenu().add(0, 7, 0, "שאל את הרב");
+						//booksDownload configHeaders[6] = "ספרים להורדה";
+						popupMenu.getMenu().add(0, 8, 0, "על הסדרה");
+						popupMenu.getMenu().add(0, 9, 0, "אודות");
+					}
+					popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+
+						@Override
+						public boolean onMenuItemClick(MenuItem item) {
+							Class ourClass = null;
+							Intent ourIntent;
+							Intent intent;
+							switch (item.getItemId()) {
+								case -1:/*Home page*/
+
+									try {
+										ourClass = null;
+
+										ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.HomePage");
+										ourIntent = new Intent(MainActivity.this, ourClass);
+										startActivity(ourIntent);
+									} catch (ClassNotFoundException e) {
+										e.printStackTrace();
+									}
+									break;
+
+								case 0:/*settings*/
+
+									try {
+										ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.MainActivity");
+									} catch (ClassNotFoundException e) {
+										e.printStackTrace();
+									}
+									ourIntent = new Intent(MainActivity.this, ourClass);
+									ourIntent.putExtra("homePage", true);
+									startActivity(ourIntent);
+									break;
+
+								case 1:/*to books*/
+									try {
+										ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.MainActivity");
+									} catch (ClassNotFoundException e) {
+										e.printStackTrace();
+									}
+									ourIntent = new Intent(MainActivity.this, ourClass);
+									ourIntent.putExtra("homePage", false);
+									startActivity(ourIntent);
+									break;
+
+								case 2:/*pninaYomit*/
+									try {
+										ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.pninaYomit");
+									} catch (ClassNotFoundException e) {
+										e.printStackTrace();
+									}
 									ourIntent = new Intent(MainActivity.this, ourClass);
 									startActivity(ourIntent);
-								}
-								catch (ClassNotFoundException e)
-								{
-									e.printStackTrace();
-								}
-								break;
+									break;
 
-							case 0:/*settings*/
-
-								try {
-									ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.MainActivity");
-								} catch (ClassNotFoundException e) {
-									e.printStackTrace();
-								}
-								ourIntent = new Intent(MainActivity.this, ourClass);
-								ourIntent.putExtra("homePage", true);
-								startActivity(ourIntent);
-								break;
-
-							case 1:/*to books*/
-								try {
-									ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.MainActivity");
-								} catch (ClassNotFoundException e) {
-									e.printStackTrace();
-								}
-								ourIntent = new Intent(MainActivity.this, ourClass);
-								ourIntent.putExtra("homePage", false);
-								startActivity(ourIntent);
-								break;
-
-							case 2:/*pninaYomit*/
-								try {
-									ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.pninaYomit");
-								} catch (ClassNotFoundException e) {
-									e.printStackTrace();
-								}
-								ourIntent = new Intent(MainActivity.this, ourClass);
-								startActivity(ourIntent);
-								break;
-
-							case 3:/*search in all books*/
-								try {
-									ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.SearchHelp");
-								} catch (ClassNotFoundException e) {
-									e.printStackTrace();
-								}
-								ourIntent = new Intent(MainActivity.this, ourClass);
-								startActivity(ourIntent);
-
-								break;
-
-							case 4:/*acronyms*/
-								acronymsDecode();
-								break;
-
-							case 5:/*feedback*/
-								try
-								{
-									ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.Feedback");
+								case 3:/*search in all books*/
+									try {
+										ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.SearchHelp");
+									} catch (ClassNotFoundException e) {
+										e.printStackTrace();
+									}
 									ourIntent = new Intent(MainActivity.this, ourClass);
 									startActivity(ourIntent);
-								}
-								catch (ClassNotFoundException e)
-								{
-									e.printStackTrace();
-								}
-								break;
-							case 6:/*buy books*/
-								intent = new Intent(Intent.ACTION_VIEW);
-								intent.setData(Uri.parse("https://shop.yhb.org.il/"));
 
-								if(MyLanguage==FRENCH)
-									intent.setData(Uri.parse("https://shop.yhb.org.il/fr/"));
-								if(MyLanguage==RUSSIAN)
-									intent.setData(Uri.parse("https://shop.yhb.org.il/ru/"));
-								if(MyLanguage==SPANISH)
-									intent.setData(Uri.parse("https://shop.yhb.org.il/es/"));
-								if(MyLanguage==ENGLISH)
-									intent.setData(Uri.parse("https://shop.yhb.org.il/en/"));
-								startActivity(intent);
-								break;
+									break;
 
-							case 7:/*ask the rav*/
-								intent = new Intent(Intent.ACTION_VIEW);
-								intent.setData(Uri.parse("https://yhb.org.il/שאל-את-הרב-2/"));
-								startActivity(intent);
-								break;
-							case 8:/*about pninei*/
-								try
-								{
-									ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.About_p");
-									ourIntent = new Intent(MainActivity.this, ourClass);
-									startActivity(ourIntent);
-								}
-								catch (ClassNotFoundException e)
-								{
-									e.printStackTrace();
-								}
-								//case 8:/*hascamot*/
-								//   hascamotDialog();
-								 break;
-							case 9:/*about*/
-								try
-								{
-									ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.About");
-									ourIntent = new Intent(MainActivity.this, ourClass);
-									startActivity(ourIntent);
-								}
-								catch (ClassNotFoundException e)
-								{
-									e.printStackTrace();
-								}
-								break;
+								case 4:/*acronyms*/
+									acronymsDecode();
+									break;
+
+								case 5:/*feedback*/
+									try {
+										ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.Feedback");
+										ourIntent = new Intent(MainActivity.this, ourClass);
+										startActivity(ourIntent);
+									} catch (ClassNotFoundException e) {
+										e.printStackTrace();
+									}
+									break;
+								case 6:/*buy books*/
+									intent = new Intent(Intent.ACTION_VIEW);
+									intent.setData(Uri.parse("https://shop.yhb.org.il/"));
+
+									if (MyLanguage == FRENCH)
+										intent.setData(Uri.parse("https://shop.yhb.org.il/fr/"));
+									if (MyLanguage == RUSSIAN)
+										intent.setData(Uri.parse("https://shop.yhb.org.il/ru/"));
+									if (MyLanguage == SPANISH)
+										intent.setData(Uri.parse("https://shop.yhb.org.il/es/"));
+									if (MyLanguage == ENGLISH)
+										intent.setData(Uri.parse("https://shop.yhb.org.il/en/"));
+									startActivity(intent);
+									break;
+
+								case 7:/*ask the rav*/
+									intent = new Intent(Intent.ACTION_VIEW);
+									intent.setData(Uri.parse("https://yhb.org.il/שאל-את-הרב-2/"));
+									startActivity(intent);
+									break;
+								case 8:/*about pninei*/
+									try {
+										ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.About_p");
+										ourIntent = new Intent(MainActivity.this, ourClass);
+										startActivity(ourIntent);
+									} catch (ClassNotFoundException e) {
+										e.printStackTrace();
+									}
+									//case 8:/*hascamot*/
+									//   hascamotDialog();
+									break;
+								case 9:/*about*/
+									try {
+										ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.About");
+										ourIntent = new Intent(MainActivity.this, ourClass);
+										startActivity(ourIntent);
+									} catch (ClassNotFoundException e) {
+										e.printStackTrace();
+									}
+									break;
 
 
-							default:
-								break;
+								default:
+									break;
+							}
+							return true;
 						}
+					});
+
+					popupMenu.show();
+				}
+			});
+
+			if (mPrefs.getBoolean("en_exists", false))
+				for (int i = enS; i <= enE; i++)
+					listDisplay.add(listDataHeader.get(i));
+			if (mPrefs.getBoolean("es_exists", false))
+				for (int i = esS; i <= esE; i++)
+					listDisplay.add(listDataHeader.get(i));
+			if (mPrefs.getBoolean("r_exists", false))
+				for (int i = ruS; i <= ruE; i++)
+					listDisplay.add(listDataHeader.get(i));
+			if (mPrefs.getBoolean("f_exists", false))
+				for (int i = frS; i <= frE; i++)
+					listDisplay.add(listDataHeader.get(i));
+			listAdapter = new ExpandableListAdapter(this, listDisplay, listDataChild);
+
+
+			// setting list adapter
+			expListView.setAdapter(listAdapter);
+			expListView.setSelected(true);
+
+			//.ex
+
+
+			if (BlackBackground == 1) {
+				//actionBar.setBackgroundDrawable(new ColorDrawable(Color.rgb(255,247,236) ));
+				//inflater.inflate(R.menu.tochen_actionbar_black, menu);
+				//actionBar.setTitle(Html.fromHtml("<font color=\"white\">" + tochen + "</font>"));
+				listAdapter.setTextColor(Color.WHITE);
+				//to set the list text color
+				expListView.setAdapter(listAdapter);
+				expListView.setBackgroundColor(Color.BLACK);
+				if (MyLanguage == ENGLISH)
+					toMain.setImageResource(R.drawable.to_main_b_e);
+				if (MyLanguage == RUSSIAN)
+					toMain.setImageResource(R.drawable.to_main_b_r);
+				if (MyLanguage == SPANISH)
+					toMain.setImageResource(R.drawable.to_main_b_s);
+				if (MyLanguage == FRENCH)
+					toMain.setImageResource(R.drawable.to_main_b_f);
+				if (MyLanguage == HEBREW)
+					toMain.setImageResource(R.drawable.to_main_b);
+				LinearLayout main = (LinearLayout) findViewById(R.id.lnrOption3);
+				menu = (ImageView) findViewById(R.id.menu);
+				menu.setImageResource(R.drawable.ic_action_congif_b);
+				main.setBackgroundColor(Color.rgb(120, 1, 1));//to set the list text color
+			} else {
+				//.setBackgroundDrawable(new ColorDrawable(Color.rgb(255,247,236) ));
+				//inflater.inflate(R.menu.tochen_actionbar, menu);
+				//actionBar.setTitle(Html.fromHtml("<font color=\"black\">" + tochen + "</font>"));
+				listAdapter.setTextColor(Color.BLACK);//to set the list text color
+				expListView.setAdapter(listAdapter);//to set the list text color
+			}
+			extras = getIntent().getExtras();
+			int pos = extras.getInt("exp", -1);
+			if (pos != -1) {
+				expListView.expandGroup(pos);
+				nowExp = pos;
+				expListView.setSelection(pos);
+
+			}
+			expListView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
+				@Override
+				public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
+					if (nowExp == -1)
+						nowExp = groupPosition;
+					else {
+						if (nowExp == groupPosition) {
+							expListView.collapseGroup(nowExp);
+							nowExp = -1;
+						} else {
+							expListView.collapseGroup(nowExp);
+							nowExp = groupPosition;
+							expListView.expandGroup(groupPosition);
+						}
+						//expListView.setScrollY(400);
 						return true;
 					}
-				});
 
-				popupMenu.show();
-			}
-		});
-
-		File fileEn = new File(Environment.getExternalStorageDirectory().toString() + "/DCIM/pnineyHalacha/EnglishBooks");
-		if(fileEn.exists()&&isPremissionGranted(getApplicationContext()))
-			for (int i = enS; i <= enE; i++)
-				listDisplay.add(listDataHeader.get(i));
-		File fileEs = new File(Environment.getExternalStorageDirectory().toString() + "/DCIM/pnineyHalacha/SpanishBooks");
-		if(fileEs.exists()&&isPremissionGranted(getApplicationContext()))
-			for (int i = esS; i <= esE; i++)
-				listDisplay.add(listDataHeader.get(i));
-		File fileR = new File(Environment.getExternalStorageDirectory().toString() + "/DCIM/pnineyHalacha/RussianBooks");
-		if(fileR.exists()&&isPremissionGranted(getApplicationContext()))
-			for (int i = ruS; i <= ruE; i++)
-				listDisplay.add(listDataHeader.get(i));
-		File fileF = new File(Environment.getExternalStorageDirectory().toString() + "/DCIM/pnineyHalacha/FrenchBooks");
-		if(fileF.exists()&&isPremissionGranted(getApplicationContext()))
-			for (int i = frS; i <= frE; i++)
-				listDisplay.add(listDataHeader.get(i));
-		listAdapter = new ExpandableListAdapter(this, listDisplay, listDataChild);
-
-
-
-		// setting list adapter
-		expListView.setAdapter(listAdapter);
-		expListView.setSelected(true);
-
-		//.ex
-
-
-
-
-		if(BlackBackground == 1)
-		{
-			//actionBar.setBackgroundDrawable(new ColorDrawable(Color.rgb(255,247,236) ));
-			//inflater.inflate(R.menu.tochen_actionbar_black, menu);
-			//actionBar.setTitle(Html.fromHtml("<font color=\"white\">" + tochen + "</font>"));
-			listAdapter.setTextColor(Color.WHITE);
-			//to set the list text color
-			expListView.setAdapter(listAdapter);
-			expListView.setBackgroundColor(Color.BLACK);
-			if(MyLanguage==ENGLISH)
-				toMain.setImageResource(R.drawable.to_main_b_e);
-			if(MyLanguage==RUSSIAN)
-				toMain.setImageResource(R.drawable.to_main_b_r);
-			if(MyLanguage==SPANISH)
-				toMain.setImageResource(R.drawable.to_main_b_s);
-			if(MyLanguage==FRENCH)
-				toMain.setImageResource(R.drawable.to_main_b_f);
-			if(MyLanguage==HEBREW)
-				toMain.setImageResource(R.drawable.to_main_b);
-			LinearLayout main=(LinearLayout) findViewById(R.id.lnrOption3);
-			menu= (ImageView) findViewById(R.id.menu);
-			menu.setImageResource(R.drawable.ic_action_congif_b);
-			main.setBackgroundColor(Color.rgb(120,1,1));//to set the list text color
-		}
-		else
-		{
-			//.setBackgroundDrawable(new ColorDrawable(Color.rgb(255,247,236) ));
-			//inflater.inflate(R.menu.tochen_actionbar, menu);
-			//actionBar.setTitle(Html.fromHtml("<font color=\"black\">" + tochen + "</font>"));
-			listAdapter.setTextColor(Color.BLACK);//to set the list text color
-			expListView.setAdapter(listAdapter);//to set the list text color
-		}
-		extras = getIntent().getExtras();
-		int pos=extras.getInt("exp",-1);
-		if(pos!=-1) {
-			expListView.expandGroup(pos);
-			nowExp = pos;
-			expListView.setSelection(pos);
-
-		}
-		expListView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
-			@Override
-			public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
-				if(nowExp==-1)
-						nowExp=groupPosition;
-				else
-				{
-					if (nowExp==groupPosition) {
-						expListView.collapseGroup(nowExp);
-						nowExp=-1;
-					}
-					else
-						{
-					expListView.collapseGroup(nowExp);
-					nowExp=groupPosition;
-					expListView.expandGroup(groupPosition);}
-					//expListView.setScrollY(400);
-					return true;
+					return false;
 				}
-
-				return false;
-			}
-		});
-		// Listview on child click listener
-		expListView.setOnChildClickListener(new OnChildClickListener()
-		{
-			@Override
-			public boolean onChildClick(ExpandableListView parent, View v,
-										int groupPosition, int childPosition, long id)
-			{
-				// TODO Auto-generated method stub
-				 pop=0;
+			});
+			// Listview on child click listener
+			expListView.setOnChildClickListener(new OnChildClickListener() {
+				@Override
+				public boolean onChildClick(ExpandableListView parent, View v,
+											int groupPosition, int childPosition, long id) {
+					// TODO Auto-generated method stub
+					pop = 0;
 
 
-
-				Toast.makeText(getApplicationContext(), listDataHeader.indexOf(listDisplay.get(groupPosition)) + " : "
-						+ listDataChild.get(listDataHeader.get(listDataHeader.indexOf(listDisplay.get(groupPosition)))).get(childPosition), Toast.LENGTH_SHORT).show();
-				try
-				{
-					//this if is for the pnina hayomit.(not ready)
+					//Toast.makeText(getApplicationContext(), listDataHeader.indexOf(listDisplay.get(groupPosition)) + " : "
+							//+ listDataChild.get(listDataHeader.get(listDataHeader.indexOf(listDisplay.get(groupPosition)))).get(childPosition), Toast.LENGTH_SHORT).show();
+					try {
+						//this if is for the pnina hayomit.(not ready)
 
 						Class ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.textMain");
 						Intent ourIntent = new Intent(MainActivity.this, ourClass);
@@ -587,66 +542,58 @@ public class MainActivity extends AppCompatActivity
 						//ourIntent.putExtra("readonly", true);
 						startActivity(ourIntent);
 
-				}
-				catch (ClassNotFoundException e)
-				{
-					e.printStackTrace();
-				}
-
-				return false;
-			}
-		});
-
-		/* Choose language*/
-		if(MyLanguage == -1)
-		{
-			languageDialog(context,0);
-		}
-		 extras = getIntent().getExtras();
-		 HomePage = extras.getBoolean("homePage", false);
-		if(HomePage)
-			languageDialog(context,1);
-		/*display the new features of this version*/
-		PackageManager packageManager = context.getPackageManager();
-		String packageName = context.getPackageName();
-		String version;
-		try
-		{
-			version = packageManager.getPackageInfo(packageName, 0).versionName;
-
-			if(mPrefs.getString("Version", "").equals("4.1.16") == false)
-			{
-				newVersion = true;
-				shPrefEditor.putString("Version", version);
-				shPrefEditor.commit();
-				newVersionDialog = new Dialog(context);
-				newVersionDialog.setContentView(R.layout.new_version);
-				newVersionDialog.setTitle("גרסה " + version);
-
-				Button dialogButtonExit = (Button) newVersionDialog.findViewById(R.id.dialogButtonExit);
-				// if button is clicked
-				dialogButtonExit.setOnClickListener(new OnClickListener()
-				{
-					@SuppressLint("NewApi")
-					@Override
-					public void onClick(View v)
-					{
-						newVersionDialog.dismiss();
+					} catch (ClassNotFoundException e) {
+						e.printStackTrace();
 					}
-				});
-				newVersionDialog.show();
+
+					return false;
+				}
+			});
+
+			/* Choose language*/
+			if (MyLanguage == -1) {
+				languageDialog(context, 0);
 			}
-		}
-		catch (PackageManager.NameNotFoundException e)
-		{
-			e.printStackTrace();
-		}
-		if(changeL&&StartInLastLocation == 1 && !(mPrefs.getInt("book", 0) == 0 && mPrefs.getInt("chapter", 0) == 0) && newVersion == false)/*check if book and chapter are 0 so this is the first time the user open the application so don't go to the last location*/
-		{
-			changeL=false;
-			goToLastLocation();
-		}
-	}//onCreate
+			extras = getIntent().getExtras();
+			HomePage = extras.getBoolean("homePage", false);
+			if (HomePage)
+				languageDialog(context, 1);
+			/*display the new features of this version*/
+			PackageManager packageManager = context.getPackageManager();
+			String packageName = context.getPackageName();
+			String version;
+			try {
+				version = packageManager.getPackageInfo(packageName, 0).versionName;
+
+				if (mPrefs.getString("Version", "").equals("5.1.14") == false) {
+					newVersion = true;
+					shPrefEditor.putString("Version", version);
+					shPrefEditor.commit();
+					newVersionDialog = new Dialog(context);
+					newVersionDialog.setContentView(R.layout.new_version);
+					newVersionDialog.setTitle("גרסה " + version);
+
+					Button dialogButtonExit = (Button) newVersionDialog.findViewById(R.id.dialogButtonExit);
+					// if button is clicked
+					dialogButtonExit.setOnClickListener(new OnClickListener() {
+						@SuppressLint("NewApi")
+						@Override
+						public void onClick(View v) {
+							newVersionDialog.dismiss();
+						}
+					});
+					newVersionDialog.show();
+				}
+			} catch (PackageManager.NameNotFoundException e) {
+				e.printStackTrace();
+			}
+			if (changeL && StartInLastLocation == 1 && !(mPrefs.getInt("book", 0) == 0 && mPrefs.getInt("chapter", 0) == 0) && newVersion == false)/*check if book and chapter are 0 so this is the first time the user open the application so don't go to the last location*/ {
+				changeL = false;
+				goToLastLocation();
+			}
+		//onCreate
+
+	}
 
 
 	@Override
@@ -2244,130 +2191,9 @@ public class MainActivity extends AppCompatActivity
 		dialog.show();
 	}
 
-	public static boolean isPremissionGranted(Context context)
-	{
-		if (Build.VERSION.SDK_INT>=Build.VERSION_CODES.R)
-			return Environment.isExternalStorageManager();
-		else
-			return ContextCompat.checkSelfPermission(context,Manifest.permission.WRITE_EXTERNAL_STORAGE)== PackageManager.PERMISSION_GRANTED;
-	}
-	public static boolean isChecked=false;
-	public void sureToDelete(String needPre,String message,String confirm,String cancel,File file,ImageView img, int resId)
-	{
-
-		new AlertDialog.Builder(MainActivity.this).setTitle(needPre).setMessage(message)
-				.setPositiveButton(confirm, new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						deleteRecursive(file);
-						img.setImageResource(resId);
-					}
-				})
-				.setNegativeButton(cancel, new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						dialog.dismiss();
-					}
-				})
-				.create().show();
-
-	}
-	public  void getPremission(String needPre,String message,String confirm,String cancel)
-	{
-		if(!isPremissionGranted(getApplicationContext())) {
-			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-				new AlertDialog.Builder(MainActivity.this).setTitle(needPre).setMessage(message)
-						.setPositiveButton(confirm, new DialogInterface.OnClickListener() {
-							@Override
-							public void onClick(DialogInterface dialog, int which) {
-								try {
 
 
-									Intent intent = new Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION);
-									intent.addCategory("android.intent.category.DEFAULT");
-									Uri uri = Uri.fromParts("package", getPackageName(), null);
-									intent.setData(uri);
-									startActivityForResult(intent, 101);
-								} catch (Exception e) {
-									e.printStackTrace();
-									Intent intent = new Intent();
-									intent.setAction(Settings.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION);
-									startActivityForResult(intent, 101);
-								}
-							}
-						})
-						.setNegativeButton(cancel, new DialogInterface.OnClickListener() {
-							@Override
-							public void onClick(DialogInterface dialog, int which) {
-								dialog.dismiss();
-							}
-						})
-						.create().show();
-			}
-			else if (ActivityCompat.shouldShowRequestPermissionRationale(MainActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-				new AlertDialog.Builder(MainActivity.this).setTitle(needPre).setMessage(message)
-						.setPositiveButton(confirm, new DialogInterface.OnClickListener() {
-							@Override
-							public void onClick(DialogInterface dialog, int which) {
-								ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, STORAGE_PREMISSION_CODE);
-								Boolean confirm=true;
-							}
-						})
-						.setNegativeButton(cancel, new DialogInterface.OnClickListener() {
-							@Override
-							public void onClick(DialogInterface dialog, int which) {
-								dialog.dismiss();
-							}
-						})
-						.create().show();
-			} else
-				ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, STORAGE_PREMISSION_CODE);
-		}
 
-
-		File file=new File(Environment.getExternalStorageDirectory().toString() + "/pnineyHalacha");
-		file.mkdirs();
-	}
-
-	public  void downloadBooks2(String langString,HashMap<String,Integer> specific_numbook,List<String> books,String folder) throws InterruptedException, IOException {
-		DownloadManager.Request request = new DownloadManager.Request(Uri.parse("https://ph.yhb.org.il/wp-content/themes/s/"+langString));
-		request.setDescription("please  wait");
-		//request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
-		request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DCIM, "pnineyHalacha/"+folder+"/"+langString);
-		DownloadManager downloadManager = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
-		downloadManager.enqueue(request);
-	}
-//	public  void downloadBooks(String langString,HashMap<String,Integer> specific_numbook,List<String> books,String folder) throws InterruptedException {
-//		File file4=null;
-//		File file5=null;
-//		File file = new File(Environment.getExternalStorageDirectory().toString() + "/DCIM/pnineyHalacha/"+folder);
-//		if (!file.exists())
-//			file.mkdirs();
-//		for (String book : books) {
-//			file4 = new File(Environment.getExternalStorageDirectory().toString() + "/DCIM/pnineyHalacha/"+folder, langString +book + "_tochen.html");
-//			if (!file4.exists()) {
-//					DownloadManager.Request request = new DownloadManager.Request(Uri.parse("https://ph.yhb.org.il/wp-content/themes/s/"+langString + book + "_tochen.html"));
-//					request.setDescription("please  wait");
-//					//request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
-//					request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DCIM, "pnineyHalacha/"+folder+"/"+langString + book + "_tochen.html");
-//					DownloadManager downloadManager = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
-//					downloadManager.enqueue(request);
-//			}
-//			for (int i = 1; i <= specific_numbook.get(book); i++) {
-//				 file5 = new File(Environment.getExternalStorageDirectory().toString() + "/DCIM/pnineyHalacha/"+folder, langString+book + "_" + i + ".html");
-//				if (!file5.exists()) {
-//					DownloadManager.Request request = new DownloadManager.Request(Uri.parse("https://ph.yhb.org.il/wp-content/themes/s/"+langString + book + "_" + i + ".html"));
-//					request.setDescription("please  wait");
-//					//request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
-//					request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DCIM, "pnineyHalacha/"+folder+"/"+langString + book + "_" + i + ".html");
-//					DownloadManager downloadManager = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
-//					downloadManager.enqueue(request);
-//				}
-//
-//			}
-//
-//		}
-//	}
 private void initializeSeekBar()
 {
 
@@ -2410,7 +2236,7 @@ private void initializeSeekBar()
 		{
 			version = packageManager.getPackageInfo(packageName, 0).versionName;
 
-			if(mPrefs.getString("Version", "").equals("4.1.16") == false)
+			if(mPrefs.getString("Version", "").equals("5.1.14") == false)
 			{
 				firstLang=0;
 			}
@@ -2428,7 +2254,7 @@ private void initializeSeekBar()
 			switch (Locale.getDefault().getLanguage()) {
 				case "en":
 					MyLanguage = ENGLISH;
-					welcome.setText("Welcome to the \"Peninei Halakha\" App");
+					//welcome.setText("Welcome to the \"Peninei Halakha\" App");
 					pickBooks.setText("Select the desired book language to download to your device:");
 					HneedPr="Need permission";
 					Hmassage="This permission is required to download the books";
@@ -2438,7 +2264,7 @@ private void initializeSeekBar()
 					break;
 				case "es":
 					MyLanguage = SPANISH;
-					welcome.setText("Bienvenido a la aplicación Pninei Halaja");
+					//welcome.setText("Bienvenido a la aplicación Pninei Halaja");
 					pickBooks.setText("Seleccione el idioma del libro deseado para descargarlo en su dispositivo:");
 					HneedPr="Necesito permiso";
 					Hmassage="Este permiso es necesario para descargar los libros.";
@@ -2448,7 +2274,7 @@ private void initializeSeekBar()
 					break;
 				case "ru":
 					MyLanguage = RUSSIAN;
-					welcome.setText("Добро пожаловать в приложение \"Жемчужины Галахи\"");
+					//welcome.setText("Добро пожаловать в приложение \"Жемчужины Галахи\"");
 					pickBooks.setText("Выберите язык книг для загрузки на Ваше устройство:");
 					HneedPr="Требуется разрешение";
 					Hmassage="Разрешить загрузку книг";
@@ -2457,7 +2283,7 @@ private void initializeSeekBar()
 					break;
 				case "fr":
 					MyLanguage = FRENCH;
-					welcome.setText("Welcome to the \"Peninei Halakha\" App");
+					//welcome.setText("Welcome to the \"Peninei Halakha\" App");
 					pickBooks.setText("Select the desired book language to download to your device:");
 					HneedPr="Nécessite une autorisation";
 					Hmassage="Cette autorisation est nécessaire pour le téléchargement des livres";
@@ -2649,9 +2475,9 @@ private void initializeSeekBar()
 				chooseTochenLang.setText("Selecting the content of the languages in the books");
 				chooseSize.setText("Set text size");
 				exm.setText("Pninei Halakha");
-				screenOn.setText("Cancel monitor sleep");
-				blackScreen.setText("Dark");
-				brightScreen.setText("bright   :Display mode selection");
+				blackScreen.setText("On");
+				screenOn.setText("Cancel screen timeout");
+				brightScreen.setText("Off        :Dark mode");
 				lastLoc.setText("When opening the app, skip to the last location");
 			}
 			shPrefEditor.putInt("MyLanguage", MyLanguage);
@@ -2859,9 +2685,9 @@ private void initializeSeekBar()
 				chooseTochenLang.setText("Selecting the content of the languages in the books");
 				chooseSize.setText("Set text size");
 				exm.setText("Pninei Halakha");
-				blackScreen.setText("Dark");
-				screenOn.setText("Cancel monitor sleep");
-				brightScreen.setText("bright   :Display mode selection");
+				blackScreen.setText("On");
+				screenOn.setText("Cancel screen timeout");
+					brightScreen.setText("Off        :Dark mode");
 				lastLoc.setText("When opening the app, skip to the last location");
 				shPrefEditor.putInt("MyLanguage", MyLanguage);
 				shPrefEditor.commit();
@@ -2922,48 +2748,18 @@ private void initializeSeekBar()
 
 
 		refresh(1000);
-		File fileF = new File(Environment.getExternalStorageDirectory().toString() + "/DCIM/pnineyHalacha/FrenchBooks");
-		if (fileF.exists()) {
-
-			if(!isPremissionGranted(getApplicationContext())){
-				getPremission(HneedPr, Hmassage, Hconfirm, Hcancel);
-			}
-			else
+		if (mPrefs.getBoolean("f_exists",false))
 				f_imv_down.setImageResource(R.drawable.f_b_4);
 
-		}
-		File fileEs = new File(Environment.getExternalStorageDirectory().toString() + "/DCIM/pnineyHalacha/SpanishBooks");
-		if (fileEs.exists()){
 
-			if(!isPremissionGranted(getApplicationContext())){
-				getPremission(HneedPr, Hmassage, Hconfirm, Hcancel);
+		if (mPrefs.getBoolean("es_exists",false))
+			es_imv_down.setImageResource(R.drawable.es_b_4);
 
-			}
-			else
-				es_imv_down.setImageResource(R.drawable.es_b_4);
+		if (mPrefs.getBoolean("en_exists",false))
+			en_imv_down.setImageResource(R.drawable.en_b_4);
 
-		}
-
-		File fileEn = new File(Environment.getExternalStorageDirectory().toString() + "/DCIM/pnineyHalacha/EnglishBooks");
-		if (fileEn.exists()){
-
-			if(!isPremissionGranted(getApplicationContext())){
-				getPremission(HneedPr, Hmassage, Hconfirm, Hcancel);
-			}
-			else
-				en_imv_down.setImageResource(R.drawable.en_b_4);
-		}
-
-		File fileR = new File(Environment.getExternalStorageDirectory().toString() + "/DCIM/pnineyHalacha/RussianBooks");
-		if (fileR.exists()){
-			if(!isPremissionGranted(getApplicationContext())){
-				getPremission(HneedPr, Hmassage, Hconfirm, Hcancel);
-			}
-			else
-				r_imv_down.setImageResource(R.drawable.r_b_4);
-
-
-		}
+		if (mPrefs.getBoolean("r_exists",false))
+			r_imv_down.setImageResource(R.drawable.r_b_4);
 
 		dialog_x.setOnClickListener(new OnClickListener() {
 			@Override
@@ -3051,10 +2847,12 @@ private void initializeSeekBar()
 
 				if (h_imv_down.getTag().equals("4")) {
 					h_imv_down.setImageResource(R.drawable.h_b_3);
+					shPrefEditor.putBoolean("h_exists", false);
 					h_imv_down.setTag("3");
 					hebDisplay = false;
 				} else {
 					h_imv_down.setImageResource(R.drawable.h_b_4);
+					shPrefEditor.putBoolean("h_exists", true);
 					h_imv_down.setTag("4");
 					hebDisplay = true;
 				}
@@ -3065,301 +2863,65 @@ private void initializeSeekBar()
 		es_imv_down.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				getPremission(HneedPr, Hmassage, Hconfirm, Hcancel);
-				int count = 0;
 
+					if (!mPrefs.getBoolean("es_exists",false)) {
+						shPrefEditor.putBoolean("es_exists", true);
+						shPrefEditor.commit();
+						es_imv_down.setImageResource(R.drawable.es_b_4);
 
-				if (isPremissionGranted(getApplicationContext())) {
-					if (!fileEs.exists()) {
-						books.clear();
-						books.add("brachot");
-						//books.add("haamvehaarez");
-						//books.add("kashrut");
-						//books.add("likutim_a");
-						//books.add("likutim_b");
-						//books.add("mishpacha");
-						books.add("moadim");
-						books.add("pesach");
-						books.add("shabat");
-						//books.add("shviit");
-						books.add("simchat");
-						//books.add("sucot");
-						//books.add("taharat");
-						books.add("tfila");
-						books.add("tfilat_nashim");
-						books.add("yamim");
-						books.add("zmanim");
-						numbook = new HashMap<>();
-						numbook.put("brachot", 18);
-						//numbook.put("haamvehaarez", 11);
-						//numbook.put("kashrut", 38);
-						//numbook.put("likutim_a", 13);
-						//numbook.put("likutim_b", 16);
-						//numbook.put("mishpacha", 10);
-						numbook.put("moadim", 13);
-						numbook.put("pesach", 16);
-						numbook.put("shabat", 30);
-						//numbook.put("shviit", 11);
-						numbook.put("simchat", 10);
-						//numbook.put("sucot", 8);
-						//numbook.put("taharat", 10);
-						numbook.put("tfila", 26);
-						numbook.put("tfilat_nashim", 24);
-						numbook.put("yamim", 10);
-						numbook.put("zmanim", 17);
-						final ProgressDialog downloadWait = ProgressDialog.show(MainActivity.this, "", "מוריד ספרים אנא המתן");
-						new Thread() {
-							public void run() {
-								try {
-									MainActivity.this.runOnUiThread(new Runnable() {
-										@Override
-										public void run() {
-											// TODO Auto-generated method stub
-											try {
-												downloadBooks2("es.zip", numbook, books, "SpanishBooks");
-											} catch (InterruptedException | IOException e) {
-												e.printStackTrace();
-											}
-											es_imv_down.setImageResource(R.drawable.es_b_4);
-										}
-									});
-								} catch (Exception e) {
-
-								}
-								downloadWait.dismiss();
-							}
-						}.start();
 					} else {
-						sureToDelete(EnSureDel, EnmassageDel, EnconfirmDel, EncancelDel, fileEs, es_imv_down, R.drawable.es_b_3);
-						//es_imv_down.setImageResource(R.drawable.es_b_3);
+						shPrefEditor.putBoolean("es_exists", false);
+						shPrefEditor.commit();
+						es_imv_down.setImageResource(R.drawable.es_b_3);//es_imv_down.setImageResource(R.drawable.es_b_3);
 					}
-				}
+
 
 			}
 		});
 		r_imv_down.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				getPremission(HneedPr, Hmassage, Hconfirm, Hcancel);
-				int count = 0;
 
+				if (!mPrefs.getBoolean("r_exists",false)) {
+					shPrefEditor.putBoolean("r_exists", true);
+					shPrefEditor.commit();
+					r_imv_down.setImageResource(R.drawable.r_b_4);
 
-				if (isPremissionGranted(getApplicationContext())) {
-					if (!fileR.exists()) {
-						books.clear();
-						//books.add("brachot");
-						books.add("haamvehaarez");
-						//books.add("kashrut");
-						//books.add("likutim_a");
-						//books.add("likutim_b");
-						books.add("misphacha");
-						books.add("moadim");
-						books.add("pesach");
-						books.add("shabbat");
-						//books.add("shviit");
-						books.add("simchat");
-						books.add("sucot");
-						//books.add("taharat");
-						books.add("tfila");
-						books.add("tfilat_nashim");
-						books.add("yammim");
-						books.add("zmanim");
-						numbook = new HashMap<>();
-						//numbook.put("brachot", 18);
-						numbook.put("haamvehaarez", 11);
-						//numbook.put("kashrut", 38);
-						//numbook.put("likutim_a", 13);
-						//numbook.put("likutim_b", 16);
-						numbook.put("misphacha", 10);
-						numbook.put("moadim", 13);
-						numbook.put("pesach", 16);
-						numbook.put("shabbat", 30);
-						//numbook.put("shviit", 11);
-						numbook.put("simchat", 10);
-						numbook.put("sucot", 8);
-						//numbook.put("taharat", 10);
-						numbook.put("tfila", 26);
-						numbook.put("tfilat_nashim", 24);
-						numbook.put("yammim", 10);
-						numbook.put("zmanim", 17);
-						final ProgressDialog downloadWait = ProgressDialog.show(MainActivity.this, "", "מוריד ספרים אנא המתן");
-						new Thread() {
-							public void run() {
-								try {
-									MainActivity.this.runOnUiThread(new Runnable() {
-										@Override
-										public void run() {
-											// TODO Auto-generated method stub
-											try {
-												downloadBooks2("ru.zip", numbook, books, "RussianBooks");
-											} catch (InterruptedException | IOException e) {
-												e.printStackTrace();
-											}
-											r_imv_down.setImageResource(R.drawable.r_b_4);
-										}
-									});
-								} catch (Exception e) {
-
-								}
-								downloadWait.dismiss();
-							}
-						}.start();
-					} else {
-						sureToDelete(EnSureDel, EnmassageDel, EnconfirmDel, EncancelDel, fileR, r_imv_down, R.drawable.r_b_3);
-						//es_imv_down.setImageResource(R.drawable.es_b_3);
-					}
+				} else {
+					shPrefEditor.putBoolean("r_exists", false);
+					shPrefEditor.commit();
+					r_imv_down.setImageResource(R.drawable.r_b_3);//es_imv_down.setImageResource(R.drawable.es_b_3);
 				}
-
 			}
 		});
 		f_imv_down.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				getPremission(HneedPr, Hmassage, Hconfirm, Hcancel);
-				int count = 0;
+				if (!mPrefs.getBoolean("f_exists",false)) {
+					shPrefEditor.putBoolean("f_exists", true);
+					shPrefEditor.commit();
+					f_imv_down.setImageResource(R.drawable.f_b_4);
 
-
-				if (isPremissionGranted(getApplicationContext())) {
-					if (!fileF.exists()) {
-						books.clear();
-						//books.add("brachot");
-						//books.add("haamvehaarez");
-						//books.add("kashrut");
-						//books.add("likutim_a");
-						//books.add("likutim_b");
-						//books.add("misphacha");
-						books.add("moadim");
-						books.add("pesach");
-						books.add("shabbat");
-						//books.add("shviit");
-						books.add("simchat");
-						books.add("sucot");
-						//books.add("taharat");
-						books.add("tefila");
-						books.add("tfilat_nashim");
-						books.add("yammim");
-						books.add("zmanim");
-						numbook = new HashMap<>();
-						//numbook.put("brachot", 18);
-						//numbook.put("haamvehaarez", 11);
-						//numbook.put("kashrut", 38);
-						//numbook.put("likutim_a", 13);
-						//numbook.put("likutim_b", 16);
-						//numbook.put("mishpacha", 10);
-						numbook.put("moadim", 13);
-						numbook.put("pesach", 16);
-						numbook.put("shabbat", 30);
-						//numbook.put("shviit", 11);
-						numbook.put("simchat", 10);
-						numbook.put("sucot", 8);
-						//numbook.put("taharat", 10);
-						numbook.put("tefila", 26);
-						numbook.put("tfilat_nashim", 24);
-						numbook.put("yammim", 10);
-						numbook.put("zmanim", 17);
-						final ProgressDialog downloadWait = ProgressDialog.show(MainActivity.this, "", "מוריד ספרים אנא המתן");
-						new Thread() {
-							public void run() {
-								try {
-									MainActivity.this.runOnUiThread(new Runnable() {
-										@Override
-										public void run() {
-											// TODO Auto-generated method stub
-											try {
-												downloadBooks2("fr.zip", numbook, books, "FrenchBooks");
-											} catch (InterruptedException | IOException e) {
-												e.printStackTrace();
-											}
-											f_imv_down.setImageResource(R.drawable.f_b_4);
-										}
-									});
-								} catch (Exception e) {
-
-								}
-								downloadWait.dismiss();
-							}
-						}.start();
-					} else {
-						sureToDelete(EnSureDel, EnmassageDel, EnconfirmDel, EncancelDel, fileF, f_imv_down, R.drawable.f_b_3);
-						//es_imv_down.setImageResource(R.drawable.es_b_3);
-					}
+				} else {
+					shPrefEditor.putBoolean("f_exists", false);
+					shPrefEditor.commit();
+					f_imv_down.setImageResource(R.drawable.f_b_3);//es_imv_down.setImageResource(R.drawable.es_b_3);
 				}
-
 			}
 		});
 		en_imv_down.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				getPremission(HneedPr, Hmassage, Hconfirm, Hcancel);
-				int count = 0;
+				if (!mPrefs.getBoolean("en_exists",false)) {
+					shPrefEditor.putBoolean("en_exists", true);
+					shPrefEditor.commit();
+					en_imv_down.setImageResource(R.drawable.en_b_4);
 
-
-				if (isPremissionGranted(getApplicationContext())) {
-					if (!fileEn.exists()) {
-						books.clear();
-						//books.add("brachot");
-						//books.add("haamvehaarez");
-						//books.add("kashrut");
-						//books.add("likutim_a");
-						//books.add("likutim_b");
-						//books.add("misphacha");
-						//books.add("moadim");
-						books.add("pesach");
-						books.add("shabbat");
-						//books.add("shviit");
-						//books.add("simchat");
-						//books.add("sucot");
-						//books.add("taharat");
-						books.add("tefila");
-						books.add("w_prayer");
-						//books.add("yammim");
-						books.add("zmanim");
-						numbook = new HashMap<>();
-						//numbook.put("brachot", 18);
-						//numbook.put("haamvehaarez", 11);
-						//numbook.put("kashrut", 38);
-						//numbook.put("likutim_a", 13);
-						//numbook.put("likutim_b", 16);
-						//numbook.put("mishpacha", 10);
-						//numbook.put("moadim", 13);
-						numbook.put("pesach", 16);
-						numbook.put("shabbat", 30);
-						//numbook.put("shviit", 11);
-						//numbook.put("simchat", 10);
-						//numbook.put("sucot", 8);
-						//numbook.put("taharat", 10);
-						numbook.put("tefila", 26);
-						numbook.put("w_prayer", 24);
-						//numbook.put("yamim", 10);
-						numbook.put("zmanim", 17);
-						final ProgressDialog downloadWait = ProgressDialog.show(MainActivity.this, "", "מוריד ספרים אנא המתן");
-						new Thread() {
-							public void run() {
-								try {
-									MainActivity.this.runOnUiThread(new Runnable() {
-										@Override
-										public void run() {
-											// TODO Auto-generated method stub
-											try {
-												downloadBooks2("en.zip", numbook, books, "EnglishBooks");
-											} catch (InterruptedException | IOException e) {
-												e.printStackTrace();
-											}
-											en_imv_down.setImageResource(R.drawable.en_b_4);
-										}
-									});
-								} catch (Exception e) {
-
-								}
-								downloadWait.dismiss();
-							}
-						}.start();
-					} else {
-						sureToDelete(EnSureDel, EnmassageDel, EnconfirmDel, EncancelDel, fileEn, en_imv_down, R.drawable.en_b_3);
-						//es_imv_down.setImageResource(R.drawable.es_b_3);
-					}
+				} else {
+					shPrefEditor.putBoolean("en_exists", false);
+					shPrefEditor.commit();
+					en_imv_down.setImageResource(R.drawable.en_b_3);//es_imv_down.setImageResource(R.drawable.es_b_3);
 				}
-
 			}
 
 		});
@@ -3480,9 +3042,6 @@ private void initializeSeekBar()
 	}
 	public void content()
 	{
-
-		if(isPremissionGranted(getApplicationContext()))
-		{
 			ImageView r_imv_down = (ImageView) languageDialog.findViewById(R.id.my_marks);
 			//ImageView es_imv=(ImageView) languageDialog.findViewById(R.id.im_es);
 			ImageView es_imv_down = (ImageView) languageDialog.findViewById(R.id.im_es_down);
@@ -3490,20 +3049,14 @@ private void initializeSeekBar()
 			ImageView en_imv_down = (ImageView) languageDialog.findViewById(R.id.settings);
 			//ImageView f_imv=(ImageView) languageDialog.findViewById(R.id.im_f);
 			ImageView f_imv_down = (ImageView) languageDialog.findViewById(R.id.im_f_down);
-			File fileR = new File(Environment.getExternalStorageDirectory().toString() + "/DCIM/pnineyHalacha/RussianBooks");
-			if (fileR.exists())
+			if (mPrefs.getBoolean("r_exists",false))
 				r_imv_down.setImageResource(R.drawable.r_b_4);
-			File fileEn = new File(Environment.getExternalStorageDirectory().toString() + "/DCIM/pnineyHalacha/EnglishBooks");
-			if (fileEn.exists())
+			if (mPrefs.getBoolean("en_exists",false))
 				en_imv_down.setImageResource(R.drawable.en_b_4);
-			File fileEs = new File(Environment.getExternalStorageDirectory().toString() + "/DCIM/pnineyHalacha/SpanishBooks");
-			if (fileEs.exists())
+			if (mPrefs.getBoolean("es_exists",false))
 				es_imv_down.setImageResource(R.drawable.es_b_4);
-			File fileF = new File(Environment.getExternalStorageDirectory().toString() + "/DCIM/pnineyHalacha/FrenchBooks");
-			if (fileF.exists())
+			if (mPrefs.getBoolean("f_exists",false))
 				f_imv_down.setImageResource(R.drawable.f_b_4);
-		}
-		refresh(1000);
 
 	}
 

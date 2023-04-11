@@ -1,10 +1,9 @@
 package com.rafraph.pnineyHalachaHashalem;
 
 import android.annotation.SuppressLint;
-import android.app.AlarmManager;
+
 import android.app.Dialog;
 import android.app.DownloadManager;
-import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.content.ComponentName;
 import android.content.Context;
@@ -31,7 +30,6 @@ import android.text.format.Time;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
@@ -51,19 +49,15 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupMenu;
 import android.widget.RelativeLayout;
-import android.widget.SimpleAdapter;
-
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.lang.reflect.Array;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
 
 import android.os.Handler;
@@ -286,17 +280,15 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
                 infView.setVisibility(View.INVISIBLE);
                 webview.setY(0);
                 //lastScrool = webview.getScrollY();
-
             }
         return super.dispatchTouchEvent(ev);
     }
 
     public void isConnected() throws ClassNotFoundException {
-
         ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
-
-        if(networkInfo!=null){
+        if(networkInfo!=null)
+        {
             if(!networkInfo.isConnected())
             {
                 Class ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.ExpandableListAdapter");
@@ -305,8 +297,8 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
                 finish();
                 startActivity(ourIntent);
             }
-
-        }else
+        }
+        else
         {
             Class ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.ExpandableListAdapter");
             Intent ourIntent = new Intent(myAudio.this, ourClass);
@@ -314,14 +306,14 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
             finish();
             startActivity(ourIntent);
         }
-
     }
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         //rotateState=getResources().getConfiguration().orientation;
         extras = getIntent().getExtras();
-
         mPrefs = getSharedPreferences(PREFS_NAME, 0);
         shPrefEditor = mPrefs.edit();
         rotateState=mPrefs.getInt("rotate",-1);
@@ -329,34 +321,42 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
         fontSize =mPrefs.getInt("fontSize",20);
 
         //if u wont rotate modecheck if(rotateState==getResources().getConfiguration().orientation)
-        if (true) {
+        if (true)
+        {
             shPrefEditor.putInt("rotate", getResources().getConfiguration().orientation);
             hearAndRead = extras.getBoolean("hearAndRead");
-            //PRAPRE TO READ AND LISTEN VIEW
+            //PREPARE TO READ AND LISTEN VIEW
             if (hearAndRead)
                 setContentView(R.layout.text_main_audio);
-            else {
+            else
+            {
                 setContentView(R.layout.activity_audio);
                 ImageView toMain2 = (ImageView) findViewById(R.id.to_main);
                 if(MyLanguage==ENGLISH)
                     toMain2.setImageResource(R.drawable.to_main_e);
-                if(MyLanguage==RUSSIAN)
+                else if(MyLanguage==RUSSIAN)
                     toMain2.setImageResource(R.drawable.to_main_r);
-                if(MyLanguage==SPANISH)
+                else if(MyLanguage==SPANISH)
                     toMain2.setImageResource(R.drawable.to_main_s);
-                if(MyLanguage==FRENCH)
+                else if(MyLanguage==FRENCH)
                     toMain2.setImageResource(R.drawable.to_main_f);
-                toMain2.setOnClickListener(new View.OnClickListener() {
-                    public void onClick(View v) {
+
+                toMain2.setOnClickListener(new View.OnClickListener()
+                {
+                    public void onClick(View v)
+                    {
                         if(playing==0)
                             playPause(view);
                         playPause(view);
                         playPause(v);
 
                         Class ourClass = null;
-                        try {
+                        try
+                        {
                             ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.HomePage");
-                        } catch (ClassNotFoundException e) {
+                        }
+                        catch (ClassNotFoundException e)
+                        {
                             e.printStackTrace();
                         }
                         Intent ourIntent = new Intent(myAudio.this, ourClass);
@@ -370,12 +370,12 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
             mPrefs = getSharedPreferences(PREFS_NAME, 0);
             shPrefEditor = mPrefs.edit();
             ImageView menu= (ImageView) findViewById(R.id.menu);
-            menu.setOnClickListener(new View.OnClickListener() {
+            menu.setOnClickListener(new View.OnClickListener()
+            {
                 @Override
                 public void onClick(View v) {
                     ContextThemeWrapper ctw = new ContextThemeWrapper(myAudio.this, R.style.CustomPopupTheme);
                     PopupMenu popupMenu = new PopupMenu(ctw, v);
-                    //popupMenu.
 
                     if(MyLanguage == ENGLISH) {
                         popupMenu.getMenu().add(0,-1,0,"Homepage");
@@ -651,22 +651,21 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
                 }
             });
 
-            if (hearAndRead) {
+            if (hearAndRead)
+            {
                 inf = getLayoutInflater();
                 infView = inf.inflate(R.layout.tochen_actionbar_lay, null);
                 rl = (RelativeLayout) findViewById(R.id.content);
                 infView.setVisibility(View.VISIBLE);
                 rl.addView(infView);
                 scroll=findViewById(R.id.auto_scrool2);
-                scroll.setOnClickListener(new View.OnClickListener() {
+                scroll.setOnClickListener(new View.OnClickListener()
+                {
                     @Override
-                    public void onClick(View v) {
-
+                    public void onClick(View v)
+                    {
                         scroll.setImageResource(R.drawable.fill_auto_scroll);
-
-                        showPopupAutoScroolSettings(findViewById(R.id.auto_scrool2));
-
-
+                        showPopupAutoScrollSettings(findViewById(R.id.auto_scrool2));
                     }
                 });
             }
@@ -693,9 +692,7 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
                 getIntent().putExtra("WebLink",webLink);
                 webview.loadUrl(webLink);
                 webview.setWebViewClient(new WebViewClient() {
-
                     public void onPageFinished(WebView view, String url) {
-                        // do your stuff here
                         finishLoad=true;
                     }
                 });
@@ -705,12 +702,10 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
                 if (BlackBackground == 1) {
                     webview.setWebViewClient(new WebViewClient() {
                         public void onPageFinished(WebView view, String url) {
-                            view.loadUrl(
-                                    "javascript:document.body.style.setProperty(\"color\", \"white\");"
-                            );
+                            view.loadUrl("javascript:document.body.style.setProperty(\"color\", \"white\");");
                         }
                     });
-                    webview.setBackgroundColor(Color.BLACK);//black
+                    webview.setBackgroundColor(Color.BLACK);
                     infView.setBackgroundColor(Color.BLACK);
                 }
 
@@ -818,14 +813,12 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
             extras = getIntent().getExtras();
             sections = new ArrayList<String>();
             book = extras.getInt("book_id");
-
             chapter = extras.getInt("chapter_id");
-
-            if (hearAndRead) {
+            if (hearAndRead)
+            {
                 scrollPos = getIntent().getIntExtra("scroolY", 0);
                 fontSize = mPrefs.getInt("fontSize",20);
                 webSettings.setMinimumFontSize(fontSize);
-
             }
 
             if (book == KASHRUT_B)//KASHRUT_B is starting from chapter 20
@@ -833,31 +826,24 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
             section = extras.getInt("audio_id");
             sections = extras.getStringArrayList("sections_" + chapter);
             book_name = get_book_name_by_id();
-            //shilo
             playerInfo.setText(book_name + " " + convert_character_to_id(chapter) + ", " + convert_character_to_id(section));
             List<HashMap<String, String>> aList = new ArrayList<HashMap<String, String>>();
             List<TextView> txtvList = new ArrayList<TextView>();
             TextView textView = new TextView(getBaseContext());
-            for (int i = 0; i < sections.size(); i++) {
+            for (int i = 0; i < sections.size(); i++)
+            {
                 HashMap<String, String> hm = new HashMap<String, String>();
                 hm.put("listview_title", sections.get(i));
-                //aList.add(hm);
                 textView = new TextView(getBaseContext());
-                //String sourceString = "<b>" + "[" + chapterCounter + "] " + chaptersNames[i][j] + "</b> " + sections;
-                //String sourceString = "<b >"+ chaptersNames[i][j].split("-")[1] + "</b>("+ chaptersNames[i][j].split("-")[0]+","+ sections+")";
                 textView.setText("   " + sections.get(i) + "\n");
-                //textView.setText("shilo");
-                //textView.setText(" (" + sections+ ")");/*only one item in the list per chapter*/
-                if (mPrefs.getInt("BlackBackground", 0) == 1) {
+                if (mPrefs.getInt("BlackBackground", 0) == 1)
                     textView.setTextColor(Color.WHITE);
-                    // listview.setBackgroundColor(Color.BLACK);
-                } else
+                else
                     textView.setTextColor(Color.BLACK);
                 textView.setTextSize(24);
                 if ((textView.getText().charAt(2) == 'א') && i != 0)
                     break;
                 txtvList.add(textView);
-                // listview.addFooterView(textView);
             }
             lastSec=txtvList.size();
 
@@ -872,62 +858,54 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
                 listview.setBackgroundColor(Color.BLACK);
             else
                 listview.setBackgroundColor(Color.WHITE);
-            for (int i = 0; i <txtvList.size(); i++) {
-
+            for (int i=0; i<txtvList.size(); i++)
+            {
                 listview.addHeaderView(txtvList.get(i));
                 v1[i]=txtvList.get(i);
-
             }
-            for(int i=0;i<50;i++)
+            for(int i=0; i< v1.length; i++)
             {
-                if(v1[i]!=null) {
-                    if (mPrefs.getInt("BlackBackground", 0) == 1) {
+                if(v1[i]!=null)
+                {
+                    if (mPrefs.getInt("BlackBackground", 0) == 1)
+                    {
                         v1[i].setBackgroundColor(Color.BLACK);
                         v1[i].setTextColor(Color.WHITE);
-                    } else {
+                    }
+                    else
+                    {
                         v1[i].setBackgroundColor(Color.WHITE);
                         v1[i].setTextColor(Color.BLACK);
                     }
                 }
             }
-            try {
-                v1[section-2].setBackgroundColor(Color.rgb(151, 6, 6));
-                v1[section-2].setTextColor(Color.WHITE);
-            }
-            catch (Exception exp) {
-                v1[section - 1].setBackgroundColor(Color.rgb(151, 6, 6));
-                v1[section - 1].setTextColor(Color.WHITE);
-            }
-
-
-
-
-
+            v1[section-1].setBackgroundColor(Color.rgb(151, 6, 6));
+            v1[section-1].setTextColor(Color.WHITE);
             listview.setCacheColorHint(Color.WHITE);
-            listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            listview.setOnItemClickListener(new AdapterView.OnItemClickListener()
+            {
                 @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id)
+                {
                     listview.setSelected(true);
                     listview.setSelection(position);
-
-                    //listview.setSelection(position);
+                    listview.setSelection(position);
 
                     if (clickOnItemFromList == true) {
                         sendSectionIdAndPlay(position + 1);
-                        for (int i = 0; i < txtvList.size(); i++)
-                            if (i == position){
+                        for (int i = 0; i < txtvList.size(); i++) {
+                            if (i == position) {
                                 txtvList.get(position).setBackgroundColor(Color.rgb(151, 6, 6));
-                                txtvList.get(position).setTextColor(Color.WHITE);}
-                            else if (mPrefs.getInt("BlackBackground", 0) == 1) {
+                                txtvList.get(position).setTextColor(Color.WHITE);
+                            } else if (mPrefs.getInt("BlackBackground", 0) == 1) {
                                 txtvList.get(i).setBackgroundColor(Color.BLACK);
                                 txtvList.get(i).setTextColor(Color.WHITE);
-                            }
-                            else {
+                            } else {
                                 txtvList.get(i).setBackgroundColor(Color.WHITE);
                                 txtvList.get(i).setTextColor(Color.BLACK);
-
                             }
-
+                        }
                         listview = (ListView) findViewById(R.id.list_view);
                         listview.setAdapter(adapter);
                         listview.setBackgroundColor(Color.WHITE);
@@ -939,8 +917,11 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
                         //for (int i=0;i<txtvList.size();i++)
                         //  listview.addHeaderView(txtvList.get(i));
                         broadcastIntent = new Intent(Broadcast_Speed);
+                        broadcastIntent.setPackage("com.rafraph.pnineyHalachaHashalem");
+
                         sendBroadcast(broadcastIntent);
                         broadcastIntent = new Intent(Broadcast_Speed);
+                        broadcastIntent.setPackage("com.rafraph.pnineyHalachaHashalem");
                         int choice = spinner.getSelectedItemPosition();
                         speed = sppedArray[choice];
                         shPrefEditor.putFloat("audioSpeed", speed);
@@ -959,6 +940,7 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
                 try {
                     wait(1000);
                     broadcastIntent = new Intent(Broadcast_FORWARD_10);
+                    broadcastIntent.setPackage("com.rafraph.pnineyHalachaHashalem");
                     //broadcastIntent.putExtra("section", section);
                     sendBroadcast(broadcastIntent);
 
@@ -968,8 +950,10 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
             }
 
             Intent broadcastIntent = new Intent(Broadcast_SKIP_NEXT);
+            broadcastIntent.setPackage("com.rafraph.pnineyHalachaHashalem");
             sendBroadcast(broadcastIntent);
             broadcastIntent = new Intent(Broadcast_Speed);
+            broadcastIntent.setPackage("com.rafraph.pnineyHalachaHashalem");
             int choice = spinner.getSelectedItemPosition();
             speed = sppedArray[choice];
             shPrefEditor.putFloat("audioSpeed", speed);
@@ -980,7 +964,6 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
             playing = 1;
             buttonPlayPause.setImageResource(R.drawable.baseline_pause_circle_outline_white_48);
             refresh(2000);
-
         }
 
         if(false) //downaudio
@@ -1008,8 +991,8 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
             }.start();
         }
     }
-    public  void downloadBooks2(int downBook,int downChap,int downSec ,String folder) throws InterruptedException, IOException {
 
+    public  void downloadBooks2(int downBook,int downChap,int downSec ,String folder) throws InterruptedException, IOException {
         if(downSec>1) {
             File file = new File(Environment.getExternalStorageDirectory().toString() + "/DCIM/pnineyHalacha/"+ folder + "/" + ("0" + (downBook)).substring(0, 2) + "-" + ("0" + (downChap)).substring(0, 2) + "-" + ("0" + (downSec-1)).substring(0, 2) + ".mp3");
             if(!file.exists()) {
@@ -1088,6 +1071,7 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
         }
 
     }
+
     private void refresh(int millisec) {
         final Handler handler = new Handler();
         final Runnable runnable = new Runnable() {
@@ -1103,7 +1087,6 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
     public void content()
     {
         if (hearAndRead) {
-
               if(lastChap!=chapter&&finishLoad){
                 lastScrool=webview.getScrollY();
                 webview.loadUrl(webLink.substring(0, webLink.lastIndexOf('_')) + "_" + (chapter) + ".html");
@@ -1122,17 +1105,12 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
             if (webview.getScrollY()==0)
                 webview.setY(100);
 
-
-
             infView.setVisibility(View.VISIBLE);
-           
-           
             if (mPrefs.getInt("BlackBackground", 0) == 1) {
                 webview.loadUrl(
                         "javascript:document.body.style.setProperty(\"color\", \"white\");"
                 );
                 webview.setBackgroundColor(Color.BLACK);
-
                 infView.setBackgroundColor(Color.BLACK);
             } else {
                 webview.loadUrl(
@@ -1155,10 +1133,6 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
         final ImageButton searchBtnDown = infView.findViewById(R.id.ibFindNext);
         final ImageButton searchBtnUp = infView.findViewById(R.id.ibFindPrevious);
         final ImageView addBookMark = infView.findViewById(R.id.make_mark);
-
-
-
-
         final ImageView toMain = infView.findViewById(R.id.to_main);
         final ImageView menu = infView.findViewById(R.id.menu);
         final LinearLayout main = infView.findViewById(R.id.lnrOption3);
@@ -1199,10 +1173,8 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
         searchBtnDown.setVisibility(View.GONE);
         searchBtnUp.setVisibility(View.GONE);
 
-
         toMain.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-
                 if(playing==0)
                     playPause(view);
                 playPause(view);
@@ -1213,7 +1185,6 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
                     //service is active
                     stopService(playerIntent);
                     playerService.onDestroy();
-
                     //int a=0/0;
                     //serviceBound=false;
                 }
@@ -1225,9 +1196,7 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
                 Intent ourIntent = new Intent(myAudio.this, ourClass);
                 finish();
                 //ourIntent.putExtra("goLast", true);
-
                 startActivity(ourIntent);
-
             }
         });
         searchBtn.setOnClickListener(new View.OnClickListener() {
@@ -1378,6 +1347,7 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
 
     public int scrollSpeed = -1;
     private Handler mHandler = new Handler();
+
     public Runnable mScrollDown = new Runnable()
     {
         public void run() {
@@ -1392,7 +1362,7 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
         }
     };
 
-    private void showPopupAutoScroolSettings(View v)
+    private void showPopupAutoScrollSettings(View v)
     {
         android.support.v7.view.ContextThemeWrapper ctw = new ContextThemeWrapper(myAudio.this, R.style.CustomPopupTheme3);
         PopupMenu popupMenu = new PopupMenu(ctw, v);
@@ -1422,9 +1392,6 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
         popupMenu.getMenu().add(0, 4, 4, configHeaders[4]);
         popupMenu.getMenu().add(0, 5, 5, configHeaders[5]);
         popupMenu.getMenu().add(0, 6, 6, configHeaders[6]);
-
-
-
 
         popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
@@ -1510,7 +1477,6 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
             }
         });
         autoScrollDialog.show();
-
     }
 
     private void showPopupMenuSettings(View v)
@@ -1850,9 +1816,7 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
 
         int hidingItemIndex = 0;
         CustomSpinnerAdapter dataAdapter = new CustomSpinnerAdapter(this, android.R.layout.simple_spinner_item, list, hidingItemIndex);
-
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
         spinnerAddMark.setAdapter(dataAdapter);
     }
 
@@ -2371,6 +2335,7 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
     {
         playing = 2;
         Intent broadcastIntent = new Intent(Broadcast_SKIP_TO_SPECIFIC_SECTION);
+        broadcastIntent.setPackage("com.rafraph.pnineyHalachaHashalem");
         broadcastIntent.putExtra("audio_id", selectedSection);
         int choice = spinner.getSelectedItemPosition();
         speed = sppedArray[choice];
@@ -2406,12 +2371,12 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
                     public void onStopTrackingTouch(SeekBar seekBar) {
                         mUserIsSeeking = false;
                         Intent broadcastIntent = new Intent(Broadcast_OnTouch);
+                        broadcastIntent.setPackage("com.rafraph.pnineyHalachaHashalem");
                         broadcastIntent.putExtra("seekbarProgress", userSelectedPosition);
                         sendBroadcast(broadcastIntent);
                     }
                 });
     }
-
 
     private void registerAllBroadcast()
     {
@@ -2426,7 +2391,6 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
         LocalBroadcastManager.getInstance(this).registerReceiver(
                 chapterUpdate, new IntentFilter("chapterUpdate"));
     }
-
 
     private BroadcastReceiver BRskipNext = new BroadcastReceiver()
     {
@@ -2450,8 +2414,6 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
             seekbar.setProgress((int) timeElapsed);
             //set time remaing
             double timeRemaining = finalTime - timeElapsed;
-
-
             duration.setText(String.format("%02d : %02d", TimeUnit.MILLISECONDS.toMinutes((long) timeRemaining), TimeUnit.MILLISECONDS.toSeconds((long) timeRemaining) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes((long) timeRemaining))));
             duration2.setText(String.format("%02d : %02d", TimeUnit.MILLISECONDS.toMinutes((long) timeElapsed), TimeUnit.MILLISECONDS.toSeconds((long) timeElapsed) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes((long) timeElapsed))));
         }
@@ -2462,12 +2424,9 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
         @Override
         public void onReceive(Context context, Intent intent)
         {
-
             int oldChapter;
-
             oldChapter = chapter;
             chapter = intent.getIntExtra("chapter", 0);
-
             restartPage();
             for (int i = 0; i < 50; i++) {
                 if (v1[i] != null) {
@@ -2492,20 +2451,6 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
                 v1[playerService.getSection() - 1].setTextColor(Color.WHITE);
                 playerInfo.setText(book_name + " " + convert_character_to_id(playerService.getChapter()) + ", " + convert_character_to_id(playerService.getSection()));
             }
-
-
-
-                    //section = intent.getIntExtra("section", 0);
-
-
-
-
-
-
-
-
-
-
             clickOnItemFromList = false;
             //listview.performItemClick(listview.getAdapter().getView(section - 1, null, null), section - 1, section - 1);
         }
@@ -2514,10 +2459,8 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
     protected void onStart()
     {
         super.onStart();
-
-            clickOnItemFromList = false;
-            listview.performItemClick(listview.getAdapter().getView(section - 1, null, null), section - 1, section - 1);
-
+        clickOnItemFromList = false;
+        listview.performItemClick(listview.getAdapter().getView(section - 1, null, null), section - 1, section - 1);
         playAudioService();
     }
 
@@ -2544,8 +2487,8 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
 //                return "ליקוטים ב";
             case MOADIM:
                 return "מועדים";
-//            case MISHPACHA:
-//                return "משפחה";
+            case MISHPACHA:
+               return "משפחה";
             case SUCOT:
                 return "סוכות";
             case PESACH:
@@ -2566,13 +2509,11 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
         return "לא נמצא";
     }
 
-
     public void onDestroy()
     {
         super.onDestroy();
         //for not crash on rotate change if to true and change the plappusae icon
         if(true) {
-
             //LocalBroadcastManager.getInstance(this).unregisterReceiver(BRskipNext);
             //LocalBroadcastManager.getInstance(this).unregisterReceiver(timeElapsedUpdates);
             //LocalBroadcastManager.getInstance(this).unregisterReceiver(chapterUpdate);
@@ -2585,7 +2526,6 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
             }
             //serviceBound=false;
         }
-
     }
 
     public void initializeViews()
@@ -2601,19 +2541,21 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
     //playing = 0-pause, 1-play, 2-skip
     public void playPause(View view)
     {
-
         Intent broadcastIntent;
         if (playing == 0)//if pause change button icon to play
         {
             playing = 1;
             buttonPlayPause.setImageResource(R.drawable.baseline_pause_circle_outline_white_48);
+
             broadcastIntent = new Intent(Broadcast_PLAY_PAUSE);
+            broadcastIntent.setPackage("com.rafraph.pnineyHalachaHashalem");
             sendBroadcast(broadcastIntent);
         } else if (playing == 1)//if play change button icon to pause
         {
             playing = 0;
             buttonPlayPause.setImageResource(R.drawable.baseline_play_circle_outline_white_48);
             broadcastIntent = new Intent(Broadcast_PLAY_PAUSE);
+            broadcastIntent.setPackage("com.rafraph.pnineyHalachaHashalem");
             sendBroadcast(broadcastIntent);
         } else if (playing == 2)//if skip next change button icon to pause
         {
@@ -2624,11 +2566,12 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
 
     public void skip_to_next(View view)
     {
-        //int a=0/0;
         playing = 2;
         Intent broadcastIntent = new Intent(Broadcast_SKIP_NEXT);
+        broadcastIntent.setPackage("com.rafraph.pnineyHalachaHashalem");
         sendBroadcast(broadcastIntent);
         broadcastIntent = new Intent(Broadcast_Speed);
+        broadcastIntent.setPackage("com.rafraph.pnineyHalachaHashalem");
         int choice = spinner.getSelectedItemPosition();
         speed = sppedArray[choice];
         shPrefEditor.putFloat("audioSpeed", speed);
@@ -2638,18 +2581,14 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
             broadcastIntent.putExtra("play", 0);
         sendBroadcast(broadcastIntent);
         section=playerService.getSection();
-        if(section>3){
+        /*if(section>3){
             listview.setSelected(true);
-            listview.setSelection(section);}
-
-
+            listview.setSelection(section);
+        }*/
     }
 
     public void restartPage()
     {
-
-        //playerService.setSection(2);
-
         List<TextView> txtvList = new ArrayList<TextView>();
         TextView textView = new TextView(getBaseContext());
         header = book_name + convert_character_to_id(chapter) + ", א";
@@ -2668,7 +2607,6 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
         for (int m = 0; m < v1.length; m++) {
              listview.removeHeaderView(v1[m]);
         }
-
 
         for (int m = listview.getFooterViewsCount()-1; m >= 0; m--)
             listview.removeFooterView(listview.getChildAt(0));
@@ -2713,9 +2651,7 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
             if ((textView.getText().charAt(2) == 'א')&&first)
                 first=false;
 
-
             txtvList.add(textView);
-
         }
 
         lastSec=txtvList.size();
@@ -2731,13 +2667,9 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
             listview.setBackgroundColor(Color.WHITE);
         txtvList.get(0).setBackgroundColor(Color.rgb(120,1,1));
         for (int i = 0; i <txtvList.size(); i++) {
-
             listview.addHeaderView(txtvList.get(i));
             v1[i]=txtvList.get(i);
-
         }
-  ;
-        //int a=0/0;
 
         listview.setCacheColorHint(Color.WHITE);
         //txtvList.get(0).setBackgroundColor(Color.BLUE);
@@ -2745,9 +2677,7 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 listview.setSelected(true);
-
-                //listview.setSelection(position);
-
+                listview.setSelection(position);
                 if (clickOnItemFromList == true) {
                     sendSectionIdAndPlay(position + 1);
                     for (int i = 0; i < txtvList.size(); i++)
@@ -2766,7 +2696,6 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
                     ArrayAdapter adapter;
                     adapter = new ArrayAdapter(getBaseContext(), android.R.layout.simple_list_item_1, aList);
                     listview = (ListView) findViewById(R.id.list_view);
-
                     listview.setAdapter(adapter);
                     listview.setBackgroundColor(Color.WHITE);
                     listview.setSelection(position);
@@ -2780,8 +2709,6 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
                 clickOnItemFromList = true;//change it back to true. In cases that it is not came directly from click om list item, it will be changed to false in this cases
             }
         });
-
-
     }
 
     public void skip_to_previous(View view)
@@ -2789,8 +2716,10 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
         playing = 2;
         buttonPlayPause.setImageResource(R.drawable.baseline_pause_circle_outline_white_48);
         Intent broadcastIntent = new Intent(Broadcast_SKIP_PREVIOUS);
+        broadcastIntent.setPackage("com.rafraph.pnineyHalachaHashalem");
         sendBroadcast(broadcastIntent);
         broadcastIntent = new Intent(Broadcast_Speed);
+        broadcastIntent.setPackage("com.rafraph.pnineyHalachaHashalem");
         int choice = spinner.getSelectedItemPosition();
         speed = sppedArray[choice];
         shPrefEditor.putFloat("audioSpeed", speed);
@@ -2798,30 +2727,25 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
         broadcastIntent.putExtra("play", 0);
         sendBroadcast(broadcastIntent);
         section=playerService.getSection();
-
-            listview.setSelected(true);
-            listview.setSelection(section - 2);
-
-
-
+        listview.setSelected(true);
+        listview.setSelection(section - 2);
         //playerInfo.setText(book_name + " " + convert_character_to_id(chapter) + ", " + convert_character_to_id(section ));
         //check if the user return from brachot it give him back to brachot א,א
         if (section + 1486 < 'א')
             playerInfo.setText(book_name + " " + convert_character_to_id(chapter) + ", א");
-
-
     }
 
     public void forward_10_sec(View view)
     {
         Intent broadcastIntent = new Intent(Broadcast_FORWARD_10);
+        broadcastIntent.setPackage("com.rafraph.pnineyHalachaHashalem");
         sendBroadcast(broadcastIntent);
     }
-
 
     public void rewind_10_sec(View view)
     {
         Intent broadcastIntent = new Intent(Broadcast_BACKWARD_10);
+        broadcastIntent.setPackage("com.rafraph.pnineyHalachaHashalem");
         sendBroadcast(broadcastIntent);
     }
 
@@ -2838,7 +2762,6 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
         switch (Id) {
             case 1:
                 return "א";
-
             case 2:
                 return "ב";
             case 3:
@@ -2933,7 +2856,6 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
             playerService = binder.getService();
             serviceBound = true;
         }
-
         @Override
         public void onServiceDisconnected(ComponentName name)
         {
@@ -2960,7 +2882,6 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
                 sections = extras.getStringArrayList(name);
                 // Creating a new local copy of the current list.
                 ArrayList<String> newList = new ArrayList<>(sections);
-
                 playerIntent.putStringArrayListExtra(name, newList);
             }
 
@@ -2989,8 +2910,8 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l)
     {
         int choice = spinner.getSelectedItemPosition();
-
         broadcastIntent = new Intent(Broadcast_Speed);
+        broadcastIntent.setPackage("com.rafraph.pnineyHalachaHashalem");
         shPrefEditor.putFloat("audioSpeed", sppedArray[choice]);
         shPrefEditor.commit();
         if (playing == 0) {
@@ -2998,12 +2919,9 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
             shPrefEditor.commit();
         }
         sendBroadcast(broadcastIntent);
-
     }
 
+    // onNothingSelected must be here since this class implements AdapterView.OnItemSelectedListener
     @Override
-    public void onNothingSelected(AdapterView<?> parent) {
-
-    }
-
+    public void onNothingSelected(AdapterView<?> parent) {}
 }

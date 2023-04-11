@@ -16,8 +16,8 @@
 
         <ImageView
             android:id="@+id/make_mark"
-            android:layout_width="43dp"
-            android:layout_height="40dp"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
 
             android:layout_marginStart="30dp"
             android:layout_marginLeft="30dp"
@@ -29,8 +29,8 @@
 
         <ImageView
             android:id="@+id/page_search"
-            android:layout_width="46dp"
-            android:layout_height="40dp"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
 
             android:layout_marginStart="50dp"
             android:layout_marginLeft="0dp"
@@ -56,11 +56,12 @@
             <ImageView
                 android:id="@+id/too_main"
                 android:layout_width="164dp"
-                android:layout_height="31dp"
+                android:layout_height="48dp"
                 android:layout_gravity="center"
                 android:layout_marginStart="10dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="0dp"
+                android:paddingBottom="10dp"
                 android:scaleX="1"
                 android:scaleY="1"
                 android:src="@drawable/to_main"
@@ -157,7 +158,7 @@
         <ImageButton
             android:id="@+id/auto_scrool"
             android:layout_width="60dp"
-            android:layout_height="35dp"
+            android:layout_height="48dp"
             android:background="#00FFFFFF"
             android:contentDescription="@string/Chapters"
             android:scaleType="centerInside"

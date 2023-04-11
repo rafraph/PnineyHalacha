@@ -1,150 +1,186 @@
 [
     {
-        "merged": "C:\\Users\\barno\\.gradle\\daemon\\7.4\\com.rafraph.pnineyHalachaHashalem.app-mergeDebugResources-18:\\layout\\add_bookmark.xml",
-        "source": "C:\\Users\\barno\\.gradle\\daemon\\7.4\\com.rafraph.pnineyHalachaHashalem.app-main-21:\\layout\\add_bookmark.xml"
+        "merged": "C:\\Users\\rafra\\.gradle\\daemon\\7.4\\com.rafraph.pnineyHalachaHashalem.app-mergeDebugResources-18:\\layout\\activity_main.xml",
+        "source": "C:\\Users\\rafra\\.gradle\\daemon\\7.4\\com.rafraph.pnineyHalachaHashalem.app-main-21:\\layout\\activity_main.xml"
     },
     {
-        "merged": "C:\\Users\\barno\\.gradle\\daemon\\7.4\\com.rafraph.pnineyHalachaHashalem.app-mergeDebugResources-18:\\layout\\add_bookmark_english.xml",
-        "source": "C:\\Users\\barno\\.gradle\\daemon\\7.4\\com.rafraph.pnineyHalachaHashalem.app-main-21:\\layout\\add_bookmark_english.xml"
+        "merged": "C:\\Users\\rafra\\.gradle\\daemon\\7.4\\com.rafraph.pnineyHalachaHashalem.app-mergeDebugResources-18:\\layout\\text_main_audio.xml",
+        "source": "C:\\Users\\rafra\\.gradle\\daemon\\7.4\\com.rafraph.pnineyHalachaHashalem.app-main-21:\\layout\\text_main_audio.xml"
     },
     {
-        "merged": "C:\\Users\\barno\\.gradle\\daemon\\7.4\\com.rafraph.pnineyHalachaHashalem.app-mergeDebugResources-18:\\layout\\about_pninei.xml",
-        "source": "C:\\Users\\barno\\.gradle\\daemon\\7.4\\com.rafraph.pnineyHalachaHashalem.app-main-21:\\layout\\about_pninei.xml"
+        "merged": "C:\\Users\\rafra\\.gradle\\daemon\\7.4\\com.rafraph.pnineyHalachaHashalem.app-mergeDebugResources-18:\\layout\\text_main.xml",
+        "source": "C:\\Users\\rafra\\.gradle\\daemon\\7.4\\com.rafraph.pnineyHalachaHashalem.app-main-21:\\layout\\text_main.xml"
     },
     {
-        "merged": "C:\\Users\\barno\\.gradle\\daemon\\7.4\\com.rafraph.pnineyHalachaHashalem.app-mergeDebugResources-18:\\layout\\new_home.xml",
-        "source": "C:\\Users\\barno\\.gradle\\daemon\\7.4\\com.rafraph.pnineyHalachaHashalem.app-main-21:\\layout\\new_home.xml"
+        "merged": "C:\\Users\\rafra\\.gradle\\daemon\\7.4\\com.rafraph.pnineyHalachaHashalem.app-mergeDebugResources-18:\\layout\\bookmarks.xml",
+        "source": "C:\\Users\\rafra\\.gradle\\daemon\\7.4\\com.rafraph.pnineyHalachaHashalem.app-main-21:\\layout\\bookmarks.xml"
     },
     {
-        "merged": "C:\\Users\\barno\\.gradle\\daemon\\7.4\\com.rafraph.pnineyHalachaHashalem.app-mergeDebugResources-18:\\layout\\new_home_f.xml",
-        "source": "C:\\Users\\barno\\.gradle\\daemon\\7.4\\com.rafraph.pnineyHalachaHashalem.app-main-21:\\layout\\new_home_f.xml"
+        "merged": "C:\\Users\\rafra\\.gradle\\daemon\\7.4\\com.rafraph.pnineyHalachaHashalem.app-mergeDebugResources-18:\\layout\\new_home_en.xml",
+        "source": "C:\\Users\\rafra\\.gradle\\daemon\\7.4\\com.rafraph.pnineyHalachaHashalem.app-main-21:\\layout\\new_home_en.xml"
     },
     {
-        "merged": "C:\\Users\\barno\\.gradle\\daemon\\7.4\\com.rafraph.pnineyHalachaHashalem.app-mergeDebugResources-18:\\layout\\spinner_des.xml",
-        "source": "C:\\Users\\barno\\.gradle\\daemon\\7.4\\com.rafraph.pnineyHalachaHashalem.app-main-21:\\layout\\spinner_des.xml"
+        "merged": "C:\\Users\\rafra\\.gradle\\daemon\\7.4\\com.rafraph.pnineyHalachaHashalem.app-mergeDebugResources-18:\\layout\\activity_about.xml",
+        "source": "C:\\Users\\rafra\\.gradle\\daemon\\7.4\\com.rafraph.pnineyHalachaHashalem.app-main-21:\\layout\\activity_about.xml"
     },
     {
-        "merged": "C:\\Users\\barno\\.gradle\\daemon\\7.4\\com.rafraph.pnineyHalachaHashalem.app-mergeDebugResources-18:\\layout\\list_item.xml",
-        "source": "C:\\Users\\barno\\.gradle\\daemon\\7.4\\com.rafraph.pnineyHalachaHashalem.app-main-21:\\layout\\list_item.xml"
+        "merged": "C:\\Users\\rafra\\.gradle\\daemon\\7.4\\com.rafraph.pnineyHalachaHashalem.app-mergeDebugResources-18:\\layout\\paragraph.xml",
+        "source": "C:\\Users\\rafra\\.gradle\\daemon\\7.4\\com.rafraph.pnineyHalachaHashalem.app-main-21:\\layout\\paragraph.xml"
     },
     {
-        "merged": "C:\\Users\\barno\\.gradle\\daemon\\7.4\\com.rafraph.pnineyHalachaHashalem.app-mergeDebugResources-18:\\layout\\text_main.xml",
-        "source": "C:\\Users\\barno\\.gradle\\daemon\\7.4\\com.rafraph.pnineyHalachaHashalem.app-main-21:\\layout\\text_main.xml"
+        "merged": "C:\\Users\\rafra\\.gradle\\daemon\\7.4\\com.rafraph.pnineyHalachaHashalem.app-mergeDebugResources-18:\\layout\\activity_audio.xml",
+        "source": "C:\\Users\\rafra\\.gradle\\daemon\\7.4\\com.rafraph.pnineyHalachaHashalem.app-main-21:\\layout\\activity_audio.xml"
     },
     {
-        "merged": "C:\\Users\\barno\\.gradle\\daemon\\7.4\\com.rafraph.pnineyHalachaHashalem.app-mergeDebugResources-18:\\layout\\activity_audio.xml",
-        "source": "C:\\Users\\barno\\.gradle\\daemon\\7.4\\com.rafraph.pnineyHalachaHashalem.app-main-21:\\layout\\activity_audio.xml"
+        "merged": "C:\\Users\\rafra\\.gradle\\daemon\\7.4\\com.rafraph.pnineyHalachaHashalem.app-mergeDebugResources-18:\\layout\\splash.xml",
+        "source": "C:\\Users\\rafra\\.gradle\\daemon\\7.4\\com.rafraph.pnineyHalachaHashalem.app-main-21:\\layout\\splash.xml"
     },
     {
-        "merged": "C:\\Users\\barno\\.gradle\\daemon\\7.4\\com.rafraph.pnineyHalachaHashalem.app-mergeDebugResources-18:\\layout\\tochen_actionbar_lay.xml",
-        "source": "C:\\Users\\barno\\.gradle\\daemon\\7.4\\com.rafraph.pnineyHalachaHashalem.app-main-21:\\layout\\tochen_actionbar_lay.xml"
+        "merged": "C:\\Users\\rafra\\.gradle\\daemon\\7.4\\com.rafraph.pnineyHalachaHashalem.app-mergeDebugResources-18:\\layout\\activity_pnina_yomit.xml",
+        "source": "C:\\Users\\rafra\\.gradle\\daemon\\7.4\\com.rafraph.pnineyHalachaHashalem.app-main-21:\\layout\\activity_pnina_yomit.xml"
     },
     {
-        "merged": "C:\\Users\\barno\\.gradle\\daemon\\7.4\\com.rafraph.pnineyHalachaHashalem.app-mergeDebugResources-18:\\layout\\paragraph.xml",
-        "source": "C:\\Users\\barno\\.gradle\\daemon\\7.4\\com.rafraph.pnineyHalachaHashalem.app-main-21:\\layout\\paragraph.xml"
+        "merged": "C:\\Users\\rafra\\.gradle\\daemon\\7.4\\com.rafraph.pnineyHalachaHashalem.app-mergeDebugResources-18:\\layout\\activity_settings.xml",
+        "source": "C:\\Users\\rafra\\.gradle\\daemon\\7.4\\com.rafraph.pnineyHalachaHashalem.app-main-21:\\layout\\activity_settings.xml"
     },
     {
-        "merged": "C:\\Users\\barno\\.gradle\\daemon\\7.4\\com.rafraph.pnineyHalachaHashalem.app-mergeDebugResources-18:\\layout\\activity_pnina_yomit.xml",
-        "source": "C:\\Users\\barno\\.gradle\\daemon\\7.4\\com.rafraph.pnineyHalachaHashalem.app-main-21:\\layout\\activity_pnina_yomit.xml"
+        "merged": "com.rafraph.pnineyHalachaHashalem.app-mergeDebugResources-18:/layout/list_group.xml",
+        "source": "com.rafraph.pnineyHalachaHashalem.app-main-21:/layout/list_group.xml"
     },
     {
-        "merged": "C:\\Users\\barno\\.gradle\\daemon\\7.4\\com.rafraph.pnineyHalachaHashalem.app-mergeDebugResources-18:\\layout\\new_home_r.xml",
-        "source": "C:\\Users\\barno\\.gradle\\daemon\\7.4\\com.rafraph.pnineyHalachaHashalem.app-main-21:\\layout\\new_home_r.xml"
+        "merged": "com.rafraph.pnineyHalachaHashalem.app-mergeDebugResources-18:/layout/new_home.xml",
+        "source": "com.rafraph.pnineyHalachaHashalem.app-main-21:/layout/new_home.xml"
+    },
+    {
+        "merged": "C:\\Users\\rafra\\.gradle\\daemon\\7.4\\com.rafraph.pnineyHalachaHashalem.app-mergeDebugResources-18:\\layout\\add_bookmark_french.xml",
+        "source": "C:\\Users\\rafra\\.gradle\\daemon\\7.4\\com.rafraph.pnineyHalachaHashalem.app-main-21:\\layout\\add_bookmark_french.xml"
+    },
+    {
+        "merged": "C:\\Users\\rafra\\.gradle\\daemon\\7.4\\com.rafraph.pnineyHalachaHashalem.app-mergeDebugResources-18:\\layout\\note.xml",
+        "source": "C:\\Users\\rafra\\.gradle\\daemon\\7.4\\com.rafraph.pnineyHalachaHashalem.app-main-21:\\layout\\note.xml"
+    },
+    {
+        "merged": "C:\\Users\\rafra\\.gradle\\daemon\\7.4\\com.rafraph.pnineyHalachaHashalem.app-mergeDebugResources-18:\\layout\\add_bookmark_english.xml",
+        "source": "C:\\Users\\rafra\\.gradle\\daemon\\7.4\\com.rafraph.pnineyHalachaHashalem.app-main-21:\\layout\\add_bookmark_english.xml"
+    },
+    {
+        "merged": "C:\\Users\\rafra\\.gradle\\daemon\\7.4\\com.rafraph.pnineyHalachaHashalem.app-mergeDebugResources-18:\\layout\\activity_settings_l.xml",
+        "source": "C:\\Users\\rafra\\.gradle\\daemon\\7.4\\com.rafraph.pnineyHalachaHashalem.app-main-21:\\layout\\activity_settings_l.xml"
+    },
+    {
+        "merged": "C:\\Users\\rafra\\.gradle\\daemon\\7.4\\com.rafraph.pnineyHalachaHashalem.app-mergeDebugResources-18:\\layout\\auto_scroll.xml",
+        "source": "C:\\Users\\rafra\\.gradle\\daemon\\7.4\\com.rafraph.pnineyHalachaHashalem.app-main-21:\\layout\\auto_scroll.xml"
+    },
+    {
+        "merged": "C:\\Users\\rafra\\.gradle\\daemon\\7.4\\com.rafraph.pnineyHalachaHashalem.app-mergeDebugResources-18:\\layout\\list_group.xml",
+        "source": "C:\\Users\\rafra\\.gradle\\daemon\\7.4\\com.rafraph.pnineyHalachaHashalem.app-main-21:\\layout\\list_group.xml"
+    },
+    {
+        "merged": "C:\\Users\\rafra\\.gradle\\daemon\\7.4\\com.rafraph.pnineyHalachaHashalem.app-mergeDebugResources-18:\\layout\\new_home_r.xml",
+        "source": "C:\\Users\\rafra\\.gradle\\daemon\\7.4\\com.rafraph.pnineyHalachaHashalem.app-main-21:\\layout\\new_home_r.xml"
+    },
+    {
+        "merged": "C:\\Users\\rafra\\.gradle\\daemon\\7.4\\com.rafraph.pnineyHalachaHashalem.app-mergeDebugResources-18:\\layout\\add_bookmark.xml",
+        "source": "C:\\Users\\rafra\\.gradle\\daemon\\7.4\\com.rafraph.pnineyHalachaHashalem.app-main-21:\\layout\\add_bookmark.xml"
+    },
+    {
+        "merged": "com.rafraph.pnineyHalachaHashalem.app-mergeDebugResources-18:/layout/new_version.xml",
+        "source": "com.rafraph.pnineyHalachaHashalem.app-main-21:/layout/new_version.xml"
     },
     {
         "merged": "com.rafraph.pnineyHalachaHashalem.app-mergeDebugResources-18:/layout/activity_about.xml",
         "source": "com.rafraph.pnineyHalachaHashalem.app-main-21:/layout/activity_about.xml"
     },
     {
-        "merged": "C:\\Users\\barno\\.gradle\\daemon\\7.4\\com.rafraph.pnineyHalachaHashalem.app-mergeDebugResources-18:\\layout\\splash.xml",
-        "source": "C:\\Users\\barno\\.gradle\\daemon\\7.4\\com.rafraph.pnineyHalachaHashalem.app-main-21:\\layout\\splash.xml"
+        "merged": "C:\\Users\\rafra\\.gradle\\daemon\\7.4\\com.rafraph.pnineyHalachaHashalem.app-mergeDebugResources-18:\\layout\\text_main_down.xml",
+        "source": "C:\\Users\\rafra\\.gradle\\daemon\\7.4\\com.rafraph.pnineyHalachaHashalem.app-main-21:\\layout\\text_main_down.xml"
     },
     {
-        "merged": "C:\\Users\\barno\\.gradle\\daemon\\7.4\\com.rafraph.pnineyHalachaHashalem.app-mergeDebugResources-18:\\layout\\text_main_down.xml",
-        "source": "C:\\Users\\barno\\.gradle\\daemon\\7.4\\com.rafraph.pnineyHalachaHashalem.app-main-21:\\layout\\text_main_down.xml"
+        "merged": "com.rafraph.pnineyHalachaHashalem.app-mergeDebugResources-18:/layout/text_main_down.xml",
+        "source": "com.rafraph.pnineyHalachaHashalem.app-main-21:/layout/text_main_down.xml"
     },
     {
-        "merged": "C:\\Users\\barno\\.gradle\\daemon\\7.4\\com.rafraph.pnineyHalachaHashalem.app-mergeDebugResources-18:\\layout\\activity_settings.xml",
-        "source": "C:\\Users\\barno\\.gradle\\daemon\\7.4\\com.rafraph.pnineyHalachaHashalem.app-main-21:\\layout\\activity_settings.xml"
+        "merged": "C:\\Users\\rafra\\.gradle\\daemon\\7.4\\com.rafraph.pnineyHalachaHashalem.app-mergeDebugResources-18:\\layout\\about_pninei.xml",
+        "source": "C:\\Users\\rafra\\.gradle\\daemon\\7.4\\com.rafraph.pnineyHalachaHashalem.app-main-21:\\layout\\about_pninei.xml"
     },
     {
-        "merged": "C:\\Users\\barno\\.gradle\\daemon\\7.4\\com.rafraph.pnineyHalachaHashalem.app-mergeDebugResources-18:\\layout\\add_bookmark_russian.xml",
-        "source": "C:\\Users\\barno\\.gradle\\daemon\\7.4\\com.rafraph.pnineyHalachaHashalem.app-main-21:\\layout\\add_bookmark_russian.xml"
+        "merged": "C:\\Users\\rafra\\.gradle\\daemon\\7.4\\com.rafraph.pnineyHalachaHashalem.app-mergeDebugResources-18:\\layout\\list_item.xml",
+        "source": "C:\\Users\\rafra\\.gradle\\daemon\\7.4\\com.rafraph.pnineyHalachaHashalem.app-main-21:\\layout\\list_item.xml"
     },
     {
-        "merged": "C:\\Users\\barno\\.gradle\\daemon\\7.4\\com.rafraph.pnineyHalachaHashalem.app-mergeDebugResources-18:\\layout\\activity_main.xml",
-        "source": "C:\\Users\\barno\\.gradle\\daemon\\7.4\\com.rafraph.pnineyHalachaHashalem.app-main-21:\\layout\\activity_main.xml"
+        "merged": "C:\\Users\\rafra\\.gradle\\daemon\\7.4\\com.rafraph.pnineyHalachaHashalem.app-mergeDebugResources-18:\\layout\\language.xml",
+        "source": "C:\\Users\\rafra\\.gradle\\daemon\\7.4\\com.rafraph.pnineyHalachaHashalem.app-main-21:\\layout\\language.xml"
     },
     {
-        "merged": "C:\\Users\\barno\\.gradle\\daemon\\7.4\\com.rafraph.pnineyHalachaHashalem.app-mergeDebugResources-18:\\layout\\new_home_es.xml",
-        "source": "C:\\Users\\barno\\.gradle\\daemon\\7.4\\com.rafraph.pnineyHalachaHashalem.app-main-21:\\layout\\new_home_es.xml"
+        "merged": "C:\\Users\\rafra\\.gradle\\daemon\\7.4\\com.rafraph.pnineyHalachaHashalem.app-mergeDebugResources-18:\\layout\\add_bookmark_spanish.xml",
+        "source": "C:\\Users\\rafra\\.gradle\\daemon\\7.4\\com.rafraph.pnineyHalachaHashalem.app-main-21:\\layout\\add_bookmark_spanish.xml"
     },
     {
-        "merged": "C:\\Users\\barno\\.gradle\\daemon\\7.4\\com.rafraph.pnineyHalachaHashalem.app-mergeDebugResources-18:\\layout\\list_group.xml",
-        "source": "C:\\Users\\barno\\.gradle\\daemon\\7.4\\com.rafraph.pnineyHalachaHashalem.app-main-21:\\layout\\list_group.xml"
+        "merged": "C:\\Users\\rafra\\.gradle\\daemon\\7.4\\com.rafraph.pnineyHalachaHashalem.app-mergeDebugResources-18:\\layout\\new_home.xml",
+        "source": "C:\\Users\\rafra\\.gradle\\daemon\\7.4\\com.rafraph.pnineyHalachaHashalem.app-main-21:\\layout\\new_home.xml"
     },
     {
-        "merged": "C:\\Users\\barno\\.gradle\\daemon\\7.4\\com.rafraph.pnineyHalachaHashalem.app-mergeDebugResources-18:\\layout\\new_version.xml",
-        "source": "C:\\Users\\barno\\.gradle\\daemon\\7.4\\com.rafraph.pnineyHalachaHashalem.app-main-21:\\layout\\new_version.xml"
+        "merged": "C:\\Users\\rafra\\.gradle\\daemon\\7.4\\com.rafraph.pnineyHalachaHashalem.app-mergeDebugResources-18:\\layout\\new_home_f.xml",
+        "source": "C:\\Users\\rafra\\.gradle\\daemon\\7.4\\com.rafraph.pnineyHalachaHashalem.app-main-21:\\layout\\new_home_f.xml"
     },
     {
-        "merged": "C:\\Users\\barno\\.gradle\\daemon\\7.4\\com.rafraph.pnineyHalachaHashalem.app-mergeDebugResources-18:\\layout\\inner_search.xml",
-        "source": "C:\\Users\\barno\\.gradle\\daemon\\7.4\\com.rafraph.pnineyHalachaHashalem.app-main-21:\\layout\\inner_search.xml"
+        "merged": "com.rafraph.pnineyHalachaHashalem.app-mergeDebugResources-18:/layout/new_home_r.xml",
+        "source": "com.rafraph.pnineyHalachaHashalem.app-main-21:/layout/new_home_r.xml"
     },
     {
-        "merged": "C:\\Users\\barno\\.gradle\\daemon\\7.4\\com.rafraph.pnineyHalachaHashalem.app-mergeDebugResources-18:\\layout\\audio_list.xml",
-        "source": "C:\\Users\\barno\\.gradle\\daemon\\7.4\\com.rafraph.pnineyHalachaHashalem.app-main-21:\\layout\\audio_list.xml"
+        "merged": "com.rafraph.pnineyHalachaHashalem.app-mergeDebugResources-18:/layout/new_home_en.xml",
+        "source": "com.rafraph.pnineyHalachaHashalem.app-main-21:/layout/new_home_en.xml"
     },
     {
-        "merged": "C:\\Users\\barno\\.gradle\\daemon\\7.4\\com.rafraph.pnineyHalachaHashalem.app-mergeDebugResources-18:\\layout\\acronyms.xml",
-        "source": "C:\\Users\\barno\\.gradle\\daemon\\7.4\\com.rafraph.pnineyHalachaHashalem.app-main-21:\\layout\\acronyms.xml"
+        "merged": "C:\\Users\\rafra\\.gradle\\daemon\\7.4\\com.rafraph.pnineyHalachaHashalem.app-mergeDebugResources-18:\\layout\\audio_list.xml",
+        "source": "C:\\Users\\rafra\\.gradle\\daemon\\7.4\\com.rafraph.pnineyHalachaHashalem.app-main-21:\\layout\\audio_list.xml"
     },
     {
-        "merged": "C:\\Users\\barno\\.gradle\\daemon\\7.4\\com.rafraph.pnineyHalachaHashalem.app-mergeDebugResources-18:\\layout\\language.xml",
-        "source": "C:\\Users\\barno\\.gradle\\daemon\\7.4\\com.rafraph.pnineyHalachaHashalem.app-main-21:\\layout\\language.xml"
+        "merged": "C:\\Users\\rafra\\.gradle\\daemon\\7.4\\com.rafraph.pnineyHalachaHashalem.app-mergeDebugResources-18:\\layout\\spinner_des.xml",
+        "source": "C:\\Users\\rafra\\.gradle\\daemon\\7.4\\com.rafraph.pnineyHalachaHashalem.app-main-21:\\layout\\spinner_des.xml"
     },
     {
-        "merged": "C:\\Users\\barno\\.gradle\\daemon\\7.4\\com.rafraph.pnineyHalachaHashalem.app-mergeDebugResources-18:\\layout\\text_main_audio.xml",
-        "source": "C:\\Users\\barno\\.gradle\\daemon\\7.4\\com.rafraph.pnineyHalachaHashalem.app-main-21:\\layout\\text_main_audio.xml"
+        "merged": "C:\\Users\\rafra\\.gradle\\daemon\\7.4\\com.rafraph.pnineyHalachaHashalem.app-mergeDebugResources-18:\\layout\\add_bookmark_russian.xml",
+        "source": "C:\\Users\\rafra\\.gradle\\daemon\\7.4\\com.rafraph.pnineyHalachaHashalem.app-main-21:\\layout\\add_bookmark_russian.xml"
     },
     {
-        "merged": "C:\\Users\\barno\\.gradle\\daemon\\7.4\\com.rafraph.pnineyHalachaHashalem.app-mergeDebugResources-18:\\layout\\search_activity.xml",
-        "source": "C:\\Users\\barno\\.gradle\\daemon\\7.4\\com.rafraph.pnineyHalachaHashalem.app-main-21:\\layout\\search_activity.xml"
+        "merged": "C:\\Users\\rafra\\.gradle\\daemon\\7.4\\com.rafraph.pnineyHalachaHashalem.app-mergeDebugResources-18:\\layout\\new_version.xml",
+        "source": "C:\\Users\\rafra\\.gradle\\daemon\\7.4\\com.rafraph.pnineyHalachaHashalem.app-main-21:\\layout\\new_version.xml"
     },
     {
-        "merged": "C:\\Users\\barno\\.gradle\\daemon\\7.4\\com.rafraph.pnineyHalachaHashalem.app-mergeDebugResources-18:\\layout\\activity_about.xml",
-        "source": "C:\\Users\\barno\\.gradle\\daemon\\7.4\\com.rafraph.pnineyHalachaHashalem.app-main-21:\\layout\\activity_about.xml"
+        "merged": "com.rafraph.pnineyHalachaHashalem.app-mergeDebugResources-18:/layout/activity_audio.xml",
+        "source": "com.rafraph.pnineyHalachaHashalem.app-main-21:/layout/activity_audio.xml"
     },
     {
-        "merged": "C:\\Users\\barno\\.gradle\\daemon\\7.4\\com.rafraph.pnineyHalachaHashalem.app-mergeDebugResources-18:\\layout\\new_home_en.xml",
-        "source": "C:\\Users\\barno\\.gradle\\daemon\\7.4\\com.rafraph.pnineyHalachaHashalem.app-main-21:\\layout\\new_home_en.xml"
+        "merged": "com.rafraph.pnineyHalachaHashalem.app-mergeDebugResources-18:/layout/new_home_es.xml",
+        "source": "com.rafraph.pnineyHalachaHashalem.app-main-21:/layout/new_home_es.xml"
     },
     {
-        "merged": "C:\\Users\\barno\\.gradle\\daemon\\7.4\\com.rafraph.pnineyHalachaHashalem.app-mergeDebugResources-18:\\layout\\bookmarks.xml",
-        "source": "C:\\Users\\barno\\.gradle\\daemon\\7.4\\com.rafraph.pnineyHalachaHashalem.app-main-21:\\layout\\bookmarks.xml"
+        "merged": "C:\\Users\\rafra\\.gradle\\daemon\\7.4\\com.rafraph.pnineyHalachaHashalem.app-mergeDebugResources-18:\\layout\\acronyms.xml",
+        "source": "C:\\Users\\rafra\\.gradle\\daemon\\7.4\\com.rafraph.pnineyHalachaHashalem.app-main-21:\\layout\\acronyms.xml"
     },
     {
-        "merged": "C:\\Users\\barno\\.gradle\\daemon\\7.4\\com.rafraph.pnineyHalachaHashalem.app-mergeDebugResources-18:\\layout\\auto_scroll.xml",
-        "source": "C:\\Users\\barno\\.gradle\\daemon\\7.4\\com.rafraph.pnineyHalachaHashalem.app-main-21:\\layout\\auto_scroll.xml"
+        "merged": "C:\\Users\\rafra\\.gradle\\daemon\\7.4\\com.rafraph.pnineyHalachaHashalem.app-mergeDebugResources-18:\\layout\\new_home_es.xml",
+        "source": "C:\\Users\\rafra\\.gradle\\daemon\\7.4\\com.rafraph.pnineyHalachaHashalem.app-main-21:\\layout\\new_home_es.xml"
     },
     {
-        "merged": "C:\\Users\\barno\\.gradle\\daemon\\7.4\\com.rafraph.pnineyHalachaHashalem.app-mergeDebugResources-18:\\layout\\add_bookmark_french.xml",
-        "source": "C:\\Users\\barno\\.gradle\\daemon\\7.4\\com.rafraph.pnineyHalachaHashalem.app-main-21:\\layout\\add_bookmark_french.xml"
+        "merged": "C:\\Users\\rafra\\.gradle\\daemon\\7.4\\com.rafraph.pnineyHalachaHashalem.app-mergeDebugResources-18:\\layout\\tochen_actionbar_lay.xml",
+        "source": "C:\\Users\\rafra\\.gradle\\daemon\\7.4\\com.rafraph.pnineyHalachaHashalem.app-main-21:\\layout\\tochen_actionbar_lay.xml"
     },
     {
-        "merged": "C:\\Users\\barno\\.gradle\\daemon\\7.4\\com.rafraph.pnineyHalachaHashalem.app-mergeDebugResources-18:\\layout\\activity_settings_l.xml",
-        "source": "C:\\Users\\barno\\.gradle\\daemon\\7.4\\com.rafraph.pnineyHalachaHashalem.app-main-21:\\layout\\activity_settings_l.xml"
+        "merged": "C:\\Users\\rafra\\.gradle\\daemon\\7.4\\com.rafraph.pnineyHalachaHashalem.app-mergeDebugResources-18:\\layout\\search_activity.xml",
+        "source": "C:\\Users\\rafra\\.gradle\\daemon\\7.4\\com.rafraph.pnineyHalachaHashalem.app-main-21:\\layout\\search_activity.xml"
     },
     {
-        "merged": "C:\\Users\\barno\\.gradle\\daemon\\7.4\\com.rafraph.pnineyHalachaHashalem.app-mergeDebugResources-18:\\layout\\activity_feedback.xml",
-        "source": "C:\\Users\\barno\\.gradle\\daemon\\7.4\\com.rafraph.pnineyHalachaHashalem.app-main-21:\\layout\\activity_feedback.xml"
+        "merged": "C:\\Users\\rafra\\.gradle\\daemon\\7.4\\com.rafraph.pnineyHalachaHashalem.app-mergeDebugResources-18:\\layout\\activity_feedback.xml",
+        "source": "C:\\Users\\rafra\\.gradle\\daemon\\7.4\\com.rafraph.pnineyHalachaHashalem.app-main-21:\\layout\\activity_feedback.xml"
     },
     {
-        "merged": "C:\\Users\\barno\\.gradle\\daemon\\7.4\\com.rafraph.pnineyHalachaHashalem.app-mergeDebugResources-18:\\layout\\add_bookmark_spanish.xml",
-        "source": "C:\\Users\\barno\\.gradle\\daemon\\7.4\\com.rafraph.pnineyHalachaHashalem.app-main-21:\\layout\\add_bookmark_spanish.xml"
+        "merged": "C:\\Users\\rafra\\.gradle\\daemon\\7.4\\com.rafraph.pnineyHalachaHashalem.app-mergeDebugResources-18:\\layout\\inner_search.xml",
+        "source": "C:\\Users\\rafra\\.gradle\\daemon\\7.4\\com.rafraph.pnineyHalachaHashalem.app-main-21:\\layout\\inner_search.xml"
     },
     {
-        "merged": "C:\\Users\\barno\\.gradle\\daemon\\7.4\\com.rafraph.pnineyHalachaHashalem.app-mergeDebugResources-18:\\layout\\note.xml",
-        "source": "C:\\Users\\barno\\.gradle\\daemon\\7.4\\com.rafraph.pnineyHalachaHashalem.app-main-21:\\layout\\note.xml"
+        "merged": "com.rafraph.pnineyHalachaHashalem.app-mergeDebugResources-18:/layout/new_home_f.xml",
+        "source": "com.rafraph.pnineyHalachaHashalem.app-main-21:/layout/new_home_f.xml"
     }
 ]

@@ -404,8 +404,8 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
         };
         // Register the listener with the telephony manager
         // Listen for changes to the device call state.
-        telephonyManager.listen(phoneStateListener,
-                PhoneStateListener.LISTEN_CALL_STATE);
+//        telephonyManager.listen(phoneStateListener,
+//                PhoneStateListener.LISTEN_CALL_STATE);
     }
 
     //Becoming noisy
@@ -799,6 +799,9 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
                 return;
             case KASHRUT_B:
                 book_audio_id = 17;
+                return;
+            case MISHPACHA:
+                book_audio_id = 11;
                 return;
 //            case LIKUTIM_A:
 //                book_audio_id = 99;

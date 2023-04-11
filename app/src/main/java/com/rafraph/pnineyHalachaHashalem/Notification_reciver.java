@@ -1,12 +1,10 @@
 package com.rafraph.pnineyHalachaHashalem;
 
-import android.app.Notification;
-import android.app.NotificationManager;
+
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
 

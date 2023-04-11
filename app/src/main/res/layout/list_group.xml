@@ -8,9 +8,10 @@
 
         <ImageView
             android:id="@+id/ListHeaderIconPlay"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
             android:layout_marginRight="20dp"
+            android:contentDescription="hear and read mode"
 
             android:src="@drawable/hear_and_read"
 
@@ -18,8 +19,9 @@
 
         <ImageView
             android:id="@+id/ListHeaderIconPlay2"
-            android:layout_width="23dp"
-            android:layout_height="23dp"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:contentDescription="hear mode"
             android:src="@drawable/audio_book"
 
             />
@@ -27,7 +29,7 @@
         <TextView
             android:id="@+id/lblListHeader"
             android:layout_width="228dp"
-            android:layout_height="wrap_content"
+            android:layout_height="48dp"
             android:layout_weight="1"
             android:fadingEdge="none"
             android:paddingLeft="?android:attr/expandableListPreferredItemPaddingLeft"

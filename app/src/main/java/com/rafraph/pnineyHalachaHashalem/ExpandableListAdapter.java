@@ -1,7 +1,6 @@
 package com.rafraph.pnineyHalachaHashalem;
 
-import java.io.File;
-import java.io.FileInputStream;
+
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -151,7 +150,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter
 		   headerTitle.equals("תפילה") || headerTitle.equals("ימים נוראים") ||
 		   headerTitle.equals("כשרות א - הצומח והחי") || headerTitle.equals("כשרות ב - המזון והמטבח") ||
 		   headerTitle.equals("שמחת הבית וברכתו") || headerTitle.equals("טהרת המשפחה") ||
-			headerTitle.equals("שביעית ויובל") || headerTitle.equals("העם והארץ"))
+			headerTitle.equals("שביעית ויובל") || headerTitle.equals("העם והארץ")||headerTitle.equals("משפחה"))
 		{
 			ListHeaderIconPlay.setVisibility(View.VISIBLE);
 			ListHeaderIconPlay2.setVisibility(View.VISIBLE);
@@ -233,6 +232,11 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter
 							bookName="haamvehaarez";
 							lastChap=11;
 							bookId=1;
+							break;
+						case "משפחה":
+							bookName="mishpacha";
+							lastChap=10;
+							bookId=10;
 							break;
 						case "ימים נוראים":
 							bookName="yamim";

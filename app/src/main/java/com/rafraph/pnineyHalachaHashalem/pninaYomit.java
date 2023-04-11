@@ -1,6 +1,7 @@
 package com.rafraph.pnineyHalachaHashalem;
 
 import android.annotation.SuppressLint;
+
 import android.app.AlarmManager;
 import android.app.Dialog;
 import android.app.NotificationChannel;
@@ -31,7 +32,6 @@ import android.widget.NumberPicker;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Calendar;
@@ -151,6 +151,7 @@ public class pninaYomit extends Activity {
         setContentView(R.layout.activity_pnina_yomit);
        // webview.clearView();
 
+
         webview = (WebView) findViewById(R.id.webView1);
         WebSettings webSettings = webview.getSettings();
         webSettings.setDefaultTextEncodingName("utf-8");
@@ -164,7 +165,6 @@ public class pninaYomit extends Activity {
         webSettings.setPluginState(WebSettings.PluginState.ON);
         mPrefs = getSharedPreferences(PREFS_NAME, 0);
         shPrefEditor = mPrefs.edit();
-
         LinearLayout main=(LinearLayout) findViewById(R.id.lnrOption3);
         int MyLanguage = mPrefs.getInt("MyLanguage", 0);
         if (mPrefs.getInt("BlackBackground", 0)==1)
@@ -193,6 +193,8 @@ public class pninaYomit extends Activity {
         {
             case ENGLISH:
                 webview.loadUrl("https://ph.yhb.org.il/pninayomit-en/#page-data");
+
+
                 set="Set";
                 noteSet="The reminder was set up successfully";
                 setRemind="Set a reminder";
@@ -577,7 +579,7 @@ public class pninaYomit extends Activity {
                     calnder.set(Calendar.MINUTE, mins);
 
                     Intent notiReciv = new Intent(getApplicationContext(), Notification_reciver.class);
-                    penNotu = PendingIntent.getBroadcast(getApplicationContext(), 100, notiReciv, PendingIntent.FLAG_UPDATE_CURRENT);
+                    penNotu = PendingIntent.getBroadcast(getApplicationContext(), 100, notiReciv, PendingIntent.FLAG_IMMUTABLE);
                     alarm = (AlarmManager) getSystemService(ALARM_SERVICE);
                     alarm.setRepeating(AlarmManager.RTC_WAKEUP, calnder.getTimeInMillis(), AlarmManager.INTERVAL_DAY, penNotu);
                     Toast.makeText(getApplicationContext(), setRemind, Toast.LENGTH_SHORT).show();
@@ -633,7 +635,7 @@ public class pninaYomit extends Activity {
                         calnder.set(Calendar.MINUTE, mins);
 
                         Intent notiReciv = new Intent(getApplicationContext(), Notification_reciver.class);
-                        penNotu = PendingIntent.getBroadcast(getApplicationContext(), 100, notiReciv, PendingIntent.FLAG_UPDATE_CURRENT);
+                        penNotu = PendingIntent.getBroadcast(getApplicationContext(), 100, notiReciv, PendingIntent.FLAG_IMMUTABLE);
                         alarm = (AlarmManager) getSystemService(ALARM_SERVICE);
                         alarm.setRepeating(AlarmManager.RTC_WAKEUP, calnder.getTimeInMillis(), AlarmManager.INTERVAL_DAY, penNotu);
                         Toast.makeText(getApplicationContext(), setRemind, Toast.LENGTH_SHORT).show();
@@ -690,7 +692,7 @@ public class pninaYomit extends Activity {
                         calnder.set(Calendar.MINUTE, mins);
 
                         Intent notiReciv = new Intent(getApplicationContext(), Notification_reciver.class);
-                        penNotu = PendingIntent.getBroadcast(getApplicationContext(), 100, notiReciv, PendingIntent.FLAG_UPDATE_CURRENT);
+                        penNotu = PendingIntent.getBroadcast(getApplicationContext(), 100, notiReciv, PendingIntent.FLAG_IMMUTABLE);
                         alarm = (AlarmManager) getSystemService(ALARM_SERVICE);
                         alarm.setRepeating(AlarmManager.RTC_WAKEUP, calnder.getTimeInMillis(), AlarmManager.INTERVAL_DAY, penNotu);
                         Toast.makeText(getApplicationContext(), setRemind, Toast.LENGTH_SHORT).show();
@@ -746,7 +748,7 @@ public class pninaYomit extends Activity {
                         calnder.set(Calendar.MINUTE, mins);
 
                         Intent notiReciv = new Intent(getApplicationContext(), Notification_reciver.class);
-                        penNotu = PendingIntent.getBroadcast(getApplicationContext(), 100, notiReciv, PendingIntent.FLAG_UPDATE_CURRENT);
+                        penNotu = PendingIntent.getBroadcast(getApplicationContext(), 100, notiReciv, PendingIntent.FLAG_IMMUTABLE);
                         alarm = (AlarmManager) getSystemService(ALARM_SERVICE);
                         alarm.setRepeating(AlarmManager.RTC_WAKEUP, calnder.getTimeInMillis(), AlarmManager.INTERVAL_DAY, penNotu);
                         Toast.makeText(getApplicationContext(), setRemind, Toast.LENGTH_SHORT).show();
@@ -803,7 +805,8 @@ public class pninaYomit extends Activity {
                         calnder.set(Calendar.MINUTE, mins);
 
                         Intent notiReciv = new Intent(getApplicationContext(), Notification_reciver.class);
-                        penNotu = PendingIntent.getBroadcast(getApplicationContext(), 100, notiReciv, PendingIntent.FLAG_UPDATE_CURRENT);
+                        penNotu = PendingIntent.getBroadcast(getApplicationContext(), 100, notiReciv, PendingIntent.FLAG_IMMUTABLE);
+
                         alarm = (AlarmManager) getSystemService(ALARM_SERVICE);
                         alarm.setRepeating(AlarmManager.RTC_WAKEUP, calnder.getTimeInMillis(), AlarmManager.INTERVAL_DAY, penNotu);
                         Toast.makeText(getApplicationContext(), setRemind, Toast.LENGTH_SHORT).show();

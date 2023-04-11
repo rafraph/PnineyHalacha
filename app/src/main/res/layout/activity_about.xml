@@ -5,10 +5,10 @@
     android:id="@+id/layout_root"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
+    android:background="#FFFFFF"
     android:orientation="vertical"
-    tools:context=".About"
 
-    android:background="#FFFFFF">
+    tools:context=".About">
 
 
     <LinearLayout
@@ -68,8 +68,8 @@
             android:id="@+id/appName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingRight="30dp"
             android:paddingLeft="30dp"
+            android:paddingRight="30dp"
             android:paddingBottom="15dp"
             android:text="אפליקציית פניני הלכה"
             android:textColor="#970606"
@@ -81,8 +81,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
 
-            android:paddingRight="10dp"
             android:paddingLeft="10dp"
+            android:paddingRight="10dp"
             android:paddingBottom="15dp"
             android:text="כוללת את כל ספרי פניני הלכה והרחבות בעברית, אנגלית, ספרדית, רוסית וצרפתית"
             android:textColor="#000000"
@@ -94,8 +94,8 @@
             android:layout_width="match_parent"
             android:layout_height="42dp"
 
-            android:paddingRight="10dp"
             android:paddingLeft="10dp"
+            android:paddingRight="10dp"
             android:text="עדכון גרסא: שילה בן נתן"
             android:textColor="#000000"
             android:textSize="16dp" />
@@ -104,8 +104,8 @@
             android:id="@+id/newD"
             android:layout_width="match_parent"
             android:layout_height="42dp"
-            android:paddingRight="10dp"
             android:paddingLeft="10dp"
+            android:paddingRight="10dp"
             android:text="עיצוב: אניה בורוכוב"
             android:textColor="#000000"
             android:textSize="16dp" />
@@ -115,8 +115,8 @@
             android:id="@+id/editText"
             android:layout_width="match_parent"
             android:layout_height="52dp"
-            android:paddingRight="10dp"
             android:paddingLeft="10dp"
+            android:paddingRight="10dp"
             android:text="עריכת הטקסט: אלישע הנשקה ושילה בן נתן"
             android:textColor="#000000"
             android:textSize="16dp" />
@@ -145,7 +145,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center"
-            android:text="4.1.16" />
+            android:text="5.1.14" />
 
 
     </LinearLayout>
