@@ -74,14 +74,11 @@ public class downBack extends Activity {
     public static void loopDownload(Context context,String [][] arrayBook,String check)
     {
         File fileCheck=new File(context.getFilesDir() +"/"+check);
-        System.out.println("well");
         if(!fileCheck.exists()) {
-            System.out.println("yalla");
             for (int j = 0; j < arrayBook[0].length; j++) {
                 downLocal(context, arrayBook[0][j] + "_tochen.html");
                 for (int i = 1; i <= Integer.parseInt(arrayBook[1][j]); i++) {
                     downLocal(context, arrayBook[0][j] + "_" + i + ".html");
-                    System.out.println(j+":"+i);
                 }
             }
 
@@ -92,7 +89,6 @@ public class downBack extends Activity {
                 writer.append("yes");
                 writer.flush();
                 writer.close();
-                System.out.println("wow");
             } catch (Exception e) {
                 e.printStackTrace();
             }

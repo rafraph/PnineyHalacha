@@ -408,9 +408,6 @@ public class BookmarkActivity extends Activity
 
 						/*book*/
 						index_end = Bookmarks.indexOf(",", index);
-						System.out.println(Bookmarks);
-						System.out.println((Bookmarks.substring(index, index_end)));
-
 						book_chapter[0] = Integer.parseInt(Bookmarks.substring(index, index_end));
 
 						/*chapter*/

@@ -175,7 +175,6 @@ public class MainActivity extends AppCompatActivity
 		{
 			expListView.collapseGroup(nowExp);
 			shPrefEditor.putInt("expList",-1);
-			System.out.println(mPrefs.getInt("expList",-1));
 			expListView.setSelection(0);
 			nowExp=-1;
 		}
@@ -2793,7 +2792,6 @@ private void initializeSeekBar()
 				ourIntent.putExtra("scroolY", mPrefs.getInt("h&rScrool",0));
 				ourIntent.putExtra("hearAndRead", mPrefs.getBoolean("hearAndRead",true));
 				ourIntent.putExtra("book_chapter",extras.getIntArray("book_chapter") );
-				System.out.println("shilo77777777777777777777777777777777777777777777777777777"+"sections_" + mPrefs.getInt("h&rChapId",1));
 				ourIntent.putExtra("sections_" + 1,extras.getStringArrayList("sections_" + 1));
 				ourIntent.putExtra("sections_" + 2,extras.getStringArrayList("sections_" + 2));
 				ourIntent.putExtra("sections_" + 3,extras.getStringArrayList("sections_" + 3));
@@ -2961,7 +2959,6 @@ private void initializeSeekBar()
 				ourIntent.putExtra("scroolY", mPrefs.getInt("h&rScrool",0));
 				ourIntent.putExtra("hearAndRead", mPrefs.getBoolean("hearAndRead",true));
 				ourIntent.putExtra("book_chapter",extras.getIntArray("book_chapter") );
-				System.out.println("shilo77777777777777777777777777777777777777777777777777777"+"sections_" + mPrefs.getInt("h&rChapId",1));
 				ourIntent.putExtra("sections_" + 1,extras.getStringArrayList("sections_" + 1));
 				ourIntent.putExtra("sections_" + 2,extras.getStringArrayList("sections_" + 2));
 				ourIntent.putExtra("sections_" + 3,extras.getStringArrayList("sections_" + 3));

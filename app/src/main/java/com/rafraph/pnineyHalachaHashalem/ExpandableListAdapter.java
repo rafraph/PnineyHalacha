@@ -143,7 +143,6 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter
 		TextView lblListHeader = (TextView) convertView.findViewById(R.id.lblListHeader);
 		ImageView ListHeaderIconPlay = (ImageView) convertView.findViewById(R.id.ListHeaderIconPlay);
 		int a = lblListHeader.getId();
-		System.out.println(headerTitle);
 		if(headerTitle.equals("ברכות") || headerTitle.equals("מועדים")      ||
 		   headerTitle.equals("זמנים") || headerTitle.equals("סוכות")       ||
 		   headerTitle.equals("שבת")   || headerTitle.equals("פסח")         ||

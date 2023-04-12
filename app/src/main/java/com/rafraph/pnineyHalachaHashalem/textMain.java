@@ -340,8 +340,6 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 						reduce-=11;
 				}
 
-				System.out.println(book_chapter[0]+reduce);
-
 				ourIntent.putExtra("exp", book_chapter[0]+reduce);
 				startActivity(ourIntent);
 			}
@@ -619,7 +617,6 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 						Intent intent;
 						switch (item.getItemId()) {
 							case -1:/*Home page*/
-
 								try {
 									ourClass = null;
 
@@ -631,7 +628,6 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 								}
 								break;
 							case 0:/*settings*/
-
 								try {
 									ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.MainActivity");
 								} catch (ClassNotFoundException e) {
@@ -644,7 +640,6 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 								shPrefEditor.commit();
 								startActivity(ourIntent);
 								break;
-
 							case 1:/*to books*/
 								try {
 									ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.MainActivity");
@@ -655,7 +650,6 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 								ourIntent.putExtra("homePage", false);
 								startActivity(ourIntent);
 								break;
-
 							case 2:/*pninaYomit*/
 								try {
 									ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.pninaYomit");
@@ -665,7 +659,6 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 								ourIntent = new Intent(textMain.this, ourClass);
 								startActivity(ourIntent);
 								break;
-
 							case 3:/*search in all books*/
 								try {
 									ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.SearchHelp");
@@ -674,13 +667,10 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 								}
 								ourIntent = new Intent(textMain.this, ourClass);
 								startActivity(ourIntent);
-
 								break;
-
 							case 4:/*acronyms*/
 								acronymsDecode();
 								break;
-
 							case 5:/*feedback*/
 								try {
 									ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.Feedback");
@@ -704,7 +694,6 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 									intent.setData(Uri.parse("https://shop.yhb.org.il/en/"));
 								startActivity(intent);
 								break;
-
 							case 7:/*ask the rav*/
 								intent = new Intent(Intent.ACTION_VIEW);
 								intent.setData(Uri.parse("https://yhb.org.il/שאל-את-הרב-2/"));
@@ -730,8 +719,6 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 									e.printStackTrace();
 								}
 								break;
-
-
 							default:
 								break;
 						}
@@ -1065,13 +1052,9 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 				query = extras.getString("query");
 				findBookAndChapter();
 
-				//webview.loadUrl(chaptersFiles[book_chapter[0]][book_chapter[1]]);
 				if (isNotHeb)
 					loadWebview(chaptersFiles[book_chapter[0]][book_chapter[1]], webview);
 
-
-				System.out.println(query);
-				//String s=query.split("l")[2];
 				scrollY = 0;
 				lnrFindOptions.setVisibility(View.VISIBLE);
 				lnrOptions.setVisibility(View.INVISIBLE);
@@ -1169,15 +1152,10 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 
 							String dag = extras.getString("searchPosition", "false");
 							dag = dag.split(":")[0];
-							//dag=context.getFilesDir() +"/r_sucot_1.html";
-							System.out.println(dag);
-
-							//loadWebview(dag, webview);
 							webview.loadUrl(dag);
 							webview.setWebViewClient(new WebViewClient() {
 
 								public void onPageFinished(WebView view, String url) {
-									// do your stuff here
 									webview.findAllAsync("and");
 								}
 							});
@@ -1189,9 +1167,6 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 
 						String dag = extras.getString("searchPosition", "false");
 						dag = dag.split(":")[0];
-						//dag=context.getFilesDir() +"/r_sucot_1.html";
-						System.out.println(dag);
-
 						//loadWebview(dag, webview);
 						webview.loadUrl(dag);
 						webview.setWebViewClient(new WebViewClient() {
@@ -1201,8 +1176,6 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 								webview.findAllAsync("and");
 							}
 						});
-
-
 					}*/
 					else/*the regular choice of chapter*/ {
 						bookmark = false;
@@ -1352,15 +1325,12 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 			try
 			{
 				splitString[0]=splitString[0].split("file://")[1];
-				System.out.println(splitString[0]);
 				if((splitString[0].equals(getBaseContext().getFilesDir()+"/s"))||(splitString[0].equals(getBaseContext().getFilesDir()+"/r"))||(splitString[0].equals(getBaseContext().getFilesDir()+"/e"))||(splitString[0].equals(getBaseContext().getFilesDir()+"/f")))
 				{
 					prefix="file:///data/user/0/com.rafraph.pnineyHalachaHashalem/files/";
 					//fileNameOnly = fileName.substring(prefix.length());
 					File file = new File(getBaseContext().getFilesDir() +"/"+fileName.substring(prefix.length()));
-					System.out.println(getBaseContext().getFilesDir());
 
-					System.out.println(fileName);
 					is = new FileInputStream(file);
 
 				}
@@ -1773,19 +1743,13 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 		{
 			File file=null;
 			InputStream is=null;
-
-			System.out.println(splitString[0]);
-			System.out.println(getBaseContext().getFilesDir()+"/f");
 			splitString[0]=splitString[0].split("file://")[1];
-			System.out.println(splitString[0]);
 			if((splitString[0].equals(getBaseContext().getFilesDir()+"/s"))||(splitString[0].equals(getBaseContext().getFilesDir()+"/r"))||(splitString[0].equals(getBaseContext().getFilesDir()+"/e"))||(splitString[0].equals(getBaseContext().getFilesDir()+"/f")))
 			{
 				prefix="file:///data/user/0/com.rafraph.pnineyHalachaHashalem/files/";
 				//fileNameOnly = fileName.substring(prefix.length());
 				file = new File(getBaseContext().getFilesDir() +"/"+fileName.substring(prefix.length()));
-				System.out.println(getBaseContext().getFilesDir());
 
-				System.out.println(fileName);
 				is = new FileInputStream(file);
 
 			}
@@ -3288,7 +3252,6 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 	public void findBookAndChapter()
 	{
 		String bookAndChapter;
-		System.out.println(searchPosition);
 		if(searchPosition.charAt(19)=='0'||searchPosition.charAt(18)=='0')
 		{
 			loadWebview((searchPosition.split(":")[0]),webview);

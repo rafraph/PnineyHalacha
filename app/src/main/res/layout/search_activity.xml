@@ -177,7 +177,6 @@
 			android:paddingLeft="65dp"
 			android:paddingTop="8dp"
 			android:paddingRight="50dp"
-
 			android:textAlignment="viewStart" />
 
 		<ImageView
@@ -185,15 +184,11 @@
 			android:layout_width="20dp"
 			android:layout_height="wrap_content"
 			android:layout_alignParentRight="true"
-
 			android:layout_marginStart="5dp"
 			android:layout_marginLeft="5dp"
 			android:layout_marginTop="5dp"
-
-
 			android:layout_marginRight="24dp"
 			android:src="@drawable/search" />
-
 
 		<ImageView
 			android:id="@+id/getVoice"
@@ -201,13 +196,8 @@
 			android:layout_height="20dp"
 			android:layout_marginStart="15dp"
 			android:layout_marginLeft="24dp"
-
-
 			android:layout_marginTop="10dp"
-
 			android:layout_marginEnd="5dp"
-
-
 			android:layout_marginRight="5dp"
 			android:layout_marginBottom="5dp"
 			android:scaleX="2"
@@ -215,17 +205,14 @@
 			android:src="@drawable/voice" />
 	</RelativeLayout>
 
-
-
-
 	<TextView
 		android:id="@+id/no_found"
 		android:layout_width="323dp"
 		android:layout_height="wrap_content"
-
 		android:text="לא נמצאו תוצאות"
 		android:textSize="30dp"
 		android:visibility="gone"/>
+
 	<ListView
 		android:id="@+id/list2"
 		android:layout_width="match_parent"
@@ -237,6 +224,7 @@
 		android:dividerHeight="2px"
 		android:paddingRight="15dp"
 		android:gravity="start"></ListView>
+
 	<ListView
 		android:id="@+id/list"
 		android:layout_width="match_parent"
@@ -244,11 +232,6 @@
 		android:layout_marginEnd="15dp"
 		android:layout_marginRight="15dp"
 		android:divider="#FFF7EC"
-		android:dividerHeight="2px"
-		>
-
-	</ListView>
-
-
+		android:dividerHeight="2px"></ListView>
 
 </LinearLayout>

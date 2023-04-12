@@ -2594,11 +2594,7 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
         header = book_name + convert_character_to_id(chapter) + ", א";
         playerInfo.setText(header);
         // TODO: fill the list of sections of the new chapter
-        System.out.println("hi"+chapter);
-        System.out.println("hiAgain"+playerService.getChapter());
-        //int a=0/0;
         sections = extras.getStringArrayList("sections_" + playerService.getChapter());
-        System.out.println(sections.get(0));
         List<HashMap<String, String>> aList = new ArrayList<HashMap<String, String>>();
         boolean first=true;
         ArrayAdapter adapter;
