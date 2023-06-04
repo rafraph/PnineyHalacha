@@ -35,12 +35,6 @@ public final class SearchActivityBinding implements ViewBinding {
   public final TextView lastSearch;
 
   @NonNull
-  public final ListView list;
-
-  @NonNull
-  public final ListView list2;
-
-  @NonNull
   public final LinearLayout lnrOption3;
 
   @NonNull
@@ -53,10 +47,10 @@ public final class SearchActivityBinding implements ViewBinding {
   public final ImageView menu;
 
   @NonNull
-  public final TextView noFound;
+  public final TextView searchNow;
 
   @NonNull
-  public final TextView searchNow;
+  public final ListView searchResults;
 
   @NonNull
   public final TextView textView10;
@@ -81,24 +75,22 @@ public final class SearchActivityBinding implements ViewBinding {
 
   private SearchActivityBinding(@NonNull LinearLayout rootView, @NonNull ImageView bChap2,
       @NonNull ImageView getVoice, @NonNull ImageView goSearch, @NonNull TextView lastSearch,
-      @NonNull ListView list, @NonNull ListView list2, @NonNull LinearLayout lnrOption3,
-      @NonNull LinearLayout lnrOptions, @NonNull LinearLayout main, @NonNull ImageView menu,
-      @NonNull TextView noFound, @NonNull TextView searchNow, @NonNull TextView textView10,
-      @NonNull TextView textView11, @NonNull TextView textView7, @NonNull TextView textView8,
-      @NonNull TextView textView9, @NonNull EditText title, @NonNull ImageView toMain) {
+      @NonNull LinearLayout lnrOption3, @NonNull LinearLayout lnrOptions,
+      @NonNull LinearLayout main, @NonNull ImageView menu, @NonNull TextView searchNow,
+      @NonNull ListView searchResults, @NonNull TextView textView10, @NonNull TextView textView11,
+      @NonNull TextView textView7, @NonNull TextView textView8, @NonNull TextView textView9,
+      @NonNull EditText title, @NonNull ImageView toMain) {
     this.rootView = rootView;
     this.bChap2 = bChap2;
     this.getVoice = getVoice;
     this.goSearch = goSearch;
     this.lastSearch = lastSearch;
-    this.list = list;
-    this.list2 = list2;
     this.lnrOption3 = lnrOption3;
     this.lnrOptions = lnrOptions;
     this.main = main;
     this.menu = menu;
-    this.noFound = noFound;
     this.searchNow = searchNow;
+    this.searchResults = searchResults;
     this.textView10 = textView10;
     this.textView11 = textView11;
     this.textView7 = textView7;
@@ -159,18 +151,6 @@ public final class SearchActivityBinding implements ViewBinding {
         break missingId;
       }
 
-      id = R.id.list;
-      ListView list = ViewBindings.findChildViewById(rootView, id);
-      if (list == null) {
-        break missingId;
-      }
-
-      id = R.id.list2;
-      ListView list2 = ViewBindings.findChildViewById(rootView, id);
-      if (list2 == null) {
-        break missingId;
-      }
-
       id = R.id.lnrOption3;
       LinearLayout lnrOption3 = ViewBindings.findChildViewById(rootView, id);
       if (lnrOption3 == null) {
@@ -191,15 +171,15 @@ public final class SearchActivityBinding implements ViewBinding {
         break missingId;
       }
 
-      id = R.id.no_found;
-      TextView noFound = ViewBindings.findChildViewById(rootView, id);
-      if (noFound == null) {
-        break missingId;
-      }
-
       id = R.id.search_now;
       TextView searchNow = ViewBindings.findChildViewById(rootView, id);
       if (searchNow == null) {
+        break missingId;
+      }
+
+      id = R.id.searchResults;
+      ListView searchResults = ViewBindings.findChildViewById(rootView, id);
+      if (searchResults == null) {
         break missingId;
       }
 
@@ -246,8 +226,8 @@ public final class SearchActivityBinding implements ViewBinding {
       }
 
       return new SearchActivityBinding((LinearLayout) rootView, bChap2, getVoice, goSearch,
-          lastSearch, list, list2, lnrOption3, lnrOptions, main, menu, noFound, searchNow,
-          textView10, textView11, textView7, textView8, textView9, title, toMain);
+          lastSearch, lnrOption3, lnrOptions, main, menu, searchNow, searchResults, textView10,
+          textView11, textView7, textView8, textView9, title, toMain);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

@@ -35,7 +35,6 @@
 				android:id="@+id/menu"
 				android:layout_width="69dp"
 				android:layout_height="40dp"
-
 				android:layout_marginStart="50dp"
 				android:layout_marginLeft="50dp"
 				android:paddingRight="15dp"
@@ -79,7 +78,6 @@
 			android:background="@drawable/rec_r_half2_empty"
 			android:gravity="center"
 			android:inputType="textPersonName"
-
 			android:text="חיפושים אחרונים"
 			android:textColor="#970606"
 			android:textStyle="bold" />
@@ -93,7 +91,6 @@
 			android:inputType="textPersonName"
 			android:text="חיפוש"
 			android:textColor="#FFFFFF"
-
 			android:textStyle="bold" />
 	</LinearLayout>
 
@@ -205,33 +202,35 @@
 			android:src="@drawable/voice" />
 	</RelativeLayout>
 
-	<TextView
-		android:id="@+id/no_found"
-		android:layout_width="323dp"
-		android:layout_height="wrap_content"
-		android:text="לא נמצאו תוצאות"
-		android:textSize="30dp"
-		android:visibility="gone"/>
+<!--	<TextView-->
+<!--		android:id="@+id/no_found"-->
+<!--		android:layout_width="323dp"-->
+<!--		android:layout_height="wrap_content"-->
+<!--		android:text="לא נמצאו תוצאות"-->
+<!--		android:textSize="30dp"-->
+<!--		android:visibility="gone"/>-->
+
+<!--	<ListView-->
+<!--		android:id="@+id/list2"-->
+<!--		android:layout_width="match_parent"-->
+<!--		android:layout_height="match_parent"-->
+<!--		android:layout_marginEnd="15dp"-->
+<!--		android:layout_marginRight="15dp"-->
+<!--		android:textAlignment="viewStart"-->
+<!--		android:divider="#FFF7EC"-->
+<!--		android:dividerHeight="2px"-->
+<!--		android:paddingRight="15dp"-->
+<!--		android:gravity="start"></ListView>-->
 
 	<ListView
-		android:id="@+id/list2"
+		android:id="@+id/searchResults"
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
 		android:layout_marginEnd="15dp"
 		android:layout_marginRight="15dp"
-		android:textAlignment="viewStart"
-		android:divider="#FFF7EC"
-		android:dividerHeight="2px"
-		android:paddingRight="15dp"
-		android:gravity="start"></ListView>
 
-	<ListView
-		android:id="@+id/list"
-		android:layout_width="match_parent"
-		android:layout_height="match_parent"
-		android:layout_marginEnd="15dp"
-		android:layout_marginRight="15dp"
-		android:divider="#FFF7EC"
+		android:divider="#000"
+		android:textColor="#000"
 		android:dividerHeight="2px"></ListView>
-
+	<!--		android:divider="#FFF7EC"-->
 </LinearLayout>
