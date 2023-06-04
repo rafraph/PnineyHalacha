@@ -13,7 +13,6 @@ import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -23,10 +22,8 @@ import android.app.Activity;
 import android.os.Environment;
 import android.os.IBinder;
 import android.support.annotation.RequiresApi;
-import android.support.v7.app.ActionBar;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.view.ContextThemeWrapper;
-import android.text.format.Time;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -148,7 +145,7 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
     public String book_name;
     public TextView playerInfo;
     Bundle extras;
-    public TextView[] v1=new TextView[50];
+    public TextView[] textViewArray =new TextView[50];
     private MediaPlayerService  playerService;
     boolean serviceBound = false;
     boolean firstCall;
@@ -861,26 +858,26 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
             for (int i=0; i<txtvList.size(); i++)
             {
                 listview.addHeaderView(txtvList.get(i));
-                v1[i]=txtvList.get(i);
+                textViewArray[i]=txtvList.get(i);
             }
-            for(int i=0; i< v1.length; i++)
+            for(int i = 0; i< textViewArray.length; i++)
             {
-                if(v1[i]!=null)
+                if(textViewArray[i]!=null)
                 {
                     if (mPrefs.getInt("BlackBackground", 0) == 1)
                     {
-                        v1[i].setBackgroundColor(Color.BLACK);
-                        v1[i].setTextColor(Color.WHITE);
+                        textViewArray[i].setBackgroundColor(Color.BLACK);
+                        textViewArray[i].setTextColor(Color.WHITE);
                     }
                     else
                     {
-                        v1[i].setBackgroundColor(Color.WHITE);
-                        v1[i].setTextColor(Color.BLACK);
+                        textViewArray[i].setBackgroundColor(Color.WHITE);
+                        textViewArray[i].setTextColor(Color.BLACK);
                     }
                 }
             }
-            v1[section-1].setBackgroundColor(Color.rgb(151, 6, 6));
-            v1[section-1].setTextColor(Color.WHITE);
+            textViewArray[section-1].setBackgroundColor(Color.rgb(151, 6, 6));
+            textViewArray[section-1].setTextColor(Color.WHITE);
             listview.setCacheColorHint(Color.WHITE);
 
             listview.setOnItemClickListener(new AdapterView.OnItemClickListener()
@@ -2429,13 +2426,13 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
             chapter = intent.getIntExtra("chapter", 0);
             restartPage();
             for (int i = 0; i < 50; i++) {
-                if (v1[i] != null) {
+                if (textViewArray[i] != null) {
                     if (mPrefs.getInt("BlackBackground", 0) == 1) {
-                        v1[i].setBackgroundColor(Color.BLACK);
-                        v1[i].setTextColor(Color.WHITE);
+                        textViewArray[i].setBackgroundColor(Color.BLACK);
+                        textViewArray[i].setTextColor(Color.WHITE);
                     } else {
-                        v1[i].setBackgroundColor(Color.WHITE);
-                        v1[i].setTextColor(Color.BLACK);
+                        textViewArray[i].setBackgroundColor(Color.WHITE);
+                        textViewArray[i].setTextColor(Color.BLACK);
                     }
                 }
             }
@@ -2446,9 +2443,9 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
             int a=0;
             if(team)
                 a=1;
-            if (v1[playerService.getSection()] != null) {
-                v1[playerService.getSection() - 1].setBackgroundColor(Color.rgb(151, 6, 6));
-                v1[playerService.getSection() - 1].setTextColor(Color.WHITE);
+            if (textViewArray[playerService.getSection()] != null) {
+                textViewArray[playerService.getSection() - 1].setBackgroundColor(Color.rgb(151, 6, 6));
+                textViewArray[playerService.getSection() - 1].setTextColor(Color.WHITE);
                 playerInfo.setText(book_name + " " + convert_character_to_id(playerService.getChapter()) + ", " + convert_character_to_id(playerService.getSection()));
             }
             clickOnItemFromList = false;
@@ -2600,13 +2597,13 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
         ArrayAdapter adapter;
         adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, aList);
 
-        for (int m = 0; m < v1.length; m++) {
-             listview.removeHeaderView(v1[m]);
+        for (int m = 0; m < textViewArray.length; m++) {
+             listview.removeHeaderView(textViewArray[m]);
         }
 
         for (int m = listview.getFooterViewsCount()-1; m >= 0; m--)
             listview.removeFooterView(listview.getChildAt(0));
-        v1=new TextView[50];
+        textViewArray =new TextView[50];
         //while (listview.getHeaderViewsCount()>0)
            // listview.removeHeaderView(listview.getChildAt(0));
         for (int i = 0; i < sections.size(); i++) {
@@ -2664,7 +2661,7 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
         txtvList.get(0).setBackgroundColor(Color.rgb(120,1,1));
         for (int i = 0; i <txtvList.size(); i++) {
             listview.addHeaderView(txtvList.get(i));
-            v1[i]=txtvList.get(i);
+            textViewArray[i]=txtvList.get(i);
         }
 
         listview.setCacheColorHint(Color.WHITE);

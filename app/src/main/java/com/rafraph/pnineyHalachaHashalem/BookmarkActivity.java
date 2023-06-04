@@ -78,10 +78,7 @@ public class BookmarkActivity extends Activity
 		setContentView(R.layout.bookmarks);
 		bookmarksListView = (ListView) findViewById(R.id.Bookmarkslist);
 		buttonDeleteAll = (Button) findViewById(R.id.buttonDeleteAll);
-	//	shPrefEditor = mPrefs.edit();
-		
 		TextView textView = new TextView(this);
-
 		textView.setTextColor(Color.BLACK);
 		textView.setTextSize(30);
 		bookmarksListView.addHeaderView(textView);
@@ -106,7 +103,6 @@ public class BookmarkActivity extends Activity
 			public void onClick(View v) {
 				ContextThemeWrapper ctw = new ContextThemeWrapper(BookmarkActivity.this, R.style.CustomPopupTheme);
 				PopupMenu popupMenu = new PopupMenu(ctw, v);
-				//popupMenu.
 
 				if(MyLanguage == ENGLISH) {
 					popupMenu.getMenu().add(0,-1,0,"Homepage");
@@ -328,7 +324,6 @@ public class BookmarkActivity extends Activity
 		if (mPrefs.getInt("BlackBackground", 0)==1)
 		{
 ;			ImageView toMain= (ImageView) findViewById(R.id.to_main);
-			//main.setBackgroundColor(Color.BLACK);
 			main.setBackgroundColor(Color.BLACK);
 			if(MyLanguage==ENGLISH)
 				toMain.setImageResource(R.drawable.to_main_b_e);
@@ -340,22 +335,14 @@ public class BookmarkActivity extends Activity
 				toMain.setImageResource(R.drawable.to_main_b_f);
 			if(MyLanguage==HEBREW)
 				toMain.setImageResource(R.drawable.to_main_b);
-			main=(LinearLayout) findViewById(R.id.lnrOption3);
-			menu= (ImageView) findViewById(R.id.menu);
+			main = (LinearLayout) findViewById(R.id.lnrOption3);
+			menu = (ImageView) findViewById(R.id.menu);
 			menu.setImageResource(R.drawable.ic_action_congif_b);
 			main.setBackgroundColor(Color.rgb(120,1,1));
-			//main2.setBackgroundColor(Color.BLACK);
-			//main3.setBackgroundColor(Color.BLACK);
-			//main4.setBackgroundColor(Color.BLACK);
-			//main5.setBackgroundColor(Color.BLACK);
-
-
 		}
 		else
 		{
 			ImageView toMain= (ImageView) findViewById(R.id.to_main);
-			//main.setBackgroundColor(Color.BLACK);
-
 			if(MyLanguage==ENGLISH)
 				toMain.setImageResource(R.drawable.to_main_e);
 			if(MyLanguage==RUSSIAN)
@@ -448,7 +435,6 @@ public class BookmarkActivity extends Activity
 				{
 					public void onItemClick(AdapterView<?> a, View v, int position, long id)
 					{
-						//bookmarksListView.removeHeaderView(v);
 						AlertDialog.Builder adb=new AlertDialog.Builder(context);
 						adb.setTitle("Delete?");
 						adb.setMessage("Are you sure you want to delete " + position);
@@ -598,18 +584,12 @@ public class BookmarkActivity extends Activity
 	private void fillBookmarksNames()
 	{
 		int i, index = 0, index_end=0;
-		String strBookmark = Bookmarks;
 		while((index = Bookmarks.indexOf("," , index)) != -1)
 		{
 			index++;
 			index_end = Bookmarks.indexOf("," , index);
-			//listBookmarksNames.add(Bookmarks.substring(index, index_end));
 			TextView textView = new TextView(getBaseContext());
-			//String sourceString = "<b>" + "[" + chapterCounter + "] " + chaptersNames[i][j] + "</b> " + sections;
-			//String sourceString = "<b >"+ chaptersNames[i][j].split("-")[1] + "</b>("+ chaptersNames[i][j].split("-")[0]+","+ sections+")";
 			textView.setText(Bookmarks.substring(index, index_end));
-			//textView.setText("shilo");
-			//textView.setText(" (" + sections+ ")");/*only one item in the list per chapter*/
 			if (mPrefs.getInt("BlackBackground", 0)==1)
 			{
 				textView.setTextColor(Color.WHITE);
