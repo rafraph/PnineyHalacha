@@ -1039,63 +1039,7 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 				lnrFindOptions.setVisibility(View.VISIBLE);
 				lnrOptions.setVisibility(View.INVISIBLE);
 				lnrFindOptions.setTag("vis");
-				webview.findAllAsync(" " + query + " ");
-				webview.setFindListener(new WebView.FindListener() {
-
-					@Override
-					public void onFindResultReceived(int activeMatchOrdinal, int numberOfMatches, boolean isDoneCounting) {
-						if (numberOfMatches == 0) {
-							webview.findAllAsync(" " + query + ",");
-							webview.setFindListener(new WebView.FindListener() {
-
-								@Override
-								public void onFindResultReceived(int activeMatchOrdinal, int numberOfMatches, boolean isDoneCounting) {
-									if (numberOfMatches == 0) {
-										webview.findAllAsync("," + query + " ");
-										webview.setFindListener(new WebView.FindListener() {
-
-											@Override
-											public void onFindResultReceived(int activeMatchOrdinal, int numberOfMatches, boolean isDoneCounting) {
-												if (numberOfMatches == 0) {
-													webview.findAllAsync(query);
-													webview.setFindListener(new WebView.FindListener() {
-
-														@Override
-														public void onFindResultReceived(int activeMatchOrdinal, int numberOfMatches, boolean isDoneCounting) {
-															if (numberOfMatches == 0) {
-																webview.findAllAsync(" " + query + "ם");
-																webview.setFindListener(new WebView.FindListener() {
-
-																	@Override
-																	public void onFindResultReceived(int activeMatchOrdinal, int numberOfMatches, boolean isDoneCounting) {
-																		if (numberOfMatches == 0) {
-																			webview.findAllAsync(" " + query + "הם");
-																			webview.setFindListener(new WebView.FindListener() {
-
-																				@Override
-																				public void onFindResultReceived(int activeMatchOrdinal, int numberOfMatches, boolean isDoneCounting) {
-																					if (numberOfMatches == 0) {
-																						webview.findAllAsync(" " + query + "יהם");
-																					}
-																				}
-																			});
-																		}
-																	}
-																});
-															}
-														}
-													});
-												}
-											}
-										});
-									}
-								}
-							});
-						}
-
-					}
-				});
-
+				webview.findAllAsync(query);
 			} else {
 				lnrFindOptions.setVisibility(View.GONE);
 				lnrFindOptions.setTag("gone");
@@ -1596,8 +1540,6 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 				else
 					bNext_sec.setEnabled(true);
 				ChangeChapter = true;
-
-
 				break;
 
 			case R.id.ibNextPage:

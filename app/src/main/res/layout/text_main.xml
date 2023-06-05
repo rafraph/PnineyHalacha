@@ -41,8 +41,7 @@
             android:layout_height="60dp"
             android:background="#00FFFFFF"
             android:contentDescription="@string/Previous"
-            android:src="@drawable/ic_action_previous_item"
-            />
+            android:src="@drawable/ic_action_previous_item"/>
 
         <ImageButton
             android:id="@+id/set_note"
