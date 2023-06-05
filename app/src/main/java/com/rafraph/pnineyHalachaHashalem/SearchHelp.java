@@ -474,7 +474,6 @@ public class SearchHelp extends Activity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                //if(searchText.getText().toString().contains("\'")) {
                 if (searchText.getText().toString().length() == 1)
                     if (hebCharacter.contains(searchText.getText().toString()))
                         LangWrite = HEBREW;
@@ -611,15 +610,12 @@ public class SearchHelp extends Activity {
                     Intent ourIntent = new Intent(SearchHelp.this, ourClass);
 
                     searchPosition = listStrAnchor.get(position-1);
-//                    String searchText = listStrName.get(position);
-
                     sectionsForToast = listStrAnchor.get(position);
                     if (searchPosition.contains("asset")) {
                         ourIntent.putExtra("cameFromSearch", true);
                         ourIntent.putExtra("searchPosition", searchPosition);
                         ourIntent.putExtra("sectionsForToast", sectionsForToast);
                         ourIntent.putExtra("query", query);
-//                        ourIntent.putExtra("searchText", searchText.split("\\(")[1].split(",")[0]);
 
                         for (int i = 1; i < 10; i++) {
                             if (mPrefs.getString("s" + (i - 1), "").equals(query))
@@ -630,7 +626,6 @@ public class SearchHelp extends Activity {
                         }
                         shPrefEditor.putString("s0", query);
                         shPrefEditor.putString("sp0", searchPosition + "");
-//                        shPrefEditor.putString("st0", searchText.split("\\(")[1].split(",")[0]);
                         shPrefEditor.commit();
 
                         if (sectionsForToast.indexOf("הערות:") != -1) {
@@ -1492,12 +1487,11 @@ public class SearchHelp extends Activity {
         chaptersNames[LIKUTIM_B][9] = "ליקוטים ב: ט - הלכות שמירת הנפש";
         chaptersNames[LIKUTIM_B][10] = "ליקוטים ב: י - נהיגה זהירה ותפילת הדרך";
         chaptersNames[LIKUTIM_B][11] = "ליקוטים ב: יא - הלכות הצלת נפשות";
-        chaptersNames[LIKUTIM_B][12] = "ליקוטים ב: יב - הפסקת הריון";
-        chaptersNames[LIKUTIM_B][13] = "ליקוטים ב: יג - הלכות ניתוחי מתים";
-        chaptersNames[LIKUTIM_B][14] = "ליקוטים ב: יד - השתלת אברים";
-        chaptersNames[LIKUTIM_B][15] = "ליקוטים ב: טו - הלכות הנוטה למות";
-        chaptersNames[LIKUTIM_B][16] = "ליקוטים ב: טז - ליקוטים";
-        chaptersNames[LIKUTIM_B][17] = "ליקוטים ב: יז - חברה ושליחות";
+        chaptersNames[LIKUTIM_B][12] = "ליקוטים ב: יב - הלכות ניתוחי מתים";
+        chaptersNames[LIKUTIM_B][13] = "ליקוטים ב: יג - השתלת אברים";
+        chaptersNames[LIKUTIM_B][14] = "ליקוטים ב: יד - הלכות הנוטה למות";
+        chaptersNames[LIKUTIM_B][15] = "ליקוטים ב: טו - ליקוטים";
+        chaptersNames[LIKUTIM_B][16] = "ליקוטים ב: טז - חברה ושליחות";
         /*MOADIM*/
         chaptersNames[MOADIM][1] = "מועדים: א - פתיחה";
         chaptersNames[MOADIM][2] = "מועדים: ב - דיני עשה ביום טוב";

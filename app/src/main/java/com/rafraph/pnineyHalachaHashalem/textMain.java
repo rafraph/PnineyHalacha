@@ -276,7 +276,7 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 				lnrFindOptions.setVisibility(View.GONE);
 				lnrOptions.setVisibility(View.VISIBLE);
 				lnrFindOptions.setTag("from search");
-				webview.findAllAsync("sdafsdhgfsdagfhgdszgf");
+//				webview.findAllAsync("sdafsdhgfsdagfhgdszgf");
 			}
 			if (lnrFindOptions.getTag().equals("from search")) {
 				Class ourClass = null;
@@ -297,7 +297,6 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 				try {
 					ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.MainActivity");
 					//book_chapter[0]
-
 					shPrefEditor.putInt("expList", book_chapter[0]);
 				} catch (ClassNotFoundException e) {
 					e.printStackTrace();
@@ -347,7 +346,6 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 		catch (Exception exp)
 		{
 			Toast.makeText(getApplicationContext(),	"t:"+exp.toString(), Toast.LENGTH_SHORT).show();
-
 		}
 	}
 
@@ -387,46 +385,46 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 		}.start();
 	}
 
-	private static void unzip(String zipFile, String location,String specificFile) {
-		try {
-			File f = new File(location);
-			if (!f.isDirectory()) {
-				f.mkdirs();
-			}
-			ZipInputStream zin = new ZipInputStream(new FileInputStream(zipFile));
-			try {
-				ZipEntry ze = null;
-
-				while ((ze = zin.getNextEntry()) != null) {
-					String path = location + File.separator + ze.getName();
-
-					if(ze.getName().equals(specificFile)){
-						if (ze.isDirectory()) {
-							File unzipFile = new File(path);
-							if (!unzipFile.isDirectory()) {
-								unzipFile.mkdirs();
-							}
-						} else {
-							FileOutputStream fout = new FileOutputStream(path, false);
-
-							try {
-								for (int c = zin.read(); c != -1; c = zin.read()) {
-									fout.write(c);
-								}
-								zin.closeEntry();
-							} finally {
-								fout.close();
-							}
-						}
-					}
-				}
-			} finally {
-				zin.close();
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
+//	private static void unzip(String zipFile, String location,String specificFile) {
+//		try {
+//			File f = new File(location);
+//			if (!f.isDirectory()) {
+//				f.mkdirs();
+//			}
+//			ZipInputStream zin = new ZipInputStream(new FileInputStream(zipFile));
+//			try {
+//				ZipEntry ze = null;
+//
+//				while ((ze = zin.getNextEntry()) != null) {
+//					String path = location + File.separator + ze.getName();
+//
+//					if(ze.getName().equals(specificFile)){
+//						if (ze.isDirectory()) {
+//							File unzipFile = new File(path);
+//							if (!unzipFile.isDirectory()) {
+//								unzipFile.mkdirs();
+//							}
+//						} else {
+//							FileOutputStream fout = new FileOutputStream(path, false);
+//
+//							try {
+//								for (int c = zin.read(); c != -1; c = zin.read()) {
+//									fout.write(c);
+//								}
+//								zin.closeEntry();
+//							} finally {
+//								fout.close();
+//							}
+//						}
+//					}
+//				}
+//			} finally {
+//				zin.close();
+//			}
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//	}
 
 	private void showPopupAutoScroolSettings(View v)
 	{
@@ -453,7 +451,6 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 		configHeaders[10] = "                                    9";
 		configHeaders[11] = "                                    10";
 
-
 		popupMenu.getMenu().add(0, 0, 0, configHeaders[0]);//(int groupId, int itemId, int order, int titleRes)
 		popupMenu.getMenu().add(0, 1, 1, configHeaders[1]);
 		popupMenu.getMenu().add(0, 2, 2, configHeaders[2]);
@@ -462,11 +459,6 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 		popupMenu.getMenu().add(0, 5, 5, configHeaders[5]);
 		popupMenu.getMenu().add(0, 6, 6, configHeaders[6]);
 		popupMenu.getMenu().add(0, 7, 7, configHeaders[7]);
-
-
-
-
-
 		popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
 			@Override
 			public boolean onMenuItemClick(MenuItem item) {
@@ -475,7 +467,6 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 				switch (item.getItemId()) {
 					case 1:
 						scrollSpeed = -1;
-
 						break;
 					case 2:
 						scrollSpeed = 2;
@@ -514,7 +505,6 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 						runOnUiThread(mScrollDown);
 						break;
 					case 11:
-
 						scrollSpeed = 20;
 						runOnUiThread(mScrollDown);
 						break;
@@ -524,7 +514,6 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 				return true;
 			}
 		});
-
 		popupMenu.show();
 	}
 
@@ -536,6 +525,7 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 		firstTime = true;
 		book_chapter[0] = -1;
 		book_chapter[1] = -1;
+		fillChaptersNames();
 		int fromBookmarks = 0;
 		lnrOptions = (LinearLayout) findViewById(R.id.lnrOptions);
 		lnrFindOptions = (LinearLayout) findViewById(R.id.lnrFindOptions);
@@ -545,8 +535,6 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 			public void onClick(View v) {
 				ContextThemeWrapper ctw = new ContextThemeWrapper(textMain.this, R.style.CustomPopupTheme);
 				PopupMenu popupMenu = new PopupMenu(ctw, v);
-				//popupMenu.
-
 				if (MyLanguage == ENGLISH) {
 					popupMenu.getMenu().add(0, -1, 0, "Homepage");
 					popupMenu.getMenu().add(0, 0, 0, "Settings");
@@ -619,7 +607,6 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 							case -1:/*Home page*/
 								try {
 									ourClass = null;
-
 									ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.HomePage");
 									ourIntent = new Intent(textMain.this, ourClass);
 									startActivity(ourIntent);
@@ -819,9 +806,7 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 					}
 				});
 
-				fillChaptersNames();
 				BookmarkName.setText(chaptersNames[book_chapter[0]][book_chapter[1]]);
-
 				addItemsOnSpinner();
 
 				spinner1.setOnItemSelectedListener(new OnItemSelectedListener() {
@@ -852,13 +837,9 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 			webSettings.setBuiltInZoomControls(true);
 
 		resources = getResources();
-
 		webview.requestFocusFromTouch();
 		webview.getSettings().setAllowFileAccess(true);
-
 		webview.setWebViewClient(new MyWebViewClient());
-
-
 		bParagraphs = (ImageButton) findViewById(R.id.to_main);
 		bSwitchModes = (ImageButton) findViewById(R.id.set_note);
 		bNext_sec = (ImageButton) findViewById(R.id.ibNext);
@@ -908,7 +889,6 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 
 		final Runnable runnableNote = new Runnable() {
 			public void run() {
-				// your code here
 				String note, content = null;
 				int intNoteId;
 				final Dialog dialog = new Dialog(context);
@@ -1042,15 +1022,15 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 		if (extras != null) {
 			cameFromSearch = extras.getBoolean("cameFromSearch", false);
 			searchPosition = extras.getString("searchPosition");
-			String searchText = extras.getString("searchText");
 			if (extras.getIntArray("book_chapter") != null)
 				book_chapter = extras.getIntArray("book_chapter");
 			sectionsForToast = extras.getString("sectionsForToast");
 			if (cameFromSearch == true) {
 				TextView nameBook = findViewById(R.id.bookname);
-				nameBook.setText(searchText);
+
 				query = extras.getString("query");
 				findBookAndChapter();
+				nameBook.setText(chaptersNames[book_chapter[0]][book_chapter[1]]);
 
 				if (isNotHeb)
 					loadWebview(chaptersFiles[book_chapter[0]][book_chapter[1]], webview);
@@ -1229,7 +1209,6 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 			if(!IntStream.of(haveAudio).anyMatch(x -> x ==book_chapter[0]))
 				bSwitchModes.setVisibility(View.GONE);
 		}
-
 	}
 
 	public void  setNoteId(String id)
@@ -1243,7 +1222,6 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 	}
 
 	boolean isConnected(){
-
 		ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
 		NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
 
@@ -1254,8 +1232,8 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 				return false;
 		}else
 			return false;
-
 	}
+
 	private void jumpToY ( int yLocation )
 	{
 		webview.postDelayed( new Runnable ()
@@ -1302,6 +1280,7 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 			}
 		}, 400);/*how much time to delay*/
 	}
+
 	private Context getContext() {
 		return null;
 	}
@@ -1320,8 +1299,6 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 		if ((fileName.equals(lastFileName) == false))
 		{
 			lastFileName = fileName;
-
-
 			try
 			{
 				splitString[0]=splitString[0].split("file://")[1];
@@ -1332,7 +1309,6 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 					File file = new File(getBaseContext().getFilesDir() +"/"+fileName.substring(prefix.length()));
 
 					is = new FileInputStream(file);
-
 				}
 				else{
 					prefix = "file:///android_asset/";
@@ -1363,7 +1339,6 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 	{
 		super.onResume();
 		// The activity has become visible (it is now "resumed").
-
 		supportInvalidateOptionsMenu();
 		BlackBackground = mPrefs.getInt("BlackBackground", 0);
 		SleepScreen = mPrefs.getInt("ScreenOn", 1);
@@ -1386,13 +1361,10 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 	protected void onPause()
 	{
 		super.onPause();
-
 		scrollY = webview.getScrollY();
 		shPrefEditor.putInt("book", book_chapter[0]);
 		shPrefEditor.putInt("chapter", book_chapter[1]);
 		shPrefEditor.putInt("scrollY", scrollY);
-
-
 		shPrefEditor.commit();
 	}//onPaused
 
@@ -1469,12 +1441,8 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 				bFindPrevious.setImageDrawable(resources.getDrawable(R.drawable.ic_action_up));
 			}
 		}
-
-
 		return true;
 	}//onCreateOptionsMenu
-
-
 
 	public void onConfigurationChanged(Configuration newConfig)
 	{
@@ -1514,12 +1482,10 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 		}
 	}
 
-
 	private Handler mHandler=new Handler();
 	public Runnable mScrollDown = new Runnable()
 	{
 		public void run() {
-
 			if (scrollSpeed == -1) // in case that "stop" pressed
 			{
 				webview.scrollBy(0, 0);
@@ -1575,8 +1541,6 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 					}
 				if(!enterForIf)
 					Toast.makeText(getApplicationContext(),	"לספר זה אין שמע", Toast.LENGTH_SHORT).show();
-
-
 				break;
 
 			case R.id.ibNext:
@@ -1604,9 +1568,7 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 				else
 					bPrevious_sec.setEnabled(true);
 				ChangeChapter = true;
-
 				/*in order to keep the fontSize when moving to next chapter*/
-
 				break;
 
 			case R.id.ibPrevious:
@@ -1648,15 +1610,12 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 
 			case R.id.ibFindNext:
 				webview.findNext(true);
-
-
 				break;
 
 			case R.id.ibFindPrevious:
 				webview.findNext(false);
 				break;
 		}
-
 	}//onClick
 
 	public String strBookmark, Bookmarks;
@@ -1664,10 +1623,7 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item)
 	{
-
 		// TODO Auto-generated method stub
-
-
 		return true;
 		//return super.onOptionsItemSelected(item);
 	}
@@ -1691,17 +1647,13 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 
 		int hidingItemIndex = 0;
 		CustomSpinnerAdapter dataAdapter = new CustomSpinnerAdapter(this, android.R.layout.simple_spinner_item, list, hidingItemIndex);
-
 		dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
 		spinner1.setAdapter(dataAdapter);
 	}
 
 	private void showPopupMenu(View v)
 	{
 		PopupMenu popupMenu = new PopupMenu(textMain.this, v);
-
-		//popupMenu.
 		for(int i = 0; i < headers.size(); i++)//fill the menu list
 		{
 			popupMenu.getMenu().add(0,i,i,headers.get(i).text());
@@ -1749,17 +1701,13 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 				prefix="file:///data/user/0/com.rafraph.pnineyHalachaHashalem/files/";
 				//fileNameOnly = fileName.substring(prefix.length());
 				file = new File(getBaseContext().getFilesDir() +"/"+fileName.substring(prefix.length()));
-
 				is = new FileInputStream(file);
-
 			}
 			else{
 				prefix = "file:///android_asset/";
 				fileNameOnly = fileName.substring(prefix.length());
 				is = getAssets().open(fileNameOnly);
 			}
-
-
 			//InputStream is = getAssets().open(fileNameOnly);
 			int size = is.available();
 			byte[] buffer = new byte[size];
@@ -1780,18 +1728,9 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 				}
 				headers=NewHead;
 			}
-
-
-//				if (headers.get(j).text().contains("Chapitre"))
-//					NewHead.add(headers.get(j + 1));
-//			}
-			//headers=NewHead;
-
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		//int b=0/0;
 	}
 
 	private void getTheArrayLocation(String Chapter)
@@ -1821,7 +1760,7 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 
 	private void findAllHeaders(Intent ourIntent)
 	{
-		String prefix, a;
+		String prefix;
 		int j;
 		ArrayList<String> sections = new ArrayList<String>();
 		ArrayList<String> sections2 = new ArrayList<String>();
@@ -1867,8 +1806,6 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 			}
 		}
 	}
-
-
 
 	private void fillChaptersFiles()/*list of all assets*/
 	{
@@ -3199,8 +3136,6 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 			if(firstTime == true || ChangeChapter == true)
 			{
 				firstTime = false;
-
-
 				if(cameFromSearch == true)
 				{
 					webview.loadUrl(searchPosition);
@@ -3278,7 +3213,6 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 					book_chapter[1] = j;
 					return;
 				}
-
 	}
 
 	public String convertAnchorIdToSection(int Id)
@@ -3509,7 +3443,7 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 	private void fillChaptersNames()
 	{
 		/*BRACHOT*/
-		chaptersNames[BRACHOT][1] = "ברכות: א - שילה";
+		chaptersNames[BRACHOT][1] = "ברכות: א - פתיחה";
 		chaptersNames[BRACHOT][2] = "ברכות: ב - נטילת ידיים לסעודה";
 		chaptersNames[BRACHOT][3] = "ברכות: ג - ברכת המוציא";
 		chaptersNames[BRACHOT][4] = "ברכות: ד - ברכת המזון";
@@ -4092,18 +4026,12 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 	void innerSearch()
 	{
 		final Context context = this;
-
 		// custom dialog
 		innerSearchDialog = new Dialog(context);
 		innerSearchDialog.setContentView(R.layout.inner_search);
 		innerSearchDialog.setTitle("חיפוש בפרק הנוכחי");
 		Window window = innerSearchDialog.getWindow();
-
 		window.setGravity(Gravity.TOP);
-		//window.setLayout(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
-		//window.setLayout(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
-
-
 		ImageView dialogButton =  innerSearchDialog.findViewById(R.id.goSearch);
 		TextToSearch = (EditText) innerSearchDialog.findViewById(R.id.title );
 		TextToSearch.setOnEditorActionListener(
@@ -4199,9 +4127,6 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 		Button dialogButtonExit = (Button) acronymsDialog.findViewById(R.id.dialogButtonExit);
 		Button dialogButtonDecode = (Button) acronymsDialog.findViewById(R.id.dialogButtonDecode);
 		final TextView decodedText = (TextView) acronymsDialog.findViewById(R.id.textViewDecodedText);
-		//final byte[] buffer;
-		//final int size;
-
 		TextToDecode = (EditText) acronymsDialog.findViewById(R.id.editTextAcronyms );
 
 		// if button is clicked

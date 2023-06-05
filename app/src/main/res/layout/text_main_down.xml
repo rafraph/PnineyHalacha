@@ -48,7 +48,6 @@
                 android:id="@+id/bookname"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-
                 android:layout_marginLeft="60dp"
                 android:layout_marginTop="33dp"
                 android:text="hi" />
