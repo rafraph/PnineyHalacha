@@ -248,12 +248,10 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 				note = headers.get(0).text();
 				if (book_chapter[0] < BOOKS_HEB_NUMBER)/*if this is a hebrew book*/
 				{
-					note = note.substring(6);//in order to remove the prefix of the note. something like [1]
 					content += "<p dir=\"RTL\">" + note + "</p> </body></html>";
 				}
 				else
 				{
-					note = note.substring(3);//in order to remove the prefix of the note. something like [1]
 					content += "<p dir=\"LTR\">" + note + "</p> </body></html>";
 				}
 
