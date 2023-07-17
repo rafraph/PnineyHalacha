@@ -7,16 +7,16 @@ public class BTest
 		int i=0, e=0;
 		try
 		{
-			for(int j=6;j<=6;j++)
+			for(int j=1;j<=16;j++)
 			{
 				i=0; e=0;
-				String fileName ="C:\\Users\\rafra\\Dropbox\\projects\\PnineyHalacha.git\\trunk\\pniney-tools\\ChangeFilesForPH\\src\\tefila_"+j+".html";
+				String fileName ="C:\\projects\\PnineyHalacha\\pniney-tools\\ChangeFilesForPH\\src\\pesach_"+j+".html";
 				File file = new File(fileName);
 				BufferedReader reader = new BufferedReader(new FileReader(file));
 				String line = "", oldtext = "", s1="<h1", s2="<h2", s3="name=\"_ftnref", s4="<a", s5="</a>";
 				String buttonStr1 = "<button type=\"button\" id=\"";
-				//String buttonStr2 = "\" onclick=\"ok.performClick(id);\">הערה ";
-				String buttonStr2 = "\" onclick=\"ok.performClick(id);\">הערה ";/*For English books*/
+				String buttonStr2 = "\" onclick=\"ok.performClick(id);\">הערה ";
+				//String buttonStr2 = "\" onclick=\"ok.performClick(id);\">note ";/*For English books*/
 				//String buttonStr2 = "\" onclick=\"ok.performClick(id);\">Remarque ";/*For French books*/
 				//String buttonStr2 = "\" onclick=\"ok.performClick(id);\">nota ";/*For Spanish books*/
 				String buttonStr3 = "</button>";
