@@ -14,7 +14,7 @@ for fileName in glob.iglob(dir_path + '**/*', recursive=True):
     if not fileName.endswith('.py') :
         with open(fileName, 'r', encoding="utf8") as f:
             content = f.readlines()
-            newContent =style
+            newContent = style
             for line in content:
                 if textToFind == line.strip() :
                     line ='<h2 dir="RTL"> <div class ="left"><img type="button" id="{}" onclick="audio.performClick(id);" src="./video-play-3-128.png" width="36px"; height="36px";></img></div>\n'.format(index)
@@ -23,6 +23,7 @@ for fileName in glob.iglob(dir_path + '**/*', recursive=True):
                     line = line.replace('<h2 dir="RTL">', '<h2 dir="RTL"> <div class ="left"><img type="button" id="{}" onclick="audio.performClick(id);" src="./video-play-3-128.png" width="36px"; height="36px";></img></div>'.format(index))
                     index += 1
                 newContent += line
+            print("number of text insertions for this file " + str(index))
             with open(fileName, 'w', encoding="utf8") as file:
                 file.write(newContent)
             index=1

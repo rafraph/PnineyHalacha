@@ -1,3 +1,5 @@
+java
+----
 1. copy the files you want to change to the same path as this file (trunk\pniney-tools\ChangeFilesForPH\src)
 
 2. replace (copy from here and paste in the "replace" menu) the following in all files
@@ -12,3 +14,9 @@
 4. open command line and run the following 2 commands:
 javac BTest.java
 java -Dfile.encoding=UTF-8 BTest
+
+python
+------
+To run the addAudioButton.py script - just copy all files to be located
+in the same folder as the script and run
+python addAudioButton.py
