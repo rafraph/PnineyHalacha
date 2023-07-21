@@ -91,7 +91,7 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 	private static final int BOOKS_NUMBER	= 31;
 
 	/*							0	1	2	3	4	5	6	7	8	9  10  11  12  13  14  15  16  17  18 19  20  21  22  23  24  25  26  27  28  29  30*/
-	public int[] lastChapter = {18, 11, 17, 10, 10, 19, 19, 13, 16, 13, 10, 8, 16, 11, 30, 10, 26, 24, 17, 10, 12, 8, 30, 10, 26, 16, 15, 24, 30, 26, 30};
+	public int[] lastChapter = {18, 10, 17, 10, 10, 19, 19, 13, 16, 13, 10, 8, 16, 11, 30, 10, 26, 24, 17, 10, 12, 8, 30, 10, 26, 16, 15, 24, 30, 26, 30};
 
     private static final int HEBREW	 = 0;
     private static final int ENGLISH = 1;
@@ -311,7 +311,6 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
             @JavascriptInterface
             public void performClick(String id)
             {
-
                 setAudioId(id);
                 runOnUiThread(runnableAudio);
             }
@@ -1077,7 +1076,6 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 		chaptersFiles[HAAMVEHAAREZ][8] = "file:///android_asset/haamvehaarez_8.html";
 		chaptersFiles[HAAMVEHAAREZ][9] = "file:///android_asset/haamvehaarez_9.html";
 		chaptersFiles[HAAMVEHAAREZ][10] = "file:///android_asset/haamvehaarez_10.html";
-		chaptersFiles[HAAMVEHAAREZ][11] = "file:///android_asset/haamvehaarez_11.html";
 		/*ZMANIM*/
 		chaptersFiles[ZMANIM][0] = "file:///android_asset/zmanim_tochen.html";
 		chaptersFiles[ZMANIM][1] = "file:///android_asset/zmanim_1.html";
@@ -2169,8 +2167,7 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 		chaptersNames[HAAMVEHAAREZ][7] = "העם והארץ: ז - ערבות הדדית";
 		chaptersNames[HAAMVEHAAREZ][8] = "העם והארץ: ח - עבודה עברית";
 		chaptersNames[HAAMVEHAAREZ][9] = "העם והארץ: ט - זכר למקדש";
-		chaptersNames[HAAMVEHAAREZ][10] = "העם והארץ: י - הלכות גרים";
-		chaptersNames[HAAMVEHAAREZ][11] = "העם והארץ: יא - נספח: תשובות מאת הרב גורן ומרבנים נוספים";
+		chaptersNames[HAAMVEHAAREZ][10] = "העם והארץ: יא - נספח: תשובות מאת הרב גורן ומרבנים נוספים";
 		/*ZMANIM*/
 		chaptersNames[ZMANIM][1] = "זמנים: א - ראש חודש";
 		chaptersNames[ZMANIM][2] = "זמנים: ב - הלכות ספירת העומר";

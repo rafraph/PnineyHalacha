@@ -512,8 +512,7 @@ public class MainActivity extends AppCompatActivity
 		haam.add("ז - ערבות הדדית");
 		haam.add("ח - עבודה עברית");
 		haam.add("ט - זכר למקדש");
-		haam.add("י - הלכות גרים");
-		haam.add("יא - נספח: תשובות מאת הרב גורן ומרבנים נוספים");
+		haam.add("י - נספח: תשובות מאת הרב גורן ומרבנים נוספים");
 
 		List<String> zmanim = new ArrayList<String>();
 		zmanim.add("תוכן מפורט, מבוא");

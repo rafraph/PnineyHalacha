@@ -55,7 +55,7 @@ public class SearchableActivity extends Activity
 	private static final int BOOKS_NUMBER	= 24;
 
 	/*							0	1	2	3	4	5	6	7	8	9  10  11  12  13  14  15  16  17  18 19  20  21  22  23*/
-	public int[] lastChapter = {18, 11, 17, 10, 10, 19, 19, 13, 16, 13, 10, 8, 16, 11, 30, 10, 26, 24, 17, 10, 12, 8, 30, 10};
+	public int[] lastChapter = {18, 10, 17, 10, 10, 19, 19, 13, 16, 13, 10, 8, 16, 11, 30, 10, 26, 24, 17, 10, 12, 8, 30, 10};
 
 	String[][] chaptersFiles = new String[BOOKS_NUMBER][31];
 	String[][] chaptersNames = new String[BOOKS_NUMBER][31];
@@ -405,7 +405,6 @@ public class SearchableActivity extends Activity
 		chaptersFiles[HAAMVEHAAREZ][8] = "haamvehaarez_8.html";
 		chaptersFiles[HAAMVEHAAREZ][9] = "haamvehaarez_9.html";
 		chaptersFiles[HAAMVEHAAREZ][10] = "haamvehaarez_10.html";
-		chaptersFiles[HAAMVEHAAREZ][11] = "haamvehaarez_11.html";
 		/*ZMANIM*/
 		chaptersFiles[ZMANIM][0] = "zmanim_tochen.html";
 		chaptersFiles[ZMANIM][1] = "zmanim_1.html";
@@ -824,8 +823,7 @@ public class SearchableActivity extends Activity
 		chaptersNames[HAAMVEHAAREZ][7] = "העם והארץ: ז - ערבות הדדית";
 		chaptersNames[HAAMVEHAAREZ][8] = "העם והארץ: ח - עבודה עברית";
 		chaptersNames[HAAMVEHAAREZ][9] = "העם והארץ: ט - זכר למקדש";
-		chaptersNames[HAAMVEHAAREZ][10] = "העם והארץ: י - הלכות גרים";
-		chaptersNames[HAAMVEHAAREZ][11] = "העם והארץ: יא - נספח: תשובות מאת הרב גורן ומרבנים נוספים";
+		chaptersNames[HAAMVEHAAREZ][10] = "העם והארץ: יא - נספח: תשובות מאת הרב גורן ומרבנים נוספים";
 		/*ZMANIM*/
 		chaptersNames[ZMANIM][1] = "זמנים: א - ראש חודש";
 		chaptersNames[ZMANIM][2] = "זמנים: ב - הלכות ספירת העומר";
