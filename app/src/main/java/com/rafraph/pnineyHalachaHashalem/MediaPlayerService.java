@@ -12,6 +12,7 @@ import android.graphics.BitmapFactory;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Binder;
+import android.os.Build;
 import android.os.Handler;
 import android.os.IBinder;
 import android.support.v4.content.LocalBroadcastManager;
@@ -33,7 +34,7 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
     /*							0	1	2	3	4	5	6	7	8	9  10  11  12  13  14  15  16  17  18 19  20  21  22  23  24  25  26  27  28  29*/
     public int[] lastChapter = {18, 10, 17, 10, 19, 19, 13, 16, 13, 10, 8, 16, 11, 30, 10, 26, 24, 17, 10, 12, 8, 30, 10, 26, 16, 15, 24, 30, 26, 30};
 
-    private MediaPlayer mediaPlayer;
+    private static MediaPlayer mediaPlayer;
     private String mediaUrl;
     private int resumePosition;
     private AudioManager audioManager;
@@ -90,6 +91,7 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
     private static final int SIMCHAT		= 15;
     private static final int TEFILA			= 16;
     private static final int TEFILAT_NASHIM	= 17;
+    private float audioSpeed;
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -386,6 +388,18 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
         registerReceiver(BR_backward_10_sec, intentFilter);
         intentFilter = new IntentFilter(myAudio.Broadcast_OnTouch);
         registerReceiver(BR_on_Touch, intentFilter);
+        intentFilter = new IntentFilter(myAudio.Broadcast_SPEED_2_0);
+        registerReceiver(BR_speed_2_0, intentFilter);
+        intentFilter = new IntentFilter(myAudio.Broadcast_SPEED_1_8);
+        registerReceiver(BR_speed_1_8, intentFilter);
+        intentFilter = new IntentFilter(myAudio.Broadcast_SPEED_1_5);
+        registerReceiver(BR_speed_1_5, intentFilter);
+        intentFilter = new IntentFilter(myAudio.Broadcast_SPEED_1_2);
+        registerReceiver(BR_speed_1_2, intentFilter);
+        intentFilter = new IntentFilter(myAudio.Broadcast_SPEED_1_0);
+        registerReceiver(BR_speed_1_0, intentFilter);
+        intentFilter = new IntentFilter(myAudio.Broadcast_SPEED_0_8);
+        registerReceiver(BR_speed_0_8, intentFilter);
     }
 
     private BroadcastReceiver BR_forward_10_sec = new BroadcastReceiver() {
@@ -510,6 +524,7 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
 
         try {
             mediaPlayer.setDataSource(mediaUrl);
+            MediaPlayerService.changeSpeed(audioSpeed);
         } catch (IOException e) {
             e.printStackTrace();
             stopSelf();
@@ -543,6 +558,7 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
 
         try {
             mediaPlayer.setDataSource(mediaUrl);
+            MediaPlayerService.changeSpeed(audioSpeed);
         } catch (IOException e) {
             e.printStackTrace();
             stopSelf();
@@ -563,6 +579,7 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
 */
         try {
             mediaPlayer.setDataSource(mediaUrl);
+            MediaPlayerService.changeSpeed(audioSpeed);
         } catch (IOException e) {
             e.printStackTrace();
             stopSelf();
@@ -721,6 +738,55 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
 //            case TEFILAT_NASHIM:
 //                book_audio_id = 99;
 //                return;
+        }
+    }
+
+    private BroadcastReceiver BR_speed_2_0 = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            audioSpeed = 2.0f;
+            MediaPlayerService.changeSpeed(audioSpeed);
+        }
+    };
+    private BroadcastReceiver BR_speed_1_8 = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            audioSpeed = 1.8f;
+            MediaPlayerService.changeSpeed(audioSpeed);
+        }
+    };
+    private BroadcastReceiver BR_speed_1_5 = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            audioSpeed = 1.5f;
+            MediaPlayerService.changeSpeed(audioSpeed);
+        }
+    };
+    private BroadcastReceiver BR_speed_1_2 = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            audioSpeed = 1.2f;
+            MediaPlayerService.changeSpeed(audioSpeed);
+        }
+    };
+    private BroadcastReceiver BR_speed_1_0 = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            audioSpeed = 1.0f;
+            MediaPlayerService.changeSpeed(audioSpeed);
+        }
+    };
+    private BroadcastReceiver BR_speed_0_8 = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            audioSpeed = 0.8f;
+            MediaPlayerService.changeSpeed(audioSpeed);
+        }
+    };
+
+    private static void changeSpeed(float speed) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            mediaPlayer.setPlaybackParams(mediaPlayer.getPlaybackParams().setSpeed(speed));
         }
     }
 
