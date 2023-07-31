@@ -5,14 +5,20 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
+import android.content.SharedPreferences;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.app.Activity;
 import android.os.IBinder;
 import android.support.v4.content.LocalBroadcastManager;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.PopupWindow;
 import android.widget.SimpleAdapter;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -47,7 +53,6 @@ public class myAudio extends Activity
     private static final int SIMCHAT		= 15;
     private static final int TEFILA			= 16;
     private static final int TEFILAT_NASHIM	= 17;
-
 
     public TextView duration, bufferingPercent;
     private double timeElapsed = 0, finalTime = 0;
@@ -86,7 +91,21 @@ public class myAudio extends Activity
     public static final String Broadcast_FORWARD_10 = "com.rafraph.pnineyHalachaHashalem.Forward10";
     public static final String Broadcast_BACKWARD_10 = "com.rafraph.pnineyHalachaHashalem.Backward10";
     public static final String Broadcast_OnTouch = "com.rafraph.pnineyHalachaHashalem.OnTouch";
+    public static final String Broadcast_SPEED_2_0 = "com.rafraph.pnineyHalachaHashalem.Speed2_0";
+    public static final String Broadcast_SPEED_1_8 = "com.rafraph.pnineyHalachaHashalem.Speed1_8";
+    public static final String Broadcast_SPEED_1_5 = "com.rafraph.pnineyHalachaHashalem.Speed1_5";
+    public static final String Broadcast_SPEED_1_2 = "com.rafraph.pnineyHalachaHashalem.Speed1_2";
+    public static final String Broadcast_SPEED_1_0 = "com.rafraph.pnineyHalachaHashalem.Speed1_0";
+    public static final String Broadcast_SPEED_0_8 = "com.rafraph.pnineyHalachaHashalem.Speed0_8";
+    ImageButton red, blue;
 
+    private PopupWindow audioSpeedPopupWindow = null;
+    LayoutInflater mInflater;
+    Button bAudioSpeed;
+    SharedPreferences.Editor shPrefEditor;
+    static SharedPreferences mPrefs;
+    public static final String PREFS_NAME = "MyPrefsFile";
+    String audioSpeedPref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -136,9 +155,11 @@ public class myAudio extends Activity
         });
         buttonNext = (ImageButton)findViewById(R.id.media_next);
         buttonPrevious = (ImageButton)findViewById(R.id.media_prev);
-
-
         initializeSeekBar();
+
+        bAudioSpeed = (Button)findViewById(R.id.audio_speed);
+        mPrefs = getSharedPreferences(PREFS_NAME, 0);
+        shPrefEditor = mPrefs.edit();
     }
 
     private void sendSectionIdAndPlay(int selectedSection)
@@ -475,6 +496,8 @@ public class myAudio extends Activity
             MediaPlayerService.LocalBinder binder = (MediaPlayerService.LocalBinder) service;
             playerService = binder.getService();
             serviceBound = true;
+            audioSpeedPref = mPrefs.getString("audioSpeed", "1.0");
+            changeSpeed(audioSpeedPref);
         }
 
         @Override
@@ -521,5 +544,109 @@ public class myAudio extends Activity
     public void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         serviceBound = savedInstanceState.getBoolean("ServiceState");
+    }
+
+    public void open_speeds(View view) {
+        try {
+            mInflater = (LayoutInflater) getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            View layout = mInflater.inflate(R.layout.audio_speeds, null);
+
+            final TextView speed08text = (TextView) layout.findViewById(R.id.speed0_8);
+            final TextView speed10text = (TextView) layout.findViewById(R.id.speed1_0);
+            final TextView speed12text = (TextView) layout.findViewById(R.id.speed1_2);
+            final TextView speed15text = (TextView) layout.findViewById(R.id.speed1_5);
+            final TextView speed18text = (TextView) layout.findViewById(R.id.speed1_8);
+            final TextView speed20text = (TextView) layout.findViewById(R.id.speed2_0);
+            speed08text.setOnClickListener(this::onClickChangeSpeed);
+            speed10text.setOnClickListener(this::onClickChangeSpeed);
+            speed12text.setOnClickListener(this::onClickChangeSpeed);
+            speed15text.setOnClickListener(this::onClickChangeSpeed);
+            speed18text.setOnClickListener(this::onClickChangeSpeed);
+            speed20text.setOnClickListener(this::onClickChangeSpeed);
+
+            layout.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
+            this.audioSpeedPopupWindow = new PopupWindow(layout, FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT,true);
+            Drawable background = getResources().getDrawable(android.R.drawable.checkbox_off_background);
+            this.audioSpeedPopupWindow.setBackgroundDrawable(background);
+            this.audioSpeedPopupWindow.showAsDropDown(bAudioSpeed, 0, -1000);
+
+            if(audioSpeedPref.equals("2.0"))
+                speed20text.setText("2.0x ✓");
+            else if(audioSpeedPref.equals("1.8"))
+                speed18text.setText("1.8x ✓");
+            else if(audioSpeedPref.equals("1.5"))
+                speed15text.setText("1.5x ✓");
+            else if(audioSpeedPref.equals("1.2"))
+                speed12text.setText("1.2x ✓");
+            else if(audioSpeedPref.equals("1.0"))
+                speed10text.setText("1.0x ✓");
+            else if(audioSpeedPref.equals("0.8"))
+                speed08text.setText("0.8x ✓");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    public void onClickChangeSpeed(View v) {
+            switch (v.getId()) {
+                case R.id.speed2_0:
+                    changeSpeed("2.0");
+                    break;
+                case R.id.speed1_8:
+                    changeSpeed("1.8");
+                    break;
+                case R.id.speed1_5:
+                    changeSpeed("1.5");
+                    break;
+                case R.id.speed1_2:
+                    changeSpeed("1.2");
+                    break;
+                case R.id.speed1_0:
+                    changeSpeed("1.0");
+                    break;
+                case R.id.speed0_8:
+                    changeSpeed("0.8");
+                    break;
+            }
+        this.audioSpeedPopupWindow.dismiss();
+    }
+
+    void changeSpeed(String audioSpeed) {
+        Intent broadcastIntent = new Intent(Broadcast_SPEED_1_0);
+        switch (audioSpeed) {
+            case "2.0":
+                broadcastIntent = new Intent(Broadcast_SPEED_2_0);
+                bAudioSpeed.setText("2.0x");
+                audioSpeedPref = "2.0";
+                break;
+            case "1.8":
+                broadcastIntent = new Intent(Broadcast_SPEED_1_8);
+                bAudioSpeed.setText("1.8x");
+                audioSpeedPref = "1.8";
+                break;
+            case "1.5":
+                broadcastIntent = new Intent(Broadcast_SPEED_1_5);
+                bAudioSpeed.setText("1.5x");
+                audioSpeedPref = "1.5";
+                break;
+            case "1.2":
+                broadcastIntent = new Intent(Broadcast_SPEED_1_2);
+                bAudioSpeed.setText("1.2x");
+                audioSpeedPref = "1.2";
+                break;
+            case "1.0":
+                broadcastIntent = new Intent(Broadcast_SPEED_1_0);
+                bAudioSpeed.setText("1.0x");
+                audioSpeedPref = "1.0";
+                break;
+            case "0.8":
+                broadcastIntent = new Intent(Broadcast_SPEED_0_8);
+                bAudioSpeed.setText("0.8x");
+                audioSpeedPref = "0.8";
+                break;
+        }
+        shPrefEditor.putString("audioSpeed", audioSpeedPref);
+        sendBroadcast(broadcastIntent);
+        shPrefEditor.commit();
     }
 }
