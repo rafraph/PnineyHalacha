@@ -401,8 +401,6 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 				wv.loadUrl(fileName);
 			}
 		});
-
-		
 	}
 	
 	public void  setNoteId(String id)
