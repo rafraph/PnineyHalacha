@@ -193,7 +193,7 @@ public class MainActivity extends AppCompatActivity
 		{
 			version = packageManager.getPackageInfo(packageName, 0).versionName;
 			
-			if(mPrefs.getString("Version", "").equals("3.2") == false)
+			if(mPrefs.getString("Version", "").equals("4.4") == false)
 			{
 				newVersion = true;
 				shPrefEditor.putString("Version", version);
@@ -476,7 +476,7 @@ public class MainActivity extends AppCompatActivity
 		listDataHeader.add("Laws of Women’s Prayer");
 		listDataHeader.add("Laws of Shabbat");
 		listDataHeader.add("La prière d’Israël");
-		listDataHeader.add("Shabbat (Español)");
+		//listDataHeader.add("Shabbat (Español)");
 
 
 		// Adding child data
@@ -1137,7 +1137,7 @@ public class MainActivity extends AppCompatActivity
 		listDataChild.put(listDataHeader.get(E_WOMEN_PRAYER), E_Women_Prayer);
 		listDataChild.put(listDataHeader.get(E_SHABAT), E_Shabat);
 		listDataChild.put(listDataHeader.get(F_TEFILA), F_tefila);
-		listDataChild.put(listDataHeader.get(S_SHABAT), S_shabat);
+//		listDataChild.put(listDataHeader.get(S_SHABAT), S_shabat);
 
 	}//prepareListData
 

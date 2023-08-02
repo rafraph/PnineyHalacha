@@ -1,13 +1,13 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 30
+    compileSdkVersion 32
     buildToolsVersion '30.0.3'
 
     defaultConfig {
         applicationId "com.rafraph.pnineyHalachaHashalem"
         minSdkVersion 16
-        targetSdkVersion 30
+        targetSdkVersion 32
     }
 
     buildTypes {
