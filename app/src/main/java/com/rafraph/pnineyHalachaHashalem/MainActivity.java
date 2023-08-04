@@ -193,7 +193,7 @@ public class MainActivity extends AppCompatActivity
 		{
 			version = packageManager.getPackageInfo(packageName, 0).versionName;
 			
-			if(mPrefs.getString("Version", "").equals("4.4") == false)
+			if(mPrefs.getString("Version", "").equals(version) == false)
 			{
 				newVersion = true;
 				shPrefEditor.putString("Version", version);
@@ -529,7 +529,7 @@ public class MainActivity extends AppCompatActivity
 		zmanim.add("יא - ימי החנוכה");
 		zmanim.add("יב - הדלקת נרות חנוכה");
 		zmanim.add("יג - דיני המקום והזמן");
-		zmanim.add("יד - חודש אדר");
+		zmanim.add("יד - ט\"ו בשבט וחודש אדר");
 		zmanim.add("טו - פורים ומקרא מגילה");
 		zmanim.add("טז - מצוות השמחה והחסד");
 		zmanim.add("יז - דיני פרזים ומוקפים");
