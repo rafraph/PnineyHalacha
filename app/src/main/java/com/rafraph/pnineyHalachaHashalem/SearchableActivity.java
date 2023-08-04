@@ -5,12 +5,9 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.jsoup.Jsoup;
-
 import android.os.Bundle;
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.ListActivity;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -20,10 +17,8 @@ import android.view.Menu;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
-import android.widget.ExpandableListView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.view.View;
 
 public class SearchableActivity extends Activity 
@@ -82,7 +77,7 @@ public class SearchableActivity extends Activity
 		if (Intent.ACTION_SEARCH.equals(intent.getAction())) 
 		{
 			query = intent.getStringExtra(SearchManager.QUERY);
-			//query = "ו";// for test of the search
+//			query = "ו";// for test of the search
 			for (i=0; i<query.length(); i++)
 			{
 				validQuery = hebCharacter.contains(query.substring(i, i+1));
@@ -201,7 +196,9 @@ public class SearchableActivity extends Activity
 					noteIndex = strText.indexOf("<div style=\"display:none;\">", 0);
 					while(index != (-1))
 					{
-						//System.out.println("book="+i+" chapter="+j+" chapterCounter="+chapterCounter);/*for test - if need to check crash with searching*/
+//						System.out.println("book="+i+" chapter="+j+" chapterCounter="+chapterCounter);/*for test - if need to check crash with searching*/
+//						if(i==2 && j==12 && chapterCounter==1455)// for test of the search
+//							i=2;
 						index = strText.indexOf(query, index+1);
 						if(index != (-1))
 						{
