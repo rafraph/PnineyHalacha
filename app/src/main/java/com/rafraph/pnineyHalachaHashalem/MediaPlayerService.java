@@ -40,7 +40,7 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
     private AudioManager audioManager;
     private boolean ongoingCall = false;
     private PhoneStateListener phoneStateListener;
-    private TelephonyManager telephonyManager;
+//    private TelephonyManager telephonyManager;
 
     public static final String ACTION_PLAY = "com.valdioveliu.valdio.audioplayer.ACTION_PLAY";
     public static final String ACTION_PAUSE = "com.valdioveliu.valdio.audioplayer.ACTION_PAUSE";
@@ -122,9 +122,9 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
         }
         removeAudioFocus();
         //Disable the PhoneStateListener
-        if (phoneStateListener != null) {
-            telephonyManager.listen(phoneStateListener, PhoneStateListener.LISTEN_NONE);
-        }
+//        if (phoneStateListener != null) {
+//            telephonyManager.listen(phoneStateListener, PhoneStateListener.LISTEN_NONE);
+//        }
 
         removeNotification();
 
@@ -318,7 +318,7 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
     //Handle incoming phone calls
     private void callStateListener() {
         // Get the telephony manager
-        telephonyManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+//        telephonyManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
         //Starting listening for PhoneState changes
         phoneStateListener = new PhoneStateListener() {
             @Override
@@ -351,8 +351,8 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
         };
         // Register the listener with the telephony manager
         // Listen for changes to the device call state.
-        telephonyManager.listen(phoneStateListener,
-                PhoneStateListener.LISTEN_CALL_STATE);
+//        telephonyManager.listen(phoneStateListener,
+//                PhoneStateListener.LISTEN_CALL_STATE);
     }
 
     //Becoming noisy
