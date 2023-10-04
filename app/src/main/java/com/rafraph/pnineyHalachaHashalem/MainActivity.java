@@ -52,38 +52,39 @@ import android.widget.Toast;
 public class MainActivity extends AppCompatActivity
 {
 	private static final int BRACHOT      	= 0;
-	private static final int HAAMVEHAAREZ 	= 1;
-	private static final int ZMANIM    		= 2;
-	private static final int TAHARAT   		= 3;
-	private static final int YAMIM    		= 4;
-	private static final int KASHRUT_A 		= 5;
-    private static final int KASHRUT_B 		= 6;
-	private static final int LIKUTIM_A 		= 7;
-	private static final int LIKUTIM_B 		= 8;
-	private static final int MOADIM    		= 9;
-    private static final int MISHPACHA   	= 10;
-	private static final int SUCOT			= 11;
-	private static final int PESACH			= 12;
-	private static final int SHVIIT			= 13;
-	private static final int SHABAT			= 14;
-	private static final int SIMCHAT		= 15;
-	private static final int TEFILA			= 16;
-	private static final int TEFILAT_NASHIM	= 17;
-	private static final int HAR_BRACHOT    = 18;
-	private static final int HAR_YAMIM      = 19;
-	private static final int HAR_MOADIM     = 20;
-	private static final int HAR_SUCOT      = 21;
-	private static final int HAR_SHABAT     = 22;
-	private static final int HAR_SIMCHAT    = 23;
-	private static final int BOOKS_HEB_NUMBER	= 24;
-	private static final int E_TEFILA       = 24;
-	private static final int E_PESACH       = 25;
-	private static final int E_ZMANIM       = 26;
-	private static final int E_WOMEN_PRAYER = 27;
-	private static final int E_SHABAT       = 28;
-	private static final int F_TEFILA       = 29;
-	private static final int S_SHABAT       = 30;
-	private static final int BOOKS_NUMBER	= 31;
+	private static final int GIYUR      	= 1;
+	private static final int HAAMVEHAAREZ 	= 2;
+	private static final int ZMANIM    		= 3;
+	private static final int TAHARAT   		= 4;
+	private static final int YAMIM    		= 5;
+	private static final int KASHRUT_A 		= 6;
+	private static final int KASHRUT_B 		= 7;
+	private static final int LIKUTIM_A 		= 8;
+	private static final int LIKUTIM_B 		= 9;
+	private static final int MOADIM    		= 10;
+	private static final int MISHPACHA   	= 11;
+	private static final int SUCOT			= 12;
+	private static final int PESACH			= 13;
+	private static final int SHVIIT			= 14;
+	private static final int SHABAT			= 15;
+	private static final int SIMCHAT		= 16;
+	private static final int TEFILA			= 17;
+	private static final int TEFILAT_NASHIM	= 18;
+	private static final int HAR_BRACHOT    = 19;
+	private static final int HAR_YAMIM      = 20;
+	private static final int HAR_MOADIM     = 21;
+	private static final int HAR_SUCOT      = 22;
+	private static final int HAR_SHABAT     = 23;
+	private static final int HAR_SIMCHAT    = 24;
+	private static final int BOOKS_HEB_NUMBER	= 25;
+	private static final int E_TEFILA       = 25;
+	private static final int E_PESACH       = 26;
+	private static final int E_ZMANIM       = 27;
+	private static final int E_WOMEN_PRAYER = 28;
+	private static final int E_SHABAT       = 29;
+	private static final int F_TEFILA       = 30;
+	private static final int S_SHABAT       = 31;
+	private static final int BOOKS_NUMBER	= 32;
 
 
 	private static final int HEBREW	 = 0;
@@ -208,7 +209,9 @@ public class MainActivity extends AppCompatActivity
 						newVersionDialog.dismiss();
 					}
 				});
-				newVersionDialog.show();	
+				newVersionDialog.show();
+				//fix bookmarks
+				fixBookmarks(GIYUR);//open this comment only if you added new book that is not the last in the book IDs
 			}
 		}
 		catch (PackageManager.NameNotFoundException e) 
@@ -221,6 +224,40 @@ public class MainActivity extends AppCompatActivity
         }
 	}//onCreate
 
+	public void fixBookmarks(int newBook){
+		//nasty way to fix bookmarks when new book added and some books IDs incremented
+		String Bookmarks = mPrefs.getString("Bookmarks", "");
+		int book;
+		int i, index = 1/*to skip the first comma*/, index_end=0;
+		if(Bookmarks == null || Bookmarks.length()<2)
+			return;
+		index = Bookmarks.indexOf(",", index) + 1;
+		index_end = Bookmarks.indexOf(",", index);
+		book = Integer.parseInt(Bookmarks.substring(index, index_end));
+		if(book >= newBook)
+		{
+			book++;
+			Bookmarks = Bookmarks.substring(0, index) + Integer.toString(book) + Bookmarks.substring(index_end);
+		}
+		for (i = 0; i<5; i++)/*skip to the book of the right bookmark*/
+			index = Bookmarks.indexOf(",", index) + 1;
+
+		while(index>0) {
+			index_end = Bookmarks.indexOf(",", index);
+			book = Integer.parseInt(Bookmarks.substring(index, index_end));
+			if(book >= newBook)
+			{
+				book++;
+				Bookmarks = Bookmarks.substring(0, index) + Integer.toString(book) + Bookmarks.substring(index_end);
+			}
+			for (i = 0; i<5; i++)/*skip to the book of the right bookmark*/ {
+				index = Bookmarks.indexOf(",", index) + 1;
+				if(index==0) break;
+			}
+		}
+		shPrefEditor.putString("Bookmarks", Bookmarks);
+		shPrefEditor.commit();
+	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) 
@@ -442,6 +479,7 @@ public class MainActivity extends AppCompatActivity
 
 		// Adding child data
 		listDataHeader.add("ברכות");
+		listDataHeader.add("גיור");
 		listDataHeader.add("העם והארץ");
 		listDataHeader.add("זמנים");
 		listDataHeader.add("טהרת המשפחה");
@@ -495,6 +533,18 @@ public class MainActivity extends AppCompatActivity
 		brachot.add("טז - ברכת הגומל");
 		brachot.add("יז - ברכות ההודאה והשמחה");
 		brachot.add("יח - תפילת הדרך");
+
+		List<String> giyur = new ArrayList<String>();
+		giyur.add("תוכן מפורט, מבוא");
+		giyur.add("א - הגיור");
+		giyur.add("ב - גרי הצדק");
+		giyur.add("ג - הגיורים המורכבים");
+		giyur.add("ד - בית הדין");
+		giyur.add("ה - הגיור למעשה");
+		giyur.add("ו - הגיור בשעת הדחק");
+		giyur.add("ז - גיור קטנים");
+		giyur.add("ח - דיני משפחה");
+		giyur.add("ט - מעמד הגר והלכותיו");
 
 		List<String> haam = new ArrayList<String>();
 		haam.add("תוכן מפורט, מבוא");
@@ -1103,6 +1153,7 @@ public class MainActivity extends AppCompatActivity
 		S_shabat.add("30 - Las \"áreas (\"tjumim\") del Shabat\"");
 
 		listDataChild.put(listDataHeader.get(BRACHOT), brachot); // Header, Child data
+		listDataChild.put(listDataHeader.get(GIYUR), giyur);
 		listDataChild.put(listDataHeader.get(HAAMVEHAAREZ), haam);
 		listDataChild.put(listDataHeader.get(ZMANIM), zmanim);
 		listDataChild.put(listDataHeader.get(TAHARAT), taharat);

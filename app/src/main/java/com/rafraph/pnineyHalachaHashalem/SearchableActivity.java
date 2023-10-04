@@ -23,34 +23,35 @@ import android.view.View;
 
 public class SearchableActivity extends Activity 
 {
-    private static final int BRACHOT      	= 0;
-    private static final int HAAMVEHAAREZ 	= 1;
-    private static final int ZMANIM    		= 2;
-	private static final int TAHARAT   		= 3;
-	private static final int YAMIM    		= 4;
-	private static final int KASHRUT_A 		= 5;
-	private static final int KASHRUT_B 		= 6;
-	private static final int LIKUTIM_A 		= 7;
-	private static final int LIKUTIM_B 		= 8;
-	private static final int MOADIM    		= 9;
-	private static final int MISHPACHA   	= 10;
-	private static final int SUCOT			= 11;
-	private static final int PESACH			= 12;
-	private static final int SHVIIT			= 13;
-	private static final int SHABAT			= 14;
-	private static final int SIMCHAT		= 15;
-	private static final int TEFILA			= 16;
-	private static final int TEFILAT_NASHIM	= 17;
-	private static final int HAR_BRACHOT    = 18;
-	private static final int HAR_YAMIM      = 19;
-	private static final int HAR_MOADIM     = 20;
-	private static final int HAR_SUCOT      = 21;
-	private static final int HAR_SHABAT     = 22;
-	private static final int HAR_SIMCHAT    = 23;
-	private static final int BOOKS_NUMBER	= 24;
+	private static final int BRACHOT      	= 0;
+	private static final int GIYUR      	= 1;
+	private static final int HAAMVEHAAREZ 	= 2;
+	private static final int ZMANIM    		= 3;
+	private static final int TAHARAT   		= 4;
+	private static final int YAMIM    		= 5;
+	private static final int KASHRUT_A 		= 6;
+	private static final int KASHRUT_B 		= 7;
+	private static final int LIKUTIM_A 		= 8;
+	private static final int LIKUTIM_B 		= 9;
+	private static final int MOADIM    		= 10;
+	private static final int MISHPACHA   	= 11;
+	private static final int SUCOT			= 12;
+	private static final int PESACH			= 13;
+	private static final int SHVIIT			= 14;
+	private static final int SHABAT			= 15;
+	private static final int SIMCHAT		= 16;
+	private static final int TEFILA			= 17;
+	private static final int TEFILAT_NASHIM	= 18;
+	private static final int HAR_BRACHOT    = 19;
+	private static final int HAR_YAMIM      = 20;
+	private static final int HAR_MOADIM     = 21;
+	private static final int HAR_SUCOT      = 22;
+	private static final int HAR_SHABAT     = 23;
+	private static final int HAR_SIMCHAT    = 24;
+	private static final int BOOKS_NUMBER	= 25;
 
-	/*							0	1	2	3	4	5	6	7	8	9  10  11  12  13  14  15  16  17  18 19  20  21  22  23*/
-	public int[] lastChapter = {18, 10, 17, 10, 10, 19, 19, 13, 16, 13, 10, 8, 16, 11, 30, 10, 26, 24, 17, 10, 12, 8, 30, 10};
+	/*							0	1	2	3	4	5	6	7	8	9  10  11  12  13  14  15  16  17  18 19  20  21  22  23 24*/
+	public int[] lastChapter = {18, 9, 10, 17, 10, 10, 19, 19, 13, 16, 13, 10, 8, 16, 11, 30, 10, 26, 24, 17, 10, 12, 8, 30, 10};
 
 	String[][] chaptersFiles = new String[BOOKS_NUMBER][31];
 	String[][] chaptersNames = new String[BOOKS_NUMBER][31];
@@ -390,6 +391,17 @@ public class SearchableActivity extends Activity
 		chaptersFiles[BRACHOT][16] = "brachot_16.html";
 		chaptersFiles[BRACHOT][17] = "brachot_17.html";
         chaptersFiles[BRACHOT][18] = "brachot_18.html";
+		/*GIYUR*/
+		chaptersFiles[GIYUR][0] = "giyur_tochen.html";
+		chaptersFiles[GIYUR][1] = "giyur_1.html";
+		chaptersFiles[GIYUR][2] = "giyur_2.html";
+		chaptersFiles[GIYUR][3] = "giyur_3.html";
+		chaptersFiles[GIYUR][4] = "giyur_4.html";
+		chaptersFiles[GIYUR][5] = "giyur_5.html";
+		chaptersFiles[GIYUR][6] = "giyur_6.html";
+		chaptersFiles[GIYUR][7] = "giyur_7.html";
+		chaptersFiles[GIYUR][8] = "giyur_8.html";
+		chaptersFiles[GIYUR][9] = "giyur_9.html";
 		/*HAAMVEHAAREZ*/
 		chaptersFiles[HAAMVEHAAREZ][0] = "haamvehaarez_tochen.html";
 		chaptersFiles[HAAMVEHAAREZ][1] = "haamvehaarez_1.html";
@@ -810,6 +822,16 @@ public class SearchableActivity extends Activity
 		chaptersNames[BRACHOT][16] = "ברכות: טז - ברכת הגומל";
 		chaptersNames[BRACHOT][17] = "ברכות: יז - ברכות ההודאה והשמחה";
 		chaptersNames[BRACHOT][18] = "ברכות: יח - תפילת הדרך";
+		/*GIYUR*/
+		chaptersNames[GIYUR][1] = "גיור: א - הגיור";
+		chaptersNames[GIYUR][2] = "גיור: ב - גרי הצדק";
+		chaptersNames[GIYUR][3] = "גיור: ג - הגיורים המורכבים";
+		chaptersNames[GIYUR][4] = "גיור: ד - בית הדין";
+		chaptersNames[GIYUR][5] = "גיור: ה - הגיור למעשה";
+		chaptersNames[GIYUR][6] = "גיור: ו - הגיור בשעת הדחק";
+		chaptersNames[GIYUR][7] = "גיור: ז - גיור קטנים";
+		chaptersNames[GIYUR][8] = "גיור: ח - דיני משפחה";
+		chaptersNames[GIYUR][9] = "גיור: ט - מעמד הגר והלכותיו";
 		/*HAAMVEHAAREZ*/
 		chaptersNames[HAAMVEHAAREZ][1] = "העם והארץ: א - מעלת הארץ";
 		chaptersNames[HAAMVEHAAREZ][2] = "העם והארץ: ב - קודש וחול ביישוב הארץ";

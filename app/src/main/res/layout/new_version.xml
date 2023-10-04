@@ -30,8 +30,8 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="right"
-        android:text='1. תיקון גלילת הטקסט'
+        android:layout_gravity="center"
+        android:text='בשעה טובה ספר חדש בסדרה'
         android:textSize="20dp"
         android:textColor="#5A9B85"
         android:textAppearance="?android:attr/textAppearanceLarge" />
@@ -49,8 +49,8 @@
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="right"
-        android:text='2. תיקונים כלליים ושיפורי תשתית'
+        android:layout_gravity="center"
+        android:text='פניני הלכה גיור'
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textColor="#5A9B85"
         android:textSize="20dp" />
