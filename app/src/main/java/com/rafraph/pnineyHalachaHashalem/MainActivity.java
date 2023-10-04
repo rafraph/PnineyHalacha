@@ -211,7 +211,7 @@ public class MainActivity extends AppCompatActivity
 				});
 				newVersionDialog.show();
 				//fix bookmarks
-				fixBookmarks(GIYUR);//open this comment only if you added new book that is not the last in the book IDs
+				//fixBookmarks(GIYUR);//open this comment only if you added new book that is not the last in the book IDs
 			}
 		}
 		catch (PackageManager.NameNotFoundException e) 
