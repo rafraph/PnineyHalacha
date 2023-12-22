@@ -1,10 +1,10 @@
 package com.rafraph.pnineyHalachaHashalem;
 
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.PopupMenu;
+import androidx.appcompat.widget.Toolbar;
 import android.text.Html;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -39,15 +39,6 @@ import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
-////
-//import com.google.android.gms.tasks.OnFailureListener;
-//import com.google.android.gms.tasks.OnSuccessListener;
-//import com.google.firebase.storage.FileDownloadTask;
-//import com.google.firebase.storage.StorageReference;
-//import com.google.firebase.storage.FirebaseStorage;
-//import com.google.firebase.auth.FirebaseAuth;
-//import com.google.firebase.auth.AuthResult;
-////
 
 public class MainActivity extends AppCompatActivity
 {
@@ -86,7 +77,6 @@ public class MainActivity extends AppCompatActivity
 	private static final int S_SHABAT       = 31;
 	private static final int BOOKS_NUMBER	= 32;
 
-
 	private static final int HEBREW	 = 0;
 	private static final int ENGLISH = 1;
     private static final int RUSSIAN = 2;
@@ -106,10 +96,8 @@ public class MainActivity extends AppCompatActivity
 	public ActionBar ab;
 	public Menu abMenu=null;
 	public EditText TextToDecode;
-	public Dialog acronymsDialog, newVersionDialog, simchatDialog, languageDialog, booksDownloadDialog;
+	public Dialog acronymsDialog, languageDialog, booksDownloadDialog;
 	String acronymsText;
-    public int StartInLastLocation = 1;
-	public boolean newVersion = false;
 	public Context context;
 	//private StorageReference storageRef;
     //private FirebaseStorage storage;
@@ -125,7 +113,6 @@ public class MainActivity extends AppCompatActivity
 		mPrefs = getSharedPreferences(PREFS_NAME, 0);
 		shPrefEditor = mPrefs.edit();
 		BlackBackground = mPrefs.getInt("BlackBackground", 0);
-		StartInLastLocation = mPrefs.getInt("StartInLastLocation", 1);
 		MyLanguage = mPrefs.getInt("MyLanguage", -1);
         //storage = FirebaseStorage.getInstance();
         // Create a storage reference from our app
@@ -152,8 +139,6 @@ public class MainActivity extends AppCompatActivity
 			public boolean onChildClick(ExpandableListView parent, View v,
 					int groupPosition, int childPosition, long id) 
 			{
-				// TODO Auto-generated method stub
-
 				Toast.makeText(getApplicationContext(), listDataHeader.get(groupPosition) + " : "
 						+ listDataChild.get(listDataHeader.get(groupPosition)).get(childPosition), Toast.LENGTH_SHORT).show();
 				try
@@ -174,90 +159,7 @@ public class MainActivity extends AppCompatActivity
 				return false;
 			}
 		});
-
-		/* Choose language*/
-		if(MyLanguage == -1)
-		{
-			languageDialog(context);
-		}
-
-		/*display the new features of this version*/
-		PackageManager packageManager = context.getPackageManager();
-		String packageName = context.getPackageName();
-		String version;
-		try 
-		{
-			version = packageManager.getPackageInfo(packageName, 0).versionName;
-			
-			if(mPrefs.getString("Version", "").equals(version) == false)
-			{
-				newVersion = true;
-				shPrefEditor.putString("Version", version);
-				shPrefEditor.commit();
-				newVersionDialog = new Dialog(context);
-				newVersionDialog.setContentView(R.layout.new_version);
-				newVersionDialog.setTitle("גרסה " + version);
-
-				Button dialogButtonExit = (Button) newVersionDialog.findViewById(R.id.dialogButtonExit);
-				// if button is clicked
-				dialogButtonExit.setOnClickListener(new OnClickListener()
-				{
-					@SuppressLint("NewApi")
-					@Override
-					public void onClick(View v) 
-					{
-						newVersionDialog.dismiss();
-					}
-				});
-				newVersionDialog.show();
-				//fix bookmarks
-				//fixBookmarks(GIYUR);//open this comment only if you added new book that is not the last in the book IDs
-			}
-		}
-		catch (PackageManager.NameNotFoundException e) 
-		{
-		    e.printStackTrace();
-		}
-        if(StartInLastLocation == 1 && !(mPrefs.getInt("book", 0) == 0 && mPrefs.getInt("chapter", 0) == 0) && newVersion == false)/*check if book and chapter are 0 so this is the first time the user open the application so don't go to the last location*/
-        {
-            goToLastLocation();
-        }
 	}//onCreate
-
-	public void fixBookmarks(int newBook){
-		//nasty way to fix bookmarks when new book added and some books IDs incremented
-		String Bookmarks = mPrefs.getString("Bookmarks", "");
-		int book;
-		int i, index = 1/*to skip the first comma*/, index_end=0;
-		if(Bookmarks == null || Bookmarks.length()<2)
-			return;
-		index = Bookmarks.indexOf(",", index) + 1;
-		index_end = Bookmarks.indexOf(",", index);
-		book = Integer.parseInt(Bookmarks.substring(index, index_end));
-		if(book >= newBook)
-		{
-			book++;
-			Bookmarks = Bookmarks.substring(0, index) + Integer.toString(book) + Bookmarks.substring(index_end);
-		}
-		for (i = 0; i<5; i++)/*skip to the book of the right bookmark*/
-			index = Bookmarks.indexOf(",", index) + 1;
-
-		while(index>0) {
-			index_end = Bookmarks.indexOf(",", index);
-			book = Integer.parseInt(Bookmarks.substring(index, index_end));
-			if(book >= newBook)
-			{
-				book++;
-				Bookmarks = Bookmarks.substring(0, index) + Integer.toString(book) + Bookmarks.substring(index_end);
-			}
-			for (i = 0; i<5; i++)/*skip to the book of the right bookmark*/ {
-				index = Bookmarks.indexOf(",", index) + 1;
-				if(index==0) break;
-			}
-		}
-		shPrefEditor.putString("Bookmarks", Bookmarks);
-		shPrefEditor.commit();
-	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) 
@@ -457,10 +359,9 @@ public class MainActivity extends AppCompatActivity
 				case 6:/*language*/
 					languageDialog(context);
 					break;
-                                case 7:/*booksDownload*/
-                                        booksDownloadDialog(context);
-                                        break;
-					
+				case 7:/*booksDownload*/
+						booksDownloadDialog(context);
+						break;
 				default:
 					break;
 				}
@@ -469,7 +370,7 @@ public class MainActivity extends AppCompatActivity
 		});
 
 		popupMenu.show();
-	}	
+	}
 
 	/*Preparing the list data*/
 	private void prepareListData() 
@@ -1280,8 +1181,6 @@ public class MainActivity extends AppCompatActivity
 		webSettingsHascamot.setJavaScriptEnabled(true);
 		webSettingsHascamot.setDefaultTextEncodingName("utf-8");
 		webviewHascmot.requestFocusFromTouch();
-	//	if(API < 19)
-		//	webSettingsNote.setBuiltInZoomControls(true);
 
 		fontSize = mPrefs.getInt("fontSize", 20);
 		webSettingsHascamot.setDefaultFontSize(fontSize);
@@ -1407,7 +1306,6 @@ public class MainActivity extends AppCompatActivity
 
         booksDownloadDialog.show();
     }
-
 
 	void goToLastLocation()
 	{

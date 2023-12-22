@@ -1,12 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-     <!-- use the Android Light theme as the base for our own theme -->
+    <!-- use the Android Light theme as the base for our own theme -->
     <style name="MySuperTheme" parent="@style/Theme.AppCompat.Light">
 
         <!-- hide the Window Title -->
         <item name="android:windowNoTitle">true</item>
-     <!--   <item name="android:windowFullscreen">true</item>-->
+        <!--   <item name="android:windowFullscreen">true</item>-->
 
         <!-- You could change the scrollbar, checkbox style, anything! -->
     </style>
+    <!-- Base application theme. -->
+    <style name="Base.Theme.AppCompat.Light.NoActionBar" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Customize your light theme here. -->
+        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+    </style>
+
+    <style name="Theme.AppCompat.Light.NoActionBar" parent="Base.Theme.AppCompat.Light.NoActionBar" />
 </resources>

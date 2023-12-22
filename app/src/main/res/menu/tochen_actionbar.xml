@@ -14,10 +14,11 @@
           android:icon="@drawable/ic_action_place"
           android:title="@string/action_place"
           app:showAsAction="always"/>
-    <item android:id="@+id/action_config"
-          android:icon="@drawable/ic_action_config"
-          android:title="@string/action_config"
-          app:showAsAction="always"/>
+    <item
+        android:id="@+id/action_config"
+        android:icon="@drawable/round_menu_24"
+        android:title="@string/action_config"
+        app:showAsAction="always" />
     
 
 </menu>

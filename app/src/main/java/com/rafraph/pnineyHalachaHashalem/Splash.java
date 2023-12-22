@@ -19,8 +19,8 @@ public class Splash extends Activity{
 				}catch(InterruptedException e){
 					e.printStackTrace();
 				}finally{
-					Intent openMainActivity = new Intent("com.rafraph.pnineyHalachaHashalem.MAINACTIVITY");
-					startActivity(openMainActivity);
+					Intent openHomeActivity = new Intent("com.rafraph.pnineyHalachaHashalem.HomeActivity");
+					startActivity(openHomeActivity);
 				}
 			}
 		};

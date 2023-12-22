@@ -57,7 +57,7 @@ public class About extends Activity implements View.OnClickListener
 		Intent intent = new Intent();
         intent.setAction(Intent.ACTION_VIEW);
         intent.addCategory(Intent.CATEGORY_BROWSABLE);
-        intent.setData(Uri.parse("http://shop.yhb.org.il/"));
+        intent.setData(Uri.parse("https://shop.yhb.org.il/"));
         startActivity(intent);
 	}
 }

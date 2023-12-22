@@ -88,7 +88,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="right"
-        android:text="תודה רבה למסייעים במלאכה: \n אלישע הנשקה והלל ג'אן - עריכת הטקסט \n אדיר מולאים - בודק ראשי \n הרב יונדב זר - הקראה \n אבישלום ג'אן ודוד זר - עזרה בתכנות \n פדות ליברמן - עיצוב השער"
+        android:text="תודה רבה למסייעים במלאכה: \n אלישע הנשקה והלל ג'אן - עריכת הטקסט \n אדיר מולאים - בודק ראשי \n הרב יונדב זר - הקראה \n אבישלום ג'אן, שילה בן נתן ודוד זר - עזרה בתכנות \n פדות ליברמן - עיצוב השער"
         android:textSize="15dp"
         android:textColor="#730005"
         android:textAppearance="?android:attr/textAppearanceLarge" />

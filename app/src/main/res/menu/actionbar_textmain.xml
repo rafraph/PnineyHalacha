@@ -10,6 +10,9 @@
           android:icon="@drawable/ic_action_add_bookmark"
           android:title="@string/add_bookmark_icon"
           app:showAsAction="always"/>
+    <item android:id="@+id/text_pniney"
+        android:title="פניני הלכה"
+        app:showAsAction="always"/>
     <item android:id="@+id/action_config"
           android:icon="@drawable/ic_action_config"
           android:title="@string/action_config"
