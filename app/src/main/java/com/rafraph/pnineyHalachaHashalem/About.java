@@ -7,23 +7,35 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View.OnClickListener;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-public class About extends Activity implements View.OnClickListener
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+
+public class About extends AppCompatActivity
 {
-	Button link;
+	public Util util;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) 
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_about);
-				
-		link = (Button) findViewById(R.id.buttonLink);
-		link.setOnClickListener(this);
-		
+		// for toolbar
+		Toolbar generalToolbar = (Toolbar) findViewById(R.id.generalToolbar);
+		setSupportActionBar(generalToolbar);
+		// Display icon in the toolbar
+		getSupportActionBar().setDisplayShowHomeEnabled(true);
+		getSupportActionBar().setLogo(R.drawable.toolbar_header);
+		getSupportActionBar().setDisplayUseLogoEnabled(true);
+		// Enable the home button
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+		util = new Util();
+
 		/*version*/
 		String myVersionName = "not available"; // initialize String
 
@@ -42,22 +54,28 @@ public class About extends Activity implements View.OnClickListener
 		TextView tvVersion = (TextView) findViewById(R.id.textViewVersion);
 		tvVersion.setText(myVersionName);
 	}
-
+	// for toolbar
 	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
+	public boolean onCreateOptionsMenu(android.view.Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.about, menu);
+		getMenuInflater().inflate(R.menu.config_actionbar, (android.view.Menu) menu);
 		return true;
 	}
-	
-	public void onClick(View v) 
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item)
 	{
-		// TODO Auto-generated method stub
-	
-		Intent intent = new Intent();
-        intent.setAction(Intent.ACTION_VIEW);
-        intent.addCategory(Intent.CATEGORY_BROWSABLE);
-        intent.setData(Uri.parse("https://shop.yhb.org.il/"));
-        startActivity(intent);
+		switch (item.getItemId())
+		{
+			case R.id.action_config:
+				util.showPopupMenuSettings(findViewById(R.id.action_config), About.this);
+				break;
+			case android.R.id.home:
+				onBackPressed();
+				break;
+			default:
+				break;
+		}
+		return true;
 	}
 }

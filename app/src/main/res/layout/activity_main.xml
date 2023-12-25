@@ -4,25 +4,22 @@
     android:layout_height="match_parent"
     android:contentDescription="@string/app_name"
     tools:context=".MainActivity" >
-
     <LinearLayout
         android:id="@+id/linearLayout1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
-        android:orientation="horizontal"
-        >
-        
-</LinearLayout>
-
-    <ExpandableListView
-        android:id="@+id/lvExp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/linearLayout1"
-        android:layout_below="@+id/linearLayout1"
-         >
-    </ExpandableListView>
-
+        android:orientation="horizontal">
+        <include
+            android:id="@+id/generalToolbar"
+            layout="@layout/general_toolbar"/>
+    </LinearLayout>
+        <ExpandableListView
+            android:id="@+id/lvExp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/linearLayout1"
+            android:layout_below="@+id/linearLayout1">
+        </ExpandableListView>
 </RelativeLayout>

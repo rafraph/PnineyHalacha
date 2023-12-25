@@ -6,6 +6,10 @@
     android:showDividers="middle|end"
     tools:context=".Settings" >
 
+	<include
+		android:id="@+id/generalToolbar"
+		layout="@layout/general_toolbar"/>
+
     <CheckBox
         android:id="@+id/checkBoxSleepScreen"
         style="@string/action_config"

@@ -4,29 +4,39 @@ import android.os.Bundle;
 import android.app.Activity;
 import android.content.SharedPreferences;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.ImageButton;
 
-public class Settings extends Activity 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+
+public class Settings extends AppCompatActivity
 {
 	public static final String PREFS_NAME = "MyPrefsFile";
 	static SharedPreferences mPrefs;
 	SharedPreferences.Editor shPrefEditor;
 	CheckBox cbBlackBackground, cbSleepScreen, cbFullScreen, cbAssistButtons, cbLastLocation;
-
-    private static final int HEBREW	 = 0;
-    private static final int ENGLISH = 1;
-    private static final int RUSSIAN = 2;
-    private static final int SPANISH = 3;
-    private static final int FRENCH = 4;
+	public Util util;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) 
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_settings);
-		
+		// for toolbar
+		Toolbar generalToolbar = (Toolbar) findViewById(R.id.generalToolbar);
+		setSupportActionBar(generalToolbar);
+		// Display icon in the toolbar
+		getSupportActionBar().setDisplayShowHomeEnabled(true);
+		getSupportActionBar().setDisplayShowTitleEnabled(false);//to remove the right corner icon/title
+		getSupportActionBar().setLogo(R.drawable.toolbar_header);
+		getSupportActionBar().setDisplayUseLogoEnabled(true);
+		// Enable the home button
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+		util = new Util();
 		cbSleepScreen 		= (CheckBox) findViewById(R.id.checkBoxSleepScreen);
 		cbBlackBackground 	= (CheckBox) findViewById(R.id.checkBoxBlackBackground);
 		cbFullScreen 		= (CheckBox) findViewById(R.id.checkBoxFullScreen);
@@ -38,7 +48,7 @@ public class Settings extends Activity
 
 		int MyLanguage = mPrefs.getInt("MyLanguage", 0);
 
-		if(MyLanguage != HEBREW)
+		if(MyLanguage != Util.HEBREW)
 		{
 			ChangeTextLengauge(MyLanguage);
 		}
@@ -90,17 +100,8 @@ public class Settings extends Activity
 		}
 	}
 
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) 
+	public void onCheckboxClicked(View view)
 	{
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.settings, menu);
-		return true;
-	}
-
-	public void onCheckboxClicked(View view) 
-	{
-		
 		//shPrefEditor.putInt("SleepScreen", 1);
 	    // Is the view now checked?
 	    boolean checked = ((CheckBox) view).isChecked();
@@ -144,28 +145,28 @@ public class Settings extends Activity
 
 	public void ChangeTextLengauge(int language)
 	{
-        if(language == ENGLISH) {
+        if(language == Util.ENGLISH) {
             cbSleepScreen.setText("Cancel monitor sleep");
             cbBlackBackground.setText("Black background");
             cbFullScreen.setText("Don't remove buttons in full screen mode");
             cbAssistButtons.setText("Locate the buttons in the bottom part of the screen");
             cbLastLocation.setText("Jump to the last location when application start");
         }
-        else if(language == RUSSIAN) {
+        else if(language == Util.RUSSIAN) {
             cbSleepScreen.setText("");
             cbBlackBackground.setText("Чёрный фон");
             cbFullScreen.setText("");
             cbAssistButtons.setText("");
             cbLastLocation.setText("");
         }
-        else if(language == SPANISH) {
+        else if(language == Util.SPANISH) {
             cbSleepScreen.setText("Cancelar el sueño del monitor");
             cbBlackBackground.setText("Fondo negro");
             cbFullScreen.setText("No remover los botones en modo de pantalla entera");
             cbAssistButtons.setText("Localiza los botones en la parte baja de la pantalla");
             cbLastLocation.setText("Saltar a la ultima locacion cuando la aplicacion comience");
         }
-        else if(language == FRENCH  ) {
+        else if(language == Util.FRENCH  ) {
             cbSleepScreen.setText("Annuler mode veille");
             cbBlackBackground.setText("Fond noir");
             cbFullScreen.setText("Ne pas retirer les boutons en mode plein écran");
@@ -173,4 +174,18 @@ public class Settings extends Activity
             cbLastLocation.setText("Au demarrage revenir a la precedente location");
         }
     }
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item)
+	{
+		switch (item.getItemId())
+		{
+			case android.R.id.home:
+				onBackPressed();
+				break;
+			default:
+				break;
+		}
+		return true;
+	}
 }

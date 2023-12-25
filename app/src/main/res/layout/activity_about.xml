@@ -1,28 +1,78 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" 
-    android:background="@drawable/about"
-    android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
-    tools:context=".About" >
+    android:orientation="vertical"
+    tools:context=".About">
 
-    <Button
-        android:id="@+id/buttonLink"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
-        android:text="לחנות הספרים של הר-ברכה - לחץ כאן" />
+    <include
+        android:id="@+id/generalToolbar"
+        layout="@layout/general_toolbar" />
 
-    <TextView
-        android:id="@+id/textViewVersion"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/buttonLink"
-        android:layout_alignParentRight="true"
-        android:text="TextView" />
 
-</RelativeLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="match_parent"
+            android:layout_height="71dp"
+            android:fontFamily="cursive"
+            android:gravity="center"
+            android:text="אפליקציית פניני הלכה"
+            android:textColor="#970606"
+            android:textSize="34sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="392dp"
+            android:layout_height="120dp"
+            android:text="כוללת את כל ספרי פניני הלכה והרחבות בעברית, אנגלית, ספרדית, רוסית וצרפתית"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="390dp"
+            android:layout_height="41dp"
+            android:text="פיתוח: רפאל ג'אן"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/textView12"
+            android:layout_width="390dp"
+            android:layout_height="42dp"
+            android:text="עיצוב: אניה בורוכב"
+            android:textSize="20sp" />
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
+            app:srcCompat="@drawable/yeshiva_logo" />
+
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="match_parent"
+            android:layout_height="63dp"
+            app:srcCompat="@drawable/janer_logo" />
+
+        <TextView
+            android:id="@+id/textViewVersion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="30dp"
+            android:text="TextView"
+            android:textSize="20sp" />
+
+    </LinearLayout>
+
+</LinearLayout>
 

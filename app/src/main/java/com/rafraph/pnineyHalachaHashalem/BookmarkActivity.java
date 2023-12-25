@@ -2,7 +2,9 @@ package com.rafraph.pnineyHalachaHashalem;
 
 import java.util.ArrayList;
 import java.util.List;
-
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.PopupMenu;
+import androidx.appcompat.widget.Toolbar;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -11,6 +13,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
@@ -21,7 +24,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 
-public class BookmarkActivity extends Activity 
+public class BookmarkActivity extends AppCompatActivity
 {
 	static SharedPreferences mPrefs;
 //	SharedPreferences.Editor shPrefEditor;
@@ -33,29 +36,34 @@ public class BookmarkActivity extends Activity
 	ArrayAdapter  adapter;
 	SharedPreferences.Editor shPrefEditor;
 	Button buttonDeleteAll;
+	public Util util;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) 
 	{
-		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.bookmarks);
+		// for toolbar
+		Toolbar generalToolbar = (Toolbar) findViewById(R.id.generalToolbar);
+		setSupportActionBar(generalToolbar);
+		// Display icon in the toolbar
+		getSupportActionBar().setDisplayShowHomeEnabled(true);
+		getSupportActionBar().setLogo(R.drawable.toolbar_header);
+		getSupportActionBar().setDisplayUseLogoEnabled(true);
+		// Enable the home button
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		final Context context = this;
+		util = new Util();
+
 		bookmarksListView = (ListView) findViewById(R.id.Bookmarkslist);
 		buttonDeleteAll = (Button) findViewById(R.id.buttonDeleteAll);
-	//	shPrefEditor = mPrefs.edit();
-		
-		TextView textView = new TextView(this);
-		textView.setText("סימניות");
-		textView.setTextSize(30);
-		bookmarksListView.addHeaderView(textView);
+
 		mPrefs = getSharedPreferences(PREFS_NAME, 0);
 		shPrefEditor = mPrefs.edit();
 		Bookmarks = mPrefs.getString("Bookmarks", "");
 		
 		fillBookmarksNames();
 		showBookmarksList();
-
-		final Context context = this;
 		
 		bookmarksListView.setOnItemClickListener(new OnItemClickListener() 
 		{
@@ -68,8 +76,8 @@ public class BookmarkActivity extends Activity
 					Intent ourIntent = new Intent(BookmarkActivity.this, ourClass);
 					int i, index = 1/*to skip the first comma*/, index_end=0;
 					int bookmarkScrollY, fontSize;
-					
-					for(i=0;i<((position-1)*5)+1;i++)/*skip to the book of the right bookmark*/
+
+					for(i=0; i<position*5 + 1; i++)/*skip to the book of the correct bookmark*/
 						index = Bookmarks.indexOf("," , index) + 1;
 					
 					/*book*/
@@ -117,11 +125,11 @@ public class BookmarkActivity extends Activity
 					public void onItemClick(AdapterView<?> a, View v, int position, long id) 
 					{
 						AlertDialog.Builder adb=new AlertDialog.Builder(context);
-						adb.setTitle("Delete?");
-						adb.setMessage("Are you sure you want to delete " + position);
+						adb.setTitle("מחיקת סימניה");
+						adb.setMessage("למחוק סימניה?");
 						final int positionToRemove = position-1;
-						adb.setNegativeButton("Cancel", null);
-						adb.setPositiveButton("Ok", new AlertDialog.OnClickListener() 
+						adb.setNegativeButton("ביטול", null);
+						adb.setPositiveButton("כן", new AlertDialog.OnClickListener()
 						{
 							public void onClick(DialogInterface dialog, int which) 
 							{
@@ -149,35 +157,60 @@ public class BookmarkActivity extends Activity
 						adb.show();
 					}
 				});
-				/*Listener for the "delete all button"*/
-				buttonDeleteAll.setOnClickListener(new OnClickListener()
-				{
-					@SuppressLint("NewApi")
-					@Override
-					public void onClick(View v) 
-					{
-						AlertDialog.Builder adb=new AlertDialog.Builder(context);
-						adb.setTitle("Delete?");
-						adb.setMessage("Are you sure you want to delete all?");
-						adb.setNegativeButton("Cancel", null);
-						adb.setPositiveButton("Ok", new AlertDialog.OnClickListener() 
-						{
-							public void onClick(DialogInterface dialog, int which) 
-							{
-								Bookmarks = "";
-								shPrefEditor.putString("Bookmarks", Bookmarks);
-								shPrefEditor.commit();
-							}});
-						adb.show();
-					}
-					
-				});
 				return false; 
 			} 
-		}); 	
+		});
+
+		/*Listener for the "delete all button"*/
+		buttonDeleteAll.setOnClickListener(new OnClickListener()
+		{
+			@SuppressLint("NewApi")
+			@Override
+			public void onClick(View v)
+			{
+				AlertDialog.Builder adb=new AlertDialog.Builder(context);
+				adb.setTitle("מחיקת סימניות");
+				adb.setMessage("האם למחוק את כל הסימניות?");
+				adb.setNegativeButton("ביטול", null);
+				adb.setPositiveButton("כן", new AlertDialog.OnClickListener()
+				{
+					public void onClick(DialogInterface dialog, int which)
+					{
+						Bookmarks = "";
+						shPrefEditor.putString("Bookmarks", Bookmarks);
+						shPrefEditor.commit();
+						listBookmarksNames.clear();
+						adapter.notifyDataSetChanged();
+					}});
+				adb.show();
+			}
+		});
 	}
 
+	// for toolbar
+	@Override
+	public boolean onCreateOptionsMenu(android.view.Menu menu) {
+		// Inflate the menu; this adds items to the action bar if it is present.
+		getMenuInflater().inflate(R.menu.config_actionbar, (android.view.Menu) menu);
+		return true;
+	}
 
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item)
+	{
+		switch (item.getItemId())
+		{
+			case R.id.action_config:
+				util.showPopupMenuSettings(findViewById(R.id.action_config), BookmarkActivity.this);
+				break;
+			case android.R.id.home:
+				onBackPressed();
+				break;
+			default:
+				break;
+		}
+		return true;
+	}
 
 	private void fillBookmarksNames()
 	{

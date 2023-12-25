@@ -1,6 +1,7 @@
 package com.rafraph.pnineyHalachaHashalem;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -8,6 +9,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.KeyEvent;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
@@ -67,11 +69,22 @@ public class SearchActivity extends AppCompatActivity {
     public EditText editTextQuery;
     public ArrayAdapter adapter;
     public TextView textView;
+    public Util util;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
+        // for toolbar
+        Toolbar generalToolbar = (Toolbar) findViewById(R.id.generalToolbar);
+        setSupportActionBar(generalToolbar);
+        // Display icon in the toolbar
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setLogo(R.drawable.toolbar_header);
+        getSupportActionBar().setDisplayUseLogoEnabled(true);
+        // Enable the home button
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         final Context context = this;
+        util = new Util();
         findViewById(R.id.goSearch).setOnClickListener(new View.OnClickListener() {
             @Override public void onClick(View v) {
                 searchMethod(context);
@@ -286,6 +299,31 @@ public class SearchActivity extends AppCompatActivity {
             adapter.clear();
 //            adapter.notifyDataSetChanged();
         }
+    }
+
+    // for toolbar
+    @Override
+    public boolean onCreateOptionsMenu(android.view.Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.config_actionbar, (android.view.Menu) menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        switch (item.getItemId())
+        {
+            case R.id.action_config:
+                util.showPopupMenuSettings(findViewById(R.id.action_config), SearchActivity.this);
+                break;
+            case android.R.id.home:
+                onBackPressed();
+                break;
+            default:
+                break;
+        }
+        return true;
     }
 
     public String convertAnchorIdToSection(int Id)

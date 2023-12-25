@@ -14,51 +14,9 @@
         android:background="#FFFFFF"
         android:orientation="vertical">
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="58dp">
-
-            <LinearLayout
-                android:id="@+id/lnrOption3"
-                android:layout_width="match_parent"
-                android:layout_height="52dp"
-                android:background="#FFF7EC"
-                android:gravity="center">
-
-                <ImageView
-                    android:id="@+id/to_main"
-                    android:layout_width="170dp"
-                    android:layout_height="48dp"
-                    android:layout_marginStart="110dp"
-                    android:layout_marginLeft="110dp"
-                    android:scaleX="1"
-                    android:scaleY="1"
-                    android:src="@drawable/pniney_header"
-                    android:tag="4" />
-
-                <ImageView
-                    android:id="@+id/menu"
-                    android:layout_width="69dp"
-                    android:layout_height="48dp"
-                    android:layout_marginStart="50dp"
-                    android:layout_marginLeft="50dp"
-                    android:paddingRight="36dp"
-                    android:scaleX="0.6"
-                    android:scaleY="0.6"
-                    android:src="@drawable/action_config"
-                    android:tag="4" />
-            </LinearLayout>
-
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="0dp"
-                android:layout_marginLeft="0dp"
-                android:layout_marginTop="50dp"
-                android:scaleX="800"
-                android:src="@drawable/toolbar_shaddow"
-                android:tag="4" />
-        </RelativeLayout>
+        <include
+            android:id="@+id/generalToolbar"
+            layout="@layout/general_toolbar"/>
 
         <RelativeLayout
             android:layout_width="match_parent"

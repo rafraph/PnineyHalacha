@@ -2149,6 +2149,7 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 	private void fillChaptersNames()
 	{
 		/*BRACHOT*/
+		chaptersNames[BRACHOT][0] = "ברכות: תוכן";
 		chaptersNames[BRACHOT][1] = "ברכות: א - פתיחה";
 		chaptersNames[BRACHOT][2] = "ברכות: ב - נטילת ידיים לסעודה";
 		chaptersNames[BRACHOT][3] = "ברכות: ג - ברכת המוציא";
@@ -2168,6 +2169,7 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 		chaptersNames[BRACHOT][17] = "ברכות: יז - ברכות ההודאה והשמחה";
 		chaptersNames[BRACHOT][18] = "ברכות: יח - תפילת הדרך";
 		/*GIYUR*/
+		chaptersNames[GIYUR][0] = "גיור: תוכן";
 		chaptersNames[GIYUR][1] = "גיור: א - הגיור";
 		chaptersNames[GIYUR][2] = "גיור: ב - גרי הצדק";
 		chaptersNames[GIYUR][3] = "גיור: ג - הגיורים המורכבים";
@@ -2178,6 +2180,7 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 		chaptersNames[GIYUR][8] = "גיור: ח - דיני משפחה";
 		chaptersNames[GIYUR][9] = "גיור: ט - מעמד הגר והלכותיו";
 		/*HAAMVEHAAREZ*/
+		chaptersNames[HAAMVEHAAREZ][0] = "העם והארץ: תוכן";
 		chaptersNames[HAAMVEHAAREZ][1] = "העם והארץ: א - מעלת הארץ";
 		chaptersNames[HAAMVEHAAREZ][2] = "העם והארץ: ב - קודש וחול ביישוב הארץ";
 		chaptersNames[HAAMVEHAAREZ][3] = "העם והארץ: ג - מצוות יישוב הארץ";
@@ -2189,6 +2192,7 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 		chaptersNames[HAAMVEHAAREZ][9] = "העם והארץ: ט - זכר למקדש";
 		chaptersNames[HAAMVEHAAREZ][10] = "העם והארץ: יא - נספח: תשובות מאת הרב גורן ומרבנים נוספים";
 		/*ZMANIM*/
+		chaptersNames[ZMANIM][0] = "זמנים: תוכן";
 		chaptersNames[ZMANIM][1] = "זמנים: א - ראש חודש";
 		chaptersNames[ZMANIM][2] = "זמנים: ב - הלכות ספירת העומר";
 		chaptersNames[ZMANIM][3] = "זמנים: ג - מנהגי אבילות בספירת העומר";
@@ -2207,6 +2211,7 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 		chaptersNames[ZMANIM][16] = "זמנים: טז - מצוות השמחה והחסד";
 		chaptersNames[ZMANIM][17] = "זמנים: יז - דיני פרזים ומוקפים";
 		/*TAHARAT*/
+		chaptersNames[TAHARAT][0] = "טהרת המשפחה: תוכן";
 		chaptersNames[TAHARAT][1] = "טהרת המשפחה: א - טהרת המשפחה";
 		chaptersNames[TAHARAT][2] = "טהרת המשפחה: ב - דם וכתם";
 		chaptersNames[TAHARAT][3] = "טהרת המשפחה: ג - איסורי הרחקה";
@@ -2218,6 +2223,7 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 		chaptersNames[TAHARAT][9] = "טהרת המשפחה: ט - יולדת";
 		chaptersNames[TAHARAT][10] = "טהרת המשפחה: י - מקוואות";
 		/*YAMIM*/
+		chaptersNames[YAMIM][0] = "ימים נוראים: תוכן";
 		chaptersNames[YAMIM][1] = "ימים נוראים: א - הדין השכר והעונש";
 		chaptersNames[YAMIM][2] = "ימים נוראים: ב - סליחות ותפילות";
 		chaptersNames[YAMIM][3] = "ימים נוראים: ג - ראש השנה";
@@ -2229,6 +2235,7 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 		chaptersNames[YAMIM][9] = "ימים נוראים: ט - שאר עינויים";
 		chaptersNames[YAMIM][10] = "ימים נוראים: י - עבודת יום הכיפורים";
 		/*KASHRUT_A*/
+		chaptersNames[KASHRUT_A][0] = "כשרות א: תוכן";
 		chaptersNames[KASHRUT_A][1] = "כשרות א: א - חדש";
 		chaptersNames[KASHRUT_A][2] = "כשרות א: ב - ערלה ורבעי";
 		chaptersNames[KASHRUT_A][3] = "כשרות א: ג - כלאי בהמה ואילן";
@@ -2249,6 +2256,7 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 		chaptersNames[KASHRUT_A][18] ="כשרות א: יח - הלכות שחיטה";
 		chaptersNames[KASHRUT_A][19] ="כשרות א: יט - מתנות כהונה מהחי";
 		/*KASHRUT_B*/
+		chaptersNames[KASHRUT_B][0] = "כשרות ב: תוכן";
 		chaptersNames[KASHRUT_B][1] = "כשרות ב: כ - טריפות";
 		chaptersNames[KASHRUT_B][2] = "כשרות ב: כא - חֵלֶב וגיד הנשה וניקור";
 		chaptersNames[KASHRUT_B][3] = "כשרות ב: כב - דם והכשרת הבשר";
@@ -2269,6 +2277,7 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 		chaptersNames[KASHRUT_B][18] ="כשרות ב: לז - תעשיית המזון";
 		chaptersNames[KASHRUT_B][19] ="כשרות ב: לח - נאמנות והשגחה";
 		/*LIKUTIM_A*/
+		chaptersNames[LIKUTIM_A][0] = "ליקוטים א: תוכן";
 		chaptersNames[LIKUTIM_A][1] = "ליקוטים א: א - הלכות תלמוד תורה";
 		chaptersNames[LIKUTIM_A][2] = "ליקוטים א: ב - החינוך לתורה";
         chaptersNames[LIKUTIM_A][3] = "ליקוטים א: ג - קיום התורה והחינוך";
@@ -2283,6 +2292,7 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 		chaptersNames[LIKUTIM_A][12] = "ליקוטים א: יב - הלכות כהנים";
         chaptersNames[LIKUTIM_A][13] = "ליקוטים א: יג - שעטנז";
 		/*LIKUTIM_B*/
+		chaptersNames[LIKUTIM_B][0] = "ליקוטים ב: תוכן";
 		chaptersNames[LIKUTIM_B][1] = "ליקוטים ב: א - בין אדם לחברו";
 		chaptersNames[LIKUTIM_B][2] = "ליקוטים ב: ב - הלכות אמירת אמת";
 		chaptersNames[LIKUTIM_B][3] = "ליקוטים ב: ג - הלכות גניבת דעת";
@@ -2300,6 +2310,7 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 		chaptersNames[LIKUTIM_B][15] = "ליקוטים ב: טו - ליקוטים";
 		chaptersNames[LIKUTIM_B][16] = "ליקוטים ב: טז - חברה ושליחות";
 		/*MISHPACHA*/
+		chaptersNames[MISHPACHA][0] = "משפחה: תוכן";
 		chaptersNames[MISHPACHA][1] = "משפחה: א - כיבוד הורים";
 		chaptersNames[MISHPACHA][2] = "משפחה: ב - מצוות הנישואין";
 		chaptersNames[MISHPACHA][3] = "משפחה: ג - שידוכים";
@@ -2311,6 +2322,7 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 		chaptersNames[MISHPACHA][9] = "משפחה: ט - פדיון הבן";
 		chaptersNames[MISHPACHA][10] ="משפחה: י - אבלות";
 		/*MOADIM*/
+		chaptersNames[MOADIM][0] = "מועדים: תוכן";
 		chaptersNames[MOADIM][1] = "מועדים: א - פתיחה";
 		chaptersNames[MOADIM][2] = "מועדים: ב - דיני עשה ביום טוב";
 		chaptersNames[MOADIM][3] = "מועדים: ג - כללי המלאכות";
@@ -2325,6 +2337,7 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 		chaptersNames[MOADIM][12] = "מועדים: יב - היתרי עבודה במועד";
 		chaptersNames[MOADIM][13] = "מועדים: יג - חג שבועות";
 		/*SUCOT*/
+		chaptersNames[SUCOT][0] = "סוכות: תוכן";
 		chaptersNames[SUCOT][1] = "סוכות: א - חג הסוכות";
 		chaptersNames[SUCOT][2] = "סוכות: ב - הלכות סוכה";
 		chaptersNames[SUCOT][3] = "סוכות: ג - ישיבה בסוכה";
@@ -2334,6 +2347,7 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 		chaptersNames[SUCOT][7] = "סוכות: ז - שמיני עצרת";
 		chaptersNames[SUCOT][8] = "סוכות: ח - הקהל";
 		/*PESACH*/
+		chaptersNames[PESACH][0] = "פסח: תוכן";
 		chaptersNames[PESACH][1] = "פסח: א - משמעות החג";
 		chaptersNames[PESACH][2] = "פסח: ב - כללי איסור חמץ";
 		chaptersNames[PESACH][3] = "פסח: ג - מצוות השבתת חמץ";
@@ -2351,6 +2365,7 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 		chaptersNames[PESACH][15] = "פסח: טו - ההגדה";
 		chaptersNames[PESACH][16] = "פסח: טז - ליל הסדר";
 		/*SHVIIT*/
+		chaptersNames[SHVIIT][0] = "שביעית: תוכן";
 		chaptersNames[SHVIIT][1] = "שביעית: א - מצוות השביעית";
 		chaptersNames[SHVIIT][2] = "שביעית: ב - מצוות השביתה";
 		chaptersNames[SHVIIT][3] = "שביעית: ג - השמטת הפירות";
@@ -2363,6 +2378,7 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 		chaptersNames[SHVIIT][10] = "שביעית: י - מצוות היובל";
 		chaptersNames[SHVIIT][11] = "שביעית: יא - חזון השביעית";		
 		/*SHABAT*/
+		chaptersNames[SHABAT][0] = "שבת: תוכן";
 		chaptersNames[SHABAT][1] = "שבת: א - פתיחה";
 		chaptersNames[SHABAT][2] = "שבת: ב - הכנות לשבת";
 		chaptersNames[SHABAT][3] = "שבת: ג - זמני השבת";
@@ -2394,6 +2410,7 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 		chaptersNames[SHABAT][29] = "שבת: כט - עירובין";
 		chaptersNames[SHABAT][30] = "שבת: ל - תחומי שבת";
 		/*SIMCHAT*/
+		chaptersNames[SIMCHAT][0] = "שמחת הבית וברכתו: תוכן";
 		chaptersNames[SIMCHAT][1] = "שמחת הבית וברכתו: א - מצוות עונה";
 		chaptersNames[SIMCHAT][2] = "שמחת הבית וברכתו: ב - הלכות עונה";
 		chaptersNames[SIMCHAT][3] = "שמחת הבית וברכתו: ג - קדושה וכוונה";
@@ -2405,6 +2422,7 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 		chaptersNames[SIMCHAT][9] = "שמחת הבית וברכתו: ט - הפסקת הריון";
 		chaptersNames[SIMCHAT][10] = "שמחת הבית וברכתו: י - האיש והאשה";
 		/*TEFILA*/
+		chaptersNames[TEFILA][0] = "תפילה: תוכן";
 		chaptersNames[TEFILA][1] = "תפילה: א - יסודות הלכות תפילה";
 		chaptersNames[TEFILA][2] = "תפילה: ב - המניין";
 		chaptersNames[TEFILA][3] = "תפילה: ג - מקום התפילה";
@@ -2432,6 +2450,7 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 		chaptersNames[TEFILA][25] = "תפילה: כה - תפילת מעריב";
 		chaptersNames[TEFILA][26] = "תפילה: כו - קריאת שמע על המיטה"; 
 		/*TEFILAT_NASHIM*/
+		chaptersNames[TEFILAT_NASHIM][0] = "תפילת נשים: תוכן";
 		chaptersNames[TEFILAT_NASHIM][1] = "תפילת נשים: א - יסודות הלכות תפילה";
 		chaptersNames[TEFILAT_NASHIM][2] = "תפילת נשים: ב - מצוות תפילה לנשים";
 		chaptersNames[TEFILAT_NASHIM][3] = "תפילת נשים: ג - טעמי מצוות הנשים";
@@ -2457,6 +2476,7 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 		chaptersNames[TEFILAT_NASHIM][23] = "תפילת נשים: כג - מהלכות חגים ומועדים";
 		chaptersNames[TEFILAT_NASHIM][24] = "תפילת נשים: כד - נוסחי התפלה ומנהגי העדות";
 		/*HAR_MOADIM*/
+		chaptersNames[HAR_MOADIM][0]  = "הר' מועדים: תוכן";
 		chaptersNames[HAR_MOADIM][1]  = "הר' מועדים: א - פתיחה";
 		chaptersNames[HAR_MOADIM][2]  = "הר' מועדים: ב - דיני עשה ביום טוב";
 		chaptersNames[HAR_MOADIM][3]  = "הר' מועדים: ג - כללי המלאכות";
@@ -2470,15 +2490,17 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 		chaptersNames[HAR_MOADIM][11] = "הר' מועדים: יא - מלאכת חול המועד";
 		chaptersNames[HAR_MOADIM][12] = "הר' מועדים: יב - היתרי עבודה במועד";
 		/*HAR_SUCOT*/
-		chaptersNames[HAR_SUCOT][1]  = "א -חג הסוכות";
-		chaptersNames[HAR_SUCOT][2]  = "ב - הלכות סוכה";
-		chaptersNames[HAR_SUCOT][3]  = "ג - ישיבה בסוכה";
-		chaptersNames[HAR_SUCOT][4]  = "ד - ארבעת המינים";
-		chaptersNames[HAR_SUCOT][5]  = "ה - נטילת לולב";
-		chaptersNames[HAR_SUCOT][6]  = "ו - הושענא רבה";
-		chaptersNames[HAR_SUCOT][7]  = "ז - שמיני עצרת";
-		chaptersNames[HAR_SUCOT][8]  = "ח - הקהל";
+		chaptersNames[HAR_SUCOT][0]  = "הר' סוכות: תוכן";
+		chaptersNames[HAR_SUCOT][1]  = "הר' סוכות: א - חג הסוכות";
+		chaptersNames[HAR_SUCOT][2]  = "הר' סוכות: ב - הלכות סוכה";
+		chaptersNames[HAR_SUCOT][3]  = "הר' סוכות: ג - ישיבה בסוכה";
+		chaptersNames[HAR_SUCOT][4]  = "הר' סוכות: ד - ארבעת המינים";
+		chaptersNames[HAR_SUCOT][5]  = "הר' סוכות: ה - נטילת לולב";
+		chaptersNames[HAR_SUCOT][6]  = "הר' סוכות: ו - הושענא רבה";
+		chaptersNames[HAR_SUCOT][7]  = "הר' סוכות: ז - שמיני עצרת";
+		chaptersNames[HAR_SUCOT][8]  = "הר' סוכות: ח - הקהל";
 		/*HAR_SHABAT*/
+		chaptersNames[HAR_SHABAT][0]  = "הר' שבת: תוכן";
 		chaptersNames[HAR_SHABAT][1]  = "הר' שבת: א - פתיחה";
 		chaptersNames[HAR_SHABAT][2]  = "הר' שבת: ב - הכנות לשבת";
 		chaptersNames[HAR_SHABAT][3]  = "הר' שבת: ג - זמני השבת";
@@ -2510,6 +2532,7 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 		chaptersNames[HAR_SHABAT][29] = "הר' שבת: כט - עירובין";
 		chaptersNames[HAR_SHABAT][30] = "הר' שבת: ל - תחומי שבת";
 		/*HAR_SIMCHAT*/
+		chaptersNames[HAR_SIMCHAT][0]  = "הר' שמחת: תוכן";
 		chaptersNames[HAR_SIMCHAT][1]  = "הר' שמחת: א - מצוות עונה";
 		chaptersNames[HAR_SIMCHAT][2]  = "הר' שמחת: ב - הלכות עונה";
 		chaptersNames[HAR_SIMCHAT][3]  = "הר' שמחת: ג - קדושה וכוונה";
@@ -2521,6 +2544,7 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 		chaptersNames[HAR_SIMCHAT][9]  = "הר' שמחת: ט - הפסקת הריון";
 		chaptersNames[HAR_SIMCHAT][10] = "הר' שמחת: י - האיש והאשה";
 		/*HAR_BRACHOT*/
+		chaptersNames[HAR_BRACHOT][0]  = "הר' ברכות: תוכן";
 		chaptersNames[HAR_BRACHOT][1]  = "הר' ברכות: א - פתיחה";
 		chaptersNames[HAR_BRACHOT][2]  = "הר' ברכות: ב - נטילת ידיים לסעודה";
 		chaptersNames[HAR_BRACHOT][3]  = "הר' ברכות: ג - ברכת המוציא";
@@ -2539,6 +2563,7 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 		chaptersNames[HAR_BRACHOT][16] = "הר' ברכות: טז - ברכת הגומל";
 		chaptersNames[HAR_BRACHOT][17] = "הר' ברכות: יז - ברכות ההודאה והשמחה";
 		/*HAR_YAMIM*/
+		chaptersNames[HAR_YAMIM][0] = "הר' ימים נוראים: תוכן";
 		chaptersNames[HAR_YAMIM][1] = "הר' ימים נוראים: א - הדין השכר והעונש";
 		chaptersNames[HAR_YAMIM][2] = "הר' ימים נוראים: ב - סליחות ותפילות";
 		chaptersNames[HAR_YAMIM][3] = "הר' ימים נוראים: ג - ראש השנה";

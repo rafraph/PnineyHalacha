@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout  xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -7,17 +8,53 @@
     android:showDividers="middle|end"
     tools:context=".Settings" >
 
+  <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:orientation="vertical">
+
+    <include
+        android:id="@+id/generalToolbar"
+        layout="@layout/general_toolbar"/>
+
+
+    <TextView
+        android:id="@+id/textView14"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="10dp"
+        android:layout_marginRight="10dp"
+        android:text="סימניות"
+        android:textColor="#970606"
+        android:textSize="34sp"
+        android:textStyle="bold" />
+
     <ListView
-        xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/Bookmarkslist"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+        android:layout_height="match_parent"
+        android:layout_marginBottom="70dp"
+        >
     </ListView>
+  </LinearLayout>
 
     <Button
         android:id="@+id/buttonDeleteAll"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="מחק הכל" />
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/circle_button"
+        android:text="מחק הכל"
+        android:textColor="#970606"
+        android:textStyle="bold"
+        app:backgroundTint="#F5EDE6"
+        app:strokeColor="#970606"
+        app:strokeWidth="5dp" />
 
-</LinearLayout>
+
+</RelativeLayout >
