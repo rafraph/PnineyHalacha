@@ -17,14 +17,14 @@ import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import androidx.appcompat.app.ActionBar;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.PopupMenu;
-import android.text.Html;
+import androidx.appcompat.widget.Toolbar;
+
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -40,6 +40,7 @@ import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -117,7 +118,7 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 	boolean bookmark = false;
 	Document doc = null;
 	static MenuInflater inflater;
-	static public ActionBar textActionBar;
+	static public Toolbar textMainToolbar;
 	public String query, title;
 	public String note_id;
 	public String audio_id;
@@ -141,6 +142,10 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 	static public boolean jumpToSectionFlag = false;
 
 	public int fontSize;
+	public String strBookmark, Bookmarks;
+	public Util util;
+	public static TextView titleTv;
+	public static Context context;
 
 	@TargetApi(Build.VERSION_CODES.KITKAT)
 	@SuppressLint("JavascriptInterface")
@@ -148,10 +153,8 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 	@Override
 	protected void onCreate(Bundle savedInstanceState) 
 	{
-		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		loadActivity();
-
 	}//onCreate
 
 	private void loadActivity() 
@@ -165,14 +168,30 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 			setContentView(R.layout.text_main);
 		else
 			setContentView(R.layout.text_main_down);
-		
+
+
+		textMainToolbar = (Toolbar) findViewById(R.id.textMainToolbar);
+		setSupportActionBar(textMainToolbar);
+		// Enable the back arrow
+		getSupportActionBar().setDisplayShowHomeEnabled(true);
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		// Set a click listener for the toolbar
+		textMainToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				// Handle the back arrow click event
+				onBackPressed();
+			}
+		});
+
+		util = new Util();
 		firstTime = true;
 		book_chapter[0] = -1;
 		book_chapter[1] = -1;
 		int fromBookmarks = 0;
 		lnrOptions = (LinearLayout) findViewById(R.id.lnrOptions);
 		lnrFindOptions = (LinearLayout) findViewById(R.id.lnrFindOptions);
-		final Context context = this;
+		context = this;
 		webview = (WebView) findViewById(R.id.webView1);
 		WebSettings webSettings = webview.getSettings();
 		webSettings.setDefaultTextEncodingName("utf-8");
@@ -322,7 +341,6 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 		cbFullScreen = mPrefs.getInt("cbFullScreen", 1);
 		
 		inflater = getMenuInflater();
-		textActionBar = getSupportActionBar();
 
 		Bundle extras = getIntent().getExtras();
 		if (extras != null) 
@@ -494,7 +512,34 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 	{
 		super.onStart();
 		// The activity is about to become visible.
+		titleTv = textMainToolbar.findViewById(R.id.title);
+		if(book_chapter[1]==0)
+			title = convertBookIdToName(book_chapter[0]);
+		else
+			title = convertBookIdToName(book_chapter[0]) + ": " + convertAnchorIdToSection(book_chapter[1]);
+		titleTv.setText(title);
 
+		ImageView actionSearchIv = textMainToolbar.findViewById(R.id.action_search);
+		actionSearchIv.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				innerSearch();
+			}
+		});
+		ImageView addBookmarkIv = textMainToolbar.findViewById(R.id.add_bookmark);
+		addBookmarkIv.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				addBookmark();
+			}
+		});
+		ImageView actionConfigIv = textMainToolbar.findViewById(R.id.action_config);
+		actionConfigIv.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				showPopupMenuSettings(findViewById(R.id.action_config));
+			}
+		});
 	}//onStart
 
 	protected void onResume() 
@@ -537,7 +582,6 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) 
 	{
-		// TODO Auto-generated method stub
 		BlackBackground = mPrefs.getInt("BlackBackground", 0);
 
 		if(book_chapter[1]==0)
@@ -547,12 +591,9 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 
 		if(BlackBackground == 1)
 		{
-			textActionBar.setBackgroundDrawable(new ColorDrawable(Color.BLACK));
-			inflater.inflate(R.menu.actionbar_textmain_black, menu);
-			webview.loadUrl("javascript:function myFunction() {var x = document.body;x.style.color = \"white\";var y = document.getElementsByClassName(\"left\"); y[0].style.display = 'none';} myFunction(); ");
+            webview.loadUrl("javascript:function myFunction() {var x = document.body;x.style.color = \"white\";var y = document.getElementsByClassName(\"left\"); y[0].style.display = 'none';} myFunction(); ");
 			webview.setBackgroundColor(0xFFFFFF);//black
 			llMainLayout.setBackgroundColor(Color.BLACK);
-			textActionBar.setTitle(Html.fromHtml("<font color=\"#ffffff\">" + title + "</font>"));
 			bParagraphs.setImageDrawable(resources.getDrawable(R.drawable.ic_action_view_as_list));
 			bFullScreen.setImageDrawable(resources.getDrawable(R.drawable.ic_action_full_screen));
 			bNext_sec.setImageDrawable(resources.getDrawable(R.drawable.ic_action_next_item));
@@ -566,12 +607,9 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 			}
 
 		} else {
-			inflater.inflate(R.menu.actionbar_textmain, menu);
-			textActionBar.setBackgroundDrawable(new ColorDrawable(Color.WHITE));
 			webview.loadUrl("javascript:function myFunction() {var x = document.body;x.style.color = \"black\";} myFunction(); ");
 			webview.setBackgroundColor(0x000000);//white
 			llMainLayout.setBackgroundColor(Color.WHITE);
-			textActionBar.setTitle(Html.fromHtml("<font color=\"black\">" + title + "</font>"));
 			bParagraphs.setImageDrawable(resources.getDrawable(R.drawable.ic_action_view_as_list));
 			bFullScreen.setImageDrawable(resources.getDrawable(R.drawable.ic_action_full_screen));
 			bNext_sec.setImageDrawable(resources.getDrawable(R.drawable.ic_action_next_item));
@@ -703,6 +741,7 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 			book_chapter[1] += 1;
 			webview.loadUrl(chaptersFiles[book_chapter[0]][book_chapter[1]]);
 			title = convertBookIdToName(book_chapter[0]) + ": " + convertAnchorIdToSection(book_chapter[1]);
+			titleTv.setText(title);
 			if(book_chapter[1] == lastChapter[book_chapter[0]])
 				bNext_sec.setEnabled(false);
 			else
@@ -724,6 +763,7 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 				title = convertBookIdToName(book_chapter[0]);
 			else
 				title = convertBookIdToName(book_chapter[0]) + ": " + convertAnchorIdToSection(book_chapter[1]);
+			titleTv.setText(title);
 			if(book_chapter[1] == 0)
 				bPrevious_sec.setEnabled(false);
 			else
@@ -752,121 +792,14 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 
 	}//onClick
 
-	public String strBookmark, Bookmarks;
 	@SuppressLint("NewApi")
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) 
 	{
 		final Context context = this;
-		
-		// TODO Auto-generated method stub
+
 		switch (item.getItemId()) 
 		{
-		case R.id.action_search:
-			innerSearch();
-			break;
-		case R.id.action_add_bookmark:
-			// custom dialog
-			bookmarkDialog = new Dialog(context);
-			if(MyLanguage == ENGLISH)
-				bookmarkDialog.setContentView(R.layout.add_bookmark_english);
-			else if(MyLanguage == RUSSIAN)
-				bookmarkDialog.setContentView(R.layout.add_bookmark_russian);
-			else if(MyLanguage == SPANISH)
-				bookmarkDialog.setContentView(R.layout.add_bookmark_spanish);
-			else if(MyLanguage == FRENCH)
-				bookmarkDialog.setContentView(R.layout.add_bookmark_french);
-			else
-				bookmarkDialog.setContentView(R.layout.add_bookmark);
-			bookmarkDialog.setTitle("הוסף סימניה");
-
-			Button dialogButton = (Button) bookmarkDialog.findViewById(R.id.dialogButtonOK);
-			spinner1 = (Spinner) bookmarkDialog.findViewById(R.id.spinner1);
-			BookmarkName = (EditText) bookmarkDialog.findViewById(R.id.editTextBookmarkName);
-
-			// if button is clicked, close the custom dialog
-			dialogButton.setOnClickListener(new OnClickListener()
-			{
-				@Override
-				public void onClick(View v) 
-				{
-					int index = 0, index_end = 0;
-					String bookmarkText = BookmarkName.getText().toString();
-					bookmarkText.replaceAll(",", "-");/*if the user insert comma, replace it with "-"*/
-					/*		      bookmark name			book					chapter						scroll							fontSize*/
-					strBookmark = bookmarkText + "," + book_chapter[0] + "," + book_chapter[1] + "," + webview.getScrollY() + "," + (int) (fontSize)/*(webview.getScale()*100)*/;
-
-					Bookmarks = mPrefs.getString("Bookmarks", "");
-					if((index = Bookmarks.indexOf(bookmarkText))!=-1)/*if there is already bookmark with the same name override it*/
-					{
-						index_end = index;
-						for(int i=0; i<5; i++)
-						{
-							if(Bookmarks.indexOf(",", index_end+1) != -1)
-								index_end = Bookmarks.indexOf(",", index_end + 1);
-							else/*in case that this is the last bookmark*/
-								index_end = Bookmarks.length();							
-						}
-						Bookmarks = Bookmarks.substring(0, index) + strBookmark + Bookmarks.substring(index_end, Bookmarks.length());
-						if(MyLanguage == ENGLISH)
-							Toast.makeText(getApplicationContext(),	"Existing bookmark updated", Toast.LENGTH_SHORT).show();
-						else if(MyLanguage == RUSSIAN)
-							Toast.makeText(getApplicationContext(),	"Текущая закладка обновлена", Toast.LENGTH_SHORT).show();
-						else if(MyLanguage == SPANISH)
-							Toast.makeText(getApplicationContext(),	"Marcador existente actualizado", Toast.LENGTH_SHORT).show();
-						else if(MyLanguage == FRENCH)
-							Toast.makeText(getApplicationContext(),	"Le signet existant est mis à jour", Toast.LENGTH_SHORT).show();
-						else
-							Toast.makeText(getApplicationContext(),	"הסימניה הקיימת עודכנה", Toast.LENGTH_SHORT).show();
-					}
-					else
-					{
-						Bookmarks += "," + strBookmark;
-						if(MyLanguage == ENGLISH)
-							Toast.makeText(getApplicationContext(),	"New bookmark created", Toast.LENGTH_SHORT).show();
-						else if(MyLanguage == RUSSIAN)
-							Toast.makeText(getApplicationContext(),	"Создана новая закладка", Toast.LENGTH_SHORT).show();
-						else if(MyLanguage == SPANISH)
-							Toast.makeText(getApplicationContext(),	"Nuevo marcador creado", Toast.LENGTH_SHORT).show();
-						else if(MyLanguage == FRENCH)
-							Toast.makeText(getApplicationContext(),	"Nouveau signet créé", Toast.LENGTH_SHORT).show();
-						else
-							Toast.makeText(getApplicationContext(),	"סימניה חדשה נוצרה", Toast.LENGTH_SHORT).show();
-					}
-					shPrefEditor.putString("Bookmarks", Bookmarks);
-					shPrefEditor.commit();
-					bookmarkDialog.dismiss();
-				}
-			});
-
-			fillChaptersNames();
-			BookmarkName.setText(chaptersNames[book_chapter[0]][book_chapter[1]]);
-
-			addItemsOnSpinner();
-
-			spinner1.setOnItemSelectedListener(new OnItemSelectedListener() 
-			{
-				boolean first=true;
-				public void onItemSelected(AdapterView<?> parent, View view, int pos,long id) 
-				{
-					if (first==false)
-						BookmarkName.setText(parent.getItemAtPosition(pos).toString());
-					first = false;
-				}
-
-				public void onNothingSelected(AdapterView<?> arg0) 
-				{
-					// do nothing   
-				}
-			});     
-
-			bookmarkDialog.show();			
-
-			break;
-		case R.id.action_config:
-			showPopupMenuSettings(findViewById(R.id.action_config));
-			break;
-
 		case R.id.play:
 			scrollSpeed = mPrefs.getInt("scrollSpeed", 2);
 			runOnUiThread(mScrollDown);
@@ -2578,8 +2511,6 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 
 	void innerSearch()
 	{
-		final Context context = this;
-
 		// custom dialog
 		innerSearchDialog = new Dialog(context);
 		innerSearchDialog.setContentView(R.layout.inner_search);
@@ -2619,10 +2550,105 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 		innerSearchDialog.show();
 	}
 
+	void addBookmark(){
+		bookmarkDialog = new Dialog(context);
+		if(MyLanguage == ENGLISH)
+			bookmarkDialog.setContentView(R.layout.add_bookmark_english);
+		else if(MyLanguage == RUSSIAN)
+			bookmarkDialog.setContentView(R.layout.add_bookmark_russian);
+		else if(MyLanguage == SPANISH)
+			bookmarkDialog.setContentView(R.layout.add_bookmark_spanish);
+		else if(MyLanguage == FRENCH)
+			bookmarkDialog.setContentView(R.layout.add_bookmark_french);
+		else
+			bookmarkDialog.setContentView(R.layout.add_bookmark);
+		bookmarkDialog.setTitle("הוסף סימניה");
+
+		Button dialogButton = (Button) bookmarkDialog.findViewById(R.id.dialogButtonOK);
+		spinner1 = (Spinner) bookmarkDialog.findViewById(R.id.spinner1);
+		BookmarkName = (EditText) bookmarkDialog.findViewById(R.id.editTextBookmarkName);
+
+		// if button is clicked, close the custom dialog
+		dialogButton.setOnClickListener(new OnClickListener()
+		{
+			@Override
+			public void onClick(View v)
+			{
+				int index = 0, index_end = 0;
+				String bookmarkText = BookmarkName.getText().toString();
+				bookmarkText.replaceAll(",", "-");/*if the user insert comma, replace it with "-"*/
+				/*		      bookmark name			book					chapter						scroll							fontSize*/
+				strBookmark = bookmarkText + "," + book_chapter[0] + "," + book_chapter[1] + "," + webview.getScrollY() + "," + (int) (fontSize)/*(webview.getScale()*100)*/;
+
+				Bookmarks = mPrefs.getString("Bookmarks", "");
+				if((index = Bookmarks.indexOf(bookmarkText))!=-1)/*if there is already bookmark with the same name override it*/
+				{
+					index_end = index;
+					for(int i=0; i<5; i++)
+					{
+						if(Bookmarks.indexOf(",", index_end+1) != -1)
+							index_end = Bookmarks.indexOf(",", index_end + 1);
+						else/*in case that this is the last bookmark*/
+							index_end = Bookmarks.length();
+					}
+					Bookmarks = Bookmarks.substring(0, index) + strBookmark + Bookmarks.substring(index_end, Bookmarks.length());
+					if(MyLanguage == ENGLISH)
+						Toast.makeText(getApplicationContext(),	"Existing bookmark updated", Toast.LENGTH_SHORT).show();
+					else if(MyLanguage == RUSSIAN)
+						Toast.makeText(getApplicationContext(),	"Текущая закладка обновлена", Toast.LENGTH_SHORT).show();
+					else if(MyLanguage == SPANISH)
+						Toast.makeText(getApplicationContext(),	"Marcador existente actualizado", Toast.LENGTH_SHORT).show();
+					else if(MyLanguage == FRENCH)
+						Toast.makeText(getApplicationContext(),	"Le signet existant est mis à jour", Toast.LENGTH_SHORT).show();
+					else
+						Toast.makeText(getApplicationContext(),	"הסימניה הקיימת עודכנה", Toast.LENGTH_SHORT).show();
+				}
+				else
+				{
+					Bookmarks += "," + strBookmark;
+					if(MyLanguage == ENGLISH)
+						Toast.makeText(getApplicationContext(),	"New bookmark created", Toast.LENGTH_SHORT).show();
+					else if(MyLanguage == RUSSIAN)
+						Toast.makeText(getApplicationContext(),	"Создана новая закладка", Toast.LENGTH_SHORT).show();
+					else if(MyLanguage == SPANISH)
+						Toast.makeText(getApplicationContext(),	"Nuevo marcador creado", Toast.LENGTH_SHORT).show();
+					else if(MyLanguage == FRENCH)
+						Toast.makeText(getApplicationContext(),	"Nouveau signet créé", Toast.LENGTH_SHORT).show();
+					else
+						Toast.makeText(getApplicationContext(),	"סימניה חדשה נוצרה", Toast.LENGTH_SHORT).show();
+				}
+				shPrefEditor.putString("Bookmarks", Bookmarks);
+				shPrefEditor.commit();
+				bookmarkDialog.dismiss();
+			}
+		});
+
+		fillChaptersNames();
+		BookmarkName.setText(chaptersNames[book_chapter[0]][book_chapter[1]]);
+
+		addItemsOnSpinner();
+
+		spinner1.setOnItemSelectedListener(new OnItemSelectedListener()
+		{
+			boolean first=true;
+			public void onItemSelected(AdapterView<?> parent, View view, int pos,long id)
+			{
+				if (first==false)
+					BookmarkName.setText(parent.getItemAtPosition(pos).toString());
+				first = false;
+			}
+
+			public void onNothingSelected(AdapterView<?> arg0)
+			{
+				// do nothing
+			}
+		});
+
+		bookmarkDialog.show();
+	}
+
 	void acronymsDecode()
 	{
-		final Context context = this;
-
 		// custom dialog
 		acronymsDialog = new Dialog(context);
 		acronymsDialog.setContentView(R.layout.acronyms);

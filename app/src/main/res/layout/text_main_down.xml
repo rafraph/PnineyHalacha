@@ -5,6 +5,20 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/textMainToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#F5EDE6"
+        android:elevation="4dp">
+
+        <!-- Include the custom toolbar layout -->
+        <include
+            android:id="@+id/text_main_toolbar"
+            layout="@layout/text_main_toolbar" />
+
+    </androidx.appcompat.widget.Toolbar>
+
     <WebView
         android:id="@+id/webView1"
         android:layout_width="match_parent"

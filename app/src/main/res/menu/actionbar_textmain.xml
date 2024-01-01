@@ -2,19 +2,17 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" 
     xmlns:app="http://schemas.android.com/apk/res-auto"  >
 
-    <item android:id="@+id/action_search"
-          android:icon="@drawable/ic_action_search"
-          android:title="@string/action_search"
-          app:showAsAction="always"/>
     <item android:id="@+id/action_add_bookmark"
-          android:icon="@drawable/ic_action_add_bookmark"
+          android:icon="@drawable/add_bookmark"
           android:title="@string/add_bookmark_icon"
           app:showAsAction="always"/>
-    <item android:id="@+id/text_pniney"
-        android:title="פניני הלכה"
+    <item android:id="@+id/action_search"
+        android:icon="@drawable/page_search"
+        android:title="@string/action_search"
         app:showAsAction="always"/>
+
     <item android:id="@+id/action_config"
-          android:icon="@drawable/ic_action_config"
+          android:icon="@drawable/action_config"
           android:title="@string/action_config"
           app:showAsAction="always"/>
     

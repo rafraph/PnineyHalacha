@@ -101,7 +101,7 @@
         <activity
             android:name=".textMain"
             android:configChanges="keyboardHidden|orientation|screenSize"
-            android:theme="@style/Theme.AppCompat.Light">
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
 
             <!-- enable the search dialog to send searches to SearchableActivity -->
             <meta-data
