@@ -114,7 +114,7 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 	static SharedPreferences mPrefs;
 	SharedPreferences.Editor shPrefEditor;
 	int scrollY = 0;
-	public int BlackBackground=0, SleepScreen=1, /*cbFullScreen=1,*/ cbAssistButtons=1;
+	public int BlackBackground=0, SleepScreen=1/*, cbFullScreen=1, cbAssistButtons=1*/;
 	boolean bookmark = false;
 	Document doc = null;
 	static MenuInflater inflater;
@@ -161,13 +161,13 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 	{
 		mPrefs = getSharedPreferences(PREFS_NAME, 0);
 		shPrefEditor = mPrefs.edit();
-		cbAssistButtons = mPrefs.getInt("cbAssistButtons", 1);
+//		cbAssistButtons = mPrefs.getInt("cbAssistButtons", 1);
         MyLanguage = mPrefs.getInt("MyLanguage", 0);
 
-		if(cbAssistButtons==0)
-			setContentView(R.layout.text_main);
-		else
-			setContentView(R.layout.text_main_down);
+//		if(cbAssistButtons==0)
+//			setContentView(R.layout.text_main);
+//		else
+		setContentView(R.layout.text_main_down);
 
 
 		textMainToolbar = (Toolbar) findViewById(R.id.textMainToolbar);
@@ -562,10 +562,10 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 			webview.setKeepScreenOn (true);
 		}
 		
-		if(cbAssistButtons != mPrefs.getInt("cbAssistButtons", 1))
-		{
-			loadActivity();
-		}
+//		if(cbAssistButtons != mPrefs.getInt("cbAssistButtons", 1))
+//		{
+//			loadActivity();
+//		}
 	}//onResume
 
 	protected void onPause()

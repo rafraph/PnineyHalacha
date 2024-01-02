@@ -17,7 +17,7 @@ public class Settings extends AppCompatActivity
 	public static final String PREFS_NAME = "MyPrefsFile";
 	static SharedPreferences mPrefs;
 	SharedPreferences.Editor shPrefEditor;
-	CheckBox cbBlackBackground, cbSleepScreen, cbFullScreen, cbAssistButtons, cbLastLocation;
+	CheckBox cbBlackBackground, cbSleepScreen, /*cbFullScreen, cbAssistButtons,*/ cbLastLocation;
 	public Util util;
 
 	@Override
@@ -39,8 +39,8 @@ public class Settings extends AppCompatActivity
 		util = new Util(this);
 		cbSleepScreen 		= (CheckBox) findViewById(R.id.checkBoxSleepScreen);
 		cbBlackBackground 	= (CheckBox) findViewById(R.id.checkBoxBlackBackground);
-		cbFullScreen 		= (CheckBox) findViewById(R.id.checkBoxFullScreen);
-		cbAssistButtons 	= (CheckBox) findViewById(R.id.checkBoxAssistButtons);
+//		cbFullScreen 		= (CheckBox) findViewById(R.id.checkBoxFullScreen);
+//		cbAssistButtons 	= (CheckBox) findViewById(R.id.checkBoxAssistButtons);
 		cbLastLocation 		= (CheckBox) findViewById(R.id.checkBoxLastLocation);
 
 		mPrefs = getSharedPreferences(PREFS_NAME, 0);
@@ -72,23 +72,23 @@ public class Settings extends AppCompatActivity
 			cbBlackBackground.setChecked(false);
 		}
 		
-		if (mPrefs.getInt("cbFullScreen", 1) == 1)
-		{
-			cbFullScreen.setChecked(true);
-		}
-		else
-		{
-			cbFullScreen.setChecked(false);
-		}
+//		if (mPrefs.getInt("cbFullScreen", 1) == 1)
+//		{
+//			cbFullScreen.setChecked(true);
+//		}
+//		else
+//		{
+//			cbFullScreen.setChecked(false);
+//		}
 		
-		if (mPrefs.getInt("cbAssistButtons", 1) == 1)
-		{
-			cbAssistButtons.setChecked(true);
-		}
-		else
-		{
-			cbAssistButtons.setChecked(false);
-		}
+//		if (mPrefs.getInt("cbAssistButtons", 1) == 1)
+//		{
+//			cbAssistButtons.setChecked(true);
+//		}
+//		else
+//		{
+//			cbAssistButtons.setChecked(false);
+//		}
 
 		if (mPrefs.getInt("StartInLastLocation", 1) == 1)
 		{
@@ -121,18 +121,18 @@ public class Settings extends AppCompatActivity
 	            else
 	            	shPrefEditor.putInt("BlackBackground", 0);
 	            break;
-	        case R.id.checkBoxFullScreen:
-	            if (checked == true)
-	            	shPrefEditor.putInt("cbFullScreen", 1);
-	            else
-	            	shPrefEditor.putInt("cbFullScreen", 0);
-	            break;
-	        case R.id.checkBoxAssistButtons:
-	            if (checked == true)
-	            	shPrefEditor.putInt("cbAssistButtons", 1);
-	            else
-	            	shPrefEditor.putInt("cbAssistButtons", 0);
-	            break;
+//	        case R.id.checkBoxFullScreen:
+//	            if (checked == true)
+//	            	shPrefEditor.putInt("cbFullScreen", 1);
+//	            else
+//	            	shPrefEditor.putInt("cbFullScreen", 0);
+//	            break;
+//	        case R.id.checkBoxAssistButtons:
+//	            if (checked == true)
+//	            	shPrefEditor.putInt("cbAssistButtons", 1);
+//	            else
+//	            	shPrefEditor.putInt("cbAssistButtons", 0);
+//	            break;
 			case R.id.checkBoxLastLocation:
 				if (checked == true)
 					shPrefEditor.putInt("StartInLastLocation", 1);
@@ -148,29 +148,29 @@ public class Settings extends AppCompatActivity
         if(language == Util.ENGLISH) {
             cbSleepScreen.setText("Cancel monitor sleep");
             cbBlackBackground.setText("Black background");
-            cbFullScreen.setText("Don't remove buttons in full screen mode");
-            cbAssistButtons.setText("Locate the buttons in the bottom part of the screen");
+//            cbFullScreen.setText("Don't remove buttons in full screen mode");
+//            cbAssistButtons.setText("Locate the buttons in the bottom part of the screen");
             cbLastLocation.setText("Jump to the last location when application start");
         }
         else if(language == Util.RUSSIAN) {
             cbSleepScreen.setText("");
             cbBlackBackground.setText("Чёрный фон");
-            cbFullScreen.setText("");
-            cbAssistButtons.setText("");
+//            cbFullScreen.setText("");
+//            cbAssistButtons.setText("");
             cbLastLocation.setText("");
         }
         else if(language == Util.SPANISH) {
             cbSleepScreen.setText("Cancelar el sueño del monitor");
             cbBlackBackground.setText("Fondo negro");
-            cbFullScreen.setText("No remover los botones en modo de pantalla entera");
-            cbAssistButtons.setText("Localiza los botones en la parte baja de la pantalla");
+//            cbFullScreen.setText("No remover los botones en modo de pantalla entera");
+//            cbAssistButtons.setText("Localiza los botones en la parte baja de la pantalla");
             cbLastLocation.setText("Saltar a la ultima locacion cuando la aplicacion comience");
         }
         else if(language == Util.FRENCH  ) {
             cbSleepScreen.setText("Annuler mode veille");
             cbBlackBackground.setText("Fond noir");
-            cbFullScreen.setText("Ne pas retirer les boutons en mode plein écran");
-            cbAssistButtons.setText("Placer les boutons dans la partie inférieure de l'écran");
+//            cbFullScreen.setText("Ne pas retirer les boutons en mode plein écran");
+//            cbAssistButtons.setText("Placer les boutons dans la partie inférieure de l'écran");
             cbLastLocation.setText("Au demarrage revenir a la precedente location");
         }
     }
