@@ -39,7 +39,7 @@
         android:layout_gravity="center_vertical"
         android:layout_weight="1"
         android:orientation="vertical">
-        <!-- Right side icons -->
+
         <ImageView
             android:id="@+id/logo"
             android:layout_width="wrap_content"

@@ -6,10 +6,15 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.app.Activity;
 import android.os.IBinder;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,7 +35,7 @@ import android.widget.TextView;
 import android.content.BroadcastReceiver;
 
 
-public class myAudio extends Activity
+public class myAudio extends AppCompatActivity
 {
     /*							0	1	2	3	4	5	6	7	8	9  10  11  12  13  14  15  16  17  18 19  20  21  22  23  24  25  26  27  28  29  30 31*/
     public int[] lastChapter = {18, 9, 10, 17, 10, 10, 19, 19, 13, 16, 13, 10, 8, 16, 11, 30, 10, 26, 24, 17, 10, 12, 8, 30, 10, 26, 16, 15, 24, 30, 26, 30};
@@ -73,7 +78,7 @@ public class myAudio extends Activity
     View view;
 
     private final Handler handler = new Handler();
-    private TextView header_text;
+    private TextView titleTv;
     private String header;
     public ListView listview;
     public String book_name;
@@ -107,7 +112,7 @@ public class myAudio extends Activity
     static SharedPreferences mPrefs;
     public static final String PREFS_NAME = "MyPrefsFile";
     String audioSpeedPref;
-
+    static public Toolbar audioToolbar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -115,7 +120,20 @@ public class myAudio extends Activity
         firstCall = true;
         registerAllBroadcast();
         initializeViews();
-        header_text = (TextView) findViewById(R.id.header_text);
+        audioToolbar = (Toolbar) findViewById(R.id.audioToolbar);
+        setSupportActionBar(audioToolbar);
+        // Enable the back arrow
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        // Set a click listener for the toolbar
+        audioToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Handle the back arrow click event
+                onBackPressed();
+            }
+        });
+        titleTv = audioToolbar.findViewById(R.id.title);
         extras = getIntent().getExtras();
         sections = new ArrayList<String>();
         book = extras.getInt("book_id");
@@ -128,7 +146,7 @@ public class myAudio extends Activity
 
         book_name = get_book_name_by_id();
         header = book_name + " " + convert_character_to_id(chapter) ;
-        header_text.setText(header);
+        titleTv.setText(header);
         List<HashMap<String, String>> aList = new ArrayList<HashMap<String, String>>();
 
         for (int i = 0; i < sections.size(); i++) {
@@ -326,6 +344,10 @@ public class myAudio extends Activity
         duration = (TextView) findViewById(R.id.audioDuration);
         //bufferingPercent = (TextView) findViewById(R.id.fileBuffering);
         seekbar = (SeekBar) findViewById(R.id.seekBar);
+        // Change the progress (thumb) color
+        seekbar.getProgressDrawable().setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN);
+        // Change the thumb color
+        seekbar.getThumb().setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN);
         playerIntent = new Intent(this, MediaPlayerService.class);
     }
 
@@ -362,7 +384,7 @@ public class myAudio extends Activity
     public void restartPage()
     {
         header = book_name + " " +   convert_character_to_id(chapter) ;
-        header_text.setText(header);
+        titleTv.setText(header);
         // TODO: fill the list of sections of the new chapter
         sections = extras.getStringArrayList("sections_"+chapter);
         List<HashMap<String, String>> aList = new ArrayList<HashMap<String, String>>();

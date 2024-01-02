@@ -7,24 +7,19 @@
     tools:context=".myAudio">
 
     <!-- Header -->
-    <RelativeLayout
-        android:id="@+id/header"
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/audioToolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:background="#003349"
-        android:gravity="center" >
+        android:background="#F5EDE6"
+        android:elevation="4dp">
 
-        <TextView
-            android:id="@+id/header_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:fontFamily="serif"
-            android:text="Fixed Header"
-            android:textColor="#FFFFFF"
-            android:textSize="30sp" />
-    </RelativeLayout>
+        <!-- Include the custom toolbar layout -->
+        <include
+            android:id="@+id/audio_toolbar"
+            layout="@layout/audio_toolbar" />
+
+    </androidx.appcompat.widget.Toolbar>
 
     <!-- Center -->
     <RelativeLayout
@@ -32,14 +27,16 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_above="@id/footer"
-        android:layout_below="@id/header"
-        android:background="#F5EDE6"
+        android:layout_below="@id/audioToolbar"
+        android:background="#FFFFFF"
         android:gravity="center">
 
         <ListView
             android:id="@+id/list_view"
             android:layout_width="match_parent"
             android:layout_height="505dp"
+            android:divider="#970606"
+            android:dividerHeight="1dp"
             android:choiceMode="singleChoice" />
     </RelativeLayout>
 
@@ -50,7 +47,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:background="#003349"
+        android:background="#970606"
         android:gravity="center" >
 
         <LinearLayout
@@ -144,21 +141,21 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="30dp"
+                android:layout_height="wrap_content"
                 android:gravity="right"
                 android:orientation="horizontal">
 
                 <Button
                     android:id="@+id/audio_speed"
                     android:layout_width="wrap_content"
-                    android:layout_height="29dp"
+                    android:layout_height="58dp"
                     android:layout_gravity="left"
                     android:layout_marginRight="10dp"
-                    android:background="@null"
+                    android:background="@android:color/transparent"
                     android:onClick="open_speeds"
                     android:text="1.0x"
                     android:textColor="#FFFFFF"
-                    android:textSize="20sp"/>
+                    android:textSize="20sp" />
             </LinearLayout>
 
         </LinearLayout>
