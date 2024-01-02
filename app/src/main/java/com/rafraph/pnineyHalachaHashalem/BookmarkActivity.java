@@ -127,7 +127,7 @@ public class BookmarkActivity extends AppCompatActivity
 						AlertDialog.Builder adb=new AlertDialog.Builder(context);
 						adb.setTitle("מחיקת סימניה");
 						adb.setMessage("למחוק סימניה?");
-						final int positionToRemove = position-1;
+						final int positionToRemove = position;
 						adb.setNegativeButton("ביטול", null);
 						adb.setPositiveButton("כן", new AlertDialog.OnClickListener()
 						{
