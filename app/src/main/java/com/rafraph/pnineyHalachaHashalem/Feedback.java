@@ -5,19 +5,36 @@ import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-public class Feedback extends Activity implements View.OnClickListener
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+
+public class Feedback extends AppCompatActivity implements View.OnClickListener
 {
 	Button sendEmail;
 	EditText EmailHeader, EmailContent;
+	public Util util;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) 
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_feedback);
+		// for toolbar
+		Toolbar generalToolbar = (Toolbar) findViewById(R.id.generalToolbar);
+		setSupportActionBar(generalToolbar);
+		// Display icon in the toolbar
+		getSupportActionBar().setDisplayShowHomeEnabled(true);
+		getSupportActionBar().setLogo(R.drawable.toolbar_header);
+		getSupportActionBar().setDisplayUseLogoEnabled(true);
+		// Enable the home button
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+		util = new Util(this);
+
 		EmailHeader = (EditText) findViewById(R.id.etHeader);
 		EmailContent = (EditText) findViewById(R.id.etContent);
 
@@ -29,10 +46,26 @@ public class Feedback extends Activity implements View.OnClickListener
 	}
 
 	@Override
-	public boolean onCreateOptionsMenu(Menu menu) 
-	{
+	public boolean onCreateOptionsMenu(android.view.Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.feedback, menu);
+		getMenuInflater().inflate(R.menu.config_actionbar, (android.view.Menu) menu);
+		return true;
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item)
+	{
+		switch (item.getItemId())
+		{
+			case R.id.action_config:
+				util.showPopupMenuSettings(findViewById(R.id.action_config), Feedback.this);
+				break;
+			case android.R.id.home:
+				onBackPressed();
+				break;
+			default:
+				break;
+		}
 		return true;
 	}
 

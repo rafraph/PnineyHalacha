@@ -1,11 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/feedback_design"
+    android:background="#FFFFFF"
     tools:context=".Feedback" >
+
+	<include
+		android:id="@+id/generalToolbar"
+		layout="@layout/general_toolbar" />
+
+	<TextView
+		android:id="@+id/textView14"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_marginEnd="10dp"
+		android:layout_marginRight="10dp"
+		android:text="משוב"
+		android:textColor="#970606"
+		android:textSize="34sp"
+		android:textStyle="bold" />
 
     <ScrollView
         android:layout_width="fill_parent"
@@ -21,48 +37,60 @@
 			    android:id="@+id/tvName"
 				android:layout_width="wrap_content"
 		        android:layout_height="wrap_content"
+				android:layout_marginHorizontal="30dp"
 		        android:layout_gravity="right"
 		        android:layout_marginTop="44dp"
-		        android:text="שם" />
+		        android:text="שם"
+				android:textSize="18dp"/>
 
 		    <EditText
 		        android:id="@+id/etName"
 		        android:layout_width="match_parent"
-		        android:layout_height="wrap_content"
+		        android:layout_height="32dp"
+				android:layout_marginHorizontal="20dp"
 		        android:layout_gravity="right"
-		        android:ems="10" />
+				android:background="@drawable/rounded_edit_text"
+				android:ems="10" />
 					
 		    <TextView
 		        android:id="@+id/tvHeader"
 		        android:layout_width="wrap_content"
 		        android:layout_height="wrap_content"
+				android:layout_marginHorizontal="30dp"
 		        android:layout_alignLeft="@+id/textView2"
 		        android:layout_below="@+id/textView2"
 		        android:layout_gravity="right"
 		        android:layout_marginTop="24dp"
-		        android:text="כותרת" />
+		        android:text="כותרת"
+				android:textSize="18dp" />
 		
 			<EditText
 			    android:id="@+id/etHeader"
 			    android:layout_width="match_parent"
-			    android:layout_height="wrap_content"
+				android:layout_marginHorizontal="20dp"
+			    android:layout_height="32dp"
+				android:background="@drawable/rounded_edit_text"
 			    android:layout_gravity="right" />
 							    
 			<TextView
 			    android:id="@+id/tvContent"
 			    android:layout_width="wrap_content"
 			    android:layout_height="wrap_content"
+				android:layout_marginHorizontal="30dp"
 			    android:layout_alignLeft="@+id/textView2"
 			    android:layout_below="@+id/textView2"
 			    android:layout_gravity="right"
 			    android:layout_marginTop="24dp"
-			    android:text="תוכן הפניה" />
+			    android:text="תוכן הפניה"
+				android:textSize="18dp" />
 		
 			<EditText
 			    android:id="@+id/etContent"
 			    android:layout_width="match_parent"
-			    android:layout_height="100dp"
+			    android:layout_height="150dp"
+				android:layout_marginHorizontal="20dp"
 			    android:layout_gravity="right"
+				android:background="@drawable/rounded_edit_text"
 			    android:ems="10"
 			    android:inputType="textMultiLine" >
 			</EditText>
@@ -76,16 +104,24 @@
 	    android:layout_width="wrap_content"
 	    android:layout_height="wrap_content"
 	    android:layout_gravity="center_horizontal"
-	    android:layout_margin="10dp"
+	    android:layout_margin="20dp"
+		android:background="@drawable/circle_button"
+		app:backgroundTint="#F5EDE6"
 	    android:text="שלח משוב"
-	    android:textSize="30sp" />
+		android:paddingHorizontal="15dp"
+		android:paddingVertical="10dp"
+	    android:textSize="25sp"
+		android:textColor="#970606"/>
+
 
 	<Button
 	    android:id="@+id/bContentFix"
 	    android:layout_width="match_parent"
 	    android:layout_height="wrap_content"
-	    android:background="#87CEFA"
+		android:background="@drawable/circle_button"
+		app:backgroundTint="#F5EDE6"
 	    android:text="להצעת תיקון בתוכן הספרים - לחץ כאן" 
-	    android:textSize="19sp"/>
+	    android:textSize="19sp"
+		android:textColor="#000000"/>
 				
 </LinearLayout >

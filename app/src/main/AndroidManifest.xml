@@ -115,7 +115,7 @@
         <activity
             android:name=".Feedback"
             android:label="@string/title_activity_feedback"
-            android:theme="@android:style/Theme.NoTitleBar" />
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
             android:name=".SearchHelp"
             android:label="@string/title_activity_search_help"
