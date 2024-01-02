@@ -10,7 +10,6 @@ import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.app.Activity;
 import android.os.IBinder;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -35,7 +34,7 @@ import android.widget.TextView;
 import android.content.BroadcastReceiver;
 
 
-public class myAudio extends AppCompatActivity
+public class MyAudio extends AppCompatActivity
 {
     /*							0	1	2	3	4	5	6	7	8	9  10  11  12  13  14  15  16  17  18 19  20  21  22  23  24  25  26  27  28  29  30 31*/
     public int[] lastChapter = {18, 9, 10, 17, 10, 10, 19, 19, 13, 16, 13, 10, 8, 16, 11, 30, 10, 26, 24, 17, 10, 12, 8, 30, 10, 26, 16, 15, 24, 30, 26, 30};

@@ -56,7 +56,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".dailyLearn"
+            android:name=".DailyLearn"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.rafraph.pnineyHalachaHashalem.dailyLearn" />
@@ -99,7 +99,7 @@
                 android:value=".SearchableActivity" />
         </activity>
         <activity
-            android:name=".textMain"
+            android:name=".TextMain"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
 
@@ -140,7 +140,7 @@
             android:label="@string/title_activity_bookmark"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
         <activity
-            android:name=".myAudio"
+            android:name=".MyAudio"
             android:label="myAudio"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
 

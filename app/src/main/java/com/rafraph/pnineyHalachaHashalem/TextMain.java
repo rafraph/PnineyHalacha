@@ -53,7 +53,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 
 @SuppressLint("SetJavaScriptEnabled")
-public class textMain extends AppCompatActivity implements View.OnClickListener//, OnGestureListener
+public class TextMain extends AppCompatActivity implements View.OnClickListener//, OnGestureListener
 {
 	private static final int BRACHOT      	= 0;
 	private static final int GIYUR      	= 1;
@@ -299,8 +299,8 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 				// your code here
 				try
 				{
-					Class ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.myAudio");
-					Intent ourIntent = new Intent(textMain.this, ourClass);
+					Class ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.MyAudio");
+					Intent ourIntent = new Intent(TextMain.this, ourClass);
 
                     ourIntent.putExtra("audio_id", Integer.parseInt(audio_id));
                     ourIntent.putExtra("book_id", book_chapter[0]);
@@ -799,7 +799,7 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 
 	private void showPopupMenu(View v)
 	{
-		PopupMenu popupMenu = new PopupMenu(textMain.this, v);
+		PopupMenu popupMenu = new PopupMenu(TextMain.this, v);
 
 		//popupMenu.
 		for(int i = 0; i < headers.size(); i++)//fill the menu list
@@ -924,7 +924,7 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 
 	private void showAutoScrollMenu(View v)
 	{
-		PopupMenu popupMenu = new PopupMenu(textMain.this, v);
+		PopupMenu popupMenu = new PopupMenu(TextMain.this, v);
 
 		List<String> autoScrollText = util.getTextArray(Util.TextArrayEnum.AUTO_SCROLL_MENU);
 		popupMenu.getMenu().add(0,0,0,autoScrollText.get(0));
@@ -1586,7 +1586,7 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 
 	private void showPopupMenuSettings(View v)
 	{
-		PopupMenu popupMenu = new PopupMenu(textMain.this, v);
+		PopupMenu popupMenu = new PopupMenu(TextMain.this, v);
 
         String configHeaders[] = new String[7];
         if(MyLanguage == ENGLISH) {
@@ -1659,7 +1659,7 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 					try
 					{
 						Class ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.Settings");
-						Intent ourIntent = new Intent(textMain.this, ourClass);
+						Intent ourIntent = new Intent(TextMain.this, ourClass);
 						startActivity(ourIntent);
 					}
 					catch (ClassNotFoundException e)
@@ -1671,7 +1671,7 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 					try
 					{
 						Class ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.About");
-						Intent ourIntent = new Intent(textMain.this, ourClass);
+						Intent ourIntent = new Intent(TextMain.this, ourClass);
 						startActivity(ourIntent);
 					}
 					catch (ClassNotFoundException e)
@@ -1684,7 +1684,7 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 					try
 					{
 						Class ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.Feedback");
-						Intent ourIntent = new Intent(textMain.this, ourClass);
+						Intent ourIntent = new Intent(TextMain.this, ourClass);
 						startActivity(ourIntent);
 					}
 					catch (ClassNotFoundException e)
@@ -1696,7 +1696,7 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 					try
 					{
 						Class ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.SearchHelp");
-						Intent ourIntent = new Intent(textMain.this, ourClass);
+						Intent ourIntent = new Intent(TextMain.this, ourClass);
 						startActivity(ourIntent);
 					}
 					catch (ClassNotFoundException e)

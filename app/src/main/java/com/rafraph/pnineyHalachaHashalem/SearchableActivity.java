@@ -105,7 +105,7 @@ public class SearchableActivity extends Activity
 					{
 						try
 						{
-							Class ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.textMain");
+							Class ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.TextMain");
 							Intent ourIntent = new Intent(SearchableActivity.this, ourClass);
 
 							searchPosition = listStrAnchor.get(position-1);

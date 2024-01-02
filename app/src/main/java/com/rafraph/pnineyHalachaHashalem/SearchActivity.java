@@ -135,7 +135,7 @@ public class SearchActivity extends AppCompatActivity {
                 {
                     try
                     {
-                        Class ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.textMain");
+                        Class ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.TextMain");
                         Intent ourIntent = new Intent(SearchActivity.this, ourClass);
 
                         searchPosition = listStrAnchor.get(position-1);

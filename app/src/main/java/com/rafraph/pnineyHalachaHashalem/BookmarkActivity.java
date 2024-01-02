@@ -3,10 +3,8 @@ package com.rafraph.pnineyHalachaHashalem;
 import java.util.ArrayList;
 import java.util.List;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.PopupMenu;
 import androidx.appcompat.widget.Toolbar;
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -20,8 +18,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 
 public class BookmarkActivity extends AppCompatActivity
@@ -72,7 +68,7 @@ public class BookmarkActivity extends AppCompatActivity
 			{
 				try
 				{
-					Class ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.textMain");
+					Class ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.TextMain");
 					Intent ourIntent = new Intent(BookmarkActivity.this, ourClass);
 					int i, index = 1/*to skip the first comma*/, index_end=0;
 					int bookmarkScrollY, fontSize;

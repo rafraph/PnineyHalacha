@@ -1,7 +1,6 @@
 package com.rafraph.pnineyHalachaHashalem;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.PopupMenu;
 import androidx.appcompat.widget.Toolbar;
 
 import android.annotation.SuppressLint;
@@ -13,15 +12,7 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
-import android.webkit.WebSettings;
-import android.webkit.WebView;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.RadioButton;
-import android.widget.TextView;
-
-import java.io.IOException;
-import java.io.InputStream;
 
 
 public class HomeActivity extends AppCompatActivity {
@@ -289,7 +280,7 @@ public class HomeActivity extends AppCompatActivity {
     {
         try
         {
-            Class ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.textMain");
+            Class ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.TextMain");
             Intent ourIntent = new Intent(HomeActivity.this, ourClass);
             int[] book_chapter = new int[2];
             book_chapter[0] = 0xFFFF;

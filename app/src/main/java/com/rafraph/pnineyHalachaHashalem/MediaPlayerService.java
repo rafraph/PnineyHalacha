@@ -388,33 +388,33 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
     }
     private void registerAllBroadcast() {
         //register after getting audio focus
-        IntentFilter intentFilter = new IntentFilter(myAudio.Broadcast_SKIP_NEXT);
+        IntentFilter intentFilter = new IntentFilter(MyAudio.Broadcast_SKIP_NEXT);
         registerReceiver(BR_skipToNext, intentFilter);
-        intentFilter = new IntentFilter(myAudio.Broadcast_SKIP_PREVIOUS);
+        intentFilter = new IntentFilter(MyAudio.Broadcast_SKIP_PREVIOUS);
         registerReceiver(BR_skipToPrevious, intentFilter);
-        intentFilter = new IntentFilter(myAudio.Broadcast_SKIP_TO_SPECIFIC_SECTION);
+        intentFilter = new IntentFilter(MyAudio.Broadcast_SKIP_TO_SPECIFIC_SECTION);
         registerReceiver(BR_skipToSpecificSection, intentFilter);
-        intentFilter = new IntentFilter(myAudio.Broadcast_START);
+        intentFilter = new IntentFilter(MyAudio.Broadcast_START);
         registerReceiver(BR_start, intentFilter);
-        intentFilter = new IntentFilter(myAudio.Broadcast_PLAY_PAUSE);
+        intentFilter = new IntentFilter(MyAudio.Broadcast_PLAY_PAUSE);
         registerReceiver(BR_playPause, intentFilter);
-        intentFilter = new IntentFilter(myAudio.Broadcast_FORWARD_10);
+        intentFilter = new IntentFilter(MyAudio.Broadcast_FORWARD_10);
         registerReceiver(BR_forward_10_sec, intentFilter);
-        intentFilter = new IntentFilter(myAudio.Broadcast_BACKWARD_10);
+        intentFilter = new IntentFilter(MyAudio.Broadcast_BACKWARD_10);
         registerReceiver(BR_backward_10_sec, intentFilter);
-        intentFilter = new IntentFilter(myAudio.Broadcast_OnTouch);
+        intentFilter = new IntentFilter(MyAudio.Broadcast_OnTouch);
         registerReceiver(BR_on_Touch, intentFilter);
-        intentFilter = new IntentFilter(myAudio.Broadcast_SPEED_2_0);
+        intentFilter = new IntentFilter(MyAudio.Broadcast_SPEED_2_0);
         registerReceiver(BR_speed_2_0, intentFilter);
-        intentFilter = new IntentFilter(myAudio.Broadcast_SPEED_1_8);
+        intentFilter = new IntentFilter(MyAudio.Broadcast_SPEED_1_8);
         registerReceiver(BR_speed_1_8, intentFilter);
-        intentFilter = new IntentFilter(myAudio.Broadcast_SPEED_1_5);
+        intentFilter = new IntentFilter(MyAudio.Broadcast_SPEED_1_5);
         registerReceiver(BR_speed_1_5, intentFilter);
-        intentFilter = new IntentFilter(myAudio.Broadcast_SPEED_1_2);
+        intentFilter = new IntentFilter(MyAudio.Broadcast_SPEED_1_2);
         registerReceiver(BR_speed_1_2, intentFilter);
-        intentFilter = new IntentFilter(myAudio.Broadcast_SPEED_1_0);
+        intentFilter = new IntentFilter(MyAudio.Broadcast_SPEED_1_0);
         registerReceiver(BR_speed_1_0, intentFilter);
-        intentFilter = new IntentFilter(myAudio.Broadcast_SPEED_0_8);
+        intentFilter = new IntentFilter(MyAudio.Broadcast_SPEED_0_8);
         registerReceiver(BR_speed_0_8, intentFilter);
     }
 
