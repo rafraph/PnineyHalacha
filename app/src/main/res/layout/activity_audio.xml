@@ -85,15 +85,15 @@
                 android:orientation="horizontal">
 
                 <ImageButton
-                    android:id="@+id/media_prev"
+                    android:id="@+id/media_next"
                     android:layout_width="60dp"
                     android:layout_height="60dp"
                     android:layout_gravity="center_vertical"
                     android:layout_marginEnd="10dp"
                     android:layout_marginRight="10dp"
                     android:background="@null"
-                    android:onClick="skip_to_previous"
-                    android:src="@drawable/baseline_skip_previous_white_48" />
+                    android:onClick="skip_to_next"
+                    android:src="@drawable/baseline_skip_next_white_48" />
 
                 <ImageButton
                     android:id="@+id/media_rew"
@@ -128,15 +128,15 @@
                     android:src="@drawable/baseline_forward_10_white_48" />
 
                 <ImageButton
-                    android:id="@+id/media_next"
+                    android:id="@+id/media_prev"
                     android:layout_width="60dp"
                     android:layout_height="60dp"
                     android:layout_gravity="center_vertical"
                     android:layout_marginStart="10dp"
                     android:layout_marginLeft="10dp"
                     android:background="@null"
-                    android:onClick="skip_to_next"
-                    android:src="@drawable/baseline_skip_next_white_48" />
+                    android:onClick="skip_to_previous"
+                    android:src="@drawable/baseline_skip_previous_white_48" />
             </LinearLayout>
 
             <LinearLayout
