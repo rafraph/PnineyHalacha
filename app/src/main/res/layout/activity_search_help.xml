@@ -1,10 +1,21 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" 
-    android:background="@drawable/search_help"
-    android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
+    android:orientation="vertical"
     tools:context=".SearchHelp" >
-</RelativeLayout>
+
+    <include
+        android:id="@+id/generalToolbar"
+        layout="@layout/general_toolbar" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/search_help"/>
+    </LinearLayout>
+
+</LinearLayout>
 
