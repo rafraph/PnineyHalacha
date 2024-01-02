@@ -36,7 +36,7 @@ public class Settings extends AppCompatActivity
 		// Enable the home button
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-		util = new Util();
+		util = new Util(this);
 		cbSleepScreen 		= (CheckBox) findViewById(R.id.checkBoxSleepScreen);
 		cbBlackBackground 	= (CheckBox) findViewById(R.id.checkBoxBlackBackground);
 		cbFullScreen 		= (CheckBox) findViewById(R.id.checkBoxFullScreen);

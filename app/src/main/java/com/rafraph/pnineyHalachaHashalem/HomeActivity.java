@@ -48,7 +48,7 @@ public class HomeActivity extends AppCompatActivity {
         getSupportActionBar().setLogo(R.drawable.toolbar_header);
         getSupportActionBar().setDisplayUseLogoEnabled(true);
 
-        util = new Util();
+        util = new Util(this);
         context = this;
         mPrefs = getSharedPreferences(PREFS_NAME, 0);
         shPrefEditor = mPrefs.edit();

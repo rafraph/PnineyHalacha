@@ -53,7 +53,7 @@ public class BookmarkActivity extends AppCompatActivity
 		// Enable the home button
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		final Context context = this;
-		util = new Util();
+		util = new Util(this);
 
 		bookmarksListView = (ListView) findViewById(R.id.Bookmarkslist);
 		buttonDeleteAll = (Button) findViewById(R.id.buttonDeleteAll);

@@ -103,7 +103,7 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 	public static int[] book_chapter = new int[2];
 	boolean cameFromSearch = false, firstTime = true, ChangeChapter = false;
 	String searchPosition = null, sectionsForToast = null;
-	ImageButton bParagraphs, bFullScreen, bNext_sec, bPrevious_sec, bNext_page, bPrevious_page, bFindNext, bFindPrevious;
+	ImageButton bAutoScroll, bParagraphs, /*bFullScreen,*/ bNext_sec, bPrevious_sec, bNext_page, bPrevious_page, bFindNext, bFindPrevious;
 	LinearLayout llMainLayout;
 	String stHeadersArr;
 	Elements headers;
@@ -114,7 +114,7 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 	static SharedPreferences mPrefs;
 	SharedPreferences.Editor shPrefEditor;
 	int scrollY = 0;
-	public int BlackBackground=0, SleepScreen=1, cbFullScreen=1, cbAssistButtons=1;
+	public int BlackBackground=0, SleepScreen=1, /*cbFullScreen=1,*/ cbAssistButtons=1;
 	boolean bookmark = false;
 	Document doc = null;
 	static MenuInflater inflater;
@@ -123,7 +123,7 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 	public String note_id;
 	public String audio_id;
 	public Resources resources;
-	static byte fullScreenFlag = 0;
+//	static byte fullScreenFlag = 0;
 	public static byte rotate = 0; 
 	public String noteStr = "0";
     public int MyLanguage;
@@ -184,7 +184,7 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 			}
 		});
 
-		util = new Util();
+		util = new Util(this);
 		firstTime = true;
 		book_chapter[0] = -1;
 		book_chapter[1] = -1;
@@ -207,8 +207,9 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 
 		webview.setWebViewClient(new MyWebViewClient());
 
+		bAutoScroll    = (ImageButton) findViewById(R.id.ibAutoScrool);
 		bParagraphs    = (ImageButton) findViewById(R.id.ibChapters);
-		bFullScreen    = (ImageButton) findViewById(R.id.ibFullScreen);
+//		bFullScreen    = (ImageButton) findViewById(R.id.ibFullScreen);
 		bNext_sec      = (ImageButton) findViewById(R.id.ibNext);
 		bPrevious_sec  = (ImageButton) findViewById(R.id.ibPrevious);
 		bNext_page     = (ImageButton) findViewById(R.id.ibNextPage);
@@ -218,8 +219,9 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 		bFindNext      = (ImageButton) findViewById(R.id.ibFindNext);
 		bFindPrevious  = (ImageButton) findViewById(R.id.ibFindPrevious);
 
+		bAutoScroll.setOnClickListener(this);
 		bParagraphs.setOnClickListener(this);
-		bFullScreen.setOnClickListener(this);
+//		bFullScreen.setOnClickListener(this);
 		bNext_sec.setOnClickListener(this);
 		bPrevious_sec.setOnClickListener(this);
 		bNext_page.setOnClickListener(this);
@@ -338,9 +340,9 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 
 
 		BlackBackground = mPrefs.getInt("BlackBackground", 0);
-		cbFullScreen = mPrefs.getInt("cbFullScreen", 1);
+//		cbFullScreen = mPrefs.getInt("cbFullScreen", 1);
 		
-		inflater = getMenuInflater();
+//		inflater = getMenuInflater();
 
 		Bundle extras = getIntent().getExtras();
 		if (extras != null) 
@@ -594,12 +596,6 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
             webview.loadUrl("javascript:function myFunction() {var x = document.body;x.style.color = \"white\";var y = document.getElementsByClassName(\"left\"); y[0].style.display = 'none';} myFunction(); ");
 			webview.setBackgroundColor(0xFFFFFF);//black
 			llMainLayout.setBackgroundColor(Color.BLACK);
-			bParagraphs.setImageDrawable(resources.getDrawable(R.drawable.ic_action_view_as_list));
-			bFullScreen.setImageDrawable(resources.getDrawable(R.drawable.ic_action_full_screen));
-			bNext_sec.setImageDrawable(resources.getDrawable(R.drawable.ic_action_next_item));
-			bPrevious_sec.setImageDrawable(resources.getDrawable(R.drawable.ic_action_previous_item));
-			bNext_page.setImageDrawable(resources.getDrawable(R.drawable.ic_action_down));
-			bPrevious_page.setImageDrawable(resources.getDrawable(R.drawable.ic_action_up));
 			if(cameFromSearch == true)
 			{
 				bFindNext.setImageDrawable(resources.getDrawable(R.drawable.ic_action_down_black));
@@ -610,45 +606,27 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 			webview.loadUrl("javascript:function myFunction() {var x = document.body;x.style.color = \"black\";} myFunction(); ");
 			webview.setBackgroundColor(0x000000);//white
 			llMainLayout.setBackgroundColor(Color.WHITE);
-			bParagraphs.setImageDrawable(resources.getDrawable(R.drawable.ic_action_view_as_list));
-			bFullScreen.setImageDrawable(resources.getDrawable(R.drawable.ic_action_full_screen));
-			bNext_sec.setImageDrawable(resources.getDrawable(R.drawable.ic_action_next_item));
-			bPrevious_sec.setImageDrawable(resources.getDrawable(R.drawable.ic_action_previous_item));
-			bNext_page.setImageDrawable(resources.getDrawable(R.drawable.ic_action_down));
-			bPrevious_page.setImageDrawable(resources.getDrawable(R.drawable.ic_action_up));
 			if(cameFromSearch == true)
 			{
 				bFindNext.setImageDrawable(resources.getDrawable(R.drawable.ic_action_down));
 				bFindPrevious.setImageDrawable(resources.getDrawable(R.drawable.ic_action_up));
 			}
 		}
-		
-		MenuInflater DownMenu = getMenuInflater();
-        if(MyLanguage == ENGLISH)
-		    DownMenu.inflate(R.menu.down_menu_english, menu);
-		else if(MyLanguage == RUSSIAN)
-			DownMenu.inflate(R.menu.down_menu_russian, menu);
-		else if(MyLanguage == SPANISH)
-			DownMenu.inflate(R.menu.down_menu_spanish, menu);
-		else if(MyLanguage == FRENCH)
-			DownMenu.inflate(R.menu.down_menu_french, menu);
-        else
-            DownMenu.inflate(R.menu.down_menu, menu);
 		return true;
 	}//onCreateOptionsMenu
 
 	public void onBackPressed() 
 	{
-		if(fullScreenFlag == 1)
-		{
-			fullScreenFlag = 0;
-			getSupportActionBar().show();
-			lnrOptions.setVisibility(View.VISIBLE);
-		}
-		else
-		{
+//		if(fullScreenFlag == 1)
+//		{
+//			fullScreenFlag = 0;
+//			getSupportActionBar().show();
+//			lnrOptions.setVisibility(View.VISIBLE);
+//		}
+//		else
+//		{
 			super.onBackPressed();
-		}
+//		}
 	}
 
 	public void onConfigurationChanged(Configuration newConfig) 
@@ -716,22 +694,24 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 	public void onClick(View view) 
 	{
 		String currentChapter;
-		// TODO Auto-generated method stub
 		switch(view.getId())
 		{
+		case R.id.ibAutoScrool:
+			showAutoScrollMenu(view);
+			break;
 		case R.id.ibChapters:
 			findHeaders();
 			showPopupMenu(view);
 			break;
 
-		case R.id.ibFullScreen:
-			cbFullScreen = mPrefs.getInt("cbFullScreen", 1);
-			if(cbFullScreen == 0)
-				lnrOptions.setVisibility(View.GONE);
-			getSupportActionBar().hide();
-			Toast.makeText(getApplicationContext(), "לחץ על כפתור 'חזור' כדי לצאת ממסך מלא", Toast.LENGTH_LONG).show();
-			fullScreenFlag = 1;
-			break;
+//		case R.id.ibFullScreen:
+//			cbFullScreen = mPrefs.getInt("cbFullScreen", 1);
+//			if(cbFullScreen == 0)
+//				lnrOptions.setVisibility(View.GONE);
+//			getSupportActionBar().hide();
+//			Toast.makeText(getApplicationContext(), "לחץ על כפתור 'חזור' כדי לצאת ממסך מלא", Toast.LENGTH_LONG).show();
+//			fullScreenFlag = 1;
+//			break;
 			
 		case R.id.ibNext:
 			cameFromSearch = false;
@@ -791,34 +771,6 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 		}
 
 	}//onClick
-
-	@SuppressLint("NewApi")
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) 
-	{
-		final Context context = this;
-
-		switch (item.getItemId()) 
-		{
-		case R.id.play:
-			scrollSpeed = mPrefs.getInt("scrollSpeed", 2);
-			runOnUiThread(mScrollDown);
-			break;
-			
-		case R.id.stop:
-			scrollSpeed = -1;
-			break;
-
-		case R.id.autoScrollSpeed:
-			autoScrollSpeedDialog();	
-			break;
-		default:
-			break;
-		}
-
-		return true;
-		//return super.onOptionsItemSelected(item);
-	}
 
 	public void addItemsOnSpinner() 
 	{		 
@@ -970,7 +922,36 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
         }
     }
 
+	private void showAutoScrollMenu(View v)
+	{
+		PopupMenu popupMenu = new PopupMenu(textMain.this, v);
 
+		List<String> autoScrollText = util.getTextArray(Util.TextArrayEnum.AUTO_SCROLL_MENU);
+		popupMenu.getMenu().add(0,0,0,autoScrollText.get(0));
+		popupMenu.getMenu().add(0,1,1,autoScrollText.get(1));
+		popupMenu.getMenu().add(0,2,2,autoScrollText.get(2));
+		popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener()
+		{
+			@Override
+			public boolean onMenuItemClick(MenuItem item)
+			{
+				int id = item.getItemId();
+				if(id == 0){
+					scrollSpeed = mPrefs.getInt("scrollSpeed", 2);
+					runOnUiThread(mScrollDown);
+				}
+				else if (id == 1){
+					scrollSpeed = -1;
+				}
+				else if (id == 2){
+					autoScrollSpeedDialog();
+				}
+				return true;
+			}
+		});
+
+		popupMenu.show();
+	}
 
 	private void fillChaptersFiles()/*list of all assets*/
 	{
@@ -2718,8 +2699,9 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 		// custom dialog
 		autoScrollDialog = new Dialog(context);
 		autoScrollDialog.setContentView(R.layout.auto_scroll);
-		autoScrollDialog.setTitle("מהירות גלילה אוטומטית");
-
+		TextView tvAutoScrollHeader = autoScrollDialog.findViewById(R.id.tvAutoScrollHeader);
+		List<String> header = util.getTextArray(Util.TextArrayEnum.AUTO_SCROLL_SET_SPEED_DIALOG_HEADER);
+		tvAutoScrollHeader.setText(header.get(0));
 		Button dialogButton = (Button) autoScrollDialog.findViewById(R.id.dialogButtonOK);
 		
 		// if button is clicked

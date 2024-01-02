@@ -34,7 +34,7 @@ public class About extends AppCompatActivity
 		// Enable the home button
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-		util = new Util();
+		util = new Util(this);
 
 		/*version*/
 		String myVersionName = "not available"; // initialize String

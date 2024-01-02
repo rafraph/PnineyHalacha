@@ -84,7 +84,7 @@ public class SearchActivity extends AppCompatActivity {
         // Enable the home button
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         final Context context = this;
-        util = new Util();
+        util = new Util(this);
         findViewById(R.id.goSearch).setOnClickListener(new View.OnClickListener() {
             @Override public void onClick(View v) {
                 searchMethod(context);

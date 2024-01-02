@@ -107,7 +107,7 @@ public class MainActivity extends AppCompatActivity
 		// Enable the home button
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-		util = new Util();
+		util = new Util(this);
 		context = this;
 		mPrefs = getSharedPreferences(PREFS_NAME, 0);
 		shPrefEditor = mPrefs.edit();

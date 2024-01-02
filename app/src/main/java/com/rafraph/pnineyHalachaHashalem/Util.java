@@ -7,20 +7,20 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.view.MenuItem;
 import android.view.View;
-import androidx.appcompat.app.AppCompatActivity;
 
 import androidx.appcompat.widget.PopupMenu;
-import android.content.ContextWrapper;
+
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Util {
     public static final String PREFS_NAME = "MyPrefsFile";
@@ -34,16 +34,24 @@ public class Util {
     public Dialog acronymsDialog, languageDialog, booksDownloadDialog;
     public EditText TextToDecode;
     String acronymsText;
-    int MyLanguage = -1;
-    public void showPopupMenuSettings(View v, Context context)
-    {
+    int myLanguage = -1;
+    public enum TextArrayEnum {
+        AUTO_SCROLL_MENU,
+        AUTO_SCROLL_SET_SPEED_DIALOG_HEADER
+    }
+
+    public Util(Context context){
         mPrefs =  context.getSharedPreferences(PREFS_NAME, 0);
         shPrefEditor = mPrefs.edit();
-        MyLanguage = mPrefs.getInt("MyLanguage", -1);
+        myLanguage = mPrefs.getInt("MyLanguage", -1);
+    }
+
+    public void showPopupMenuSettings(View v, Context context)
+    {
         PopupMenu popupMenu = new PopupMenu(context, v);
 
         String configHeaders[] = new String[8];
-        if(MyLanguage == ENGLISH) {
+        if(myLanguage == ENGLISH) {
             configHeaders[0] = "Settings";
             configHeaders[1] = "About";
             configHeaders[2] = "Feedback";
@@ -52,7 +60,7 @@ public class Util {
             configHeaders[5] = "Approbations";
             configHeaders[6] = "Language / שפה";
         }
-        else if(MyLanguage == RUSSIAN) {
+        else if(myLanguage == RUSSIAN) {
             configHeaders[0] = "Настройки";
             configHeaders[1] = "Около";
             configHeaders[2] = "Обратная связь";
@@ -61,7 +69,7 @@ public class Util {
             configHeaders[5] = "Апробации";
             configHeaders[6] = "ЯЗЫК / שפה";
         }
-        else if(MyLanguage == SPANISH) {
+        else if(myLanguage == SPANISH) {
             configHeaders[0] = "Ajustes";
             configHeaders[1] = "Acerca de";
             configHeaders[2] = "Comentarios";
@@ -70,7 +78,7 @@ public class Util {
             configHeaders[5] = "Aprovaciones";
             configHeaders[6] = "Idioma / שפה";
         }
-        else if(MyLanguage == FRENCH) {
+        else if(myLanguage == FRENCH) {
             configHeaders[0] = "Definitions";
             configHeaders[1] = "A Propos de…";
             configHeaders[2] = "Commentaires";
@@ -293,25 +301,25 @@ public class Util {
         final RadioButton radioSpanish = (RadioButton) languageDialog.findViewById(R.id.radioSpanish);
         final RadioButton radioFrench = (RadioButton) languageDialog.findViewById(R.id.radioFrench);
 
-        if(MyLanguage == -1)
+        if(myLanguage == -1)
         {
-            MyLanguage = HEBREW; /*default value*/
+            myLanguage = HEBREW; /*default value*/
             mPrefs =  context.getSharedPreferences(PREFS_NAME, 0);
             shPrefEditor = mPrefs.edit();
-            shPrefEditor.putInt("MyLanguage", MyLanguage);
+            shPrefEditor.putInt("MyLanguage", myLanguage);
             shPrefEditor.commit();
         }
         else
         {
-            if(MyLanguage == HEBREW)
+            if(myLanguage == HEBREW)
                 radioHebrew.setChecked(true);
-            else if(MyLanguage == ENGLISH)
+            else if(myLanguage == ENGLISH)
                 radioEnglish.setChecked(true);
-            else if(MyLanguage == RUSSIAN)
+            else if(myLanguage == RUSSIAN)
                 radioRussian.setChecked(true);
-            else if(MyLanguage == SPANISH)
+            else if(myLanguage == SPANISH)
                 radioSpanish.setChecked(true);
-            else if(MyLanguage == FRENCH)
+            else if(myLanguage == FRENCH)
                 radioFrench.setChecked(true);
         }
 
@@ -324,26 +332,26 @@ public class Util {
             {
                 if(radioHebrew.isChecked())
                 {
-                    MyLanguage = HEBREW;
+                    myLanguage = HEBREW;
                 }
                 else if(radioEnglish.isChecked())
                 {
-                    MyLanguage = ENGLISH;
+                    myLanguage = ENGLISH;
                 }
                 else if(radioRussian.isChecked())
                 {
-                    MyLanguage = RUSSIAN;
+                    myLanguage = RUSSIAN;
                 }
                 else if(radioSpanish.isChecked())
                 {
-                    MyLanguage = SPANISH;
+                    myLanguage = SPANISH;
                 }
                 else if(radioFrench.isChecked())
                 {
-                    MyLanguage = FRENCH;
+                    myLanguage = FRENCH;
                 }
 
-                shPrefEditor.putInt("MyLanguage", MyLanguage);
+                shPrefEditor.putInt("MyLanguage", myLanguage);
                 shPrefEditor.commit();
 
                 languageDialog.dismiss();
@@ -353,6 +361,54 @@ public class Util {
         languageDialog.show();
     }
 
+    public List<String> getTextArray(TextArrayEnum textArrayEnum){
+        List<String> textList = new ArrayList<>();
+        switch (textArrayEnum){
+            case AUTO_SCROLL_MENU:
+                if(myLanguage == HEBREW) {
+                    textList.add("הפעל");
+                    textList.add("עצור");
+                    textList.add("קבע מהירות");
+                }
+                else if(myLanguage == ENGLISH) {
+                    textList.add("Play");
+                    textList.add("Stop");
+                    textList.add("Set speed");
+                }
+                else if(myLanguage == RUSSIAN){
+                    textList.add("играть");
+                    textList.add("Стоп");
+                    textList.add("Установить скорость");
+                }
+                else if(myLanguage == SPANISH){
+                    textList.add("Desplazamiento automatico");
+                    textList.add("Parar");
+                    textList.add("Seleccionar velocidad");
+                }
+                else if(myLanguage == FRENCH){
+                    textList.add("Demarrer");
+                    textList.add("Stop");
+                    textList.add("Selectionner la vitesse");
+                }
+            case AUTO_SCROLL_SET_SPEED_DIALOG_HEADER:
+                if(myLanguage == HEBREW) {
+                    textList.add("בחר מהירות גלילה");
+                }
+                else if(myLanguage == ENGLISH) {
+                    textList.add("Choose auto-scrolling speed");
+                }
+                else if(myLanguage == RUSSIAN){
+                    textList.add("Выберите скорость автоматической прокрутки");
+                }
+                else if(myLanguage == SPANISH){
+                    textList.add("Elija la velocidad de desplazamiento automático");
+                }
+                else if(myLanguage == FRENCH){
+                    textList.add("Choisissez la vitesse de défilement automatique");
+                }
+        }
+        return textList;
+    }
 
 //    void booksDownloadDialog(Context context)
 //    {

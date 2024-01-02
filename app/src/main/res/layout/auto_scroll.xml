@@ -11,11 +11,10 @@
     android:orientation="vertical">
     
     <TextView
-        android:id="@+id/textView1"
+        android:id="@+id/tvAutoScrollHeader"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="בחר מהירות גלילה"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <Spinner
