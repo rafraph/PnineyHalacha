@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -41,6 +42,7 @@ public class HomeActivity extends AppCompatActivity {
 
         util = new Util(this);
         context = this;
+        Intent intent = new Intent();
         mPrefs = getSharedPreferences(PREFS_NAME, 0);
         shPrefEditor = mPrefs.edit();
         MyLanguage = mPrefs.getInt("MyLanguage", -1);
@@ -61,14 +63,20 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
 
-        findViewById(R.id.dailyLearn).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.DailyLearn).setOnClickListener(new View.OnClickListener() {
             @Override public void onClick(View v) {
-                openActivity("com.rafraph.pnineyHalachaHashalem.dailyLearn");
+                intent.setAction(Intent.ACTION_VIEW);
+                intent.addCategory(Intent.CATEGORY_BROWSABLE);
+                intent.setData(Uri.parse("https://ph.yhb.org.il/pninayomit/"));
+                startActivity(intent);
             }
         });
         findViewById(R.id.tvDailyLearn).setOnClickListener(new View.OnClickListener() {
             @Override public void onClick(View v) {
-                openActivity("com.rafraph.pnineyHalachaHashalem.dailyLearn");
+                intent.setAction(Intent.ACTION_VIEW);
+                intent.addCategory(Intent.CATEGORY_BROWSABLE);
+                intent.setData(Uri.parse("https://ph.yhb.org.il/pninayomit/"));
+                startActivity(intent);
             }
         });
 
@@ -116,47 +124,71 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
 
-        findViewById(R.id.askTheRav).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.wvAskTheRav).setOnClickListener(new View.OnClickListener() {
             @Override public void onClick(View v) {
-                openActivity("com.rafraph.pnineyHalachaHashalem.AskTheRav");
+                intent.setAction(Intent.ACTION_VIEW);
+                intent.addCategory(Intent.CATEGORY_BROWSABLE);
+                intent.setData(Uri.parse("https://yhb.org.il/ask-the-rabbi2/"));
+                startActivity(intent);
             }
         });
         findViewById(R.id.tvAskTheRav).setOnClickListener(new View.OnClickListener() {
             @Override public void onClick(View v) {
-                openActivity("com.rafraph.pnineyHalachaHashalem.AskTheRav");
+                intent.setAction(Intent.ACTION_VIEW);
+                intent.addCategory(Intent.CATEGORY_BROWSABLE);
+                intent.setData(Uri.parse("https://yhb.org.il/ask-the-rabbi2/"));
+                startActivity(intent);
             }
         });
 
         findViewById(R.id.quiz).setOnClickListener(new View.OnClickListener() {
             @Override public void onClick(View v) {
-                openActivity("com.rafraph.pnineyHalachaHashalem.Quiz");
+                intent.setAction(Intent.ACTION_VIEW);
+                intent.addCategory(Intent.CATEGORY_BROWSABLE);
+                intent.setData(Uri.parse("https://test.yhb.org.il/#/login"));
+                startActivity(intent);
             }
         });
         findViewById(R.id.tvQuiz).setOnClickListener(new View.OnClickListener() {
             @Override public void onClick(View v) {
-                openActivity("com.rafraph.pnineyHalachaHashalem.Quiz");
+                intent.setAction(Intent.ACTION_VIEW);
+                intent.addCategory(Intent.CATEGORY_BROWSABLE);
+                intent.setData(Uri.parse("https://test.yhb.org.il/#/login"));
+                startActivity(intent);
             }
         });
 
         findViewById(R.id.donation).setOnClickListener(new View.OnClickListener() {
             @Override public void onClick(View v) {
-                openActivity("com.rafraph.pnineyHalachaHashalem.Donation");
+                intent.setAction(Intent.ACTION_VIEW);
+                intent.addCategory(Intent.CATEGORY_BROWSABLE);
+                intent.setData(Uri.parse("https://yhb.org.il/support-us/"));
+                startActivity(intent);
             }
         });
         findViewById(R.id.tvDonation).setOnClickListener(new View.OnClickListener() {
             @Override public void onClick(View v) {
-                openActivity("com.rafraph.pnineyHalachaHashalem.Donation");
+                intent.setAction(Intent.ACTION_VIEW);
+                intent.addCategory(Intent.CATEGORY_BROWSABLE);
+                intent.setData(Uri.parse("https://yhb.org.il/support-us/"));
+                startActivity(intent);
             }
         });
 
         findViewById(R.id.shop).setOnClickListener(new View.OnClickListener() {
             @Override public void onClick(View v) {
-                openActivity("com.rafraph.pnineyHalachaHashalem.Shop");
+                intent.setAction(Intent.ACTION_VIEW);
+                intent.addCategory(Intent.CATEGORY_BROWSABLE);
+                intent.setData(Uri.parse("https://shop.yhb.org.il/"));
+                startActivity(intent);
             }
         });
         findViewById(R.id.tvShop).setOnClickListener(new View.OnClickListener() {
             @Override public void onClick(View v) {
-                openActivity("com.rafraph.pnineyHalachaHashalem.Shop");
+                intent.setAction(Intent.ACTION_VIEW);
+                intent.addCategory(Intent.CATEGORY_BROWSABLE);
+                intent.setData(Uri.parse("https://shop.yhb.org.il/"));
+                startActivity(intent);
             }
         });
 

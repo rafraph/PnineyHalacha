@@ -20,51 +20,6 @@
             android:name=".SearchActivity"
             android:exported="false" />
         <activity
-            android:name=".Shop"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="com.rafraph.pnineyHalachaHashalem.Shop" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
-        <activity
-            android:name=".Donation"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="com.rafraph.pnineyHalachaHashalem.Donation" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
-        <activity
-            android:name=".Quiz"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="com.rafraph.pnineyHalachaHashalem.Quiz" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
-        <activity
-            android:name=".AskTheRav"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="com.rafraph.pnineyHalachaHashalem.askTheRav" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
-        <activity
-            android:name=".DailyLearn"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="com.rafraph.pnineyHalachaHashalem.dailyLearn" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
-        <activity
             android:name=".HomeActivity"
             android:exported="true"
             android:label="@string/title_activity_home"
