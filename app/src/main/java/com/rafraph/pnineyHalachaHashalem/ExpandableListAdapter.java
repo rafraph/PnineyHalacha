@@ -127,7 +127,8 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter
 		   headerTitle.equals("תפילה") || headerTitle.equals("ימים נוראים") ||
 		   headerTitle.equals("כשרות א - הצומח והחי") || headerTitle.equals("כשרות ב - המזון והמטבח") ||
 		   headerTitle.equals("שמחת הבית וברכתו") || headerTitle.equals("טהרת המשפחה") ||
-			headerTitle.equals("שביעית ויובל") || headerTitle.equals("העם והארץ"))
+		   headerTitle.equals("שביעית ויובל") || headerTitle.equals("העם והארץ") ||
+		   headerTitle.equals("משפחה"))
 		{
 			ListHeaderIconPlay.setVisibility(View.VISIBLE);
 		}
