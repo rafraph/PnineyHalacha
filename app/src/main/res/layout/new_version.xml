@@ -30,15 +30,6 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text='בשעה טובה ספר חדש בסדרה'
-        android:textSize="20dp"
-        android:textColor="#5A9B85"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:layout_gravity="right"
         android:text='             '
         android:textAppearance="?android:attr/textAppearanceLarge"
@@ -46,14 +37,25 @@
         android:textSize="20dp" />
 
     <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:text='1. עיצוב האפליקציה שודרג עם המון תוספות'
+        android:textSize="20dp"
+        android:textColor="#5A9B85"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+
+    <TextView
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text='פניני הלכה גיור'
+        android:layout_gravity="right"
+        android:text='2. תיקוני באגים'
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textColor="#5A9B85"
         android:textSize="20dp" />
+
 
     <TextView
         android:layout_width="wrap_content"
@@ -98,7 +100,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="right"
-        android:text="מתרגמים:\nג'ניפר בוסירה - ספרדית\nיאיר ארונשטם - רוסית\nמיכאל זמור - צרפתית"
+        android:text="מתרגמי תפריטים:\nג'ניפר בוסירה - ספרדית\nיאיר ארונשטם - רוסית\nמיכאל זמור - צרפתית"
         android:textSize="15dp"
         android:textColor="#0033cc"
         android:textAppearance="?android:attr/textAppearanceLarge" />

@@ -47,10 +47,6 @@ public class HomeActivity extends AppCompatActivity {
         shPrefEditor = mPrefs.edit();
         MyLanguage = mPrefs.getInt("MyLanguage", -1);
         StartInLastLocation = mPrefs.getInt("StartInLastLocation", 1);
-        if(StartInLastLocation == 1 && !(mPrefs.getInt("book", 0) == 0 && mPrefs.getInt("chapter", 0) == 0) && newVersion == false)/*check if book and chapter are 0 so this is the first time the user open the application so don't go to the last location*/
-        {
-            goToLastLocation();
-        }
 
         findViewById(R.id.books).setOnClickListener(new View.OnClickListener() {
             @Override public void onClick(View v) {
@@ -234,6 +230,11 @@ public class HomeActivity extends AppCompatActivity {
         catch (PackageManager.NameNotFoundException e)
         {
             e.printStackTrace();
+        }
+
+        if(StartInLastLocation == 1 && !(mPrefs.getInt("book", 0) == 0 && mPrefs.getInt("chapter", 0) == 0) && newVersion == false)/*check if book and chapter are 0 so this is the first time the user open the application so don't go to the last location*/
+        {
+            goToLastLocation();
         }
     }//onCreate
 
