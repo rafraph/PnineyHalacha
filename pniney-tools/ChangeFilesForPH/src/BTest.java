@@ -27,12 +27,12 @@ public class BTest
 				{
 					if(line.indexOf(s1)!=-1)
 					{
-						line = line.replaceAll(s1, "<a name=\"0\"></a><h1");
+						line = line.replaceAll(s1, "<a id=\"0\"></a><h1");
 					}
 					if(line.indexOf(s2)!=-1)
 					{
 						i++;
-						line = line.replaceAll(s2, "<a name=\"" + i + "\"></a><h2");
+						line = line.replaceAll(s2, "<a id=\"" + i + "\"></a><h2");
 					}
 					/*For adding /h2 for every h2*/
 				/*	if((line.indexOf("</p>")!=-1) && (i==e+1))
@@ -67,8 +67,8 @@ public class BTest
 				//String newtext = oldtext.replaceAll("drink", "Love");
 
 				//To replace a line in a file
-				//   String newtext = oldtext.replace("<h2 dir=\"RTL\">", "<a name=\"1\"></a><h2 dir=\"RTL\">");
-				// String newtext = oldtext.replaceAll("<h2 dir=\"RTL\">", "<a name=\"1\"></a><h2 dir=\"RTL\">");
+				//   String newtext = oldtext.replace("<h2 dir=\"RTL\">", "<a id=\"1\"></a><h2 dir=\"RTL\">");
+				// String newtext = oldtext.replaceAll("<h2 dir=\"RTL\">", "<a id=\"1\"></a><h2 dir=\"RTL\">");
 
 				FileWriter writer = new FileWriter(fileName);
 				writer.write(oldtext);
