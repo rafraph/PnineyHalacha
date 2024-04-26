@@ -55,50 +55,6 @@ import org.jsoup.select.Elements;
 @SuppressLint("SetJavaScriptEnabled")
 public class TextMain extends AppCompatActivity implements View.OnClickListener//, OnGestureListener
 {
-	private static final int BRACHOT      	= 0;
-	private static final int GIYUR      	= 1;
-	private static final int HAAMVEHAAREZ 	= 2;
-	private static final int ZMANIM    		= 3;
-	private static final int TAHARAT   		= 4;
-	private static final int YAMIM    		= 5;
-	private static final int KASHRUT_A 		= 6;
-	private static final int KASHRUT_B 		= 7;
-	private static final int LIKUTIM_A 		= 8;
-	private static final int LIKUTIM_B 		= 9;
-	private static final int MOADIM    		= 10;
-	private static final int MISHPACHA   	= 11;
-	private static final int SUCOT			= 12;
-	private static final int PESACH			= 13;
-	private static final int SHVIIT			= 14;
-	private static final int SHABAT			= 15;
-	private static final int SIMCHAT		= 16;
-	private static final int TEFILA			= 17;
-	private static final int TEFILAT_NASHIM	= 18;
-	private static final int HAR_BRACHOT    = 19;
-	private static final int HAR_YAMIM      = 20;
-	private static final int HAR_MOADIM     = 21;
-	private static final int HAR_SUCOT      = 22;
-	private static final int HAR_SHABAT     = 23;
-	private static final int HAR_SIMCHAT    = 24;
-	private static final int BOOKS_HEB_NUMBER	= 25;
-	private static final int E_TEFILA       = 25;
-	private static final int E_PESACH       = 26;
-	private static final int E_ZMANIM       = 27;
-	private static final int E_WOMEN_PRAYER = 28;
-	private static final int E_SHABAT       = 29;
-	private static final int F_TEFILA       = 30;
-	private static final int S_SHABAT       = 31;
-	private static final int BOOKS_NUMBER	= 32;
-
-	/*							0	1	2	3	4	5	6	7	8	9  10  11  12  13  14  15  16  17  18 19  20  21  22  23  24  25  26  27  28  29  30 31*/
-	public int[] lastChapter = {18, 9, 10, 17, 10, 10, 19, 19, 13, 16, 13, 10, 8, 16, 11, 30, 10, 26, 24, 17, 10, 12, 8, 30, 10, 26, 16, 15, 24, 30, 26, 30};
-
-    private static final int HEBREW	 = 0;
-    private static final int ENGLISH = 1;
-    private static final int RUSSIAN = 2;
-    private static final int SPANISH = 3;
-    private static final int FRENCH = 4;
-
     WebView webview;
 	public static int[] book_chapter = new int[2];
 	boolean cameFromSearch = false, firstTime = true, ChangeChapter = false;
@@ -108,7 +64,7 @@ public class TextMain extends AppCompatActivity implements View.OnClickListener/
 	String stHeadersArr;
 	Elements headers;
     String fileName, fileNameOnly, lastFileName = null;
-	String[][] chaptersFiles = new String[BOOKS_NUMBER][31];
+	String[][] chaptersFiles = new String[Util.BOOKS_NUMBER][31];
 	private LinearLayout lnrOptions, lnrFindOptions;
 	public static final String PREFS_NAME = "MyPrefsFile";
 	static SharedPreferences mPrefs;
@@ -134,7 +90,7 @@ public class TextMain extends AppCompatActivity implements View.OnClickListener/
 	public Spinner spinner1, spinnerAutoScroll;
 	public EditText BookmarkName, TextToSearch, TextToDecode;
 	public Dialog bookmarkDialog, innerSearchDialog, acronymsDialog, autoScrollDialog;
-	String[][] chaptersNames = new String[BOOKS_NUMBER][31];
+	String[][] chaptersNames = new String[Util.BOOKS_NUMBER][31];
 	String innerSearchText, acronymsText;
 
 	//	static int odd=1;
@@ -266,7 +222,7 @@ public class TextMain extends AppCompatActivity implements View.OnClickListener/
 				ParseTheDoc();
 				headers = doc.select("div#ftn"+note_id);
 				note = headers.get(0).text();
-				if (book_chapter[0] < BOOKS_HEB_NUMBER)/*if this is a hebrew book*/
+				if (book_chapter[0] < Util.BOOKS_HEB_NUMBER)/*if this is a hebrew book*/
 				{
 					content += "<p dir=\"RTL\">" + note + "</p> </body></html>";
 				}
@@ -395,7 +351,7 @@ public class TextMain extends AppCompatActivity implements View.OnClickListener/
 			fontSize = 20;
 		webSettings.setDefaultFontSize(fontSize);
 
-		if(book_chapter[1] == lastChapter[book_chapter[0]])
+		if(book_chapter[1] == util.lastChapter[book_chapter[0]])
 			bNext_sec.setEnabled(false);
 		else if(book_chapter[1] == 0)
 			bPrevious_sec.setEnabled(false);
@@ -722,7 +678,7 @@ public class TextMain extends AppCompatActivity implements View.OnClickListener/
 			webview.loadUrl(chaptersFiles[book_chapter[0]][book_chapter[1]]);
 			title = convertBookIdToName(book_chapter[0]) + ": " + convertAnchorIdToSection(book_chapter[1]);
 			titleTv.setText(title);
-			if(book_chapter[1] == lastChapter[book_chapter[0]])
+			if(book_chapter[1] == util.lastChapter[book_chapter[0]])
 				bNext_sec.setEnabled(false);
 			else
 				bPrevious_sec.setEnabled(true);
@@ -814,8 +770,8 @@ public class TextMain extends AppCompatActivity implements View.OnClickListener/
 			{
 				int id = item.getItemId()+1;
 				String s=fileName+ "#" + id;
-				String s2=fileName+ "#" + (id+1);
-				webview.loadUrl(s2);/*Workaround to fix the bug of jumping to same anchor twice*/
+//				String s2=fileName+ "#" + (id+1);
+//				webview.loadUrl(s2);/*Workaround to fix the bug of jumping to same anchor twice*/
 				webview.loadUrl(s);
 				jumpToSectionFlag = true;
 				return true;
@@ -884,10 +840,10 @@ public class TextMain extends AppCompatActivity implements View.OnClickListener/
         fileNameOnly = fileName.substring(prefix.length());
 		fileNameOnly = fileNameOnly.substring(0, fileNameOnly.lastIndexOf("_")+1);
 
-        for(int i=1; i<=lastChapter[book_chapter[0]]; i++) {
+        for(int i=1; i<=util.lastChapter[book_chapter[0]]; i++) {
             try {
                 InputStream is;
-                if (book_chapter[0] == KASHRUT_B)
+                if (book_chapter[0] == Util.KASHRUT_B)
                     is = getAssets().open(fileNameOnly+(i+19)+".html");
                 else
                     is = getAssets().open(fileNameOnly+i+".html");
@@ -905,7 +861,7 @@ public class TextMain extends AppCompatActivity implements View.OnClickListener/
 					sections.add(headers.get(j).text());
 
 				String name;
-				if (book_chapter[0] == KASHRUT_B)
+				if (book_chapter[0] == Util.KASHRUT_B)
 					name = "sections_"+(i+19);
 				else
 					name = "sections_"+i;
@@ -956,615 +912,615 @@ public class TextMain extends AppCompatActivity implements View.OnClickListener/
 	private void fillChaptersFiles()/*list of all assets*/
 	{
 		/*BRACHOT*/
-		chaptersFiles[BRACHOT][0] = "file:///android_asset/brachot_tochen.html";
-		chaptersFiles[BRACHOT][1] = "file:///android_asset/brachot_1.html";
-		chaptersFiles[BRACHOT][2] = "file:///android_asset/brachot_2.html";
-		chaptersFiles[BRACHOT][3] = "file:///android_asset/brachot_3.html";
-		chaptersFiles[BRACHOT][4] = "file:///android_asset/brachot_4.html";
-		chaptersFiles[BRACHOT][5] = "file:///android_asset/brachot_5.html";
-		chaptersFiles[BRACHOT][6] = "file:///android_asset/brachot_6.html";
-		chaptersFiles[BRACHOT][7] = "file:///android_asset/brachot_7.html";
-		chaptersFiles[BRACHOT][8] = "file:///android_asset/brachot_8.html";
-		chaptersFiles[BRACHOT][9] = "file:///android_asset/brachot_9.html";
-		chaptersFiles[BRACHOT][10] = "file:///android_asset/brachot_10.html";
-		chaptersFiles[BRACHOT][11] = "file:///android_asset/brachot_11.html";
-		chaptersFiles[BRACHOT][12] = "file:///android_asset/brachot_12.html";
-		chaptersFiles[BRACHOT][13] = "file:///android_asset/brachot_13.html";
-		chaptersFiles[BRACHOT][14] = "file:///android_asset/brachot_14.html";
-		chaptersFiles[BRACHOT][15] = "file:///android_asset/brachot_15.html";
-		chaptersFiles[BRACHOT][16] = "file:///android_asset/brachot_16.html";
-		chaptersFiles[BRACHOT][17] = "file:///android_asset/brachot_17.html";
-		chaptersFiles[BRACHOT][18] = "file:///android_asset/brachot_18.html";
+		chaptersFiles[Util.BRACHOT][0] = "file:///android_asset/brachot_tochen.html";
+		chaptersFiles[Util.BRACHOT][1] = "file:///android_asset/brachot_1.html";
+		chaptersFiles[Util.BRACHOT][2] = "file:///android_asset/brachot_2.html";
+		chaptersFiles[Util.BRACHOT][3] = "file:///android_asset/brachot_3.html";
+		chaptersFiles[Util.BRACHOT][4] = "file:///android_asset/brachot_4.html";
+		chaptersFiles[Util.BRACHOT][5] = "file:///android_asset/brachot_5.html";
+		chaptersFiles[Util.BRACHOT][6] = "file:///android_asset/brachot_6.html";
+		chaptersFiles[Util.BRACHOT][7] = "file:///android_asset/brachot_7.html";
+		chaptersFiles[Util.BRACHOT][8] = "file:///android_asset/brachot_8.html";
+		chaptersFiles[Util.BRACHOT][9] = "file:///android_asset/brachot_9.html";
+		chaptersFiles[Util.BRACHOT][10] = "file:///android_asset/brachot_10.html";
+		chaptersFiles[Util.BRACHOT][11] = "file:///android_asset/brachot_11.html";
+		chaptersFiles[Util.BRACHOT][12] = "file:///android_asset/brachot_12.html";
+		chaptersFiles[Util.BRACHOT][13] = "file:///android_asset/brachot_13.html";
+		chaptersFiles[Util.BRACHOT][14] = "file:///android_asset/brachot_14.html";
+		chaptersFiles[Util.BRACHOT][15] = "file:///android_asset/brachot_15.html";
+		chaptersFiles[Util.BRACHOT][16] = "file:///android_asset/brachot_16.html";
+		chaptersFiles[Util.BRACHOT][17] = "file:///android_asset/brachot_17.html";
+		chaptersFiles[Util.BRACHOT][18] = "file:///android_asset/brachot_18.html";
 		/*GIYUR*/
-		chaptersFiles[GIYUR][0] = "file:///android_asset/giyur_tochen.html";
-		chaptersFiles[GIYUR][1] = "file:///android_asset/giyur_1.html";
-		chaptersFiles[GIYUR][2] = "file:///android_asset/giyur_2.html";
-		chaptersFiles[GIYUR][3] = "file:///android_asset/giyur_3.html";
-		chaptersFiles[GIYUR][4] = "file:///android_asset/giyur_4.html";
-		chaptersFiles[GIYUR][5] = "file:///android_asset/giyur_5.html";
-		chaptersFiles[GIYUR][6] = "file:///android_asset/giyur_6.html";
-		chaptersFiles[GIYUR][7] = "file:///android_asset/giyur_7.html";
-		chaptersFiles[GIYUR][8] = "file:///android_asset/giyur_8.html";
-		chaptersFiles[GIYUR][9] = "file:///android_asset/giyur_9.html";
+		chaptersFiles[Util.GIYUR][0] = "file:///android_asset/giyur_tochen.html";
+		chaptersFiles[Util.GIYUR][1] = "file:///android_asset/giyur_1.html";
+		chaptersFiles[Util.GIYUR][2] = "file:///android_asset/giyur_2.html";
+		chaptersFiles[Util.GIYUR][3] = "file:///android_asset/giyur_3.html";
+		chaptersFiles[Util.GIYUR][4] = "file:///android_asset/giyur_4.html";
+		chaptersFiles[Util.GIYUR][5] = "file:///android_asset/giyur_5.html";
+		chaptersFiles[Util.GIYUR][6] = "file:///android_asset/giyur_6.html";
+		chaptersFiles[Util.GIYUR][7] = "file:///android_asset/giyur_7.html";
+		chaptersFiles[Util.GIYUR][8] = "file:///android_asset/giyur_8.html";
+		chaptersFiles[Util.GIYUR][9] = "file:///android_asset/giyur_9.html";
 		/*HAAMVEHAAREZ*/
-		chaptersFiles[HAAMVEHAAREZ][0] = "file:///android_asset/haamvehaarez_tochen.html";
-		chaptersFiles[HAAMVEHAAREZ][1] = "file:///android_asset/haamvehaarez_1.html";
-		chaptersFiles[HAAMVEHAAREZ][2] = "file:///android_asset/haamvehaarez_2.html";
-		chaptersFiles[HAAMVEHAAREZ][3] = "file:///android_asset/haamvehaarez_3.html";
-		chaptersFiles[HAAMVEHAAREZ][4] = "file:///android_asset/haamvehaarez_4.html";
-		chaptersFiles[HAAMVEHAAREZ][5] = "file:///android_asset/haamvehaarez_5.html";
-		chaptersFiles[HAAMVEHAAREZ][6] = "file:///android_asset/haamvehaarez_6.html";
-		chaptersFiles[HAAMVEHAAREZ][7] = "file:///android_asset/haamvehaarez_7.html";
-		chaptersFiles[HAAMVEHAAREZ][8] = "file:///android_asset/haamvehaarez_8.html";
-		chaptersFiles[HAAMVEHAAREZ][9] = "file:///android_asset/haamvehaarez_9.html";
-		chaptersFiles[HAAMVEHAAREZ][10] = "file:///android_asset/haamvehaarez_10.html";
+		chaptersFiles[Util.HAAMVEHAAREZ][0] = "file:///android_asset/haamvehaarez_tochen.html";
+		chaptersFiles[Util.HAAMVEHAAREZ][1] = "file:///android_asset/haamvehaarez_1.html";
+		chaptersFiles[Util.HAAMVEHAAREZ][2] = "file:///android_asset/haamvehaarez_2.html";
+		chaptersFiles[Util.HAAMVEHAAREZ][3] = "file:///android_asset/haamvehaarez_3.html";
+		chaptersFiles[Util.HAAMVEHAAREZ][4] = "file:///android_asset/haamvehaarez_4.html";
+		chaptersFiles[Util.HAAMVEHAAREZ][5] = "file:///android_asset/haamvehaarez_5.html";
+		chaptersFiles[Util.HAAMVEHAAREZ][6] = "file:///android_asset/haamvehaarez_6.html";
+		chaptersFiles[Util.HAAMVEHAAREZ][7] = "file:///android_asset/haamvehaarez_7.html";
+		chaptersFiles[Util.HAAMVEHAAREZ][8] = "file:///android_asset/haamvehaarez_8.html";
+		chaptersFiles[Util.HAAMVEHAAREZ][9] = "file:///android_asset/haamvehaarez_9.html";
+		chaptersFiles[Util.HAAMVEHAAREZ][10] = "file:///android_asset/haamvehaarez_10.html";
 		/*ZMANIM*/
-		chaptersFiles[ZMANIM][0] = "file:///android_asset/zmanim_tochen.html";
-		chaptersFiles[ZMANIM][1] = "file:///android_asset/zmanim_1.html";
-		chaptersFiles[ZMANIM][2] = "file:///android_asset/zmanim_2.html";
-		chaptersFiles[ZMANIM][3] = "file:///android_asset/zmanim_3.html";
-		chaptersFiles[ZMANIM][4] = "file:///android_asset/zmanim_4.html";
-		chaptersFiles[ZMANIM][5] = "file:///android_asset/zmanim_5.html";
-		chaptersFiles[ZMANIM][6] = "file:///android_asset/zmanim_6.html";
-		chaptersFiles[ZMANIM][7] = "file:///android_asset/zmanim_7.html";
-		chaptersFiles[ZMANIM][8] = "file:///android_asset/zmanim_8.html";
-		chaptersFiles[ZMANIM][9] = "file:///android_asset/zmanim_9.html";
-		chaptersFiles[ZMANIM][10] = "file:///android_asset/zmanim_10.html";
-		chaptersFiles[ZMANIM][11] = "file:///android_asset/zmanim_11.html";
-		chaptersFiles[ZMANIM][12] = "file:///android_asset/zmanim_12.html";
-		chaptersFiles[ZMANIM][13] = "file:///android_asset/zmanim_13.html";
-		chaptersFiles[ZMANIM][14] = "file:///android_asset/zmanim_14.html";
-		chaptersFiles[ZMANIM][15] = "file:///android_asset/zmanim_15.html";
-		chaptersFiles[ZMANIM][16] = "file:///android_asset/zmanim_16.html";
-		chaptersFiles[ZMANIM][17] = "file:///android_asset/zmanim_17.html";
+		chaptersFiles[Util.ZMANIM][0] = "file:///android_asset/zmanim_tochen.html";
+		chaptersFiles[Util.ZMANIM][1] = "file:///android_asset/zmanim_1.html";
+		chaptersFiles[Util.ZMANIM][2] = "file:///android_asset/zmanim_2.html";
+		chaptersFiles[Util.ZMANIM][3] = "file:///android_asset/zmanim_3.html";
+		chaptersFiles[Util.ZMANIM][4] = "file:///android_asset/zmanim_4.html";
+		chaptersFiles[Util.ZMANIM][5] = "file:///android_asset/zmanim_5.html";
+		chaptersFiles[Util.ZMANIM][6] = "file:///android_asset/zmanim_6.html";
+		chaptersFiles[Util.ZMANIM][7] = "file:///android_asset/zmanim_7.html";
+		chaptersFiles[Util.ZMANIM][8] = "file:///android_asset/zmanim_8.html";
+		chaptersFiles[Util.ZMANIM][9] = "file:///android_asset/zmanim_9.html";
+		chaptersFiles[Util.ZMANIM][10] = "file:///android_asset/zmanim_10.html";
+		chaptersFiles[Util.ZMANIM][11] = "file:///android_asset/zmanim_11.html";
+		chaptersFiles[Util.ZMANIM][12] = "file:///android_asset/zmanim_12.html";
+		chaptersFiles[Util.ZMANIM][13] = "file:///android_asset/zmanim_13.html";
+		chaptersFiles[Util.ZMANIM][14] = "file:///android_asset/zmanim_14.html";
+		chaptersFiles[Util.ZMANIM][15] = "file:///android_asset/zmanim_15.html";
+		chaptersFiles[Util.ZMANIM][16] = "file:///android_asset/zmanim_16.html";
+		chaptersFiles[Util.ZMANIM][17] = "file:///android_asset/zmanim_17.html";
 		/*TAHARAT*/
-		chaptersFiles[TAHARAT][0] = "file:///android_asset/taharat_tochen.html";
-		chaptersFiles[TAHARAT][1] = "file:///android_asset/taharat_1.html";
-		chaptersFiles[TAHARAT][2] = "file:///android_asset/taharat_2.html";
-		chaptersFiles[TAHARAT][3] = "file:///android_asset/taharat_3.html";
-		chaptersFiles[TAHARAT][4] = "file:///android_asset/taharat_4.html";
-		chaptersFiles[TAHARAT][5] = "file:///android_asset/taharat_5.html";
-		chaptersFiles[TAHARAT][6] = "file:///android_asset/taharat_6.html";
-		chaptersFiles[TAHARAT][7] = "file:///android_asset/taharat_7.html";
-		chaptersFiles[TAHARAT][8] = "file:///android_asset/taharat_8.html";
-		chaptersFiles[TAHARAT][9] = "file:///android_asset/taharat_9.html";
-		chaptersFiles[TAHARAT][10] = "file:///android_asset/taharat_10.html";
+		chaptersFiles[Util.TAHARAT][0] = "file:///android_asset/taharat_tochen.html";
+		chaptersFiles[Util.TAHARAT][1] = "file:///android_asset/taharat_1.html";
+		chaptersFiles[Util.TAHARAT][2] = "file:///android_asset/taharat_2.html";
+		chaptersFiles[Util.TAHARAT][3] = "file:///android_asset/taharat_3.html";
+		chaptersFiles[Util.TAHARAT][4] = "file:///android_asset/taharat_4.html";
+		chaptersFiles[Util.TAHARAT][5] = "file:///android_asset/taharat_5.html";
+		chaptersFiles[Util.TAHARAT][6] = "file:///android_asset/taharat_6.html";
+		chaptersFiles[Util.TAHARAT][7] = "file:///android_asset/taharat_7.html";
+		chaptersFiles[Util.TAHARAT][8] = "file:///android_asset/taharat_8.html";
+		chaptersFiles[Util.TAHARAT][9] = "file:///android_asset/taharat_9.html";
+		chaptersFiles[Util.TAHARAT][10] = "file:///android_asset/taharat_10.html";
 		/*YAMIM*/
-		chaptersFiles[YAMIM][0] = "file:///android_asset/yamim_tochen.html";
-		chaptersFiles[YAMIM][1] = "file:///android_asset/yamim_1.html";
-		chaptersFiles[YAMIM][2] = "file:///android_asset/yamim_2.html";
-		chaptersFiles[YAMIM][3] = "file:///android_asset/yamim_3.html";
-		chaptersFiles[YAMIM][4] = "file:///android_asset/yamim_4.html";
-		chaptersFiles[YAMIM][5] = "file:///android_asset/yamim_5.html";
-		chaptersFiles[YAMIM][6] = "file:///android_asset/yamim_6.html";
-		chaptersFiles[YAMIM][7] = "file:///android_asset/yamim_7.html";
-		chaptersFiles[YAMIM][8] = "file:///android_asset/yamim_8.html";
-		chaptersFiles[YAMIM][9] = "file:///android_asset/yamim_9.html";
-		chaptersFiles[YAMIM][10] = "file:///android_asset/yamim_10.html";
+		chaptersFiles[Util.YAMIM][0] = "file:///android_asset/yamim_tochen.html";
+		chaptersFiles[Util.YAMIM][1] = "file:///android_asset/yamim_1.html";
+		chaptersFiles[Util.YAMIM][2] = "file:///android_asset/yamim_2.html";
+		chaptersFiles[Util.YAMIM][3] = "file:///android_asset/yamim_3.html";
+		chaptersFiles[Util.YAMIM][4] = "file:///android_asset/yamim_4.html";
+		chaptersFiles[Util.YAMIM][5] = "file:///android_asset/yamim_5.html";
+		chaptersFiles[Util.YAMIM][6] = "file:///android_asset/yamim_6.html";
+		chaptersFiles[Util.YAMIM][7] = "file:///android_asset/yamim_7.html";
+		chaptersFiles[Util.YAMIM][8] = "file:///android_asset/yamim_8.html";
+		chaptersFiles[Util.YAMIM][9] = "file:///android_asset/yamim_9.html";
+		chaptersFiles[Util.YAMIM][10] = "file:///android_asset/yamim_10.html";
 		/*KASHRUT_A*/
-		chaptersFiles[KASHRUT_A][0] = "file:///android_asset/kashrut_a_tochen.html";
-		chaptersFiles[KASHRUT_A][1] = "file:///android_asset/kashrut_1.html";
-		chaptersFiles[KASHRUT_A][2] = "file:///android_asset/kashrut_2.html";
-		chaptersFiles[KASHRUT_A][3] = "file:///android_asset/kashrut_3.html";
-		chaptersFiles[KASHRUT_A][4] = "file:///android_asset/kashrut_4.html";
-		chaptersFiles[KASHRUT_A][5] = "file:///android_asset/kashrut_5.html";
-		chaptersFiles[KASHRUT_A][6] = "file:///android_asset/kashrut_6.html";
-		chaptersFiles[KASHRUT_A][7] = "file:///android_asset/kashrut_7.html";
-		chaptersFiles[KASHRUT_A][8] = "file:///android_asset/kashrut_8.html";
-		chaptersFiles[KASHRUT_A][9] = "file:///android_asset/kashrut_9.html";
-		chaptersFiles[KASHRUT_A][10] = "file:///android_asset/kashrut_10.html";
-		chaptersFiles[KASHRUT_A][11] = "file:///android_asset/kashrut_11.html";
-		chaptersFiles[KASHRUT_A][12] = "file:///android_asset/kashrut_12.html";
-		chaptersFiles[KASHRUT_A][13] = "file:///android_asset/kashrut_13.html";
-		chaptersFiles[KASHRUT_A][14] = "file:///android_asset/kashrut_14.html";
-		chaptersFiles[KASHRUT_A][15] = "file:///android_asset/kashrut_15.html";
-		chaptersFiles[KASHRUT_A][16] = "file:///android_asset/kashrut_16.html";
-		chaptersFiles[KASHRUT_A][17] = "file:///android_asset/kashrut_17.html";
-		chaptersFiles[KASHRUT_A][18] = "file:///android_asset/kashrut_18.html";
-		chaptersFiles[KASHRUT_A][19] = "file:///android_asset/kashrut_19.html";
+		chaptersFiles[Util.KASHRUT_A][0] = "file:///android_asset/kashrut_a_tochen.html";
+		chaptersFiles[Util.KASHRUT_A][1] = "file:///android_asset/kashrut_1.html";
+		chaptersFiles[Util.KASHRUT_A][2] = "file:///android_asset/kashrut_2.html";
+		chaptersFiles[Util.KASHRUT_A][3] = "file:///android_asset/kashrut_3.html";
+		chaptersFiles[Util.KASHRUT_A][4] = "file:///android_asset/kashrut_4.html";
+		chaptersFiles[Util.KASHRUT_A][5] = "file:///android_asset/kashrut_5.html";
+		chaptersFiles[Util.KASHRUT_A][6] = "file:///android_asset/kashrut_6.html";
+		chaptersFiles[Util.KASHRUT_A][7] = "file:///android_asset/kashrut_7.html";
+		chaptersFiles[Util.KASHRUT_A][8] = "file:///android_asset/kashrut_8.html";
+		chaptersFiles[Util.KASHRUT_A][9] = "file:///android_asset/kashrut_9.html";
+		chaptersFiles[Util.KASHRUT_A][10] = "file:///android_asset/kashrut_10.html";
+		chaptersFiles[Util.KASHRUT_A][11] = "file:///android_asset/kashrut_11.html";
+		chaptersFiles[Util.KASHRUT_A][12] = "file:///android_asset/kashrut_12.html";
+		chaptersFiles[Util.KASHRUT_A][13] = "file:///android_asset/kashrut_13.html";
+		chaptersFiles[Util.KASHRUT_A][14] = "file:///android_asset/kashrut_14.html";
+		chaptersFiles[Util.KASHRUT_A][15] = "file:///android_asset/kashrut_15.html";
+		chaptersFiles[Util.KASHRUT_A][16] = "file:///android_asset/kashrut_16.html";
+		chaptersFiles[Util.KASHRUT_A][17] = "file:///android_asset/kashrut_17.html";
+		chaptersFiles[Util.KASHRUT_A][18] = "file:///android_asset/kashrut_18.html";
+		chaptersFiles[Util.KASHRUT_A][19] = "file:///android_asset/kashrut_19.html";
 		/*KASHRUT_B*/
-		chaptersFiles[KASHRUT_B][0] = "file:///android_asset/kashrut_b_tochen.html";
-		chaptersFiles[KASHRUT_B][1] = "file:///android_asset/kashrut_20.html";
-		chaptersFiles[KASHRUT_B][2] = "file:///android_asset/kashrut_21.html";
-		chaptersFiles[KASHRUT_B][3] = "file:///android_asset/kashrut_22.html";
-		chaptersFiles[KASHRUT_B][4] = "file:///android_asset/kashrut_23.html";
-		chaptersFiles[KASHRUT_B][5] = "file:///android_asset/kashrut_24.html";
-		chaptersFiles[KASHRUT_B][6] = "file:///android_asset/kashrut_25.html";
-		chaptersFiles[KASHRUT_B][7] = "file:///android_asset/kashrut_26.html";
-		chaptersFiles[KASHRUT_B][8] = "file:///android_asset/kashrut_27.html";
-		chaptersFiles[KASHRUT_B][9] = "file:///android_asset/kashrut_28.html";
-		chaptersFiles[KASHRUT_B][10] = "file:///android_asset/kashrut_29.html";
-		chaptersFiles[KASHRUT_B][11] = "file:///android_asset/kashrut_30.html";
-		chaptersFiles[KASHRUT_B][12] = "file:///android_asset/kashrut_31.html";
-		chaptersFiles[KASHRUT_B][13] = "file:///android_asset/kashrut_32.html";
-		chaptersFiles[KASHRUT_B][14] = "file:///android_asset/kashrut_33.html";
-		chaptersFiles[KASHRUT_B][15] = "file:///android_asset/kashrut_34.html";
-		chaptersFiles[KASHRUT_B][16] = "file:///android_asset/kashrut_35.html";
-		chaptersFiles[KASHRUT_B][17] = "file:///android_asset/kashrut_36.html";
-		chaptersFiles[KASHRUT_B][18] = "file:///android_asset/kashrut_37.html";
-		chaptersFiles[KASHRUT_B][19] = "file:///android_asset/kashrut_38.html";
+		chaptersFiles[Util.KASHRUT_B][0] = "file:///android_asset/kashrut_b_tochen.html";
+		chaptersFiles[Util.KASHRUT_B][1] = "file:///android_asset/kashrut_20.html";
+		chaptersFiles[Util.KASHRUT_B][2] = "file:///android_asset/kashrut_21.html";
+		chaptersFiles[Util.KASHRUT_B][3] = "file:///android_asset/kashrut_22.html";
+		chaptersFiles[Util.KASHRUT_B][4] = "file:///android_asset/kashrut_23.html";
+		chaptersFiles[Util.KASHRUT_B][5] = "file:///android_asset/kashrut_24.html";
+		chaptersFiles[Util.KASHRUT_B][6] = "file:///android_asset/kashrut_25.html";
+		chaptersFiles[Util.KASHRUT_B][7] = "file:///android_asset/kashrut_26.html";
+		chaptersFiles[Util.KASHRUT_B][8] = "file:///android_asset/kashrut_27.html";
+		chaptersFiles[Util.KASHRUT_B][9] = "file:///android_asset/kashrut_28.html";
+		chaptersFiles[Util.KASHRUT_B][10] = "file:///android_asset/kashrut_29.html";
+		chaptersFiles[Util.KASHRUT_B][11] = "file:///android_asset/kashrut_30.html";
+		chaptersFiles[Util.KASHRUT_B][12] = "file:///android_asset/kashrut_31.html";
+		chaptersFiles[Util.KASHRUT_B][13] = "file:///android_asset/kashrut_32.html";
+		chaptersFiles[Util.KASHRUT_B][14] = "file:///android_asset/kashrut_33.html";
+		chaptersFiles[Util.KASHRUT_B][15] = "file:///android_asset/kashrut_34.html";
+		chaptersFiles[Util.KASHRUT_B][16] = "file:///android_asset/kashrut_35.html";
+		chaptersFiles[Util.KASHRUT_B][17] = "file:///android_asset/kashrut_36.html";
+		chaptersFiles[Util.KASHRUT_B][18] = "file:///android_asset/kashrut_37.html";
+		chaptersFiles[Util.KASHRUT_B][19] = "file:///android_asset/kashrut_38.html";
 		/*LIKUTIM_A*/
-		chaptersFiles[LIKUTIM_A][0] = "file:///android_asset/likutim_a_tochen.html";
-		chaptersFiles[LIKUTIM_A][1] = "file:///android_asset/likutim_a_1.html";
-		chaptersFiles[LIKUTIM_A][2] = "file:///android_asset/likutim_a_2.html";
-		chaptersFiles[LIKUTIM_A][3] = "file:///android_asset/likutim_a_3.html";
-		chaptersFiles[LIKUTIM_A][4] = "file:///android_asset/likutim_a_4.html";
-		chaptersFiles[LIKUTIM_A][5] = "file:///android_asset/likutim_a_5.html";
-		chaptersFiles[LIKUTIM_A][6] = "file:///android_asset/likutim_a_6.html";
-		chaptersFiles[LIKUTIM_A][7] = "file:///android_asset/likutim_a_7.html";
-		chaptersFiles[LIKUTIM_A][8] = "file:///android_asset/likutim_a_8.html";
-		chaptersFiles[LIKUTIM_A][9] = "file:///android_asset/likutim_a_9.html";
-		chaptersFiles[LIKUTIM_A][10] = "file:///android_asset/likutim_a_10.html";
-		chaptersFiles[LIKUTIM_A][11] = "file:///android_asset/likutim_a_11.html";
-        chaptersFiles[LIKUTIM_A][12] = "file:///android_asset/likutim_a_12.html";
-        chaptersFiles[LIKUTIM_A][13] = "file:///android_asset/likutim_a_13.html";
+		chaptersFiles[Util.LIKUTIM_A][0] = "file:///android_asset/likutim_a_tochen.html";
+		chaptersFiles[Util.LIKUTIM_A][1] = "file:///android_asset/likutim_a_1.html";
+		chaptersFiles[Util.LIKUTIM_A][2] = "file:///android_asset/likutim_a_2.html";
+		chaptersFiles[Util.LIKUTIM_A][3] = "file:///android_asset/likutim_a_3.html";
+		chaptersFiles[Util.LIKUTIM_A][4] = "file:///android_asset/likutim_a_4.html";
+		chaptersFiles[Util.LIKUTIM_A][5] = "file:///android_asset/likutim_a_5.html";
+		chaptersFiles[Util.LIKUTIM_A][6] = "file:///android_asset/likutim_a_6.html";
+		chaptersFiles[Util.LIKUTIM_A][7] = "file:///android_asset/likutim_a_7.html";
+		chaptersFiles[Util.LIKUTIM_A][8] = "file:///android_asset/likutim_a_8.html";
+		chaptersFiles[Util.LIKUTIM_A][9] = "file:///android_asset/likutim_a_9.html";
+		chaptersFiles[Util.LIKUTIM_A][10] = "file:///android_asset/likutim_a_10.html";
+		chaptersFiles[Util.LIKUTIM_A][11] = "file:///android_asset/likutim_a_11.html";
+        chaptersFiles[Util.LIKUTIM_A][12] = "file:///android_asset/likutim_a_12.html";
+        chaptersFiles[Util.LIKUTIM_A][13] = "file:///android_asset/likutim_a_13.html";
 		/*LIKUTIM_B*/
-		chaptersFiles[LIKUTIM_B][0] = "file:///android_asset/likutim_b_tochen.html";
-		chaptersFiles[LIKUTIM_B][1] = "file:///android_asset/likutim_b_1.html";
-		chaptersFiles[LIKUTIM_B][2] = "file:///android_asset/likutim_b_2.html";
-		chaptersFiles[LIKUTIM_B][3] = "file:///android_asset/likutim_b_3.html";
-		chaptersFiles[LIKUTIM_B][4] = "file:///android_asset/likutim_b_4.html";
-		chaptersFiles[LIKUTIM_B][5] = "file:///android_asset/likutim_b_5.html";
-		chaptersFiles[LIKUTIM_B][6] = "file:///android_asset/likutim_b_6.html";
-		chaptersFiles[LIKUTIM_B][7] = "file:///android_asset/likutim_b_7.html";
-		chaptersFiles[LIKUTIM_B][8] = "file:///android_asset/likutim_b_8.html";
-		chaptersFiles[LIKUTIM_B][9] = "file:///android_asset/likutim_b_9.html";
-		chaptersFiles[LIKUTIM_B][10] = "file:///android_asset/likutim_b_10.html";
-		chaptersFiles[LIKUTIM_B][11] = "file:///android_asset/likutim_b_11.html";
-		chaptersFiles[LIKUTIM_B][12] = "file:///android_asset/likutim_b_12.html";
-		chaptersFiles[LIKUTIM_B][13] = "file:///android_asset/likutim_b_13.html";
-		chaptersFiles[LIKUTIM_B][14] = "file:///android_asset/likutim_b_14.html";
-		chaptersFiles[LIKUTIM_B][15] = "file:///android_asset/likutim_b_15.html";
-		chaptersFiles[LIKUTIM_B][16] = "file:///android_asset/likutim_b_16.html";
+		chaptersFiles[Util.LIKUTIM_B][0] = "file:///android_asset/likutim_b_tochen.html";
+		chaptersFiles[Util.LIKUTIM_B][1] = "file:///android_asset/likutim_b_1.html";
+		chaptersFiles[Util.LIKUTIM_B][2] = "file:///android_asset/likutim_b_2.html";
+		chaptersFiles[Util.LIKUTIM_B][3] = "file:///android_asset/likutim_b_3.html";
+		chaptersFiles[Util.LIKUTIM_B][4] = "file:///android_asset/likutim_b_4.html";
+		chaptersFiles[Util.LIKUTIM_B][5] = "file:///android_asset/likutim_b_5.html";
+		chaptersFiles[Util.LIKUTIM_B][6] = "file:///android_asset/likutim_b_6.html";
+		chaptersFiles[Util.LIKUTIM_B][7] = "file:///android_asset/likutim_b_7.html";
+		chaptersFiles[Util.LIKUTIM_B][8] = "file:///android_asset/likutim_b_8.html";
+		chaptersFiles[Util.LIKUTIM_B][9] = "file:///android_asset/likutim_b_9.html";
+		chaptersFiles[Util.LIKUTIM_B][10] = "file:///android_asset/likutim_b_10.html";
+		chaptersFiles[Util.LIKUTIM_B][11] = "file:///android_asset/likutim_b_11.html";
+		chaptersFiles[Util.LIKUTIM_B][12] = "file:///android_asset/likutim_b_12.html";
+		chaptersFiles[Util.LIKUTIM_B][13] = "file:///android_asset/likutim_b_13.html";
+		chaptersFiles[Util.LIKUTIM_B][14] = "file:///android_asset/likutim_b_14.html";
+		chaptersFiles[Util.LIKUTIM_B][15] = "file:///android_asset/likutim_b_15.html";
+		chaptersFiles[Util.LIKUTIM_B][16] = "file:///android_asset/likutim_b_16.html";
 		/*MISHPACHA*/
-		chaptersFiles[MISHPACHA][0] = "file:///android_asset/mishpacha_tochen.html";
-		chaptersFiles[MISHPACHA][1] = "file:///android_asset/mishpacha_1.html";
-		chaptersFiles[MISHPACHA][2] = "file:///android_asset/mishpacha_2.html";
-		chaptersFiles[MISHPACHA][3] = "file:///android_asset/mishpacha_3.html";
-		chaptersFiles[MISHPACHA][4] = "file:///android_asset/mishpacha_4.html";
-		chaptersFiles[MISHPACHA][5] = "file:///android_asset/mishpacha_5.html";
-		chaptersFiles[MISHPACHA][6] = "file:///android_asset/mishpacha_6.html";
-		chaptersFiles[MISHPACHA][7] = "file:///android_asset/mishpacha_7.html";
-		chaptersFiles[MISHPACHA][8] = "file:///android_asset/mishpacha_8.html";
-		chaptersFiles[MISHPACHA][9] = "file:///android_asset/mishpacha_9.html";
-		chaptersFiles[MISHPACHA][10] = "file:///android_asset/mishpacha_10.html";
+		chaptersFiles[Util.MISHPACHA][0] = "file:///android_asset/mishpacha_tochen.html";
+		chaptersFiles[Util.MISHPACHA][1] = "file:///android_asset/mishpacha_1.html";
+		chaptersFiles[Util.MISHPACHA][2] = "file:///android_asset/mishpacha_2.html";
+		chaptersFiles[Util.MISHPACHA][3] = "file:///android_asset/mishpacha_3.html";
+		chaptersFiles[Util.MISHPACHA][4] = "file:///android_asset/mishpacha_4.html";
+		chaptersFiles[Util.MISHPACHA][5] = "file:///android_asset/mishpacha_5.html";
+		chaptersFiles[Util.MISHPACHA][6] = "file:///android_asset/mishpacha_6.html";
+		chaptersFiles[Util.MISHPACHA][7] = "file:///android_asset/mishpacha_7.html";
+		chaptersFiles[Util.MISHPACHA][8] = "file:///android_asset/mishpacha_8.html";
+		chaptersFiles[Util.MISHPACHA][9] = "file:///android_asset/mishpacha_9.html";
+		chaptersFiles[Util.MISHPACHA][10] = "file:///android_asset/mishpacha_10.html";
 		/*MOADIM*/
-		chaptersFiles[MOADIM][0] = "file:///android_asset/moadim_tochen.html";
-		chaptersFiles[MOADIM][1] = "file:///android_asset/moadim_1.html";
-		chaptersFiles[MOADIM][2] = "file:///android_asset/moadim_2.html";
-		chaptersFiles[MOADIM][3] = "file:///android_asset/moadim_3.html";
-		chaptersFiles[MOADIM][4] = "file:///android_asset/moadim_4.html";
-		chaptersFiles[MOADIM][5] = "file:///android_asset/moadim_5.html";
-		chaptersFiles[MOADIM][6] = "file:///android_asset/moadim_6.html";
-		chaptersFiles[MOADIM][7] = "file:///android_asset/moadim_7.html";
-		chaptersFiles[MOADIM][8] = "file:///android_asset/moadim_8.html";
-		chaptersFiles[MOADIM][9] = "file:///android_asset/moadim_9.html";
-		chaptersFiles[MOADIM][10] = "file:///android_asset/moadim_10.html";
-		chaptersFiles[MOADIM][11] = "file:///android_asset/moadim_11.html";
-		chaptersFiles[MOADIM][12] = "file:///android_asset/moadim_12.html";
-		chaptersFiles[MOADIM][13] = "file:///android_asset/moadim_13.html";
+		chaptersFiles[Util.MOADIM][0] = "file:///android_asset/moadim_tochen.html";
+		chaptersFiles[Util.MOADIM][1] = "file:///android_asset/moadim_1.html";
+		chaptersFiles[Util.MOADIM][2] = "file:///android_asset/moadim_2.html";
+		chaptersFiles[Util.MOADIM][3] = "file:///android_asset/moadim_3.html";
+		chaptersFiles[Util.MOADIM][4] = "file:///android_asset/moadim_4.html";
+		chaptersFiles[Util.MOADIM][5] = "file:///android_asset/moadim_5.html";
+		chaptersFiles[Util.MOADIM][6] = "file:///android_asset/moadim_6.html";
+		chaptersFiles[Util.MOADIM][7] = "file:///android_asset/moadim_7.html";
+		chaptersFiles[Util.MOADIM][8] = "file:///android_asset/moadim_8.html";
+		chaptersFiles[Util.MOADIM][9] = "file:///android_asset/moadim_9.html";
+		chaptersFiles[Util.MOADIM][10] = "file:///android_asset/moadim_10.html";
+		chaptersFiles[Util.MOADIM][11] = "file:///android_asset/moadim_11.html";
+		chaptersFiles[Util.MOADIM][12] = "file:///android_asset/moadim_12.html";
+		chaptersFiles[Util.MOADIM][13] = "file:///android_asset/moadim_13.html";
 		/*SUCOT*/
-		chaptersFiles[SUCOT][0] = "file:///android_asset/sucot_tochen.html";
-		chaptersFiles[SUCOT][1] = "file:///android_asset/sucot_1.html";
-		chaptersFiles[SUCOT][2] = "file:///android_asset/sucot_2.html";
-		chaptersFiles[SUCOT][3] = "file:///android_asset/sucot_3.html";
-		chaptersFiles[SUCOT][4] = "file:///android_asset/sucot_4.html";
-		chaptersFiles[SUCOT][5] = "file:///android_asset/sucot_5.html";
-		chaptersFiles[SUCOT][6] = "file:///android_asset/sucot_6.html";
-		chaptersFiles[SUCOT][7] = "file:///android_asset/sucot_7.html";
-		chaptersFiles[SUCOT][8] = "file:///android_asset/sucot_8.html";
+		chaptersFiles[Util.SUCOT][0] = "file:///android_asset/sucot_tochen.html";
+		chaptersFiles[Util.SUCOT][1] = "file:///android_asset/sucot_1.html";
+		chaptersFiles[Util.SUCOT][2] = "file:///android_asset/sucot_2.html";
+		chaptersFiles[Util.SUCOT][3] = "file:///android_asset/sucot_3.html";
+		chaptersFiles[Util.SUCOT][4] = "file:///android_asset/sucot_4.html";
+		chaptersFiles[Util.SUCOT][5] = "file:///android_asset/sucot_5.html";
+		chaptersFiles[Util.SUCOT][6] = "file:///android_asset/sucot_6.html";
+		chaptersFiles[Util.SUCOT][7] = "file:///android_asset/sucot_7.html";
+		chaptersFiles[Util.SUCOT][8] = "file:///android_asset/sucot_8.html";
 		/*PESACH*/
-		chaptersFiles[PESACH][0] = "file:///android_asset/pesach_tochen.html";
-		chaptersFiles[PESACH][1] = "file:///android_asset/pesach_1.html";
-		chaptersFiles[PESACH][2] = "file:///android_asset/pesach_2.html";
-		chaptersFiles[PESACH][3] = "file:///android_asset/pesach_3.html";
-		chaptersFiles[PESACH][4] = "file:///android_asset/pesach_4.html";
-		chaptersFiles[PESACH][5] = "file:///android_asset/pesach_5.html";
-		chaptersFiles[PESACH][6] = "file:///android_asset/pesach_6.html";
-		chaptersFiles[PESACH][7] = "file:///android_asset/pesach_7.html";
-		chaptersFiles[PESACH][8] = "file:///android_asset/pesach_8.html";
-		chaptersFiles[PESACH][9] = "file:///android_asset/pesach_9.html";
-		chaptersFiles[PESACH][10] = "file:///android_asset/pesach_10.html";
-		chaptersFiles[PESACH][11] = "file:///android_asset/pesach_11.html";
-		chaptersFiles[PESACH][12] = "file:///android_asset/pesach_12.html";
-		chaptersFiles[PESACH][13] = "file:///android_asset/pesach_13.html";
-		chaptersFiles[PESACH][14] = "file:///android_asset/pesach_14.html";
-		chaptersFiles[PESACH][15] = "file:///android_asset/pesach_15.html";
-		chaptersFiles[PESACH][16] = "file:///android_asset/pesach_16.html";
+		chaptersFiles[Util.PESACH][0] = "file:///android_asset/pesach_tochen.html";
+		chaptersFiles[Util.PESACH][1] = "file:///android_asset/pesach_1.html";
+		chaptersFiles[Util.PESACH][2] = "file:///android_asset/pesach_2.html";
+		chaptersFiles[Util.PESACH][3] = "file:///android_asset/pesach_3.html";
+		chaptersFiles[Util.PESACH][4] = "file:///android_asset/pesach_4.html";
+		chaptersFiles[Util.PESACH][5] = "file:///android_asset/pesach_5.html";
+		chaptersFiles[Util.PESACH][6] = "file:///android_asset/pesach_6.html";
+		chaptersFiles[Util.PESACH][7] = "file:///android_asset/pesach_7.html";
+		chaptersFiles[Util.PESACH][8] = "file:///android_asset/pesach_8.html";
+		chaptersFiles[Util.PESACH][9] = "file:///android_asset/pesach_9.html";
+		chaptersFiles[Util.PESACH][10] = "file:///android_asset/pesach_10.html";
+		chaptersFiles[Util.PESACH][11] = "file:///android_asset/pesach_11.html";
+		chaptersFiles[Util.PESACH][12] = "file:///android_asset/pesach_12.html";
+		chaptersFiles[Util.PESACH][13] = "file:///android_asset/pesach_13.html";
+		chaptersFiles[Util.PESACH][14] = "file:///android_asset/pesach_14.html";
+		chaptersFiles[Util.PESACH][15] = "file:///android_asset/pesach_15.html";
+		chaptersFiles[Util.PESACH][16] = "file:///android_asset/pesach_16.html";
 		/*SHVIIT*/
-		chaptersFiles[SHVIIT][0] = "file:///android_asset/shviit_tochen.html";
-		chaptersFiles[SHVIIT][1] = "file:///android_asset/shviit_1.html";
-		chaptersFiles[SHVIIT][2] = "file:///android_asset/shviit_2.html";
-		chaptersFiles[SHVIIT][3] = "file:///android_asset/shviit_3.html";
-		chaptersFiles[SHVIIT][4] = "file:///android_asset/shviit_4.html";
-		chaptersFiles[SHVIIT][5] = "file:///android_asset/shviit_5.html";
-		chaptersFiles[SHVIIT][6] = "file:///android_asset/shviit_6.html";
-		chaptersFiles[SHVIIT][7] = "file:///android_asset/shviit_7.html";
-		chaptersFiles[SHVIIT][8] = "file:///android_asset/shviit_8.html";
-		chaptersFiles[SHVIIT][9] = "file:///android_asset/shviit_9.html";
-		chaptersFiles[SHVIIT][10] = "file:///android_asset/shviit_10.html";
-		chaptersFiles[SHVIIT][11] = "file:///android_asset/shviit_11.html";
+		chaptersFiles[Util.SHVIIT][0] = "file:///android_asset/shviit_tochen.html";
+		chaptersFiles[Util.SHVIIT][1] = "file:///android_asset/shviit_1.html";
+		chaptersFiles[Util.SHVIIT][2] = "file:///android_asset/shviit_2.html";
+		chaptersFiles[Util.SHVIIT][3] = "file:///android_asset/shviit_3.html";
+		chaptersFiles[Util.SHVIIT][4] = "file:///android_asset/shviit_4.html";
+		chaptersFiles[Util.SHVIIT][5] = "file:///android_asset/shviit_5.html";
+		chaptersFiles[Util.SHVIIT][6] = "file:///android_asset/shviit_6.html";
+		chaptersFiles[Util.SHVIIT][7] = "file:///android_asset/shviit_7.html";
+		chaptersFiles[Util.SHVIIT][8] = "file:///android_asset/shviit_8.html";
+		chaptersFiles[Util.SHVIIT][9] = "file:///android_asset/shviit_9.html";
+		chaptersFiles[Util.SHVIIT][10] = "file:///android_asset/shviit_10.html";
+		chaptersFiles[Util.SHVIIT][11] = "file:///android_asset/shviit_11.html";
 		/*SHABAT*/
-		chaptersFiles[SHABAT][0] = "file:///android_asset/shabat_tochen.html";
-		chaptersFiles[SHABAT][1] = "file:///android_asset/shabat_1.html";
-		chaptersFiles[SHABAT][2] = "file:///android_asset/shabat_2.html";
-		chaptersFiles[SHABAT][3] = "file:///android_asset/shabat_3.html";
-		chaptersFiles[SHABAT][4] = "file:///android_asset/shabat_4.html";
-		chaptersFiles[SHABAT][5] = "file:///android_asset/shabat_5.html";
-		chaptersFiles[SHABAT][6] = "file:///android_asset/shabat_6.html";
-		chaptersFiles[SHABAT][7] = "file:///android_asset/shabat_7.html";
-		chaptersFiles[SHABAT][8] = "file:///android_asset/shabat_8.html";
-		chaptersFiles[SHABAT][9] = "file:///android_asset/shabat_9.html";
-		chaptersFiles[SHABAT][10] = "file:///android_asset/shabat_10.html";
-		chaptersFiles[SHABAT][11] = "file:///android_asset/shabat_11.html";
-		chaptersFiles[SHABAT][12] = "file:///android_asset/shabat_12.html";
-		chaptersFiles[SHABAT][13] = "file:///android_asset/shabat_13.html";
-		chaptersFiles[SHABAT][14] = "file:///android_asset/shabat_14.html";
-		chaptersFiles[SHABAT][15] = "file:///android_asset/shabat_15.html";
-		chaptersFiles[SHABAT][16] = "file:///android_asset/shabat_16.html";
-		chaptersFiles[SHABAT][17] = "file:///android_asset/shabat_17.html";
-		chaptersFiles[SHABAT][18] = "file:///android_asset/shabat_18.html";
-		chaptersFiles[SHABAT][19] = "file:///android_asset/shabat_19.html";
-		chaptersFiles[SHABAT][20] = "file:///android_asset/shabat_20.html";
-		chaptersFiles[SHABAT][21] = "file:///android_asset/shabat_21.html";
-		chaptersFiles[SHABAT][22] = "file:///android_asset/shabat_22.html";
-		chaptersFiles[SHABAT][23] = "file:///android_asset/shabat_23.html";
-		chaptersFiles[SHABAT][24] = "file:///android_asset/shabat_24.html";
-		chaptersFiles[SHABAT][25] = "file:///android_asset/shabat_25.html";
-		chaptersFiles[SHABAT][26] = "file:///android_asset/shabat_26.html";
-		chaptersFiles[SHABAT][27] = "file:///android_asset/shabat_27.html";
-		chaptersFiles[SHABAT][28] = "file:///android_asset/shabat_28.html";
-		chaptersFiles[SHABAT][29] = "file:///android_asset/shabat_29.html";
-		chaptersFiles[SHABAT][30] = "file:///android_asset/shabat_30.html";
+		chaptersFiles[Util.SHABAT][0] = "file:///android_asset/shabat_tochen.html";
+		chaptersFiles[Util.SHABAT][1] = "file:///android_asset/shabat_1.html";
+		chaptersFiles[Util.SHABAT][2] = "file:///android_asset/shabat_2.html";
+		chaptersFiles[Util.SHABAT][3] = "file:///android_asset/shabat_3.html";
+		chaptersFiles[Util.SHABAT][4] = "file:///android_asset/shabat_4.html";
+		chaptersFiles[Util.SHABAT][5] = "file:///android_asset/shabat_5.html";
+		chaptersFiles[Util.SHABAT][6] = "file:///android_asset/shabat_6.html";
+		chaptersFiles[Util.SHABAT][7] = "file:///android_asset/shabat_7.html";
+		chaptersFiles[Util.SHABAT][8] = "file:///android_asset/shabat_8.html";
+		chaptersFiles[Util.SHABAT][9] = "file:///android_asset/shabat_9.html";
+		chaptersFiles[Util.SHABAT][10] = "file:///android_asset/shabat_10.html";
+		chaptersFiles[Util.SHABAT][11] = "file:///android_asset/shabat_11.html";
+		chaptersFiles[Util.SHABAT][12] = "file:///android_asset/shabat_12.html";
+		chaptersFiles[Util.SHABAT][13] = "file:///android_asset/shabat_13.html";
+		chaptersFiles[Util.SHABAT][14] = "file:///android_asset/shabat_14.html";
+		chaptersFiles[Util.SHABAT][15] = "file:///android_asset/shabat_15.html";
+		chaptersFiles[Util.SHABAT][16] = "file:///android_asset/shabat_16.html";
+		chaptersFiles[Util.SHABAT][17] = "file:///android_asset/shabat_17.html";
+		chaptersFiles[Util.SHABAT][18] = "file:///android_asset/shabat_18.html";
+		chaptersFiles[Util.SHABAT][19] = "file:///android_asset/shabat_19.html";
+		chaptersFiles[Util.SHABAT][20] = "file:///android_asset/shabat_20.html";
+		chaptersFiles[Util.SHABAT][21] = "file:///android_asset/shabat_21.html";
+		chaptersFiles[Util.SHABAT][22] = "file:///android_asset/shabat_22.html";
+		chaptersFiles[Util.SHABAT][23] = "file:///android_asset/shabat_23.html";
+		chaptersFiles[Util.SHABAT][24] = "file:///android_asset/shabat_24.html";
+		chaptersFiles[Util.SHABAT][25] = "file:///android_asset/shabat_25.html";
+		chaptersFiles[Util.SHABAT][26] = "file:///android_asset/shabat_26.html";
+		chaptersFiles[Util.SHABAT][27] = "file:///android_asset/shabat_27.html";
+		chaptersFiles[Util.SHABAT][28] = "file:///android_asset/shabat_28.html";
+		chaptersFiles[Util.SHABAT][29] = "file:///android_asset/shabat_29.html";
+		chaptersFiles[Util.SHABAT][30] = "file:///android_asset/shabat_30.html";
 		/*SIMCHAT*/
-		chaptersFiles[SIMCHAT][0] = "file:///android_asset/simchat_tochen.html";
-		chaptersFiles[SIMCHAT][1] = "file:///android_asset/simchat_1.html";
-		chaptersFiles[SIMCHAT][2] = "file:///android_asset/simchat_2.html";
-		chaptersFiles[SIMCHAT][3] = "file:///android_asset/simchat_3.html";
-		chaptersFiles[SIMCHAT][4] = "file:///android_asset/simchat_4.html";
-		chaptersFiles[SIMCHAT][5] = "file:///android_asset/simchat_5.html";
-		chaptersFiles[SIMCHAT][6] = "file:///android_asset/simchat_6.html";
-		chaptersFiles[SIMCHAT][7] = "file:///android_asset/simchat_7.html";
-		chaptersFiles[SIMCHAT][8] = "file:///android_asset/simchat_8.html";
-		chaptersFiles[SIMCHAT][9] = "file:///android_asset/simchat_9.html";
-		chaptersFiles[SIMCHAT][10] = "file:///android_asset/simchat_10.html";
+		chaptersFiles[Util.SIMCHAT][0] = "file:///android_asset/simchat_tochen.html";
+		chaptersFiles[Util.SIMCHAT][1] = "file:///android_asset/simchat_1.html";
+		chaptersFiles[Util.SIMCHAT][2] = "file:///android_asset/simchat_2.html";
+		chaptersFiles[Util.SIMCHAT][3] = "file:///android_asset/simchat_3.html";
+		chaptersFiles[Util.SIMCHAT][4] = "file:///android_asset/simchat_4.html";
+		chaptersFiles[Util.SIMCHAT][5] = "file:///android_asset/simchat_5.html";
+		chaptersFiles[Util.SIMCHAT][6] = "file:///android_asset/simchat_6.html";
+		chaptersFiles[Util.SIMCHAT][7] = "file:///android_asset/simchat_7.html";
+		chaptersFiles[Util.SIMCHAT][8] = "file:///android_asset/simchat_8.html";
+		chaptersFiles[Util.SIMCHAT][9] = "file:///android_asset/simchat_9.html";
+		chaptersFiles[Util.SIMCHAT][10] = "file:///android_asset/simchat_10.html";
 
 		/*TEFILA*/
-		chaptersFiles[TEFILA][0] = "file:///android_asset/tefila_tochen.html";
-		chaptersFiles[TEFILA][1] = "file:///android_asset/tefila_1.html";
-		chaptersFiles[TEFILA][2] = "file:///android_asset/tefila_2.html";
-		chaptersFiles[TEFILA][3] = "file:///android_asset/tefila_3.html";
-		chaptersFiles[TEFILA][4] = "file:///android_asset/tefila_4.html";
-		chaptersFiles[TEFILA][5] = "file:///android_asset/tefila_5.html";
-		chaptersFiles[TEFILA][6] = "file:///android_asset/tefila_6.html";
-		chaptersFiles[TEFILA][7] = "file:///android_asset/tefila_7.html";
-		chaptersFiles[TEFILA][8] = "file:///android_asset/tefila_8.html";
-		chaptersFiles[TEFILA][9] = "file:///android_asset/tefila_9.html";
-		chaptersFiles[TEFILA][10] = "file:///android_asset/tefila_10.html";
-		chaptersFiles[TEFILA][11] = "file:///android_asset/tefila_11.html";
-		chaptersFiles[TEFILA][12] = "file:///android_asset/tefila_12.html";
-		chaptersFiles[TEFILA][13] = "file:///android_asset/tefila_13.html";
-		chaptersFiles[TEFILA][14] = "file:///android_asset/tefila_14.html";
-		chaptersFiles[TEFILA][15] = "file:///android_asset/tefila_15.html";
-		chaptersFiles[TEFILA][16] = "file:///android_asset/tefila_16.html";
-		chaptersFiles[TEFILA][17] = "file:///android_asset/tefila_17.html";
-		chaptersFiles[TEFILA][18] = "file:///android_asset/tefila_18.html";
-		chaptersFiles[TEFILA][19] = "file:///android_asset/tefila_19.html";
-		chaptersFiles[TEFILA][20] = "file:///android_asset/tefila_20.html";
-		chaptersFiles[TEFILA][21] = "file:///android_asset/tefila_21.html";
-		chaptersFiles[TEFILA][22] = "file:///android_asset/tefila_22.html";
-		chaptersFiles[TEFILA][23] = "file:///android_asset/tefila_23.html";
-		chaptersFiles[TEFILA][24] = "file:///android_asset/tefila_24.html";
-		chaptersFiles[TEFILA][25] = "file:///android_asset/tefila_25.html";
-		chaptersFiles[TEFILA][26] = "file:///android_asset/tefila_26.html";
+		chaptersFiles[Util.TEFILA][0] = "file:///android_asset/tefila_tochen.html";
+		chaptersFiles[Util.TEFILA][1] = "file:///android_asset/tefila_1.html";
+		chaptersFiles[Util.TEFILA][2] = "file:///android_asset/tefila_2.html";
+		chaptersFiles[Util.TEFILA][3] = "file:///android_asset/tefila_3.html";
+		chaptersFiles[Util.TEFILA][4] = "file:///android_asset/tefila_4.html";
+		chaptersFiles[Util.TEFILA][5] = "file:///android_asset/tefila_5.html";
+		chaptersFiles[Util.TEFILA][6] = "file:///android_asset/tefila_6.html";
+		chaptersFiles[Util.TEFILA][7] = "file:///android_asset/tefila_7.html";
+		chaptersFiles[Util.TEFILA][8] = "file:///android_asset/tefila_8.html";
+		chaptersFiles[Util.TEFILA][9] = "file:///android_asset/tefila_9.html";
+		chaptersFiles[Util.TEFILA][10] = "file:///android_asset/tefila_10.html";
+		chaptersFiles[Util.TEFILA][11] = "file:///android_asset/tefila_11.html";
+		chaptersFiles[Util.TEFILA][12] = "file:///android_asset/tefila_12.html";
+		chaptersFiles[Util.TEFILA][13] = "file:///android_asset/tefila_13.html";
+		chaptersFiles[Util.TEFILA][14] = "file:///android_asset/tefila_14.html";
+		chaptersFiles[Util.TEFILA][15] = "file:///android_asset/tefila_15.html";
+		chaptersFiles[Util.TEFILA][16] = "file:///android_asset/tefila_16.html";
+		chaptersFiles[Util.TEFILA][17] = "file:///android_asset/tefila_17.html";
+		chaptersFiles[Util.TEFILA][18] = "file:///android_asset/tefila_18.html";
+		chaptersFiles[Util.TEFILA][19] = "file:///android_asset/tefila_19.html";
+		chaptersFiles[Util.TEFILA][20] = "file:///android_asset/tefila_20.html";
+		chaptersFiles[Util.TEFILA][21] = "file:///android_asset/tefila_21.html";
+		chaptersFiles[Util.TEFILA][22] = "file:///android_asset/tefila_22.html";
+		chaptersFiles[Util.TEFILA][23] = "file:///android_asset/tefila_23.html";
+		chaptersFiles[Util.TEFILA][24] = "file:///android_asset/tefila_24.html";
+		chaptersFiles[Util.TEFILA][25] = "file:///android_asset/tefila_25.html";
+		chaptersFiles[Util.TEFILA][26] = "file:///android_asset/tefila_26.html";
 		/*TEFILAT_NASHIM*/
-		chaptersFiles[TEFILAT_NASHIM][0] = "file:///android_asset/tefilat_nashim_tochen.html";
-		chaptersFiles[TEFILAT_NASHIM][1] = "file:///android_asset/tefilat_nashim_1.html";
-		chaptersFiles[TEFILAT_NASHIM][2] = "file:///android_asset/tefilat_nashim_2.html";
-		chaptersFiles[TEFILAT_NASHIM][3] = "file:///android_asset/tefilat_nashim_3.html";
-		chaptersFiles[TEFILAT_NASHIM][4] = "file:///android_asset/tefilat_nashim_4.html";
-		chaptersFiles[TEFILAT_NASHIM][5] = "file:///android_asset/tefilat_nashim_5.html";
-		chaptersFiles[TEFILAT_NASHIM][6] = "file:///android_asset/tefilat_nashim_6.html";
-		chaptersFiles[TEFILAT_NASHIM][7] = "file:///android_asset/tefilat_nashim_7.html";
-		chaptersFiles[TEFILAT_NASHIM][8] = "file:///android_asset/tefilat_nashim_8.html";
-		chaptersFiles[TEFILAT_NASHIM][9] = "file:///android_asset/tefilat_nashim_9.html";
-		chaptersFiles[TEFILAT_NASHIM][10] = "file:///android_asset/tefilat_nashim_10.html";
-		chaptersFiles[TEFILAT_NASHIM][11] = "file:///android_asset/tefilat_nashim_11.html";
-		chaptersFiles[TEFILAT_NASHIM][12] = "file:///android_asset/tefilat_nashim_12.html";
-		chaptersFiles[TEFILAT_NASHIM][13] = "file:///android_asset/tefilat_nashim_13.html";
-		chaptersFiles[TEFILAT_NASHIM][14] = "file:///android_asset/tefilat_nashim_14.html";
-		chaptersFiles[TEFILAT_NASHIM][15] = "file:///android_asset/tefilat_nashim_15.html";
-		chaptersFiles[TEFILAT_NASHIM][16] = "file:///android_asset/tefilat_nashim_16.html";
-		chaptersFiles[TEFILAT_NASHIM][17] = "file:///android_asset/tefilat_nashim_17.html";
-		chaptersFiles[TEFILAT_NASHIM][18] = "file:///android_asset/tefilat_nashim_18.html";
-		chaptersFiles[TEFILAT_NASHIM][19] = "file:///android_asset/tefilat_nashim_19.html";
-		chaptersFiles[TEFILAT_NASHIM][20] = "file:///android_asset/tefilat_nashim_20.html";
-		chaptersFiles[TEFILAT_NASHIM][21] = "file:///android_asset/tefilat_nashim_21.html";
-		chaptersFiles[TEFILAT_NASHIM][22] = "file:///android_asset/tefilat_nashim_22.html";
-		chaptersFiles[TEFILAT_NASHIM][23] = "file:///android_asset/tefilat_nashim_23.html";
-		chaptersFiles[TEFILAT_NASHIM][24] = "file:///android_asset/tefilat_nashim_24.html";
+		chaptersFiles[Util.TEFILAT_NASHIM][0] = "file:///android_asset/tefilat_nashim_tochen.html";
+		chaptersFiles[Util.TEFILAT_NASHIM][1] = "file:///android_asset/tefilat_nashim_1.html";
+		chaptersFiles[Util.TEFILAT_NASHIM][2] = "file:///android_asset/tefilat_nashim_2.html";
+		chaptersFiles[Util.TEFILAT_NASHIM][3] = "file:///android_asset/tefilat_nashim_3.html";
+		chaptersFiles[Util.TEFILAT_NASHIM][4] = "file:///android_asset/tefilat_nashim_4.html";
+		chaptersFiles[Util.TEFILAT_NASHIM][5] = "file:///android_asset/tefilat_nashim_5.html";
+		chaptersFiles[Util.TEFILAT_NASHIM][6] = "file:///android_asset/tefilat_nashim_6.html";
+		chaptersFiles[Util.TEFILAT_NASHIM][7] = "file:///android_asset/tefilat_nashim_7.html";
+		chaptersFiles[Util.TEFILAT_NASHIM][8] = "file:///android_asset/tefilat_nashim_8.html";
+		chaptersFiles[Util.TEFILAT_NASHIM][9] = "file:///android_asset/tefilat_nashim_9.html";
+		chaptersFiles[Util.TEFILAT_NASHIM][10] = "file:///android_asset/tefilat_nashim_10.html";
+		chaptersFiles[Util.TEFILAT_NASHIM][11] = "file:///android_asset/tefilat_nashim_11.html";
+		chaptersFiles[Util.TEFILAT_NASHIM][12] = "file:///android_asset/tefilat_nashim_12.html";
+		chaptersFiles[Util.TEFILAT_NASHIM][13] = "file:///android_asset/tefilat_nashim_13.html";
+		chaptersFiles[Util.TEFILAT_NASHIM][14] = "file:///android_asset/tefilat_nashim_14.html";
+		chaptersFiles[Util.TEFILAT_NASHIM][15] = "file:///android_asset/tefilat_nashim_15.html";
+		chaptersFiles[Util.TEFILAT_NASHIM][16] = "file:///android_asset/tefilat_nashim_16.html";
+		chaptersFiles[Util.TEFILAT_NASHIM][17] = "file:///android_asset/tefilat_nashim_17.html";
+		chaptersFiles[Util.TEFILAT_NASHIM][18] = "file:///android_asset/tefilat_nashim_18.html";
+		chaptersFiles[Util.TEFILAT_NASHIM][19] = "file:///android_asset/tefilat_nashim_19.html";
+		chaptersFiles[Util.TEFILAT_NASHIM][20] = "file:///android_asset/tefilat_nashim_20.html";
+		chaptersFiles[Util.TEFILAT_NASHIM][21] = "file:///android_asset/tefilat_nashim_21.html";
+		chaptersFiles[Util.TEFILAT_NASHIM][22] = "file:///android_asset/tefilat_nashim_22.html";
+		chaptersFiles[Util.TEFILAT_NASHIM][23] = "file:///android_asset/tefilat_nashim_23.html";
+		chaptersFiles[Util.TEFILAT_NASHIM][24] = "file:///android_asset/tefilat_nashim_24.html";
 		/*HAR_BRACHOT*/
-		chaptersFiles[HAR_BRACHOT][0] = "file:///android_asset/har_brachot_tochen.html";
-		chaptersFiles[HAR_BRACHOT][1] = "file:///android_asset/har_brachot_1.html";
-		chaptersFiles[HAR_BRACHOT][2] = "file:///android_asset/har_brachot_2.html";
-		chaptersFiles[HAR_BRACHOT][3] = "file:///android_asset/har_brachot_3.html";
-		chaptersFiles[HAR_BRACHOT][4] = "file:///android_asset/har_brachot_4.html";
-		chaptersFiles[HAR_BRACHOT][5] = "file:///android_asset/har_brachot_5.html";
-		chaptersFiles[HAR_BRACHOT][6] = "file:///android_asset/har_brachot_6.html";
-		chaptersFiles[HAR_BRACHOT][7] = "file:///android_asset/har_brachot_7.html";
-		chaptersFiles[HAR_BRACHOT][8] = "file:///android_asset/har_brachot_8.html";
-		chaptersFiles[HAR_BRACHOT][9] = "file:///android_asset/har_brachot_9.html";
-		chaptersFiles[HAR_BRACHOT][10] = "file:///android_asset/har_brachot_10.html";
-		chaptersFiles[HAR_BRACHOT][11] = "file:///android_asset/har_brachot_11.html";
-		chaptersFiles[HAR_BRACHOT][12] = "file:///android_asset/har_brachot_12.html";
-		chaptersFiles[HAR_BRACHOT][13] = "file:///android_asset/har_brachot_13.html";
-		chaptersFiles[HAR_BRACHOT][14] = "file:///android_asset/har_brachot_14.html";
-		chaptersFiles[HAR_BRACHOT][15] = "file:///android_asset/har_brachot_15.html";
-		chaptersFiles[HAR_BRACHOT][16] = "file:///android_asset/har_brachot_16.html";
-		chaptersFiles[HAR_BRACHOT][17] = "file:///android_asset/har_brachot_17.html";
+		chaptersFiles[Util.HAR_BRACHOT][0] = "file:///android_asset/har_brachot_tochen.html";
+		chaptersFiles[Util.HAR_BRACHOT][1] = "file:///android_asset/har_brachot_1.html";
+		chaptersFiles[Util.HAR_BRACHOT][2] = "file:///android_asset/har_brachot_2.html";
+		chaptersFiles[Util.HAR_BRACHOT][3] = "file:///android_asset/har_brachot_3.html";
+		chaptersFiles[Util.HAR_BRACHOT][4] = "file:///android_asset/har_brachot_4.html";
+		chaptersFiles[Util.HAR_BRACHOT][5] = "file:///android_asset/har_brachot_5.html";
+		chaptersFiles[Util.HAR_BRACHOT][6] = "file:///android_asset/har_brachot_6.html";
+		chaptersFiles[Util.HAR_BRACHOT][7] = "file:///android_asset/har_brachot_7.html";
+		chaptersFiles[Util.HAR_BRACHOT][8] = "file:///android_asset/har_brachot_8.html";
+		chaptersFiles[Util.HAR_BRACHOT][9] = "file:///android_asset/har_brachot_9.html";
+		chaptersFiles[Util.HAR_BRACHOT][10] = "file:///android_asset/har_brachot_10.html";
+		chaptersFiles[Util.HAR_BRACHOT][11] = "file:///android_asset/har_brachot_11.html";
+		chaptersFiles[Util.HAR_BRACHOT][12] = "file:///android_asset/har_brachot_12.html";
+		chaptersFiles[Util.HAR_BRACHOT][13] = "file:///android_asset/har_brachot_13.html";
+		chaptersFiles[Util.HAR_BRACHOT][14] = "file:///android_asset/har_brachot_14.html";
+		chaptersFiles[Util.HAR_BRACHOT][15] = "file:///android_asset/har_brachot_15.html";
+		chaptersFiles[Util.HAR_BRACHOT][16] = "file:///android_asset/har_brachot_16.html";
+		chaptersFiles[Util.HAR_BRACHOT][17] = "file:///android_asset/har_brachot_17.html";
 		/*HAR_YAMIM*/
-		chaptersFiles[HAR_YAMIM][0] = "file:///android_asset/har_yamim_tochen.html";
-		chaptersFiles[HAR_YAMIM][1] = "file:///android_asset/har_yamim_1.html";
-		chaptersFiles[HAR_YAMIM][2] = "file:///android_asset/har_yamim_2.html";
-		chaptersFiles[HAR_YAMIM][3] = "file:///android_asset/har_yamim_3.html";
-		chaptersFiles[HAR_YAMIM][4] = "file:///android_asset/har_yamim_4.html";
-		chaptersFiles[HAR_YAMIM][5] = "file:///android_asset/har_yamim_5.html";
-		chaptersFiles[HAR_YAMIM][6] = "file:///android_asset/har_yamim_6.html";
-		chaptersFiles[HAR_YAMIM][7] = "file:///android_asset/har_yamim_7.html";
-		chaptersFiles[HAR_YAMIM][8] = "file:///android_asset/har_yamim_8.html";
-		chaptersFiles[HAR_YAMIM][9] = "file:///android_asset/har_yamim_9.html";
-		chaptersFiles[HAR_YAMIM][10] = "file:///android_asset/har_yamim_10.html";
+		chaptersFiles[Util.HAR_YAMIM][0] = "file:///android_asset/har_yamim_tochen.html";
+		chaptersFiles[Util.HAR_YAMIM][1] = "file:///android_asset/har_yamim_1.html";
+		chaptersFiles[Util.HAR_YAMIM][2] = "file:///android_asset/har_yamim_2.html";
+		chaptersFiles[Util.HAR_YAMIM][3] = "file:///android_asset/har_yamim_3.html";
+		chaptersFiles[Util.HAR_YAMIM][4] = "file:///android_asset/har_yamim_4.html";
+		chaptersFiles[Util.HAR_YAMIM][5] = "file:///android_asset/har_yamim_5.html";
+		chaptersFiles[Util.HAR_YAMIM][6] = "file:///android_asset/har_yamim_6.html";
+		chaptersFiles[Util.HAR_YAMIM][7] = "file:///android_asset/har_yamim_7.html";
+		chaptersFiles[Util.HAR_YAMIM][8] = "file:///android_asset/har_yamim_8.html";
+		chaptersFiles[Util.HAR_YAMIM][9] = "file:///android_asset/har_yamim_9.html";
+		chaptersFiles[Util.HAR_YAMIM][10] = "file:///android_asset/har_yamim_10.html";
 		/*HAR_MOADIM*/
-		chaptersFiles[HAR_MOADIM][0] = "file:///android_asset/har_moadim_tochen.html";
-		chaptersFiles[HAR_MOADIM][1] = "file:///android_asset/har_moadim_1.html";
-		chaptersFiles[HAR_MOADIM][2] = "file:///android_asset/har_moadim_2.html";
-		chaptersFiles[HAR_MOADIM][3] = "file:///android_asset/har_moadim_3.html";
-		chaptersFiles[HAR_MOADIM][4] = "file:///android_asset/har_moadim_4.html";
-		chaptersFiles[HAR_MOADIM][5] = "file:///android_asset/har_moadim_5.html";
-		chaptersFiles[HAR_MOADIM][6] = "file:///android_asset/har_moadim_6.html";
-		chaptersFiles[HAR_MOADIM][7] = "file:///android_asset/har_moadim_7.html";
-		chaptersFiles[HAR_MOADIM][8] = "file:///android_asset/har_moadim_8.html";
-		//chaptersFiles[HAR_MOADIM][9] = "file:///android_asset/har_moadim_9.html"; //currently there is no chapter 9
-		chaptersFiles[HAR_MOADIM][9] = "file:///android_asset/har_moadim_10.html";
-		chaptersFiles[HAR_MOADIM][10] = "file:///android_asset/har_moadim_11.html";
-		chaptersFiles[HAR_MOADIM][11] = "file:///android_asset/har_moadim_12.html";
-		chaptersFiles[HAR_MOADIM][12] = "file:///android_asset/har_moadim_13.html";
+		chaptersFiles[Util.HAR_MOADIM][0] = "file:///android_asset/har_moadim_tochen.html";
+		chaptersFiles[Util.HAR_MOADIM][1] = "file:///android_asset/har_moadim_1.html";
+		chaptersFiles[Util.HAR_MOADIM][2] = "file:///android_asset/har_moadim_2.html";
+		chaptersFiles[Util.HAR_MOADIM][3] = "file:///android_asset/har_moadim_3.html";
+		chaptersFiles[Util.HAR_MOADIM][4] = "file:///android_asset/har_moadim_4.html";
+		chaptersFiles[Util.HAR_MOADIM][5] = "file:///android_asset/har_moadim_5.html";
+		chaptersFiles[Util.HAR_MOADIM][6] = "file:///android_asset/har_moadim_6.html";
+		chaptersFiles[Util.HAR_MOADIM][7] = "file:///android_asset/har_moadim_7.html";
+		chaptersFiles[Util.HAR_MOADIM][8] = "file:///android_asset/har_moadim_8.html";
+		//chaptersFiles[Util.HAR_MOADIM][9] = "file:///android_asset/har_moadim_9.html"; //currently there is no chapter 9
+		chaptersFiles[Util.HAR_MOADIM][9] = "file:///android_asset/har_moadim_10.html";
+		chaptersFiles[Util.HAR_MOADIM][10] = "file:///android_asset/har_moadim_11.html";
+		chaptersFiles[Util.HAR_MOADIM][11] = "file:///android_asset/har_moadim_12.html";
+		chaptersFiles[Util.HAR_MOADIM][12] = "file:///android_asset/har_moadim_13.html";
 		/*HAR_SUCOT*/
-		chaptersFiles[HAR_SUCOT][0] = "file:///android_asset/sucot_tochen.html";
-		chaptersFiles[HAR_SUCOT][1] = "file:///android_asset/har_sucot_1.html";
-		chaptersFiles[HAR_SUCOT][2] = "file:///android_asset/har_sucot_2.html";
-		chaptersFiles[HAR_SUCOT][3] = "file:///android_asset/har_sucot_3.html";
-		chaptersFiles[HAR_SUCOT][4] = "file:///android_asset/har_sucot_4.html";
-		chaptersFiles[HAR_SUCOT][5] = "file:///android_asset/har_sucot_5.html";
-		chaptersFiles[HAR_SUCOT][6] = "file:///android_asset/har_sucot_6.html";
-		chaptersFiles[HAR_SUCOT][7] = "file:///android_asset/har_sucot_7.html";
-		chaptersFiles[HAR_SUCOT][8] = "file:///android_asset/har_sucot_8.html";
+		chaptersFiles[Util.HAR_SUCOT][0] = "file:///android_asset/sucot_tochen.html";
+		chaptersFiles[Util.HAR_SUCOT][1] = "file:///android_asset/har_sucot_1.html";
+		chaptersFiles[Util.HAR_SUCOT][2] = "file:///android_asset/har_sucot_2.html";
+		chaptersFiles[Util.HAR_SUCOT][3] = "file:///android_asset/har_sucot_3.html";
+		chaptersFiles[Util.HAR_SUCOT][4] = "file:///android_asset/har_sucot_4.html";
+		chaptersFiles[Util.HAR_SUCOT][5] = "file:///android_asset/har_sucot_5.html";
+		chaptersFiles[Util.HAR_SUCOT][6] = "file:///android_asset/har_sucot_6.html";
+		chaptersFiles[Util.HAR_SUCOT][7] = "file:///android_asset/har_sucot_7.html";
+		chaptersFiles[Util.HAR_SUCOT][8] = "file:///android_asset/har_sucot_8.html";
 		/*HAR_SHABAT*/
-		chaptersFiles[HAR_SHABAT][0] = "file:///android_asset/har_shabat_tochen.html";
-		chaptersFiles[HAR_SHABAT][1] = "file:///android_asset/har_shabat_1.html";
-		chaptersFiles[HAR_SHABAT][2] = "file:///android_asset/har_shabat_2.html";
-		chaptersFiles[HAR_SHABAT][3] = "file:///android_asset/har_shabat_3.html";
-		chaptersFiles[HAR_SHABAT][4] = "file:///android_asset/har_shabat_4.html";
-		chaptersFiles[HAR_SHABAT][5] = "file:///android_asset/har_shabat_5.html";
-		chaptersFiles[HAR_SHABAT][6] = "file:///android_asset/har_shabat_6.html";
-		chaptersFiles[HAR_SHABAT][7] = "file:///android_asset/har_shabat_7.html";
-		chaptersFiles[HAR_SHABAT][8] = "file:///android_asset/har_shabat_8.html";
-		chaptersFiles[HAR_SHABAT][9] = "file:///android_asset/har_shabat_9.html";
-		chaptersFiles[HAR_SHABAT][10] = "file:///android_asset/har_shabat_10.html";
-		chaptersFiles[HAR_SHABAT][11] = "file:///android_asset/har_shabat_11.html";
-		chaptersFiles[HAR_SHABAT][12] = "file:///android_asset/har_shabat_12.html";
-		chaptersFiles[HAR_SHABAT][13] = "file:///android_asset/har_shabat_13.html";
-		chaptersFiles[HAR_SHABAT][14] = "file:///android_asset/har_shabat_14.html";
-		chaptersFiles[HAR_SHABAT][15] = "file:///android_asset/har_shabat_15.html";
-		chaptersFiles[HAR_SHABAT][16] = "file:///android_asset/har_shabat_16.html";
-		chaptersFiles[HAR_SHABAT][17] = "file:///android_asset/har_shabat_17.html";
-		chaptersFiles[HAR_SHABAT][18] = "file:///android_asset/har_shabat_18.html";
-		chaptersFiles[HAR_SHABAT][19] = "file:///android_asset/har_shabat_19.html";
-		chaptersFiles[HAR_SHABAT][20] = "file:///android_asset/har_shabat_20.html";
-		chaptersFiles[HAR_SHABAT][21] = "file:///android_asset/har_shabat_21.html";
-		chaptersFiles[HAR_SHABAT][22] = "file:///android_asset/har_shabat_22.html";
-		chaptersFiles[HAR_SHABAT][23] = "file:///android_asset/har_shabat_23.html";
-		chaptersFiles[HAR_SHABAT][24] = "file:///android_asset/har_shabat_24.html";
-		chaptersFiles[HAR_SHABAT][25] = "file:///android_asset/har_shabat_25.html";
-		chaptersFiles[HAR_SHABAT][26] = "file:///android_asset/har_shabat_26.html";
-		chaptersFiles[HAR_SHABAT][27] = "file:///android_asset/har_shabat_27.html";
-		chaptersFiles[HAR_SHABAT][28] = "file:///android_asset/har_shabat_28.html";
-		chaptersFiles[HAR_SHABAT][29] = "file:///android_asset/har_shabat_29.html";
-		chaptersFiles[HAR_SHABAT][30] = "file:///android_asset/har_shabat_30.html";
+		chaptersFiles[Util.HAR_SHABAT][0] = "file:///android_asset/har_shabat_tochen.html";
+		chaptersFiles[Util.HAR_SHABAT][1] = "file:///android_asset/har_shabat_1.html";
+		chaptersFiles[Util.HAR_SHABAT][2] = "file:///android_asset/har_shabat_2.html";
+		chaptersFiles[Util.HAR_SHABAT][3] = "file:///android_asset/har_shabat_3.html";
+		chaptersFiles[Util.HAR_SHABAT][4] = "file:///android_asset/har_shabat_4.html";
+		chaptersFiles[Util.HAR_SHABAT][5] = "file:///android_asset/har_shabat_5.html";
+		chaptersFiles[Util.HAR_SHABAT][6] = "file:///android_asset/har_shabat_6.html";
+		chaptersFiles[Util.HAR_SHABAT][7] = "file:///android_asset/har_shabat_7.html";
+		chaptersFiles[Util.HAR_SHABAT][8] = "file:///android_asset/har_shabat_8.html";
+		chaptersFiles[Util.HAR_SHABAT][9] = "file:///android_asset/har_shabat_9.html";
+		chaptersFiles[Util.HAR_SHABAT][10] = "file:///android_asset/har_shabat_10.html";
+		chaptersFiles[Util.HAR_SHABAT][11] = "file:///android_asset/har_shabat_11.html";
+		chaptersFiles[Util.HAR_SHABAT][12] = "file:///android_asset/har_shabat_12.html";
+		chaptersFiles[Util.HAR_SHABAT][13] = "file:///android_asset/har_shabat_13.html";
+		chaptersFiles[Util.HAR_SHABAT][14] = "file:///android_asset/har_shabat_14.html";
+		chaptersFiles[Util.HAR_SHABAT][15] = "file:///android_asset/har_shabat_15.html";
+		chaptersFiles[Util.HAR_SHABAT][16] = "file:///android_asset/har_shabat_16.html";
+		chaptersFiles[Util.HAR_SHABAT][17] = "file:///android_asset/har_shabat_17.html";
+		chaptersFiles[Util.HAR_SHABAT][18] = "file:///android_asset/har_shabat_18.html";
+		chaptersFiles[Util.HAR_SHABAT][19] = "file:///android_asset/har_shabat_19.html";
+		chaptersFiles[Util.HAR_SHABAT][20] = "file:///android_asset/har_shabat_20.html";
+		chaptersFiles[Util.HAR_SHABAT][21] = "file:///android_asset/har_shabat_21.html";
+		chaptersFiles[Util.HAR_SHABAT][22] = "file:///android_asset/har_shabat_22.html";
+		chaptersFiles[Util.HAR_SHABAT][23] = "file:///android_asset/har_shabat_23.html";
+		chaptersFiles[Util.HAR_SHABAT][24] = "file:///android_asset/har_shabat_24.html";
+		chaptersFiles[Util.HAR_SHABAT][25] = "file:///android_asset/har_shabat_25.html";
+		chaptersFiles[Util.HAR_SHABAT][26] = "file:///android_asset/har_shabat_26.html";
+		chaptersFiles[Util.HAR_SHABAT][27] = "file:///android_asset/har_shabat_27.html";
+		chaptersFiles[Util.HAR_SHABAT][28] = "file:///android_asset/har_shabat_28.html";
+		chaptersFiles[Util.HAR_SHABAT][29] = "file:///android_asset/har_shabat_29.html";
+		chaptersFiles[Util.HAR_SHABAT][30] = "file:///android_asset/har_shabat_30.html";
 		/*HAR_SIMCHAT*/
-		chaptersFiles[HAR_SIMCHAT][0] = "file:///android_asset/har_simchat_tochen.html";
-		chaptersFiles[HAR_SIMCHAT][1] = "file:///android_asset/har_simchat_1.html";
-		chaptersFiles[HAR_SIMCHAT][2] = "file:///android_asset/har_simchat_2.html";
-		chaptersFiles[HAR_SIMCHAT][3] = "file:///android_asset/har_simchat_3.html";
-		chaptersFiles[HAR_SIMCHAT][4] = "file:///android_asset/har_simchat_4.html";
-		chaptersFiles[HAR_SIMCHAT][5] = "file:///android_asset/har_simchat_5.html";
-		chaptersFiles[HAR_SIMCHAT][6] = "file:///android_asset/har_simchat_6.html";
-		chaptersFiles[HAR_SIMCHAT][7] = "file:///android_asset/har_simchat_7.html";
-		chaptersFiles[HAR_SIMCHAT][8] = "file:///android_asset/har_simchat_8.html";
-		chaptersFiles[HAR_SIMCHAT][9] = "file:///android_asset/har_simchat_9.html";
-		chaptersFiles[HAR_SIMCHAT][10] = "file:///android_asset/har_simchat_10.html";
+		chaptersFiles[Util.HAR_SIMCHAT][0] = "file:///android_asset/har_simchat_tochen.html";
+		chaptersFiles[Util.HAR_SIMCHAT][1] = "file:///android_asset/har_simchat_1.html";
+		chaptersFiles[Util.HAR_SIMCHAT][2] = "file:///android_asset/har_simchat_2.html";
+		chaptersFiles[Util.HAR_SIMCHAT][3] = "file:///android_asset/har_simchat_3.html";
+		chaptersFiles[Util.HAR_SIMCHAT][4] = "file:///android_asset/har_simchat_4.html";
+		chaptersFiles[Util.HAR_SIMCHAT][5] = "file:///android_asset/har_simchat_5.html";
+		chaptersFiles[Util.HAR_SIMCHAT][6] = "file:///android_asset/har_simchat_6.html";
+		chaptersFiles[Util.HAR_SIMCHAT][7] = "file:///android_asset/har_simchat_7.html";
+		chaptersFiles[Util.HAR_SIMCHAT][8] = "file:///android_asset/har_simchat_8.html";
+		chaptersFiles[Util.HAR_SIMCHAT][9] = "file:///android_asset/har_simchat_9.html";
+		chaptersFiles[Util.HAR_SIMCHAT][10] = "file:///android_asset/har_simchat_10.html";
 		/*E_TEFILA*/
-		chaptersFiles[E_TEFILA][0] = "file:///android_asset/E_tefila_tochen.html";
-		chaptersFiles[E_TEFILA][1] = "file:///android_asset/E_tefila_1.html";
-		chaptersFiles[E_TEFILA][2] = "file:///android_asset/E_tefila_2.html";
-		chaptersFiles[E_TEFILA][3] = "file:///android_asset/E_tefila_3.html";
-		chaptersFiles[E_TEFILA][4] = "file:///android_asset/E_tefila_4.html";
-		chaptersFiles[E_TEFILA][5] = "file:///android_asset/E_tefila_5.html";
-		chaptersFiles[E_TEFILA][6] = "file:///android_asset/E_tefila_6.html";
-		chaptersFiles[E_TEFILA][7] = "file:///android_asset/E_tefila_7.html";
-		chaptersFiles[E_TEFILA][8] = "file:///android_asset/E_tefila_8.html";
-		chaptersFiles[E_TEFILA][9] = "file:///android_asset/E_tefila_9.html";
-		chaptersFiles[E_TEFILA][10] = "file:///android_asset/E_tefila_10.html";
-		chaptersFiles[E_TEFILA][11] = "file:///android_asset/E_tefila_11.html";
-		chaptersFiles[E_TEFILA][12] = "file:///android_asset/E_tefila_12.html";
-		chaptersFiles[E_TEFILA][13] = "file:///android_asset/E_tefila_13.html";
-		chaptersFiles[E_TEFILA][14] = "file:///android_asset/E_tefila_14.html";
-		chaptersFiles[E_TEFILA][15] = "file:///android_asset/E_tefila_15.html";
-		chaptersFiles[E_TEFILA][16] = "file:///android_asset/E_tefila_16.html";
-		chaptersFiles[E_TEFILA][17] = "file:///android_asset/E_tefila_17.html";
-		chaptersFiles[E_TEFILA][18] = "file:///android_asset/E_tefila_18.html";
-		chaptersFiles[E_TEFILA][19] = "file:///android_asset/E_tefila_19.html";
-		chaptersFiles[E_TEFILA][20] = "file:///android_asset/E_tefila_20.html";
-		chaptersFiles[E_TEFILA][21] = "file:///android_asset/E_tefila_21.html";
-		chaptersFiles[E_TEFILA][22] = "file:///android_asset/E_tefila_22.html";
-		chaptersFiles[E_TEFILA][23] = "file:///android_asset/E_tefila_23.html";
-		chaptersFiles[E_TEFILA][24] = "file:///android_asset/E_tefila_24.html";
-		chaptersFiles[E_TEFILA][25] = "file:///android_asset/E_tefila_25.html";
-		chaptersFiles[E_TEFILA][26] = "file:///android_asset/E_tefila_26.html";
+		chaptersFiles[Util.E_TEFILA][0] = "file:///android_asset/E_tefila_tochen.html";
+		chaptersFiles[Util.E_TEFILA][1] = "file:///android_asset/E_tefila_1.html";
+		chaptersFiles[Util.E_TEFILA][2] = "file:///android_asset/E_tefila_2.html";
+		chaptersFiles[Util.E_TEFILA][3] = "file:///android_asset/E_tefila_3.html";
+		chaptersFiles[Util.E_TEFILA][4] = "file:///android_asset/E_tefila_4.html";
+		chaptersFiles[Util.E_TEFILA][5] = "file:///android_asset/E_tefila_5.html";
+		chaptersFiles[Util.E_TEFILA][6] = "file:///android_asset/E_tefila_6.html";
+		chaptersFiles[Util.E_TEFILA][7] = "file:///android_asset/E_tefila_7.html";
+		chaptersFiles[Util.E_TEFILA][8] = "file:///android_asset/E_tefila_8.html";
+		chaptersFiles[Util.E_TEFILA][9] = "file:///android_asset/E_tefila_9.html";
+		chaptersFiles[Util.E_TEFILA][10] = "file:///android_asset/E_tefila_10.html";
+		chaptersFiles[Util.E_TEFILA][11] = "file:///android_asset/E_tefila_11.html";
+		chaptersFiles[Util.E_TEFILA][12] = "file:///android_asset/E_tefila_12.html";
+		chaptersFiles[Util.E_TEFILA][13] = "file:///android_asset/E_tefila_13.html";
+		chaptersFiles[Util.E_TEFILA][14] = "file:///android_asset/E_tefila_14.html";
+		chaptersFiles[Util.E_TEFILA][15] = "file:///android_asset/E_tefila_15.html";
+		chaptersFiles[Util.E_TEFILA][16] = "file:///android_asset/E_tefila_16.html";
+		chaptersFiles[Util.E_TEFILA][17] = "file:///android_asset/E_tefila_17.html";
+		chaptersFiles[Util.E_TEFILA][18] = "file:///android_asset/E_tefila_18.html";
+		chaptersFiles[Util.E_TEFILA][19] = "file:///android_asset/E_tefila_19.html";
+		chaptersFiles[Util.E_TEFILA][20] = "file:///android_asset/E_tefila_20.html";
+		chaptersFiles[Util.E_TEFILA][21] = "file:///android_asset/E_tefila_21.html";
+		chaptersFiles[Util.E_TEFILA][22] = "file:///android_asset/E_tefila_22.html";
+		chaptersFiles[Util.E_TEFILA][23] = "file:///android_asset/E_tefila_23.html";
+		chaptersFiles[Util.E_TEFILA][24] = "file:///android_asset/E_tefila_24.html";
+		chaptersFiles[Util.E_TEFILA][25] = "file:///android_asset/E_tefila_25.html";
+		chaptersFiles[Util.E_TEFILA][26] = "file:///android_asset/E_tefila_26.html";
 		/*E_PESACH*/		
-		chaptersFiles[E_PESACH][0] = "file:///android_asset/E_pesach_tochen.html";
-		chaptersFiles[E_PESACH][1] = "file:///android_asset/E_pesach_1.html";
-		chaptersFiles[E_PESACH][2] = "file:///android_asset/E_pesach_2.html";
-		chaptersFiles[E_PESACH][3] = "file:///android_asset/E_pesach_3.html";
-		chaptersFiles[E_PESACH][4] = "file:///android_asset/E_pesach_4.html";
-		chaptersFiles[E_PESACH][5] = "file:///android_asset/E_pesach_5.html";
-		chaptersFiles[E_PESACH][6] = "file:///android_asset/E_pesach_6.html";
-		chaptersFiles[E_PESACH][7] = "file:///android_asset/E_pesach_7.html";
-		chaptersFiles[E_PESACH][8] = "file:///android_asset/E_pesach_8.html";
-		chaptersFiles[E_PESACH][9] = "file:///android_asset/E_pesach_9.html";
-		chaptersFiles[E_PESACH][10] = "file:///android_asset/E_pesach_10.html";
-		chaptersFiles[E_PESACH][11] = "file:///android_asset/E_pesach_11.html";
-		chaptersFiles[E_PESACH][12] = "file:///android_asset/E_pesach_12.html";
-		chaptersFiles[E_PESACH][13] = "file:///android_asset/E_pesach_13.html";
-		chaptersFiles[E_PESACH][14] = "file:///android_asset/E_pesach_14.html";
-		chaptersFiles[E_PESACH][15] = "file:///android_asset/E_pesach_15.html";
-		chaptersFiles[E_PESACH][16] = "file:///android_asset/E_pesach_16.html";
+		chaptersFiles[Util.E_PESACH][0] = "file:///android_asset/E_pesach_tochen.html";
+		chaptersFiles[Util.E_PESACH][1] = "file:///android_asset/E_pesach_1.html";
+		chaptersFiles[Util.E_PESACH][2] = "file:///android_asset/E_pesach_2.html";
+		chaptersFiles[Util.E_PESACH][3] = "file:///android_asset/E_pesach_3.html";
+		chaptersFiles[Util.E_PESACH][4] = "file:///android_asset/E_pesach_4.html";
+		chaptersFiles[Util.E_PESACH][5] = "file:///android_asset/E_pesach_5.html";
+		chaptersFiles[Util.E_PESACH][6] = "file:///android_asset/E_pesach_6.html";
+		chaptersFiles[Util.E_PESACH][7] = "file:///android_asset/E_pesach_7.html";
+		chaptersFiles[Util.E_PESACH][8] = "file:///android_asset/E_pesach_8.html";
+		chaptersFiles[Util.E_PESACH][9] = "file:///android_asset/E_pesach_9.html";
+		chaptersFiles[Util.E_PESACH][10] = "file:///android_asset/E_pesach_10.html";
+		chaptersFiles[Util.E_PESACH][11] = "file:///android_asset/E_pesach_11.html";
+		chaptersFiles[Util.E_PESACH][12] = "file:///android_asset/E_pesach_12.html";
+		chaptersFiles[Util.E_PESACH][13] = "file:///android_asset/E_pesach_13.html";
+		chaptersFiles[Util.E_PESACH][14] = "file:///android_asset/E_pesach_14.html";
+		chaptersFiles[Util.E_PESACH][15] = "file:///android_asset/E_pesach_15.html";
+		chaptersFiles[Util.E_PESACH][16] = "file:///android_asset/E_pesach_16.html";
 		/*E_ZMANIM*/
-		chaptersFiles[E_ZMANIM][0] = "file:///android_asset/E_zmanim_tochen.html";
-		chaptersFiles[E_ZMANIM][1] = "file:///android_asset/E_zmanim_1.html";
-		chaptersFiles[E_ZMANIM][2] = "file:///android_asset/E_zmanim_2.html";
-		chaptersFiles[E_ZMANIM][3] = "file:///android_asset/E_zmanim_3.html";
-		chaptersFiles[E_ZMANIM][4] = "file:///android_asset/E_zmanim_4.html";
-		chaptersFiles[E_ZMANIM][5] = "file:///android_asset/E_zmanim_5.html";
-		chaptersFiles[E_ZMANIM][6] = "file:///android_asset/E_zmanim_6.html";
-		chaptersFiles[E_ZMANIM][7] = "file:///android_asset/E_zmanim_7.html";
-		chaptersFiles[E_ZMANIM][8] = "file:///android_asset/E_zmanim_8.html";
-		chaptersFiles[E_ZMANIM][9] = "file:///android_asset/E_zmanim_9.html";
-		chaptersFiles[E_ZMANIM][10] = "file:///android_asset/E_zmanim_10.html";
-		chaptersFiles[E_ZMANIM][11] = "file:///android_asset/E_zmanim_11.html";
-		chaptersFiles[E_ZMANIM][12] = "file:///android_asset/E_zmanim_12.html";
-		chaptersFiles[E_ZMANIM][13] = "file:///android_asset/E_zmanim_13.html";
-		chaptersFiles[E_ZMANIM][14] = "file:///android_asset/E_zmanim_14.html";
-		chaptersFiles[E_ZMANIM][15] = "file:///android_asset/E_zmanim_15.html";
+		chaptersFiles[Util.E_ZMANIM][0] = "file:///android_asset/E_zmanim_tochen.html";
+		chaptersFiles[Util.E_ZMANIM][1] = "file:///android_asset/E_zmanim_1.html";
+		chaptersFiles[Util.E_ZMANIM][2] = "file:///android_asset/E_zmanim_2.html";
+		chaptersFiles[Util.E_ZMANIM][3] = "file:///android_asset/E_zmanim_3.html";
+		chaptersFiles[Util.E_ZMANIM][4] = "file:///android_asset/E_zmanim_4.html";
+		chaptersFiles[Util.E_ZMANIM][5] = "file:///android_asset/E_zmanim_5.html";
+		chaptersFiles[Util.E_ZMANIM][6] = "file:///android_asset/E_zmanim_6.html";
+		chaptersFiles[Util.E_ZMANIM][7] = "file:///android_asset/E_zmanim_7.html";
+		chaptersFiles[Util.E_ZMANIM][8] = "file:///android_asset/E_zmanim_8.html";
+		chaptersFiles[Util.E_ZMANIM][9] = "file:///android_asset/E_zmanim_9.html";
+		chaptersFiles[Util.E_ZMANIM][10] = "file:///android_asset/E_zmanim_10.html";
+		chaptersFiles[Util.E_ZMANIM][11] = "file:///android_asset/E_zmanim_11.html";
+		chaptersFiles[Util.E_ZMANIM][12] = "file:///android_asset/E_zmanim_12.html";
+		chaptersFiles[Util.E_ZMANIM][13] = "file:///android_asset/E_zmanim_13.html";
+		chaptersFiles[Util.E_ZMANIM][14] = "file:///android_asset/E_zmanim_14.html";
+		chaptersFiles[Util.E_ZMANIM][15] = "file:///android_asset/E_zmanim_15.html";
 		/*E_WOMEN_PRAYER*/
-		chaptersFiles[E_WOMEN_PRAYER][0] = "file:///android_asset/e_w_prayer_tochen.html";
-		chaptersFiles[E_WOMEN_PRAYER][1] = "file:///android_asset/e_w_prayer_1.html";
-		chaptersFiles[E_WOMEN_PRAYER][2] = "file:///android_asset/e_w_prayer_2.html";
-		chaptersFiles[E_WOMEN_PRAYER][3] = "file:///android_asset/e_w_prayer_3.html";
-		chaptersFiles[E_WOMEN_PRAYER][4] = "file:///android_asset/e_w_prayer_4.html";
-		chaptersFiles[E_WOMEN_PRAYER][5] = "file:///android_asset/e_w_prayer_5.html";
-		chaptersFiles[E_WOMEN_PRAYER][6] = "file:///android_asset/e_w_prayer_6.html";
-		chaptersFiles[E_WOMEN_PRAYER][7] = "file:///android_asset/e_w_prayer_7.html";
-		chaptersFiles[E_WOMEN_PRAYER][8] = "file:///android_asset/e_w_prayer_8.html";
-		chaptersFiles[E_WOMEN_PRAYER][9] = "file:///android_asset/e_w_prayer_9.html";
-		chaptersFiles[E_WOMEN_PRAYER][10] = "file:///android_asset/e_w_prayer_10.html";
-		chaptersFiles[E_WOMEN_PRAYER][11] = "file:///android_asset/e_w_prayer_11.html";
-		chaptersFiles[E_WOMEN_PRAYER][12] = "file:///android_asset/e_w_prayer_12.html";
-		chaptersFiles[E_WOMEN_PRAYER][13] = "file:///android_asset/e_w_prayer_13.html";
-		chaptersFiles[E_WOMEN_PRAYER][14] = "file:///android_asset/e_w_prayer_14.html";
-		chaptersFiles[E_WOMEN_PRAYER][15] = "file:///android_asset/e_w_prayer_15.html";
-		chaptersFiles[E_WOMEN_PRAYER][16] = "file:///android_asset/e_w_prayer_16.html";
-		chaptersFiles[E_WOMEN_PRAYER][17] = "file:///android_asset/e_w_prayer_17.html";
-		chaptersFiles[E_WOMEN_PRAYER][18] = "file:///android_asset/e_w_prayer_18.html";
-		chaptersFiles[E_WOMEN_PRAYER][19] = "file:///android_asset/e_w_prayer_19.html";
-		chaptersFiles[E_WOMEN_PRAYER][20] = "file:///android_asset/e_w_prayer_20.html";
-		chaptersFiles[E_WOMEN_PRAYER][21] = "file:///android_asset/e_w_prayer_21.html";
-		chaptersFiles[E_WOMEN_PRAYER][22] = "file:///android_asset/e_w_prayer_22.html";
-		chaptersFiles[E_WOMEN_PRAYER][23] = "file:///android_asset/e_w_prayer_23.html";
-		chaptersFiles[E_WOMEN_PRAYER][24] = "file:///android_asset/e_w_prayer_24.html";
+		chaptersFiles[Util.E_WOMEN_PRAYER][0] = "file:///android_asset/e_w_prayer_tochen.html";
+		chaptersFiles[Util.E_WOMEN_PRAYER][1] = "file:///android_asset/e_w_prayer_1.html";
+		chaptersFiles[Util.E_WOMEN_PRAYER][2] = "file:///android_asset/e_w_prayer_2.html";
+		chaptersFiles[Util.E_WOMEN_PRAYER][3] = "file:///android_asset/e_w_prayer_3.html";
+		chaptersFiles[Util.E_WOMEN_PRAYER][4] = "file:///android_asset/e_w_prayer_4.html";
+		chaptersFiles[Util.E_WOMEN_PRAYER][5] = "file:///android_asset/e_w_prayer_5.html";
+		chaptersFiles[Util.E_WOMEN_PRAYER][6] = "file:///android_asset/e_w_prayer_6.html";
+		chaptersFiles[Util.E_WOMEN_PRAYER][7] = "file:///android_asset/e_w_prayer_7.html";
+		chaptersFiles[Util.E_WOMEN_PRAYER][8] = "file:///android_asset/e_w_prayer_8.html";
+		chaptersFiles[Util.E_WOMEN_PRAYER][9] = "file:///android_asset/e_w_prayer_9.html";
+		chaptersFiles[Util.E_WOMEN_PRAYER][10] = "file:///android_asset/e_w_prayer_10.html";
+		chaptersFiles[Util.E_WOMEN_PRAYER][11] = "file:///android_asset/e_w_prayer_11.html";
+		chaptersFiles[Util.E_WOMEN_PRAYER][12] = "file:///android_asset/e_w_prayer_12.html";
+		chaptersFiles[Util.E_WOMEN_PRAYER][13] = "file:///android_asset/e_w_prayer_13.html";
+		chaptersFiles[Util.E_WOMEN_PRAYER][14] = "file:///android_asset/e_w_prayer_14.html";
+		chaptersFiles[Util.E_WOMEN_PRAYER][15] = "file:///android_asset/e_w_prayer_15.html";
+		chaptersFiles[Util.E_WOMEN_PRAYER][16] = "file:///android_asset/e_w_prayer_16.html";
+		chaptersFiles[Util.E_WOMEN_PRAYER][17] = "file:///android_asset/e_w_prayer_17.html";
+		chaptersFiles[Util.E_WOMEN_PRAYER][18] = "file:///android_asset/e_w_prayer_18.html";
+		chaptersFiles[Util.E_WOMEN_PRAYER][19] = "file:///android_asset/e_w_prayer_19.html";
+		chaptersFiles[Util.E_WOMEN_PRAYER][20] = "file:///android_asset/e_w_prayer_20.html";
+		chaptersFiles[Util.E_WOMEN_PRAYER][21] = "file:///android_asset/e_w_prayer_21.html";
+		chaptersFiles[Util.E_WOMEN_PRAYER][22] = "file:///android_asset/e_w_prayer_22.html";
+		chaptersFiles[Util.E_WOMEN_PRAYER][23] = "file:///android_asset/e_w_prayer_23.html";
+		chaptersFiles[Util.E_WOMEN_PRAYER][24] = "file:///android_asset/e_w_prayer_24.html";
 		/*E_SHABAT*/
-		chaptersFiles[E_SHABAT][0] = "file:///android_asset/e_shabbat_tochen.html";
-		chaptersFiles[E_SHABAT][1] = "file:///android_asset/e_shabbat_1.html";
-		chaptersFiles[E_SHABAT][2] = "file:///android_asset/e_shabbat_2.html";
-		chaptersFiles[E_SHABAT][3] = "file:///android_asset/e_shabbat_3.html";
-		chaptersFiles[E_SHABAT][4] = "file:///android_asset/e_shabbat_4.html";
-		chaptersFiles[E_SHABAT][5] = "file:///android_asset/e_shabbat_5.html";
-		chaptersFiles[E_SHABAT][6] = "file:///android_asset/e_shabbat_6.html";
-		chaptersFiles[E_SHABAT][7] = "file:///android_asset/e_shabbat_7.html";
-		chaptersFiles[E_SHABAT][8] = "file:///android_asset/e_shabbat_8.html";
-		chaptersFiles[E_SHABAT][9] = "file:///android_asset/e_shabbat_9.html";
-		chaptersFiles[E_SHABAT][10] = "file:///android_asset/e_shabbat_10.html";
-		chaptersFiles[E_SHABAT][11] = "file:///android_asset/e_shabbat_11.html";
-		chaptersFiles[E_SHABAT][12] = "file:///android_asset/e_shabbat_12.html";
-		chaptersFiles[E_SHABAT][13] = "file:///android_asset/e_shabbat_13.html";
-		chaptersFiles[E_SHABAT][14] = "file:///android_asset/e_shabbat_14.html";
-		chaptersFiles[E_SHABAT][15] = "file:///android_asset/e_shabbat_15.html";
-		chaptersFiles[E_SHABAT][16] = "file:///android_asset/e_shabbat_16.html";
-		chaptersFiles[E_SHABAT][17] = "file:///android_asset/e_shabbat_17.html";
-		chaptersFiles[E_SHABAT][18] = "file:///android_asset/e_shabbat_18.html";
-		chaptersFiles[E_SHABAT][19] = "file:///android_asset/e_shabbat_19.html";
-		chaptersFiles[E_SHABAT][20] = "file:///android_asset/e_shabbat_20.html";
-		chaptersFiles[E_SHABAT][21] = "file:///android_asset/e_shabbat_21.html";
-		chaptersFiles[E_SHABAT][22] = "file:///android_asset/e_shabbat_22.html";
-		chaptersFiles[E_SHABAT][23] = "file:///android_asset/e_shabbat_23.html";
-		chaptersFiles[E_SHABAT][24] = "file:///android_asset/e_shabbat_24.html";
-		chaptersFiles[E_SHABAT][25] = "file:///android_asset/e_shabbat_25.html";
-		chaptersFiles[E_SHABAT][26] = "file:///android_asset/e_shabbat_26.html";
-		chaptersFiles[E_SHABAT][27] = "file:///android_asset/e_shabbat_27.html";
-		chaptersFiles[E_SHABAT][28] = "file:///android_asset/e_shabbat_28.html";
-		chaptersFiles[E_SHABAT][29] = "file:///android_asset/e_shabbat_29.html";
-		chaptersFiles[E_SHABAT][30] = "file:///android_asset/e_shabbat_30.html";
+		chaptersFiles[Util.E_SHABAT][0] = "file:///android_asset/e_shabbat_tochen.html";
+		chaptersFiles[Util.E_SHABAT][1] = "file:///android_asset/e_shabbat_1.html";
+		chaptersFiles[Util.E_SHABAT][2] = "file:///android_asset/e_shabbat_2.html";
+		chaptersFiles[Util.E_SHABAT][3] = "file:///android_asset/e_shabbat_3.html";
+		chaptersFiles[Util.E_SHABAT][4] = "file:///android_asset/e_shabbat_4.html";
+		chaptersFiles[Util.E_SHABAT][5] = "file:///android_asset/e_shabbat_5.html";
+		chaptersFiles[Util.E_SHABAT][6] = "file:///android_asset/e_shabbat_6.html";
+		chaptersFiles[Util.E_SHABAT][7] = "file:///android_asset/e_shabbat_7.html";
+		chaptersFiles[Util.E_SHABAT][8] = "file:///android_asset/e_shabbat_8.html";
+		chaptersFiles[Util.E_SHABAT][9] = "file:///android_asset/e_shabbat_9.html";
+		chaptersFiles[Util.E_SHABAT][10] = "file:///android_asset/e_shabbat_10.html";
+		chaptersFiles[Util.E_SHABAT][11] = "file:///android_asset/e_shabbat_11.html";
+		chaptersFiles[Util.E_SHABAT][12] = "file:///android_asset/e_shabbat_12.html";
+		chaptersFiles[Util.E_SHABAT][13] = "file:///android_asset/e_shabbat_13.html";
+		chaptersFiles[Util.E_SHABAT][14] = "file:///android_asset/e_shabbat_14.html";
+		chaptersFiles[Util.E_SHABAT][15] = "file:///android_asset/e_shabbat_15.html";
+		chaptersFiles[Util.E_SHABAT][16] = "file:///android_asset/e_shabbat_16.html";
+		chaptersFiles[Util.E_SHABAT][17] = "file:///android_asset/e_shabbat_17.html";
+		chaptersFiles[Util.E_SHABAT][18] = "file:///android_asset/e_shabbat_18.html";
+		chaptersFiles[Util.E_SHABAT][19] = "file:///android_asset/e_shabbat_19.html";
+		chaptersFiles[Util.E_SHABAT][20] = "file:///android_asset/e_shabbat_20.html";
+		chaptersFiles[Util.E_SHABAT][21] = "file:///android_asset/e_shabbat_21.html";
+		chaptersFiles[Util.E_SHABAT][22] = "file:///android_asset/e_shabbat_22.html";
+		chaptersFiles[Util.E_SHABAT][23] = "file:///android_asset/e_shabbat_23.html";
+		chaptersFiles[Util.E_SHABAT][24] = "file:///android_asset/e_shabbat_24.html";
+		chaptersFiles[Util.E_SHABAT][25] = "file:///android_asset/e_shabbat_25.html";
+		chaptersFiles[Util.E_SHABAT][26] = "file:///android_asset/e_shabbat_26.html";
+		chaptersFiles[Util.E_SHABAT][27] = "file:///android_asset/e_shabbat_27.html";
+		chaptersFiles[Util.E_SHABAT][28] = "file:///android_asset/e_shabbat_28.html";
+		chaptersFiles[Util.E_SHABAT][29] = "file:///android_asset/e_shabbat_29.html";
+		chaptersFiles[Util.E_SHABAT][30] = "file:///android_asset/e_shabbat_30.html";
 		/*F_TEFILA*/
-		chaptersFiles[F_TEFILA][0] = "file:///android_asset/F_tefila_tochen.html";
-		chaptersFiles[F_TEFILA][1] = "file:///android_asset/F_tefila_1.html";
-		chaptersFiles[F_TEFILA][2] = "file:///android_asset/F_tefila_2.html";
-		chaptersFiles[F_TEFILA][3] = "file:///android_asset/F_tefila_3.html";
-		chaptersFiles[F_TEFILA][4] = "file:///android_asset/F_tefila_4.html";
-		chaptersFiles[F_TEFILA][5] = "file:///android_asset/F_tefila_5.html";
-		chaptersFiles[F_TEFILA][6] = "file:///android_asset/F_tefila_6.html";
-		chaptersFiles[F_TEFILA][7] = "file:///android_asset/F_tefila_7.html";
-		chaptersFiles[F_TEFILA][8] = "file:///android_asset/F_tefila_8.html";
-		chaptersFiles[F_TEFILA][9] = "file:///android_asset/F_tefila_9.html";
-		chaptersFiles[F_TEFILA][10] = "file:///android_asset/F_tefila_10.html";
-		chaptersFiles[F_TEFILA][11] = "file:///android_asset/F_tefila_11.html";
-		chaptersFiles[F_TEFILA][12] = "file:///android_asset/F_tefila_12.html";
-		chaptersFiles[F_TEFILA][13] = "file:///android_asset/F_tefila_13.html";
-		chaptersFiles[F_TEFILA][14] = "file:///android_asset/F_tefila_14.html";
-		chaptersFiles[F_TEFILA][15] = "file:///android_asset/F_tefila_15.html";
-		chaptersFiles[F_TEFILA][16] = "file:///android_asset/F_tefila_16.html";
-		chaptersFiles[F_TEFILA][17] = "file:///android_asset/F_tefila_17.html";
-		chaptersFiles[F_TEFILA][18] = "file:///android_asset/F_tefila_18.html";
-		chaptersFiles[F_TEFILA][19] = "file:///android_asset/F_tefila_19.html";
-		chaptersFiles[F_TEFILA][20] = "file:///android_asset/F_tefila_20.html";
-		chaptersFiles[F_TEFILA][21] = "file:///android_asset/F_tefila_21.html";
-		chaptersFiles[F_TEFILA][22] = "file:///android_asset/F_tefila_22.html";
-		chaptersFiles[F_TEFILA][23] = "file:///android_asset/F_tefila_23.html";
-		chaptersFiles[F_TEFILA][24] = "file:///android_asset/F_tefila_24.html";
-		chaptersFiles[F_TEFILA][25] = "file:///android_asset/F_tefila_25.html";
-		chaptersFiles[F_TEFILA][26] = "file:///android_asset/F_tefila_26.html";
+		chaptersFiles[Util.F_TEFILA][0] = "file:///android_asset/F_tefila_tochen.html";
+		chaptersFiles[Util.F_TEFILA][1] = "file:///android_asset/F_tefila_1.html";
+		chaptersFiles[Util.F_TEFILA][2] = "file:///android_asset/F_tefila_2.html";
+		chaptersFiles[Util.F_TEFILA][3] = "file:///android_asset/F_tefila_3.html";
+		chaptersFiles[Util.F_TEFILA][4] = "file:///android_asset/F_tefila_4.html";
+		chaptersFiles[Util.F_TEFILA][5] = "file:///android_asset/F_tefila_5.html";
+		chaptersFiles[Util.F_TEFILA][6] = "file:///android_asset/F_tefila_6.html";
+		chaptersFiles[Util.F_TEFILA][7] = "file:///android_asset/F_tefila_7.html";
+		chaptersFiles[Util.F_TEFILA][8] = "file:///android_asset/F_tefila_8.html";
+		chaptersFiles[Util.F_TEFILA][9] = "file:///android_asset/F_tefila_9.html";
+		chaptersFiles[Util.F_TEFILA][10] = "file:///android_asset/F_tefila_10.html";
+		chaptersFiles[Util.F_TEFILA][11] = "file:///android_asset/F_tefila_11.html";
+		chaptersFiles[Util.F_TEFILA][12] = "file:///android_asset/F_tefila_12.html";
+		chaptersFiles[Util.F_TEFILA][13] = "file:///android_asset/F_tefila_13.html";
+		chaptersFiles[Util.F_TEFILA][14] = "file:///android_asset/F_tefila_14.html";
+		chaptersFiles[Util.F_TEFILA][15] = "file:///android_asset/F_tefila_15.html";
+		chaptersFiles[Util.F_TEFILA][16] = "file:///android_asset/F_tefila_16.html";
+		chaptersFiles[Util.F_TEFILA][17] = "file:///android_asset/F_tefila_17.html";
+		chaptersFiles[Util.F_TEFILA][18] = "file:///android_asset/F_tefila_18.html";
+		chaptersFiles[Util.F_TEFILA][19] = "file:///android_asset/F_tefila_19.html";
+		chaptersFiles[Util.F_TEFILA][20] = "file:///android_asset/F_tefila_20.html";
+		chaptersFiles[Util.F_TEFILA][21] = "file:///android_asset/F_tefila_21.html";
+		chaptersFiles[Util.F_TEFILA][22] = "file:///android_asset/F_tefila_22.html";
+		chaptersFiles[Util.F_TEFILA][23] = "file:///android_asset/F_tefila_23.html";
+		chaptersFiles[Util.F_TEFILA][24] = "file:///android_asset/F_tefila_24.html";
+		chaptersFiles[Util.F_TEFILA][25] = "file:///android_asset/F_tefila_25.html";
+		chaptersFiles[Util.F_TEFILA][26] = "file:///android_asset/F_tefila_26.html";
 
 		/*S_SHABAT*/
-		chaptersFiles[S_SHABAT][0] = "file:///android_asset/s_shabat_tochen.html";
-		chaptersFiles[S_SHABAT][1] = "file:///android_asset/s_shabat_1.html";
-		chaptersFiles[S_SHABAT][2] = "file:///android_asset/s_shabat_2.html";
-		chaptersFiles[S_SHABAT][3] = "file:///android_asset/s_shabat_3.html";
-		chaptersFiles[S_SHABAT][4] = "file:///android_asset/s_shabat_4.html";
-		chaptersFiles[S_SHABAT][5] = "file:///android_asset/s_shabat_5.html";
-		chaptersFiles[S_SHABAT][6] = "file:///android_asset/s_shabat_6.html";
-		chaptersFiles[S_SHABAT][7] = "file:///android_asset/s_shabat_7.html";
-		chaptersFiles[S_SHABAT][8] = "file:///android_asset/s_shabat_8.html";
-		chaptersFiles[S_SHABAT][9] = "file:///android_asset/s_shabat_9.html";
-		chaptersFiles[S_SHABAT][10] = "file:///android_asset/s_shabat_10.html";
-		chaptersFiles[S_SHABAT][11] = "file:///android_asset/s_shabat_11.html";
-		chaptersFiles[S_SHABAT][12] = "file:///android_asset/s_shabat_12.html";
-		chaptersFiles[S_SHABAT][13] = "file:///android_asset/s_shabat_13.html";
-		chaptersFiles[S_SHABAT][14] = "file:///android_asset/s_shabat_14.html";
-		chaptersFiles[S_SHABAT][15] = "file:///android_asset/s_shabat_15.html";
-		chaptersFiles[S_SHABAT][16] = "file:///android_asset/s_shabat_16.html";
-		chaptersFiles[S_SHABAT][17] = "file:///android_asset/s_shabat_17.html";
-		chaptersFiles[S_SHABAT][18] = "file:///android_asset/s_shabat_18.html";
-		chaptersFiles[S_SHABAT][19] = "file:///android_asset/s_shabat_19.html";
-		chaptersFiles[S_SHABAT][20] = "file:///android_asset/s_shabat_20.html";
-		chaptersFiles[S_SHABAT][21] = "file:///android_asset/s_shabat_21.html";
-		chaptersFiles[S_SHABAT][22] = "file:///android_asset/s_shabat_22.html";
-		chaptersFiles[S_SHABAT][23] = "file:///android_asset/s_shabat_23.html";
-		chaptersFiles[S_SHABAT][24] = "file:///android_asset/s_shabat_24.html";
-		chaptersFiles[S_SHABAT][25] = "file:///android_asset/s_shabat_25.html";
-		chaptersFiles[S_SHABAT][26] = "file:///android_asset/s_shabat_26.html";
-		chaptersFiles[S_SHABAT][27] = "file:///android_asset/s_shabat_27.html";
-		chaptersFiles[S_SHABAT][28] = "file:///android_asset/s_shabat_28.html";
-		chaptersFiles[S_SHABAT][29] = "file:///android_asset/s_shabat_29.html";
-		chaptersFiles[S_SHABAT][30] = "file:///android_asset/s_shabat_30.html";
+		chaptersFiles[Util.S_SHABAT][0] = "file:///android_asset/s_shabat_tochen.html";
+		chaptersFiles[Util.S_SHABAT][1] = "file:///android_asset/s_shabat_1.html";
+		chaptersFiles[Util.S_SHABAT][2] = "file:///android_asset/s_shabat_2.html";
+		chaptersFiles[Util.S_SHABAT][3] = "file:///android_asset/s_shabat_3.html";
+		chaptersFiles[Util.S_SHABAT][4] = "file:///android_asset/s_shabat_4.html";
+		chaptersFiles[Util.S_SHABAT][5] = "file:///android_asset/s_shabat_5.html";
+		chaptersFiles[Util.S_SHABAT][6] = "file:///android_asset/s_shabat_6.html";
+		chaptersFiles[Util.S_SHABAT][7] = "file:///android_asset/s_shabat_7.html";
+		chaptersFiles[Util.S_SHABAT][8] = "file:///android_asset/s_shabat_8.html";
+		chaptersFiles[Util.S_SHABAT][9] = "file:///android_asset/s_shabat_9.html";
+		chaptersFiles[Util.S_SHABAT][10] = "file:///android_asset/s_shabat_10.html";
+		chaptersFiles[Util.S_SHABAT][11] = "file:///android_asset/s_shabat_11.html";
+		chaptersFiles[Util.S_SHABAT][12] = "file:///android_asset/s_shabat_12.html";
+		chaptersFiles[Util.S_SHABAT][13] = "file:///android_asset/s_shabat_13.html";
+		chaptersFiles[Util.S_SHABAT][14] = "file:///android_asset/s_shabat_14.html";
+		chaptersFiles[Util.S_SHABAT][15] = "file:///android_asset/s_shabat_15.html";
+		chaptersFiles[Util.S_SHABAT][16] = "file:///android_asset/s_shabat_16.html";
+		chaptersFiles[Util.S_SHABAT][17] = "file:///android_asset/s_shabat_17.html";
+		chaptersFiles[Util.S_SHABAT][18] = "file:///android_asset/s_shabat_18.html";
+		chaptersFiles[Util.S_SHABAT][19] = "file:///android_asset/s_shabat_19.html";
+		chaptersFiles[Util.S_SHABAT][20] = "file:///android_asset/s_shabat_20.html";
+		chaptersFiles[Util.S_SHABAT][21] = "file:///android_asset/s_shabat_21.html";
+		chaptersFiles[Util.S_SHABAT][22] = "file:///android_asset/s_shabat_22.html";
+		chaptersFiles[Util.S_SHABAT][23] = "file:///android_asset/s_shabat_23.html";
+		chaptersFiles[Util.S_SHABAT][24] = "file:///android_asset/s_shabat_24.html";
+		chaptersFiles[Util.S_SHABAT][25] = "file:///android_asset/s_shabat_25.html";
+		chaptersFiles[Util.S_SHABAT][26] = "file:///android_asset/s_shabat_26.html";
+		chaptersFiles[Util.S_SHABAT][27] = "file:///android_asset/s_shabat_27.html";
+		chaptersFiles[Util.S_SHABAT][28] = "file:///android_asset/s_shabat_28.html";
+		chaptersFiles[Util.S_SHABAT][29] = "file:///android_asset/s_shabat_29.html";
+		chaptersFiles[Util.S_SHABAT][30] = "file:///android_asset/s_shabat_30.html";
 	}
 
 
@@ -1589,7 +1545,7 @@ public class TextMain extends AppCompatActivity implements View.OnClickListener/
 		PopupMenu popupMenu = new PopupMenu(TextMain.this, v);
 
         String configHeaders[] = new String[7];
-        if(MyLanguage == ENGLISH) {
+        if(MyLanguage == Util.ENGLISH) {
             configHeaders[0] = "Settings";
             configHeaders[1] = "About";
             configHeaders[2] = "Feedback";
@@ -1598,7 +1554,7 @@ public class TextMain extends AppCompatActivity implements View.OnClickListener/
             configHeaders[5] = "Zoom in";
             configHeaders[6] = "Zoom out";
         }
-        else if(MyLanguage == RUSSIAN) {
+        else if(MyLanguage == Util.RUSSIAN) {
             configHeaders[0] = "Настройки";
             configHeaders[1] = "Около";
             configHeaders[2] = "Обратная связь";
@@ -1607,7 +1563,7 @@ public class TextMain extends AppCompatActivity implements View.OnClickListener/
             configHeaders[5] = "Увеличить шрифт";
             configHeaders[6] = "Уменьшить шрифт";
         }
-        else if(MyLanguage == SPANISH) {
+        else if(MyLanguage == Util.SPANISH) {
             configHeaders[0] = "Ajustes";
             configHeaders[1] = "Acerca de";
             configHeaders[2] = "Comentarios";
@@ -1616,7 +1572,7 @@ public class TextMain extends AppCompatActivity implements View.OnClickListener/
             configHeaders[5] = "Aumentar enfoque";
             configHeaders[6] = "Disminuir enfoque";
         }
-        else if(MyLanguage == FRENCH) {
+        else if(MyLanguage == Util.FRENCH) {
             configHeaders[0] = "Definitions";
             configHeaders[1] = "A Propos de…";
             configHeaders[2] = "Commentaires";
@@ -1714,16 +1670,16 @@ public class TextMain extends AppCompatActivity implements View.OnClickListener/
 						shPrefEditor.putInt("fontSize", fontSize);
 						shPrefEditor.commit();
 						switch (MyLanguage){
-							case ENGLISH:
+							case Util.ENGLISH:
 								Toast.makeText(getApplicationContext(),	"Font size - "+fontSize, Toast.LENGTH_SHORT).show();
 								break;
-							case RUSSIAN:
+							case Util.RUSSIAN:
 								Toast.makeText(getApplicationContext(),	"Размер шрифта - "+fontSize, Toast.LENGTH_SHORT).show();
 								break;
-							case SPANISH:
+							case Util.SPANISH:
 								Toast.makeText(getApplicationContext(),	"Tamaño de fuente - "+fontSize, Toast.LENGTH_SHORT).show();
 								break;
-							case FRENCH:
+							case Util.FRENCH:
 								Toast.makeText(getApplicationContext(),	"Taille de police - "+fontSize, Toast.LENGTH_SHORT).show();
 								break;
 							default:
@@ -1732,16 +1688,16 @@ public class TextMain extends AppCompatActivity implements View.OnClickListener/
 					}
 					else{
 						switch (MyLanguage){
-							case ENGLISH:
+							case Util.ENGLISH:
 								Toast.makeText(getApplicationContext(),	"Maximum font size - "+fontSize, Toast.LENGTH_SHORT).show();
 								break;
-							case RUSSIAN:
+							case Util.RUSSIAN:
 								Toast.makeText(getApplicationContext(),	"Максимальный размер шрифта - "+fontSize, Toast.LENGTH_SHORT).show();
 								break;
-							case SPANISH:
+							case Util.SPANISH:
 								Toast.makeText(getApplicationContext(),	"Tamaño máximo de la fuente - "+fontSize, Toast.LENGTH_SHORT).show();
 								break;
-							case FRENCH:
+							case Util.FRENCH:
 								Toast.makeText(getApplicationContext(),	"Taille maximale de la police - "+fontSize, Toast.LENGTH_SHORT).show();
 								break;
 							default:
@@ -1756,16 +1712,16 @@ public class TextMain extends AppCompatActivity implements View.OnClickListener/
 					shPrefEditor.putInt("fontSize", fontSize);
 					shPrefEditor.commit();
 					switch (MyLanguage){
-						case ENGLISH:
+						case Util.ENGLISH:
 							Toast.makeText(getApplicationContext(),	"Font size - "+fontSize, Toast.LENGTH_SHORT).show();
 							break;
-						case RUSSIAN:
+						case Util.RUSSIAN:
 							Toast.makeText(getApplicationContext(),	"Размер шрифта - "+fontSize, Toast.LENGTH_SHORT).show();
 							break;
-						case SPANISH:
+						case Util.SPANISH:
 							Toast.makeText(getApplicationContext(),	"Tamaño de fuente - "+fontSize, Toast.LENGTH_SHORT).show();
 							break;
-						case FRENCH:
+						case Util.FRENCH:
 							Toast.makeText(getApplicationContext(),	"Taille de police - "+fontSize, Toast.LENGTH_SHORT).show();
 							break;
 						default:
@@ -1774,16 +1730,16 @@ public class TextMain extends AppCompatActivity implements View.OnClickListener/
 				}
 				else{
 					switch (MyLanguage){
-						case ENGLISH:
+						case Util.ENGLISH:
 							Toast.makeText(getApplicationContext(),	"Minimum font size - "+fontSize, Toast.LENGTH_SHORT).show();
 							break;
-						case RUSSIAN:
+						case Util.RUSSIAN:
 							Toast.makeText(getApplicationContext(),	"Минимальный размер шрифта - "+fontSize, Toast.LENGTH_SHORT).show();
 							break;
-						case SPANISH:
+						case Util.SPANISH:
 							Toast.makeText(getApplicationContext(),	"Tamaño mínimo de fuente - "+fontSize, Toast.LENGTH_SHORT).show();
 							break;
-						case FRENCH:
+						case Util.FRENCH:
 							Toast.makeText(getApplicationContext(),	"Taille de police minimale - "+fontSize, Toast.LENGTH_SHORT).show();
 							break;
 						default:
@@ -1884,8 +1840,8 @@ public class TextMain extends AppCompatActivity implements View.OnClickListener/
 		}
 
 		book_chapter = new int[2];
-		for (int i=0; i<=BOOKS_HEB_NUMBER; i++)
-			for (int j=1; j<=lastChapter[i]; j++)
+		for (int i=0; i<=Util.BOOKS_HEB_NUMBER; i++)
+			for (int j=1; j<=util.lastChapter[i]; j++)
 				if(bookAndChapter.equals(chaptersFiles[i][j]))
 				{
 					book_chapter[0] = i;
@@ -1896,7 +1852,7 @@ public class TextMain extends AppCompatActivity implements View.OnClickListener/
 
 	public String convertAnchorIdToSection(int Id)
 	{
-		if(book_chapter[0] == KASHRUT_B && Id != 0)//for KASHRUT_B start from chapter 20
+		if(book_chapter[0] == Util.KASHRUT_B && Id != 0)//for KASHRUT_B start from chapter 20
 			Id = Id + 19;
 		switch (Id)
 		{
@@ -1991,69 +1947,69 @@ public class TextMain extends AppCompatActivity implements View.OnClickListener/
 	{
 		switch (bookId)
 		{
-		case BRACHOT:
+		case Util.BRACHOT:
 			return "ברכות";
-		case GIYUR:
+		case Util.GIYUR:
 			return "גיור";
-		case HAAMVEHAAREZ:
+		case Util.HAAMVEHAAREZ:
 			return "העם והא'";
-		case ZMANIM:
+		case Util.ZMANIM:
 			return "זמנים";
-		case TAHARAT:
+		case Util.TAHARAT:
 			return "טהרת המש'";
-		case YAMIM:
+		case Util.YAMIM:
 			return "ימים נוראים";
-		case KASHRUT_A:
+		case Util.KASHRUT_A:
 			return "כשרות א";
-		case KASHRUT_B:
+		case Util.KASHRUT_B:
 			return "כשרות ב";
-		case LIKUTIM_A:
+		case Util.LIKUTIM_A:
 			return "ליקוטים א";
-		case LIKUTIM_B:
+		case Util.LIKUTIM_B:
 			return "ליקוטים ב";
-		case MISHPACHA:
+		case Util.MISHPACHA:
 			return "משפחה";
-		case MOADIM:
+		case Util.MOADIM:
 			return "מועדים";
-		case SUCOT:
+		case Util.SUCOT:
 			return "סוכות";
-		case PESACH:
+		case Util.PESACH:
 			return "פסח";
-		case SHVIIT:
+		case Util.SHVIIT:
 			return "שביעית";
-		case SHABAT:
+		case Util.SHABAT:
 			return "שבת";
-		case SIMCHAT:
+		case Util.SIMCHAT:
 			return "שמחת הבית";
-		case TEFILA:
+		case Util.TEFILA:
 			return "תפילה";
-		case TEFILAT_NASHIM:
+		case Util.TEFILAT_NASHIM:
 			return "תפילת נש'";
-		case HAR_MOADIM:
+		case Util.HAR_MOADIM:
 			return "הר' מועדים";
-		case HAR_SUCOT:
+		case Util.HAR_SUCOT:
 			return "הר' סוכות";
-		case HAR_SHABAT:
+		case Util.HAR_SHABAT:
 			return "הר' שבת";
-		case HAR_SIMCHAT:
+		case Util.HAR_SIMCHAT:
 			return "הר' שמחת הבית";
-		case HAR_YAMIM:
+		case Util.HAR_YAMIM:
 			return "הר' ימים נוראים";
-		case HAR_BRACHOT:
+		case Util.HAR_BRACHOT:
 			return "הר' ברכות";
-		case E_TEFILA:
+		case Util.E_TEFILA:
 			return "Tefila";
-		case E_PESACH:
+		case Util.E_PESACH:
 			return "Pesach";
-		case E_ZMANIM:
+		case Util.E_ZMANIM:
 			return "Zmanim";
-		case E_WOMEN_PRAYER:
+		case Util.E_WOMEN_PRAYER:
 			return "Women’s Prayer";
-		case E_SHABAT:
+		case Util.E_SHABAT:
 			return "Shabbat";
-		case F_TEFILA:
+		case Util.F_TEFILA:
 			return "La prière d’Israël";
-		case S_SHABAT:
+		case Util.S_SHABAT:
 			return "Shabbat (Español)";
 		default:
 			return "לא ידוע";
@@ -2063,431 +2019,431 @@ public class TextMain extends AppCompatActivity implements View.OnClickListener/
 	private void fillChaptersNames()
 	{
 		/*BRACHOT*/
-		chaptersNames[BRACHOT][0] = "ברכות: תוכן";
-		chaptersNames[BRACHOT][1] = "ברכות: א - פתיחה";
-		chaptersNames[BRACHOT][2] = "ברכות: ב - נטילת ידיים לסעודה";
-		chaptersNames[BRACHOT][3] = "ברכות: ג - ברכת המוציא";
-		chaptersNames[BRACHOT][4] = "ברכות: ד - ברכת המזון";
-		chaptersNames[BRACHOT][5] = "ברכות: ה - זימון";
-		chaptersNames[BRACHOT][6] = "ברכות: ו - חמשת מיני דגן";
-		chaptersNames[BRACHOT][7] = "ברכות: ז - ברכת היין";
-		chaptersNames[BRACHOT][8] = "ברכות: ח - ברכת הפירות ושהכל";
-		chaptersNames[BRACHOT][9] = "ברכות: ט - כללי ברכה ראשונה";
-		chaptersNames[BRACHOT][10] = "ברכות: י - ברכה אחרונה";
-		chaptersNames[BRACHOT][11] = "ברכות: יא - עיקר וטפל";
-		chaptersNames[BRACHOT][12] = "ברכות: יב - כללי ברכות";
-		chaptersNames[BRACHOT][13] = "ברכות: יג - דרך ארץ";
-		chaptersNames[BRACHOT][14] = "ברכות: יד - ברכת הריח";
-		chaptersNames[BRACHOT][15] = "ברכות: טו - ברכות הראייה";
-		chaptersNames[BRACHOT][16] = "ברכות: טז - ברכת הגומל";
-		chaptersNames[BRACHOT][17] = "ברכות: יז - ברכות ההודאה והשמחה";
-		chaptersNames[BRACHOT][18] = "ברכות: יח - תפילת הדרך";
+		chaptersNames[Util.BRACHOT][0] = "ברכות: תוכן";
+		chaptersNames[Util.BRACHOT][1] = "ברכות: א - פתיחה";
+		chaptersNames[Util.BRACHOT][2] = "ברכות: ב - נטילת ידיים לסעודה";
+		chaptersNames[Util.BRACHOT][3] = "ברכות: ג - ברכת המוציא";
+		chaptersNames[Util.BRACHOT][4] = "ברכות: ד - ברכת המזון";
+		chaptersNames[Util.BRACHOT][5] = "ברכות: ה - זימון";
+		chaptersNames[Util.BRACHOT][6] = "ברכות: ו - חמשת מיני דגן";
+		chaptersNames[Util.BRACHOT][7] = "ברכות: ז - ברכת היין";
+		chaptersNames[Util.BRACHOT][8] = "ברכות: ח - ברכת הפירות ושהכל";
+		chaptersNames[Util.BRACHOT][9] = "ברכות: ט - כללי ברכה ראשונה";
+		chaptersNames[Util.BRACHOT][10] = "ברכות: י - ברכה אחרונה";
+		chaptersNames[Util.BRACHOT][11] = "ברכות: יא - עיקר וטפל";
+		chaptersNames[Util.BRACHOT][12] = "ברכות: יב - כללי ברכות";
+		chaptersNames[Util.BRACHOT][13] = "ברכות: יג - דרך ארץ";
+		chaptersNames[Util.BRACHOT][14] = "ברכות: יד - ברכת הריח";
+		chaptersNames[Util.BRACHOT][15] = "ברכות: טו - ברכות הראייה";
+		chaptersNames[Util.BRACHOT][16] = "ברכות: טז - ברכת הגומל";
+		chaptersNames[Util.BRACHOT][17] = "ברכות: יז - ברכות ההודאה והשמחה";
+		chaptersNames[Util.BRACHOT][18] = "ברכות: יח - תפילת הדרך";
 		/*GIYUR*/
-		chaptersNames[GIYUR][0] = "גיור: תוכן";
-		chaptersNames[GIYUR][1] = "גיור: א - הגיור";
-		chaptersNames[GIYUR][2] = "גיור: ב - גרי הצדק";
-		chaptersNames[GIYUR][3] = "גיור: ג - הגיורים המורכבים";
-		chaptersNames[GIYUR][4] = "גיור: ד - בית הדין";
-		chaptersNames[GIYUR][5] = "גיור: ה - הגיור למעשה";
-		chaptersNames[GIYUR][6] = "גיור: ו - הגיור בשעת הדחק";
-		chaptersNames[GIYUR][7] = "גיור: ז - גיור קטנים";
-		chaptersNames[GIYUR][8] = "גיור: ח - דיני משפחה";
-		chaptersNames[GIYUR][9] = "גיור: ט - מעמד הגר והלכותיו";
+		chaptersNames[Util.GIYUR][0] = "גיור: תוכן";
+		chaptersNames[Util.GIYUR][1] = "גיור: א - הגיור";
+		chaptersNames[Util.GIYUR][2] = "גיור: ב - גרי הצדק";
+		chaptersNames[Util.GIYUR][3] = "גיור: ג - הגיורים המורכבים";
+		chaptersNames[Util.GIYUR][4] = "גיור: ד - בית הדין";
+		chaptersNames[Util.GIYUR][5] = "גיור: ה - הגיור למעשה";
+		chaptersNames[Util.GIYUR][6] = "גיור: ו - הגיור בשעת הדחק";
+		chaptersNames[Util.GIYUR][7] = "גיור: ז - גיור קטנים";
+		chaptersNames[Util.GIYUR][8] = "גיור: ח - דיני משפחה";
+		chaptersNames[Util.GIYUR][9] = "גיור: ט - מעמד הגר והלכותיו";
 		/*HAAMVEHAAREZ*/
-		chaptersNames[HAAMVEHAAREZ][0] = "העם והארץ: תוכן";
-		chaptersNames[HAAMVEHAAREZ][1] = "העם והארץ: א - מעלת הארץ";
-		chaptersNames[HAAMVEHAAREZ][2] = "העם והארץ: ב - קודש וחול ביישוב הארץ";
-		chaptersNames[HAAMVEHAAREZ][3] = "העם והארץ: ג - מצוות יישוב הארץ";
-		chaptersNames[HAAMVEHAAREZ][4] = "העם והארץ: ד - מהלכות צבא ומלחמה";
-		chaptersNames[HAAMVEHAAREZ][5] = "העם והארץ: ה - שמירת הארץ";
-		chaptersNames[HAAMVEHAAREZ][6] = "העם והארץ: ו - מהלכות מדינה";
-		chaptersNames[HAAMVEHAAREZ][7] = "העם והארץ: ז - ערבות הדדית";
-		chaptersNames[HAAMVEHAAREZ][8] = "העם והארץ: ח - עבודה עברית";
-		chaptersNames[HAAMVEHAAREZ][9] = "העם והארץ: ט - זכר למקדש";
-		chaptersNames[HAAMVEHAAREZ][10] = "העם והארץ: יא - נספח: תשובות מאת הרב גורן ומרבנים נוספים";
+		chaptersNames[Util.HAAMVEHAAREZ][0] = "העם והארץ: תוכן";
+		chaptersNames[Util.HAAMVEHAAREZ][1] = "העם והארץ: א - מעלת הארץ";
+		chaptersNames[Util.HAAMVEHAAREZ][2] = "העם והארץ: ב - קודש וחול ביישוב הארץ";
+		chaptersNames[Util.HAAMVEHAAREZ][3] = "העם והארץ: ג - מצוות יישוב הארץ";
+		chaptersNames[Util.HAAMVEHAAREZ][4] = "העם והארץ: ד - מהלכות צבא ומלחמה";
+		chaptersNames[Util.HAAMVEHAAREZ][5] = "העם והארץ: ה - שמירת הארץ";
+		chaptersNames[Util.HAAMVEHAAREZ][6] = "העם והארץ: ו - מהלכות מדינה";
+		chaptersNames[Util.HAAMVEHAAREZ][7] = "העם והארץ: ז - ערבות הדדית";
+		chaptersNames[Util.HAAMVEHAAREZ][8] = "העם והארץ: ח - עבודה עברית";
+		chaptersNames[Util.HAAMVEHAAREZ][9] = "העם והארץ: ט - זכר למקדש";
+		chaptersNames[Util.HAAMVEHAAREZ][10] = "העם והארץ: יא - נספח: תשובות מאת הרב גורן ומרבנים נוספים";
 		/*ZMANIM*/
-		chaptersNames[ZMANIM][0] = "זמנים: תוכן";
-		chaptersNames[ZMANIM][1] = "זמנים: א - ראש חודש";
-		chaptersNames[ZMANIM][2] = "זמנים: ב - הלכות ספירת העומר";
-		chaptersNames[ZMANIM][3] = "זמנים: ג - מנהגי אבילות בספירת העומר";
-		chaptersNames[ZMANIM][4] = "זמנים: ד - יום העצמאות";
-		chaptersNames[ZMANIM][5] = "זמנים: ה - לג בעומר";
-		chaptersNames[ZMANIM][6] = "זמנים: ו - ארבעת צומות החורבן";
-		chaptersNames[ZMANIM][7] = "זמנים: ז - דיני הצומות הקלים";
-		chaptersNames[ZMANIM][8] = "זמנים: ח - מנהגי שלושת השבועות";
-		chaptersNames[ZMANIM][9] = "זמנים: ט - ערב תשעה באב";
-		chaptersNames[ZMANIM][10] = "זמנים: י - הלכות תשעה באב";
-		chaptersNames[ZMANIM][11] = "זמנים: יא - ימי החנוכה";
-		chaptersNames[ZMANIM][12] = "זמנים: יב - הדלקת נרות חנוכה";
-		chaptersNames[ZMANIM][13] = "זמנים: יג - דיני המקום והזמן";
-		chaptersNames[ZMANIM][14] = "זמנים: יד - חודש אדר";
-		chaptersNames[ZMANIM][15] = "זמנים: טו - פורים ומקרא מגילה";
-		chaptersNames[ZMANIM][16] = "זמנים: טז - מצוות השמחה והחסד";
-		chaptersNames[ZMANIM][17] = "זמנים: יז - דיני פרזים ומוקפים";
+		chaptersNames[Util.ZMANIM][0] = "זמנים: תוכן";
+		chaptersNames[Util.ZMANIM][1] = "זמנים: א - ראש חודש";
+		chaptersNames[Util.ZMANIM][2] = "זמנים: ב - הלכות ספירת העומר";
+		chaptersNames[Util.ZMANIM][3] = "זמנים: ג - מנהגי אבילות בספירת העומר";
+		chaptersNames[Util.ZMANIM][4] = "זמנים: ד - יום העצמאות";
+		chaptersNames[Util.ZMANIM][5] = "זמנים: ה - לג בעומר";
+		chaptersNames[Util.ZMANIM][6] = "זמנים: ו - ארבעת צומות החורבן";
+		chaptersNames[Util.ZMANIM][7] = "זמנים: ז - דיני הצומות הקלים";
+		chaptersNames[Util.ZMANIM][8] = "זמנים: ח - מנהגי שלושת השבועות";
+		chaptersNames[Util.ZMANIM][9] = "זמנים: ט - ערב תשעה באב";
+		chaptersNames[Util.ZMANIM][10] = "זמנים: י - הלכות תשעה באב";
+		chaptersNames[Util.ZMANIM][11] = "זמנים: יא - ימי החנוכה";
+		chaptersNames[Util.ZMANIM][12] = "זמנים: יב - הדלקת נרות חנוכה";
+		chaptersNames[Util.ZMANIM][13] = "זמנים: יג - דיני המקום והזמן";
+		chaptersNames[Util.ZMANIM][14] = "זמנים: יד - חודש אדר";
+		chaptersNames[Util.ZMANIM][15] = "זמנים: טו - פורים ומקרא מגילה";
+		chaptersNames[Util.ZMANIM][16] = "זמנים: טז - מצוות השמחה והחסד";
+		chaptersNames[Util.ZMANIM][17] = "זמנים: יז - דיני פרזים ומוקפים";
 		/*TAHARAT*/
-		chaptersNames[TAHARAT][0] = "טהרת המשפחה: תוכן";
-		chaptersNames[TAHARAT][1] = "טהרת המשפחה: א - טהרת המשפחה";
-		chaptersNames[TAHARAT][2] = "טהרת המשפחה: ב - דם וכתם";
-		chaptersNames[TAHARAT][3] = "טהרת המשפחה: ג - איסורי הרחקה";
-		chaptersNames[TAHARAT][4] = "טהרת המשפחה: ד - שבעה נקיים";
-		chaptersNames[TAHARAT][5] = "טהרת המשפחה: ה - טבילת טהרה";
-		chaptersNames[TAHARAT][6] = "טהרת המשפחה: ו - פרישה ווסתות";
-		chaptersNames[TAHARAT][7] = "טהרת המשפחה: ז - שאלת חכם ובדיקה רפואית";
-		chaptersNames[TAHARAT][8] = "טהרת המשפחה: ח - כלה";
-		chaptersNames[TAHARAT][9] = "טהרת המשפחה: ט - יולדת";
-		chaptersNames[TAHARAT][10] = "טהרת המשפחה: י - מקוואות";
+		chaptersNames[Util.TAHARAT][0] = "טהרת המשפחה: תוכן";
+		chaptersNames[Util.TAHARAT][1] = "טהרת המשפחה: א - טהרת המשפחה";
+		chaptersNames[Util.TAHARAT][2] = "טהרת המשפחה: ב - דם וכתם";
+		chaptersNames[Util.TAHARAT][3] = "טהרת המשפחה: ג - איסורי הרחקה";
+		chaptersNames[Util.TAHARAT][4] = "טהרת המשפחה: ד - שבעה נקיים";
+		chaptersNames[Util.TAHARAT][5] = "טהרת המשפחה: ה - טבילת טהרה";
+		chaptersNames[Util.TAHARAT][6] = "טהרת המשפחה: ו - פרישה ווסתות";
+		chaptersNames[Util.TAHARAT][7] = "טהרת המשפחה: ז - שאלת חכם ובדיקה רפואית";
+		chaptersNames[Util.TAHARAT][8] = "טהרת המשפחה: ח - כלה";
+		chaptersNames[Util.TAHARAT][9] = "טהרת המשפחה: ט - יולדת";
+		chaptersNames[Util.TAHARAT][10] = "טהרת המשפחה: י - מקוואות";
 		/*YAMIM*/
-		chaptersNames[YAMIM][0] = "ימים נוראים: תוכן";
-		chaptersNames[YAMIM][1] = "ימים נוראים: א - הדין השכר והעונש";
-		chaptersNames[YAMIM][2] = "ימים נוראים: ב - סליחות ותפילות";
-		chaptersNames[YAMIM][3] = "ימים נוראים: ג - ראש השנה";
-		chaptersNames[YAMIM][4] = "ימים נוראים: ד - מצוות השופר";
-		chaptersNames[YAMIM][5] = "ימים נוראים: ה - עשרת ימי תשובה";
-		chaptersNames[YAMIM][6] = "ימים נוראים: ו - יום הכיפורים";
-		chaptersNames[YAMIM][7] = "ימים נוראים: ז - הלכות יום הכיפורים";
-		chaptersNames[YAMIM][8] = "ימים נוראים: ח - דיני התענית";
-		chaptersNames[YAMIM][9] = "ימים נוראים: ט - שאר עינויים";
-		chaptersNames[YAMIM][10] = "ימים נוראים: י - עבודת יום הכיפורים";
+		chaptersNames[Util.YAMIM][0] = "ימים נוראים: תוכן";
+		chaptersNames[Util.YAMIM][1] = "ימים נוראים: א - הדין השכר והעונש";
+		chaptersNames[Util.YAMIM][2] = "ימים נוראים: ב - סליחות ותפילות";
+		chaptersNames[Util.YAMIM][3] = "ימים נוראים: ג - ראש השנה";
+		chaptersNames[Util.YAMIM][4] = "ימים נוראים: ד - מצוות השופר";
+		chaptersNames[Util.YAMIM][5] = "ימים נוראים: ה - עשרת ימי תשובה";
+		chaptersNames[Util.YAMIM][6] = "ימים נוראים: ו - יום הכיפורים";
+		chaptersNames[Util.YAMIM][7] = "ימים נוראים: ז - הלכות יום הכיפורים";
+		chaptersNames[Util.YAMIM][8] = "ימים נוראים: ח - דיני התענית";
+		chaptersNames[Util.YAMIM][9] = "ימים נוראים: ט - שאר עינויים";
+		chaptersNames[Util.YAMIM][10] = "ימים נוראים: י - עבודת יום הכיפורים";
 		/*KASHRUT_A*/
-		chaptersNames[KASHRUT_A][0] = "כשרות א: תוכן";
-		chaptersNames[KASHRUT_A][1] = "כשרות א: א - חדש";
-		chaptersNames[KASHRUT_A][2] = "כשרות א: ב - ערלה ורבעי";
-		chaptersNames[KASHRUT_A][3] = "כשרות א: ג - כלאי בהמה ואילן";
-		chaptersNames[KASHRUT_A][4] = "כשרות א: ד - כלאי זרעים";
-		chaptersNames[KASHRUT_A][5] = "כשרות א: ה - כלאי הכרם";
-		chaptersNames[KASHRUT_A][6] = "כשרות א: ו - מתנות עניים";
-		chaptersNames[KASHRUT_A][7] = "כשרות א: ז - תרומות ומעשרות";
-		chaptersNames[KASHRUT_A][8] = "כשרות א: ח - החייב והפטור";
-		chaptersNames[KASHRUT_A][9] = "כשרות א: ט - כללי המצווה";
-		chaptersNames[KASHRUT_A][10] ="כשרות א: י - סדר ההפרשה למעשה";
-		chaptersNames[KASHRUT_A][11] ="כשרות א: יא - חלה";
-		chaptersNames[KASHRUT_A][12] ="כשרות א: יב - מצוות התלויות בארץ";
-		chaptersNames[KASHRUT_A][13] ="כשרות א: יג - עצי פרי ובל תשחית";
-		chaptersNames[KASHRUT_A][14] ="כשרות א: יד - אכילת בשר";
-		chaptersNames[KASHRUT_A][15] ="כשרות א: טו - צער בעלי חיים";
-		chaptersNames[KASHRUT_A][16] ="כשרות א: טז - שילוח הקן";
-		chaptersNames[KASHRUT_A][17] ="כשרות א: יז - כשרות בעלי חיים";
-		chaptersNames[KASHRUT_A][18] ="כשרות א: יח - הלכות שחיטה";
-		chaptersNames[KASHRUT_A][19] ="כשרות א: יט - מתנות כהונה מהחי";
+		chaptersNames[Util.KASHRUT_A][0] = "כשרות א: תוכן";
+		chaptersNames[Util.KASHRUT_A][1] = "כשרות א: א - חדש";
+		chaptersNames[Util.KASHRUT_A][2] = "כשרות א: ב - ערלה ורבעי";
+		chaptersNames[Util.KASHRUT_A][3] = "כשרות א: ג - כלאי בהמה ואילן";
+		chaptersNames[Util.KASHRUT_A][4] = "כשרות א: ד - כלאי זרעים";
+		chaptersNames[Util.KASHRUT_A][5] = "כשרות א: ה - כלאי הכרם";
+		chaptersNames[Util.KASHRUT_A][6] = "כשרות א: ו - מתנות עניים";
+		chaptersNames[Util.KASHRUT_A][7] = "כשרות א: ז - תרומות ומעשרות";
+		chaptersNames[Util.KASHRUT_A][8] = "כשרות א: ח - החייב והפטור";
+		chaptersNames[Util.KASHRUT_A][9] = "כשרות א: ט - כללי המצווה";
+		chaptersNames[Util.KASHRUT_A][10] ="כשרות א: י - סדר ההפרשה למעשה";
+		chaptersNames[Util.KASHRUT_A][11] ="כשרות א: יא - חלה";
+		chaptersNames[Util.KASHRUT_A][12] ="כשרות א: יב - מצוות התלויות בארץ";
+		chaptersNames[Util.KASHRUT_A][13] ="כשרות א: יג - עצי פרי ובל תשחית";
+		chaptersNames[Util.KASHRUT_A][14] ="כשרות א: יד - אכילת בשר";
+		chaptersNames[Util.KASHRUT_A][15] ="כשרות א: טו - צער בעלי חיים";
+		chaptersNames[Util.KASHRUT_A][16] ="כשרות א: טז - שילוח הקן";
+		chaptersNames[Util.KASHRUT_A][17] ="כשרות א: יז - כשרות בעלי חיים";
+		chaptersNames[Util.KASHRUT_A][18] ="כשרות א: יח - הלכות שחיטה";
+		chaptersNames[Util.KASHRUT_A][19] ="כשרות א: יט - מתנות כהונה מהחי";
 		/*KASHRUT_B*/
-		chaptersNames[KASHRUT_B][0] = "כשרות ב: תוכן";
-		chaptersNames[KASHRUT_B][1] = "כשרות ב: כ - טריפות";
-		chaptersNames[KASHRUT_B][2] = "כשרות ב: כא - חֵלֶב וגיד הנשה וניקור";
-		chaptersNames[KASHRUT_B][3] = "כשרות ב: כב - דם והכשרת הבשר";
-		chaptersNames[KASHRUT_B][4] = "כשרות ב: כג - שרצים";
-		chaptersNames[KASHRUT_B][5] = "כשרות ב: כד - מזון מהחי";
-		chaptersNames[KASHRUT_B][6] = "כשרות ב: כה - בשר בחלב";
-		chaptersNames[KASHRUT_B][7] = "כשרות ב: כו - דיני ההפסקה";
-		chaptersNames[KASHRUT_B][8] = "כשרות ב: כז - הגזירות על מאכלי גויים";
-		chaptersNames[KASHRUT_B][9] = "כשרות ב: כח - פת ובישולי גויים";
-		chaptersNames[KASHRUT_B][10] ="כשרות ב: כט - יין ומשקאות גויים";
-		chaptersNames[KASHRUT_B][11] ="כשרות ב: ל - חלב ומוצריו";
-		chaptersNames[KASHRUT_B][12] ="כשרות ב: לא - טבילת כלים";
-		chaptersNames[KASHRUT_B][13] ="כשרות ב: לב - כללי הכשרת כלים";
-		chaptersNames[KASHRUT_B][14] ="כשרות ב: לג - הכשרת כלים ומטבח";
-		chaptersNames[KASHRUT_B][15] ="כשרות ב: לד - דיני תערובות";
-		chaptersNames[KASHRUT_B][16] ="כשרות ב: לה - סוגי בליעות";
-		chaptersNames[KASHRUT_B][17] ="כשרות ב: לו - סכנות";
-		chaptersNames[KASHRUT_B][18] ="כשרות ב: לז - תעשיית המזון";
-		chaptersNames[KASHRUT_B][19] ="כשרות ב: לח - נאמנות והשגחה";
+		chaptersNames[Util.KASHRUT_B][0] = "כשרות ב: תוכן";
+		chaptersNames[Util.KASHRUT_B][1] = "כשרות ב: כ - טריפות";
+		chaptersNames[Util.KASHRUT_B][2] = "כשרות ב: כא - חֵלֶב וגיד הנשה וניקור";
+		chaptersNames[Util.KASHRUT_B][3] = "כשרות ב: כב - דם והכשרת הבשר";
+		chaptersNames[Util.KASHRUT_B][4] = "כשרות ב: כג - שרצים";
+		chaptersNames[Util.KASHRUT_B][5] = "כשרות ב: כד - מזון מהחי";
+		chaptersNames[Util.KASHRUT_B][6] = "כשרות ב: כה - בשר בחלב";
+		chaptersNames[Util.KASHRUT_B][7] = "כשרות ב: כו - דיני ההפסקה";
+		chaptersNames[Util.KASHRUT_B][8] = "כשרות ב: כז - הגזירות על מאכלי גויים";
+		chaptersNames[Util.KASHRUT_B][9] = "כשרות ב: כח - פת ובישולי גויים";
+		chaptersNames[Util.KASHRUT_B][10] ="כשרות ב: כט - יין ומשקאות גויים";
+		chaptersNames[Util.KASHRUT_B][11] ="כשרות ב: ל - חלב ומוצריו";
+		chaptersNames[Util.KASHRUT_B][12] ="כשרות ב: לא - טבילת כלים";
+		chaptersNames[Util.KASHRUT_B][13] ="כשרות ב: לב - כללי הכשרת כלים";
+		chaptersNames[Util.KASHRUT_B][14] ="כשרות ב: לג - הכשרת כלים ומטבח";
+		chaptersNames[Util.KASHRUT_B][15] ="כשרות ב: לד - דיני תערובות";
+		chaptersNames[Util.KASHRUT_B][16] ="כשרות ב: לה - סוגי בליעות";
+		chaptersNames[Util.KASHRUT_B][17] ="כשרות ב: לו - סכנות";
+		chaptersNames[Util.KASHRUT_B][18] ="כשרות ב: לז - תעשיית המזון";
+		chaptersNames[Util.KASHRUT_B][19] ="כשרות ב: לח - נאמנות והשגחה";
 		/*LIKUTIM_A*/
-		chaptersNames[LIKUTIM_A][0] = "ליקוטים א: תוכן";
-		chaptersNames[LIKUTIM_A][1] = "ליקוטים א: א - הלכות תלמוד תורה";
-		chaptersNames[LIKUTIM_A][2] = "ליקוטים א: ב - החינוך לתורה";
-        chaptersNames[LIKUTIM_A][3] = "ליקוטים א: ג - קיום התורה והחינוך";
-		chaptersNames[LIKUTIM_A][4] = "ליקוטים א: ד - הלכות ספר תורה";
-		chaptersNames[LIKUTIM_A][5] = "ליקוטים א: ה - מהלכות קריאת התורה";
-		chaptersNames[LIKUTIM_A][6] = "ליקוטים א: ו - כבוד ספר תורה ושמות קדושים";
-		chaptersNames[LIKUTIM_A][7] = "ליקוטים א: ז - הלכות בית כנסת";
-		chaptersNames[LIKUTIM_A][8] = "ליקוטים א: ח - כיפה";
-		chaptersNames[LIKUTIM_A][9] = "ליקוטים א: ט - מהלכות ציצית";
-		chaptersNames[LIKUTIM_A][10] = "ליקוטים א: י - מהלכות תפילין";
-		chaptersNames[LIKUTIM_A][11] = "ליקוטים א: יא - מהלכות מזוזה";
-		chaptersNames[LIKUTIM_A][12] = "ליקוטים א: יב - הלכות כהנים";
-        chaptersNames[LIKUTIM_A][13] = "ליקוטים א: יג - שעטנז";
+		chaptersNames[Util.LIKUTIM_A][0] = "ליקוטים א: תוכן";
+		chaptersNames[Util.LIKUTIM_A][1] = "ליקוטים א: א - הלכות תלמוד תורה";
+		chaptersNames[Util.LIKUTIM_A][2] = "ליקוטים א: ב - החינוך לתורה";
+        chaptersNames[Util.LIKUTIM_A][3] = "ליקוטים א: ג - קיום התורה והחינוך";
+		chaptersNames[Util.LIKUTIM_A][4] = "ליקוטים א: ד - הלכות ספר תורה";
+		chaptersNames[Util.LIKUTIM_A][5] = "ליקוטים א: ה - מהלכות קריאת התורה";
+		chaptersNames[Util.LIKUTIM_A][6] = "ליקוטים א: ו - כבוד ספר תורה ושמות קדושים";
+		chaptersNames[Util.LIKUTIM_A][7] = "ליקוטים א: ז - הלכות בית כנסת";
+		chaptersNames[Util.LIKUTIM_A][8] = "ליקוטים א: ח - כיפה";
+		chaptersNames[Util.LIKUTIM_A][9] = "ליקוטים א: ט - מהלכות ציצית";
+		chaptersNames[Util.LIKUTIM_A][10] = "ליקוטים א: י - מהלכות תפילין";
+		chaptersNames[Util.LIKUTIM_A][11] = "ליקוטים א: יא - מהלכות מזוזה";
+		chaptersNames[Util.LIKUTIM_A][12] = "ליקוטים א: יב - הלכות כהנים";
+        chaptersNames[Util.LIKUTIM_A][13] = "ליקוטים א: יג - שעטנז";
 		/*LIKUTIM_B*/
-		chaptersNames[LIKUTIM_B][0] = "ליקוטים ב: תוכן";
-		chaptersNames[LIKUTIM_B][1] = "ליקוטים ב: א - בין אדם לחברו";
-		chaptersNames[LIKUTIM_B][2] = "ליקוטים ב: ב - הלכות אמירת אמת";
-		chaptersNames[LIKUTIM_B][3] = "ליקוטים ב: ג - הלכות גניבת דעת";
-		chaptersNames[LIKUTIM_B][4] = "ליקוטים ב: ד - הלכות גניבה";
-		chaptersNames[LIKUTIM_B][5] = "ליקוטים ב: ה - מצוות הלוואה";
-		chaptersNames[LIKUTIM_B][6] = "ליקוטים ב: ו - מהלכות צדקה";
-		chaptersNames[LIKUTIM_B][7] = "ליקוטים ב: ז - הכנסת אורחים";
-		chaptersNames[LIKUTIM_B][8] = "ליקוטים ב: ח - הלכות רוצח ומתאבד";
-		chaptersNames[LIKUTIM_B][9] = "ליקוטים ב: ט - הלכות שמירת הנפש";
-		chaptersNames[LIKUTIM_B][10] = "ליקוטים ב: י - נהיגה זהירה ותפילת הדרך";
-		chaptersNames[LIKUTIM_B][11] = "ליקוטים ב: יא - הלכות הצלת נפשות";
-		chaptersNames[LIKUTIM_B][12] = "ליקוטים ב: יב - הלכות ניתוחי מתים";
-		chaptersNames[LIKUTIM_B][13] = "ליקוטים ב: יג - השתלת אברים";
-		chaptersNames[LIKUTIM_B][14] = "ליקוטים ב: יד - הלכות הנוטה למות";
-		chaptersNames[LIKUTIM_B][15] = "ליקוטים ב: טו - ליקוטים";
-		chaptersNames[LIKUTIM_B][16] = "ליקוטים ב: טז - חברה ושליחות";
+		chaptersNames[Util.LIKUTIM_B][0] = "ליקוטים ב: תוכן";
+		chaptersNames[Util.LIKUTIM_B][1] = "ליקוטים ב: א - בין אדם לחברו";
+		chaptersNames[Util.LIKUTIM_B][2] = "ליקוטים ב: ב - הלכות אמירת אמת";
+		chaptersNames[Util.LIKUTIM_B][3] = "ליקוטים ב: ג - הלכות גניבת דעת";
+		chaptersNames[Util.LIKUTIM_B][4] = "ליקוטים ב: ד - הלכות גניבה";
+		chaptersNames[Util.LIKUTIM_B][5] = "ליקוטים ב: ה - מצוות הלוואה";
+		chaptersNames[Util.LIKUTIM_B][6] = "ליקוטים ב: ו - מהלכות צדקה";
+		chaptersNames[Util.LIKUTIM_B][7] = "ליקוטים ב: ז - הכנסת אורחים";
+		chaptersNames[Util.LIKUTIM_B][8] = "ליקוטים ב: ח - הלכות רוצח ומתאבד";
+		chaptersNames[Util.LIKUTIM_B][9] = "ליקוטים ב: ט - הלכות שמירת הנפש";
+		chaptersNames[Util.LIKUTIM_B][10] = "ליקוטים ב: י - נהיגה זהירה ותפילת הדרך";
+		chaptersNames[Util.LIKUTIM_B][11] = "ליקוטים ב: יא - הלכות הצלת נפשות";
+		chaptersNames[Util.LIKUTIM_B][12] = "ליקוטים ב: יב - הלכות ניתוחי מתים";
+		chaptersNames[Util.LIKUTIM_B][13] = "ליקוטים ב: יג - השתלת אברים";
+		chaptersNames[Util.LIKUTIM_B][14] = "ליקוטים ב: יד - הלכות הנוטה למות";
+		chaptersNames[Util.LIKUTIM_B][15] = "ליקוטים ב: טו - ליקוטים";
+		chaptersNames[Util.LIKUTIM_B][16] = "ליקוטים ב: טז - חברה ושליחות";
 		/*MISHPACHA*/
-		chaptersNames[MISHPACHA][0] = "משפחה: תוכן";
-		chaptersNames[MISHPACHA][1] = "משפחה: א - כיבוד הורים";
-		chaptersNames[MISHPACHA][2] = "משפחה: ב - מצוות הנישואין";
-		chaptersNames[MISHPACHA][3] = "משפחה: ג - שידוכים";
-		chaptersNames[MISHPACHA][4] = "משפחה: ד - קידושין וכתובה";
-		chaptersNames[MISHPACHA][5] = "משפחה: ה - החתונה ומנהגיה";
-		chaptersNames[MISHPACHA][6] = "משפחה: ו - איסורי עריות";
-		chaptersNames[MISHPACHA][7] = "משפחה: ז - מהלכות צניעות";
-		chaptersNames[MISHPACHA][8] = "משפחה: ח - ברית מילה";
-		chaptersNames[MISHPACHA][9] = "משפחה: ט - פדיון הבן";
-		chaptersNames[MISHPACHA][10] ="משפחה: י - אבלות";
+		chaptersNames[Util.MISHPACHA][0] = "משפחה: תוכן";
+		chaptersNames[Util.MISHPACHA][1] = "משפחה: א - כיבוד הורים";
+		chaptersNames[Util.MISHPACHA][2] = "משפחה: ב - מצוות הנישואין";
+		chaptersNames[Util.MISHPACHA][3] = "משפחה: ג - שידוכים";
+		chaptersNames[Util.MISHPACHA][4] = "משפחה: ד - קידושין וכתובה";
+		chaptersNames[Util.MISHPACHA][5] = "משפחה: ה - החתונה ומנהגיה";
+		chaptersNames[Util.MISHPACHA][6] = "משפחה: ו - איסורי עריות";
+		chaptersNames[Util.MISHPACHA][7] = "משפחה: ז - מהלכות צניעות";
+		chaptersNames[Util.MISHPACHA][8] = "משפחה: ח - ברית מילה";
+		chaptersNames[Util.MISHPACHA][9] = "משפחה: ט - פדיון הבן";
+		chaptersNames[Util.MISHPACHA][10] ="משפחה: י - אבלות";
 		/*MOADIM*/
-		chaptersNames[MOADIM][0] = "מועדים: תוכן";
-		chaptersNames[MOADIM][1] = "מועדים: א - פתיחה";
-		chaptersNames[MOADIM][2] = "מועדים: ב - דיני עשה ביום טוב";
-		chaptersNames[MOADIM][3] = "מועדים: ג - כללי המלאכות";
-		chaptersNames[MOADIM][4] = "מועדים: ד - מלאכות המאכלים";
-		chaptersNames[MOADIM][5] = "מועדים: ה - הבערה כיבוי וחשמל";
-		chaptersNames[MOADIM][6] = "מועדים: ו - הוצאה ומוקצה";
-		chaptersNames[MOADIM][7] = "מועדים: ז - מדיני יום טוב";
-		chaptersNames[MOADIM][8] = "מועדים: ח - עירוב תבשילין";
-		chaptersNames[MOADIM][9] = "מועדים: ט - יום טוב שני של גלויות";
-		chaptersNames[MOADIM][10] = "מועדים: י - מצוות חול המועד";
-		chaptersNames[MOADIM][11] = "מועדים: יא - מלאכת חול המועד";
-		chaptersNames[MOADIM][12] = "מועדים: יב - היתרי עבודה במועד";
-		chaptersNames[MOADIM][13] = "מועדים: יג - חג שבועות";
+		chaptersNames[Util.MOADIM][0] = "מועדים: תוכן";
+		chaptersNames[Util.MOADIM][1] = "מועדים: א - פתיחה";
+		chaptersNames[Util.MOADIM][2] = "מועדים: ב - דיני עשה ביום טוב";
+		chaptersNames[Util.MOADIM][3] = "מועדים: ג - כללי המלאכות";
+		chaptersNames[Util.MOADIM][4] = "מועדים: ד - מלאכות המאכלים";
+		chaptersNames[Util.MOADIM][5] = "מועדים: ה - הבערה כיבוי וחשמל";
+		chaptersNames[Util.MOADIM][6] = "מועדים: ו - הוצאה ומוקצה";
+		chaptersNames[Util.MOADIM][7] = "מועדים: ז - מדיני יום טוב";
+		chaptersNames[Util.MOADIM][8] = "מועדים: ח - עירוב תבשילין";
+		chaptersNames[Util.MOADIM][9] = "מועדים: ט - יום טוב שני של גלויות";
+		chaptersNames[Util.MOADIM][10] = "מועדים: י - מצוות חול המועד";
+		chaptersNames[Util.MOADIM][11] = "מועדים: יא - מלאכת חול המועד";
+		chaptersNames[Util.MOADIM][12] = "מועדים: יב - היתרי עבודה במועד";
+		chaptersNames[Util.MOADIM][13] = "מועדים: יג - חג שבועות";
 		/*SUCOT*/
-		chaptersNames[SUCOT][0] = "סוכות: תוכן";
-		chaptersNames[SUCOT][1] = "סוכות: א - חג הסוכות";
-		chaptersNames[SUCOT][2] = "סוכות: ב - הלכות סוכה";
-		chaptersNames[SUCOT][3] = "סוכות: ג - ישיבה בסוכה";
-		chaptersNames[SUCOT][4] = "סוכות: ד - ארבעת המינים";
-		chaptersNames[SUCOT][5] = "סוכות: ה - נטילת לולב";
-		chaptersNames[SUCOT][6] = "סוכות: ו - הושענא רבה";
-		chaptersNames[SUCOT][7] = "סוכות: ז - שמיני עצרת";
-		chaptersNames[SUCOT][8] = "סוכות: ח - הקהל";
+		chaptersNames[Util.SUCOT][0] = "סוכות: תוכן";
+		chaptersNames[Util.SUCOT][1] = "סוכות: א - חג הסוכות";
+		chaptersNames[Util.SUCOT][2] = "סוכות: ב - הלכות סוכה";
+		chaptersNames[Util.SUCOT][3] = "סוכות: ג - ישיבה בסוכה";
+		chaptersNames[Util.SUCOT][4] = "סוכות: ד - ארבעת המינים";
+		chaptersNames[Util.SUCOT][5] = "סוכות: ה - נטילת לולב";
+		chaptersNames[Util.SUCOT][6] = "סוכות: ו - הושענא רבה";
+		chaptersNames[Util.SUCOT][7] = "סוכות: ז - שמיני עצרת";
+		chaptersNames[Util.SUCOT][8] = "סוכות: ח - הקהל";
 		/*PESACH*/
-		chaptersNames[PESACH][0] = "פסח: תוכן";
-		chaptersNames[PESACH][1] = "פסח: א - משמעות החג";
-		chaptersNames[PESACH][2] = "פסח: ב - כללי איסור חמץ";
-		chaptersNames[PESACH][3] = "פסח: ג - מצוות השבתת חמץ";
-		chaptersNames[PESACH][4] = "פסח: ד - בדיקת חמץ";
-		chaptersNames[PESACH][5] = "פסח: ה - ביטול חמץ וביעורו";
-		chaptersNames[PESACH][6] = "פסח: ו - מכירת חמץ";
-		chaptersNames[PESACH][7] = "פסח: ז - תערובת חמץ";
-		chaptersNames[PESACH][8] = "פסח: ח - מהלכות כשרות לפסח";
-		chaptersNames[PESACH][9] = "פסח: ט - מנהג איסור קטניות";
-		chaptersNames[PESACH][10] = "פסח: י - כללי הגעלת כלים";
-		chaptersNames[PESACH][11] = "פסח: יא - הכשרת המטבח לפסח";
-		chaptersNames[PESACH][12] = "פסח: יב - הלכות מצה";
-		chaptersNames[PESACH][13] = "פסח: יג - הלכות ערב פסח ומנהגיו";
-		chaptersNames[PESACH][14] = "פסח: יד - ערב פסח שחל בשבת";
-		chaptersNames[PESACH][15] = "פסח: טו - ההגדה";
-		chaptersNames[PESACH][16] = "פסח: טז - ליל הסדר";
+		chaptersNames[Util.PESACH][0] = "פסח: תוכן";
+		chaptersNames[Util.PESACH][1] = "פסח: א - משמעות החג";
+		chaptersNames[Util.PESACH][2] = "פסח: ב - כללי איסור חמץ";
+		chaptersNames[Util.PESACH][3] = "פסח: ג - מצוות השבתת חמץ";
+		chaptersNames[Util.PESACH][4] = "פסח: ד - בדיקת חמץ";
+		chaptersNames[Util.PESACH][5] = "פסח: ה - ביטול חמץ וביעורו";
+		chaptersNames[Util.PESACH][6] = "פסח: ו - מכירת חמץ";
+		chaptersNames[Util.PESACH][7] = "פסח: ז - תערובת חמץ";
+		chaptersNames[Util.PESACH][8] = "פסח: ח - מהלכות כשרות לפסח";
+		chaptersNames[Util.PESACH][9] = "פסח: ט - מנהג איסור קטניות";
+		chaptersNames[Util.PESACH][10] = "פסח: י - כללי הגעלת כלים";
+		chaptersNames[Util.PESACH][11] = "פסח: יא - הכשרת המטבח לפסח";
+		chaptersNames[Util.PESACH][12] = "פסח: יב - הלכות מצה";
+		chaptersNames[Util.PESACH][13] = "פסח: יג - הלכות ערב פסח ומנהגיו";
+		chaptersNames[Util.PESACH][14] = "פסח: יד - ערב פסח שחל בשבת";
+		chaptersNames[Util.PESACH][15] = "פסח: טו - ההגדה";
+		chaptersNames[Util.PESACH][16] = "פסח: טז - ליל הסדר";
 		/*SHVIIT*/
-		chaptersNames[SHVIIT][0] = "שביעית: תוכן";
-		chaptersNames[SHVIIT][1] = "שביעית: א - מצוות השביעית";
-		chaptersNames[SHVIIT][2] = "שביעית: ב - מצוות השביתה";
-		chaptersNames[SHVIIT][3] = "שביעית: ג - השמטת הפירות";
-		chaptersNames[SHVIIT][4] = "שביעית: ד - פירות השביעית";
-		chaptersNames[SHVIIT][5] = "שביעית: ה - הזמן המקום והאדם";
-		chaptersNames[SHVIIT][6] = "שביעית: ו - שמיטת כספים";
-		chaptersNames[SHVIIT][7] = "שביעית: ז - היתר המכירה";
-		chaptersNames[SHVIIT][8] = "שביעית: ח - אוצר בית דין";
-		chaptersNames[SHVIIT][9] = "שביעית: ט - קניית פירות בשביעית";
-		chaptersNames[SHVIIT][10] = "שביעית: י - מצוות היובל";
-		chaptersNames[SHVIIT][11] = "שביעית: יא - חזון השביעית";		
+		chaptersNames[Util.SHVIIT][0] = "שביעית: תוכן";
+		chaptersNames[Util.SHVIIT][1] = "שביעית: א - מצוות השביעית";
+		chaptersNames[Util.SHVIIT][2] = "שביעית: ב - מצוות השביתה";
+		chaptersNames[Util.SHVIIT][3] = "שביעית: ג - השמטת הפירות";
+		chaptersNames[Util.SHVIIT][4] = "שביעית: ד - פירות השביעית";
+		chaptersNames[Util.SHVIIT][5] = "שביעית: ה - הזמן המקום והאדם";
+		chaptersNames[Util.SHVIIT][6] = "שביעית: ו - שמיטת כספים";
+		chaptersNames[Util.SHVIIT][7] = "שביעית: ז - היתר המכירה";
+		chaptersNames[Util.SHVIIT][8] = "שביעית: ח - אוצר בית דין";
+		chaptersNames[Util.SHVIIT][9] = "שביעית: ט - קניית פירות בשביעית";
+		chaptersNames[Util.SHVIIT][10] = "שביעית: י - מצוות היובל";
+		chaptersNames[Util.SHVIIT][11] = "שביעית: יא - חזון השביעית";		
 		/*SHABAT*/
-		chaptersNames[SHABAT][0] = "שבת: תוכן";
-		chaptersNames[SHABAT][1] = "שבת: א - פתיחה";
-		chaptersNames[SHABAT][2] = "שבת: ב - הכנות לשבת";
-		chaptersNames[SHABAT][3] = "שבת: ג - זמני השבת";
-		chaptersNames[SHABAT][4] = "שבת: ד - הדלקת נרות שבת";
-		chaptersNames[SHABAT][5] = "שבת: ה - תורה ותפילה בשבת";
-		chaptersNames[SHABAT][6] = "שבת: ו - הלכות קידוש";
-		chaptersNames[SHABAT][7] = "שבת: ז - סעודות השבת ומלווה מלכה";
-		chaptersNames[SHABAT][8] = "שבת: ח - הבדלה ומוצאי שבת";
-		chaptersNames[SHABAT][9] = "שבת: ט - כללי המלאכות";
-		chaptersNames[SHABAT][10] = "שבת: י - בישול";
-		chaptersNames[SHABAT][11] = "שבת: יא - בורר";
-		chaptersNames[SHABAT][12] = "שבת: יב - הכנת מאכלים";
-		chaptersNames[SHABAT][13] = "שבת: יג - מלאכות הבגד";
-		chaptersNames[SHABAT][14] = "שבת: יד - הטיפול בגוף";
-		chaptersNames[SHABAT][15] = "שבת: טו - בונה סותר בבית וכלים";
-		chaptersNames[SHABAT][16] = "שבת: טז - מבעיר ומכבה";
-		chaptersNames[SHABAT][17] = "שבת: יז - חשמל ומכשיריו";
-		chaptersNames[SHABAT][18] = "שבת: יח - כותב מוחק וצובע";
-		chaptersNames[SHABAT][19] = "שבת: יט - מלאכות שבצומח";
-		chaptersNames[SHABAT][20] = "שבת: כ - בעלי חיים";
-		chaptersNames[SHABAT][21] = "שבת: כא - הלכות הוצאה";
-		chaptersNames[SHABAT][22] = "שבת: כב - צביון השבת";
-		chaptersNames[SHABAT][23] = "שבת: כג - מוקצה";
-		chaptersNames[SHABAT][24] = "שבת: כד - דיני קטן";
-		chaptersNames[SHABAT][25] = "שבת: כה - מלאכת גוי";
-		chaptersNames[SHABAT][26] = "שבת: כו - מעשה שבת ולפני עיוור";
-		chaptersNames[SHABAT][27] = "שבת: כז - פיקוח נפש וחולה";
-		chaptersNames[SHABAT][28] = "שבת: כח - חולה שאינו מסוכן";
-		chaptersNames[SHABAT][29] = "שבת: כט - עירובין";
-		chaptersNames[SHABAT][30] = "שבת: ל - תחומי שבת";
+		chaptersNames[Util.SHABAT][0] = "שבת: תוכן";
+		chaptersNames[Util.SHABAT][1] = "שבת: א - פתיחה";
+		chaptersNames[Util.SHABAT][2] = "שבת: ב - הכנות לשבת";
+		chaptersNames[Util.SHABAT][3] = "שבת: ג - זמני השבת";
+		chaptersNames[Util.SHABAT][4] = "שבת: ד - הדלקת נרות שבת";
+		chaptersNames[Util.SHABAT][5] = "שבת: ה - תורה ותפילה בשבת";
+		chaptersNames[Util.SHABAT][6] = "שבת: ו - הלכות קידוש";
+		chaptersNames[Util.SHABAT][7] = "שבת: ז - סעודות השבת ומלווה מלכה";
+		chaptersNames[Util.SHABAT][8] = "שבת: ח - הבדלה ומוצאי שבת";
+		chaptersNames[Util.SHABAT][9] = "שבת: ט - כללי המלאכות";
+		chaptersNames[Util.SHABAT][10] = "שבת: י - בישול";
+		chaptersNames[Util.SHABAT][11] = "שבת: יא - בורר";
+		chaptersNames[Util.SHABAT][12] = "שבת: יב - הכנת מאכלים";
+		chaptersNames[Util.SHABAT][13] = "שבת: יג - מלאכות הבגד";
+		chaptersNames[Util.SHABAT][14] = "שבת: יד - הטיפול בגוף";
+		chaptersNames[Util.SHABAT][15] = "שבת: טו - בונה סותר בבית וכלים";
+		chaptersNames[Util.SHABAT][16] = "שבת: טז - מבעיר ומכבה";
+		chaptersNames[Util.SHABAT][17] = "שבת: יז - חשמל ומכשיריו";
+		chaptersNames[Util.SHABAT][18] = "שבת: יח - כותב מוחק וצובע";
+		chaptersNames[Util.SHABAT][19] = "שבת: יט - מלאכות שבצומח";
+		chaptersNames[Util.SHABAT][20] = "שבת: כ - בעלי חיים";
+		chaptersNames[Util.SHABAT][21] = "שבת: כא - הלכות הוצאה";
+		chaptersNames[Util.SHABAT][22] = "שבת: כב - צביון השבת";
+		chaptersNames[Util.SHABAT][23] = "שבת: כג - מוקצה";
+		chaptersNames[Util.SHABAT][24] = "שבת: כד - דיני קטן";
+		chaptersNames[Util.SHABAT][25] = "שבת: כה - מלאכת גוי";
+		chaptersNames[Util.SHABAT][26] = "שבת: כו - מעשה שבת ולפני עיוור";
+		chaptersNames[Util.SHABAT][27] = "שבת: כז - פיקוח נפש וחולה";
+		chaptersNames[Util.SHABAT][28] = "שבת: כח - חולה שאינו מסוכן";
+		chaptersNames[Util.SHABAT][29] = "שבת: כט - עירובין";
+		chaptersNames[Util.SHABAT][30] = "שבת: ל - תחומי שבת";
 		/*SIMCHAT*/
-		chaptersNames[SIMCHAT][0] = "שמחת הבית וברכתו: תוכן";
-		chaptersNames[SIMCHAT][1] = "שמחת הבית וברכתו: א - מצוות עונה";
-		chaptersNames[SIMCHAT][2] = "שמחת הבית וברכתו: ב - הלכות עונה";
-		chaptersNames[SIMCHAT][3] = "שמחת הבית וברכתו: ג - קדושה וכוונה";
-		chaptersNames[SIMCHAT][4] = "שמחת הבית וברכתו: ד - שמירת הברית";
-		chaptersNames[SIMCHAT][5] = "שמחת הבית וברכתו: ה - פרו ורבו";
-		chaptersNames[SIMCHAT][6] = "שמחת הבית וברכתו: ו - קשיים ועקרות";
-		chaptersNames[SIMCHAT][7] = "שמחת הבית וברכתו: ז - סריס והשחתה";
-		chaptersNames[SIMCHAT][8] = "שמחת הבית וברכתו: ח - נחמת חשוכי ילדים";
-		chaptersNames[SIMCHAT][9] = "שמחת הבית וברכתו: ט - הפסקת הריון";
-		chaptersNames[SIMCHAT][10] = "שמחת הבית וברכתו: י - האיש והאשה";
+		chaptersNames[Util.SIMCHAT][0] = "שמחת הבית וברכתו: תוכן";
+		chaptersNames[Util.SIMCHAT][1] = "שמחת הבית וברכתו: א - מצוות עונה";
+		chaptersNames[Util.SIMCHAT][2] = "שמחת הבית וברכתו: ב - הלכות עונה";
+		chaptersNames[Util.SIMCHAT][3] = "שמחת הבית וברכתו: ג - קדושה וכוונה";
+		chaptersNames[Util.SIMCHAT][4] = "שמחת הבית וברכתו: ד - שמירת הברית";
+		chaptersNames[Util.SIMCHAT][5] = "שמחת הבית וברכתו: ה - פרו ורבו";
+		chaptersNames[Util.SIMCHAT][6] = "שמחת הבית וברכתו: ו - קשיים ועקרות";
+		chaptersNames[Util.SIMCHAT][7] = "שמחת הבית וברכתו: ז - סריס והשחתה";
+		chaptersNames[Util.SIMCHAT][8] = "שמחת הבית וברכתו: ח - נחמת חשוכי ילדים";
+		chaptersNames[Util.SIMCHAT][9] = "שמחת הבית וברכתו: ט - הפסקת הריון";
+		chaptersNames[Util.SIMCHAT][10] = "שמחת הבית וברכתו: י - האיש והאשה";
 		/*TEFILA*/
-		chaptersNames[TEFILA][0] = "תפילה: תוכן";
-		chaptersNames[TEFILA][1] = "תפילה: א - יסודות הלכות תפילה";
-		chaptersNames[TEFILA][2] = "תפילה: ב - המניין";
-		chaptersNames[TEFILA][3] = "תפילה: ג - מקום התפילה";
-		chaptersNames[TEFILA][4] = "תפילה: ד - החזן וקדיש של אבלים";
-		chaptersNames[TEFILA][5] = "תפילה: ה - הכנות לתפילה";
-		chaptersNames[TEFILA][6] = "תפילה: ו - הנוסחים ומנהגי העדות";
-		chaptersNames[TEFILA][7] = "תפילה: ז - השכמת הבוקר";
-		chaptersNames[TEFILA][8] = "תפילה: ח - נטילת ידיים שחרית";
-		chaptersNames[TEFILA][9]  = "תפילה: ט - ברכות השחר";
-		chaptersNames[TEFILA][10] = "תפילה: י - ברכת התורה";
-		chaptersNames[TEFILA][11] = "תפילה: יא - זמן ק\"ש ותפילת שחרית";
-		chaptersNames[TEFILA][12] = "תפילה: יב - לקראת תפילת שחרית";
-		chaptersNames[TEFILA][13] = "תפילה: יג - סדר קרבנות";
-		chaptersNames[TEFILA][14] = "תפילה: יד - פסוקי דזמרה";
-		chaptersNames[TEFILA][15] = "תפילה: טו - קריאת שמע";
-		chaptersNames[TEFILA][16] = "תפילה: טז - ברכות קריאת שמע";
-		chaptersNames[TEFILA][17] = "תפילה: יז - תפילת עמידה";
-		chaptersNames[TEFILA][18] = "תפילה: יח - טעויות הזכרות ושכחה";
-		chaptersNames[TEFILA][19] = "תפילה: יט - חזרת הש\"ץ";
-		chaptersNames[TEFILA][20] = "תפילה: כ - ברכת כהנים";
-		chaptersNames[TEFILA][21] = "תפילה: כא - נפילת אפיים ותחנונים";
-		chaptersNames[TEFILA][22] = "תפילה: כב - מדיני קריאת התורה";
-		chaptersNames[TEFILA][23] = "תפילה: כג - סיום שחרית ודיני קדיש";
-		chaptersNames[TEFILA][24] = "תפילה: כד - תפילת מנחה";
-		chaptersNames[TEFILA][25] = "תפילה: כה - תפילת מעריב";
-		chaptersNames[TEFILA][26] = "תפילה: כו - קריאת שמע על המיטה"; 
+		chaptersNames[Util.TEFILA][0] = "תפילה: תוכן";
+		chaptersNames[Util.TEFILA][1] = "תפילה: א - יסודות הלכות תפילה";
+		chaptersNames[Util.TEFILA][2] = "תפילה: ב - המניין";
+		chaptersNames[Util.TEFILA][3] = "תפילה: ג - מקום התפילה";
+		chaptersNames[Util.TEFILA][4] = "תפילה: ד - החזן וקדיש של אבלים";
+		chaptersNames[Util.TEFILA][5] = "תפילה: ה - הכנות לתפילה";
+		chaptersNames[Util.TEFILA][6] = "תפילה: ו - הנוסחים ומנהגי העדות";
+		chaptersNames[Util.TEFILA][7] = "תפילה: ז - השכמת הבוקר";
+		chaptersNames[Util.TEFILA][8] = "תפילה: ח - נטילת ידיים שחרית";
+		chaptersNames[Util.TEFILA][9]  = "תפילה: ט - ברכות השחר";
+		chaptersNames[Util.TEFILA][10] = "תפילה: י - ברכת התורה";
+		chaptersNames[Util.TEFILA][11] = "תפילה: יא - זמן ק\"ש ותפילת שחרית";
+		chaptersNames[Util.TEFILA][12] = "תפילה: יב - לקראת תפילת שחרית";
+		chaptersNames[Util.TEFILA][13] = "תפילה: יג - סדר קרבנות";
+		chaptersNames[Util.TEFILA][14] = "תפילה: יד - פסוקי דזמרה";
+		chaptersNames[Util.TEFILA][15] = "תפילה: טו - קריאת שמע";
+		chaptersNames[Util.TEFILA][16] = "תפילה: טז - ברכות קריאת שמע";
+		chaptersNames[Util.TEFILA][17] = "תפילה: יז - תפילת עמידה";
+		chaptersNames[Util.TEFILA][18] = "תפילה: יח - טעויות הזכרות ושכחה";
+		chaptersNames[Util.TEFILA][19] = "תפילה: יט - חזרת הש\"ץ";
+		chaptersNames[Util.TEFILA][20] = "תפילה: כ - ברכת כהנים";
+		chaptersNames[Util.TEFILA][21] = "תפילה: כא - נפילת אפיים ותחנונים";
+		chaptersNames[Util.TEFILA][22] = "תפילה: כב - מדיני קריאת התורה";
+		chaptersNames[Util.TEFILA][23] = "תפילה: כג - סיום שחרית ודיני קדיש";
+		chaptersNames[Util.TEFILA][24] = "תפילה: כד - תפילת מנחה";
+		chaptersNames[Util.TEFILA][25] = "תפילה: כה - תפילת מעריב";
+		chaptersNames[Util.TEFILA][26] = "תפילה: כו - קריאת שמע על המיטה"; 
 		/*TEFILAT_NASHIM*/
-		chaptersNames[TEFILAT_NASHIM][0] = "תפילת נשים: תוכן";
-		chaptersNames[TEFILAT_NASHIM][1] = "תפילת נשים: א - יסודות הלכות תפילה";
-		chaptersNames[TEFILAT_NASHIM][2] = "תפילת נשים: ב - מצוות תפילה לנשים";
-		chaptersNames[TEFILAT_NASHIM][3] = "תפילת נשים: ג - טעמי מצוות הנשים";
-		chaptersNames[TEFILAT_NASHIM][4] = "תפילת נשים: ד - השכמת הבוקר";
-		chaptersNames[TEFILAT_NASHIM][5] = "תפילת נשים: ה - נטילת ידיים שחרית";
-		chaptersNames[TEFILAT_NASHIM][6] = "תפילת נשים: ו - ברכות השחר";
-		chaptersNames[TEFILAT_NASHIM][7] = "תפילת נשים: ז - ברכות התורה";
-		chaptersNames[TEFILAT_NASHIM][8] = "תפילת נשים: ח - תפילת שחרית והדינים שלפניה";
-		chaptersNames[TEFILAT_NASHIM][9]  = "תפילת נשים: ט - הכנת הגוף";
-		chaptersNames[TEFILAT_NASHIM][10] = "תפילת נשים: י - הכנת הנפש והלבוש";
-		chaptersNames[TEFILAT_NASHIM][11] = "תפילת נשים: יא - מקום התפילה";
-		chaptersNames[TEFILAT_NASHIM][12] = "תפילת נשים: יב - תפילת עמידה";
-		chaptersNames[TEFILAT_NASHIM][13] = "תפילת נשים: יג - הזכרת גשמים ובקשתם";
-		chaptersNames[TEFILAT_NASHIM][14] = "תפילת נשים: יד - כבוד התפילה";
-		chaptersNames[TEFILAT_NASHIM][15] = "תפילת נשים: טו - קרבנות ופסוקי דזמרה";
-		chaptersNames[TEFILAT_NASHIM][16] = "תפילת נשים: טז - קריאת שמע וברכותיה";
-		chaptersNames[TEFILAT_NASHIM][17] = "תפילת נשים: יז - התפילות שלאחר עמידה";
-		chaptersNames[TEFILAT_NASHIM][18] = "תפילת נשים: יח - מנחה וערכית";
-		chaptersNames[TEFILAT_NASHIM][19] = "תפילת נשים: יט - קריאת שמע על המיטה";
-		chaptersNames[TEFILAT_NASHIM][20] = "תפילת נשים: כ - מהלכות התפילה במניין";
-		chaptersNames[TEFILAT_NASHIM][21] = "תפילת נשים: כא - מהלכות בית הכנסת";
-		chaptersNames[TEFILAT_NASHIM][22] = "תפילת נשים: כב - תפילה וקידוש בשבת";
-		chaptersNames[TEFILAT_NASHIM][23] = "תפילת נשים: כג - מהלכות חגים ומועדים";
-		chaptersNames[TEFILAT_NASHIM][24] = "תפילת נשים: כד - נוסחי התפלה ומנהגי העדות";
+		chaptersNames[Util.TEFILAT_NASHIM][0] = "תפילת נשים: תוכן";
+		chaptersNames[Util.TEFILAT_NASHIM][1] = "תפילת נשים: א - יסודות הלכות תפילה";
+		chaptersNames[Util.TEFILAT_NASHIM][2] = "תפילת נשים: ב - מצוות תפילה לנשים";
+		chaptersNames[Util.TEFILAT_NASHIM][3] = "תפילת נשים: ג - טעמי מצוות הנשים";
+		chaptersNames[Util.TEFILAT_NASHIM][4] = "תפילת נשים: ד - השכמת הבוקר";
+		chaptersNames[Util.TEFILAT_NASHIM][5] = "תפילת נשים: ה - נטילת ידיים שחרית";
+		chaptersNames[Util.TEFILAT_NASHIM][6] = "תפילת נשים: ו - ברכות השחר";
+		chaptersNames[Util.TEFILAT_NASHIM][7] = "תפילת נשים: ז - ברכות התורה";
+		chaptersNames[Util.TEFILAT_NASHIM][8] = "תפילת נשים: ח - תפילת שחרית והדינים שלפניה";
+		chaptersNames[Util.TEFILAT_NASHIM][9]  = "תפילת נשים: ט - הכנת הגוף";
+		chaptersNames[Util.TEFILAT_NASHIM][10] = "תפילת נשים: י - הכנת הנפש והלבוש";
+		chaptersNames[Util.TEFILAT_NASHIM][11] = "תפילת נשים: יא - מקום התפילה";
+		chaptersNames[Util.TEFILAT_NASHIM][12] = "תפילת נשים: יב - תפילת עמידה";
+		chaptersNames[Util.TEFILAT_NASHIM][13] = "תפילת נשים: יג - הזכרת גשמים ובקשתם";
+		chaptersNames[Util.TEFILAT_NASHIM][14] = "תפילת נשים: יד - כבוד התפילה";
+		chaptersNames[Util.TEFILAT_NASHIM][15] = "תפילת נשים: טו - קרבנות ופסוקי דזמרה";
+		chaptersNames[Util.TEFILAT_NASHIM][16] = "תפילת נשים: טז - קריאת שמע וברכותיה";
+		chaptersNames[Util.TEFILAT_NASHIM][17] = "תפילת נשים: יז - התפילות שלאחר עמידה";
+		chaptersNames[Util.TEFILAT_NASHIM][18] = "תפילת נשים: יח - מנחה וערכית";
+		chaptersNames[Util.TEFILAT_NASHIM][19] = "תפילת נשים: יט - קריאת שמע על המיטה";
+		chaptersNames[Util.TEFILAT_NASHIM][20] = "תפילת נשים: כ - מהלכות התפילה במניין";
+		chaptersNames[Util.TEFILAT_NASHIM][21] = "תפילת נשים: כא - מהלכות בית הכנסת";
+		chaptersNames[Util.TEFILAT_NASHIM][22] = "תפילת נשים: כב - תפילה וקידוש בשבת";
+		chaptersNames[Util.TEFILAT_NASHIM][23] = "תפילת נשים: כג - מהלכות חגים ומועדים";
+		chaptersNames[Util.TEFILAT_NASHIM][24] = "תפילת נשים: כד - נוסחי התפלה ומנהגי העדות";
 		/*HAR_MOADIM*/
-		chaptersNames[HAR_MOADIM][0]  = "הר' מועדים: תוכן";
-		chaptersNames[HAR_MOADIM][1]  = "הר' מועדים: א - פתיחה";
-		chaptersNames[HAR_MOADIM][2]  = "הר' מועדים: ב - דיני עשה ביום טוב";
-		chaptersNames[HAR_MOADIM][3]  = "הר' מועדים: ג - כללי המלאכות";
-		chaptersNames[HAR_MOADIM][4]  = "הר' מועדים: ד - מלאכות המאכלים";
-		chaptersNames[HAR_MOADIM][5]  = "הר' מועדים: ה - הבערה כיבוי וחשמל";
-		chaptersNames[HAR_MOADIM][6]  = "הר' מועדים: ו - הוצאה ומוקצה";
-		chaptersNames[HAR_MOADIM][7]  = "הר' מועדים: ז - מדיני יום טוב";
-		chaptersNames[HAR_MOADIM][8]  = "הר' מועדים: ח - עירוב תבשילין";
-		chaptersNames[HAR_MOADIM][9]  = "הר' מועדים: ט - יום טוב שני של גלויות";
-		chaptersNames[HAR_MOADIM][10] = "הר' מועדים: י - מצוות חול המועד";
-		chaptersNames[HAR_MOADIM][11] = "הר' מועדים: יא - מלאכת חול המועד";
-		chaptersNames[HAR_MOADIM][12] = "הר' מועדים: יב - היתרי עבודה במועד";
+		chaptersNames[Util.HAR_MOADIM][0]  = "הר' מועדים: תוכן";
+		chaptersNames[Util.HAR_MOADIM][1]  = "הר' מועדים: א - פתיחה";
+		chaptersNames[Util.HAR_MOADIM][2]  = "הר' מועדים: ב - דיני עשה ביום טוב";
+		chaptersNames[Util.HAR_MOADIM][3]  = "הר' מועדים: ג - כללי המלאכות";
+		chaptersNames[Util.HAR_MOADIM][4]  = "הר' מועדים: ד - מלאכות המאכלים";
+		chaptersNames[Util.HAR_MOADIM][5]  = "הר' מועדים: ה - הבערה כיבוי וחשמל";
+		chaptersNames[Util.HAR_MOADIM][6]  = "הר' מועדים: ו - הוצאה ומוקצה";
+		chaptersNames[Util.HAR_MOADIM][7]  = "הר' מועדים: ז - מדיני יום טוב";
+		chaptersNames[Util.HAR_MOADIM][8]  = "הר' מועדים: ח - עירוב תבשילין";
+		chaptersNames[Util.HAR_MOADIM][9]  = "הר' מועדים: ט - יום טוב שני של גלויות";
+		chaptersNames[Util.HAR_MOADIM][10] = "הר' מועדים: י - מצוות חול המועד";
+		chaptersNames[Util.HAR_MOADIM][11] = "הר' מועדים: יא - מלאכת חול המועד";
+		chaptersNames[Util.HAR_MOADIM][12] = "הר' מועדים: יב - היתרי עבודה במועד";
 		/*HAR_SUCOT*/
-		chaptersNames[HAR_SUCOT][0]  = "הר' סוכות: תוכן";
-		chaptersNames[HAR_SUCOT][1]  = "הר' סוכות: א - חג הסוכות";
-		chaptersNames[HAR_SUCOT][2]  = "הר' סוכות: ב - הלכות סוכה";
-		chaptersNames[HAR_SUCOT][3]  = "הר' סוכות: ג - ישיבה בסוכה";
-		chaptersNames[HAR_SUCOT][4]  = "הר' סוכות: ד - ארבעת המינים";
-		chaptersNames[HAR_SUCOT][5]  = "הר' סוכות: ה - נטילת לולב";
-		chaptersNames[HAR_SUCOT][6]  = "הר' סוכות: ו - הושענא רבה";
-		chaptersNames[HAR_SUCOT][7]  = "הר' סוכות: ז - שמיני עצרת";
-		chaptersNames[HAR_SUCOT][8]  = "הר' סוכות: ח - הקהל";
+		chaptersNames[Util.HAR_SUCOT][0]  = "הר' סוכות: תוכן";
+		chaptersNames[Util.HAR_SUCOT][1]  = "הר' סוכות: א - חג הסוכות";
+		chaptersNames[Util.HAR_SUCOT][2]  = "הר' סוכות: ב - הלכות סוכה";
+		chaptersNames[Util.HAR_SUCOT][3]  = "הר' סוכות: ג - ישיבה בסוכה";
+		chaptersNames[Util.HAR_SUCOT][4]  = "הר' סוכות: ד - ארבעת המינים";
+		chaptersNames[Util.HAR_SUCOT][5]  = "הר' סוכות: ה - נטילת לולב";
+		chaptersNames[Util.HAR_SUCOT][6]  = "הר' סוכות: ו - הושענא רבה";
+		chaptersNames[Util.HAR_SUCOT][7]  = "הר' סוכות: ז - שמיני עצרת";
+		chaptersNames[Util.HAR_SUCOT][8]  = "הר' סוכות: ח - הקהל";
 		/*HAR_SHABAT*/
-		chaptersNames[HAR_SHABAT][0]  = "הר' שבת: תוכן";
-		chaptersNames[HAR_SHABAT][1]  = "הר' שבת: א - פתיחה";
-		chaptersNames[HAR_SHABAT][2]  = "הר' שבת: ב - הכנות לשבת";
-		chaptersNames[HAR_SHABAT][3]  = "הר' שבת: ג - זמני השבת";
-		chaptersNames[HAR_SHABAT][4]  = "הר' שבת: ד - הדלקת נרות שבת";
-		chaptersNames[HAR_SHABAT][5]  = "הר' שבת: ה - תורה ותפילה בשבת";
-		chaptersNames[HAR_SHABAT][6]  = "הר' שבת: ו - הלכות קידוש";
-		chaptersNames[HAR_SHABAT][7]  = "הר' שבת: ז - סעודות השבת ומלווה מלכה";
-		chaptersNames[HAR_SHABAT][8]  = "הר' שבת: ח - הבדלה ומוצאי שבת";
-		chaptersNames[HAR_SHABAT][9]  = "הר' שבת: ט - כללי המלאכות";
-		chaptersNames[HAR_SHABAT][10] = "הר' שבת: י - בישול";
-		chaptersNames[HAR_SHABAT][11] = "הר' שבת: יא - בורר";
-		chaptersNames[HAR_SHABAT][12] = "הר' שבת: יב - הכנת מאכלים";
-		chaptersNames[HAR_SHABAT][13] = "הר' שבת: יג - מלאכות הבגד";
-		chaptersNames[HAR_SHABAT][14] = "הר' שבת: יד - הטיפול בגוף";
-		chaptersNames[HAR_SHABAT][15] = "הר' שבת: טו - בונה סותר בבית וכלים";
-		chaptersNames[HAR_SHABAT][16] = "הר' שבת: טז - מבעיר ומכבה";
-		chaptersNames[HAR_SHABAT][17] = "הר' שבת: יז - חשמל ומכשיריו";
-		chaptersNames[HAR_SHABAT][18] = "הר' שבת: יח - כותב מוחק וצובע";
-		chaptersNames[HAR_SHABAT][19] = "הר' שבת: יט - מלאכות שבצומח";
-		chaptersNames[HAR_SHABAT][20] = "הר' שבת: כ - בעלי חיים";
-		chaptersNames[HAR_SHABAT][21] = "הר' שבת: כא - הלכות הוצאה";
-		chaptersNames[HAR_SHABAT][22] = "הר' שבת: כב - צביון השבת";
-		chaptersNames[HAR_SHABAT][23] = "הר' שבת: כג - מוקצה";
-		chaptersNames[HAR_SHABAT][24] = "הר' שבת: כד - דיני קטן";
-		chaptersNames[HAR_SHABAT][25] = "הר' שבת: כה - מלאכת גוי";
-		chaptersNames[HAR_SHABAT][26] = "הר' שבת: כו - מעשה שבת ולפני עיוור";
-		chaptersNames[HAR_SHABAT][27] = "הר' שבת: כז - פיקוח נפש וחולה";
-		chaptersNames[HAR_SHABAT][28] = "הר' שבת: כח - חולה שאינו מסוכן";
-		chaptersNames[HAR_SHABAT][29] = "הר' שבת: כט - עירובין";
-		chaptersNames[HAR_SHABAT][30] = "הר' שבת: ל - תחומי שבת";
+		chaptersNames[Util.HAR_SHABAT][0]  = "הר' שבת: תוכן";
+		chaptersNames[Util.HAR_SHABAT][1]  = "הר' שבת: א - פתיחה";
+		chaptersNames[Util.HAR_SHABAT][2]  = "הר' שבת: ב - הכנות לשבת";
+		chaptersNames[Util.HAR_SHABAT][3]  = "הר' שבת: ג - זמני השבת";
+		chaptersNames[Util.HAR_SHABAT][4]  = "הר' שבת: ד - הדלקת נרות שבת";
+		chaptersNames[Util.HAR_SHABAT][5]  = "הר' שבת: ה - תורה ותפילה בשבת";
+		chaptersNames[Util.HAR_SHABAT][6]  = "הר' שבת: ו - הלכות קידוש";
+		chaptersNames[Util.HAR_SHABAT][7]  = "הר' שבת: ז - סעודות השבת ומלווה מלכה";
+		chaptersNames[Util.HAR_SHABAT][8]  = "הר' שבת: ח - הבדלה ומוצאי שבת";
+		chaptersNames[Util.HAR_SHABAT][9]  = "הר' שבת: ט - כללי המלאכות";
+		chaptersNames[Util.HAR_SHABAT][10] = "הר' שבת: י - בישול";
+		chaptersNames[Util.HAR_SHABAT][11] = "הר' שבת: יא - בורר";
+		chaptersNames[Util.HAR_SHABAT][12] = "הר' שבת: יב - הכנת מאכלים";
+		chaptersNames[Util.HAR_SHABAT][13] = "הר' שבת: יג - מלאכות הבגד";
+		chaptersNames[Util.HAR_SHABAT][14] = "הר' שבת: יד - הטיפול בגוף";
+		chaptersNames[Util.HAR_SHABAT][15] = "הר' שבת: טו - בונה סותר בבית וכלים";
+		chaptersNames[Util.HAR_SHABAT][16] = "הר' שבת: טז - מבעיר ומכבה";
+		chaptersNames[Util.HAR_SHABAT][17] = "הר' שבת: יז - חשמל ומכשיריו";
+		chaptersNames[Util.HAR_SHABAT][18] = "הר' שבת: יח - כותב מוחק וצובע";
+		chaptersNames[Util.HAR_SHABAT][19] = "הר' שבת: יט - מלאכות שבצומח";
+		chaptersNames[Util.HAR_SHABAT][20] = "הר' שבת: כ - בעלי חיים";
+		chaptersNames[Util.HAR_SHABAT][21] = "הר' שבת: כא - הלכות הוצאה";
+		chaptersNames[Util.HAR_SHABAT][22] = "הר' שבת: כב - צביון השבת";
+		chaptersNames[Util.HAR_SHABAT][23] = "הר' שבת: כג - מוקצה";
+		chaptersNames[Util.HAR_SHABAT][24] = "הר' שבת: כד - דיני קטן";
+		chaptersNames[Util.HAR_SHABAT][25] = "הר' שבת: כה - מלאכת גוי";
+		chaptersNames[Util.HAR_SHABAT][26] = "הר' שבת: כו - מעשה שבת ולפני עיוור";
+		chaptersNames[Util.HAR_SHABAT][27] = "הר' שבת: כז - פיקוח נפש וחולה";
+		chaptersNames[Util.HAR_SHABAT][28] = "הר' שבת: כח - חולה שאינו מסוכן";
+		chaptersNames[Util.HAR_SHABAT][29] = "הר' שבת: כט - עירובין";
+		chaptersNames[Util.HAR_SHABAT][30] = "הר' שבת: ל - תחומי שבת";
 		/*HAR_SIMCHAT*/
-		chaptersNames[HAR_SIMCHAT][0]  = "הר' שמחת: תוכן";
-		chaptersNames[HAR_SIMCHAT][1]  = "הר' שמחת: א - מצוות עונה";
-		chaptersNames[HAR_SIMCHAT][2]  = "הר' שמחת: ב - הלכות עונה";
-		chaptersNames[HAR_SIMCHAT][3]  = "הר' שמחת: ג - קדושה וכוונה";
-		chaptersNames[HAR_SIMCHAT][4]  = "הר' שמחת: ד - שמירת הברית";
-		chaptersNames[HAR_SIMCHAT][5]  = "הר' שמחת: ה - פרו ורבו";
-		chaptersNames[HAR_SIMCHAT][6]  = "הר' שמחת: ו - קשיים ועקרות";
-		chaptersNames[HAR_SIMCHAT][7]  = "הר' שמחת: ז - סריס והשחתה";
-		chaptersNames[HAR_SIMCHAT][8]  = "הר' שמחת: ח - נחמת חשוכי ילדים";
-		chaptersNames[HAR_SIMCHAT][9]  = "הר' שמחת: ט - הפסקת הריון";
-		chaptersNames[HAR_SIMCHAT][10] = "הר' שמחת: י - האיש והאשה";
+		chaptersNames[Util.HAR_SIMCHAT][0]  = "הר' שמחת: תוכן";
+		chaptersNames[Util.HAR_SIMCHAT][1]  = "הר' שמחת: א - מצוות עונה";
+		chaptersNames[Util.HAR_SIMCHAT][2]  = "הר' שמחת: ב - הלכות עונה";
+		chaptersNames[Util.HAR_SIMCHAT][3]  = "הר' שמחת: ג - קדושה וכוונה";
+		chaptersNames[Util.HAR_SIMCHAT][4]  = "הר' שמחת: ד - שמירת הברית";
+		chaptersNames[Util.HAR_SIMCHAT][5]  = "הר' שמחת: ה - פרו ורבו";
+		chaptersNames[Util.HAR_SIMCHAT][6]  = "הר' שמחת: ו - קשיים ועקרות";
+		chaptersNames[Util.HAR_SIMCHAT][7]  = "הר' שמחת: ז - סריס והשחתה";
+		chaptersNames[Util.HAR_SIMCHAT][8]  = "הר' שמחת: ח - נחמת חשוכי ילדים";
+		chaptersNames[Util.HAR_SIMCHAT][9]  = "הר' שמחת: ט - הפסקת הריון";
+		chaptersNames[Util.HAR_SIMCHAT][10] = "הר' שמחת: י - האיש והאשה";
 		/*HAR_BRACHOT*/
-		chaptersNames[HAR_BRACHOT][0]  = "הר' ברכות: תוכן";
-		chaptersNames[HAR_BRACHOT][1]  = "הר' ברכות: א - פתיחה";
-		chaptersNames[HAR_BRACHOT][2]  = "הר' ברכות: ב - נטילת ידיים לסעודה";
-		chaptersNames[HAR_BRACHOT][3]  = "הר' ברכות: ג - ברכת המוציא";
-		chaptersNames[HAR_BRACHOT][4]  = "הר' ברכות: ד - ברכת המזון";
-		chaptersNames[HAR_BRACHOT][5]  = "הר' ברכות: ה - זימון";
-		chaptersNames[HAR_BRACHOT][6]  = "הר' ברכות: ו - חמשת מיני דגן";
-		chaptersNames[HAR_BRACHOT][7]  = "הר' ברכות: ז - ברכת היין";
-		chaptersNames[HAR_BRACHOT][8]  = "הר' ברכות: ח - ברכת הפירות ושהכל";
-		chaptersNames[HAR_BRACHOT][9]  = "הר' ברכות: ט - כללי ברכה ראשונה";
-		chaptersNames[HAR_BRACHOT][10] = "הר' ברכות: י - ברכה אחרונה";
-		chaptersNames[HAR_BRACHOT][11] = "הר' ברכות: יא - עיקר וטפל";
-		chaptersNames[HAR_BRACHOT][12] = "הר' ברכות: יב - כללי ברכות";
-		chaptersNames[HAR_BRACHOT][13] = "הר' ברכות: יג - דרך ארץ";
-		chaptersNames[HAR_BRACHOT][14] = "הר' ברכות: יד - ברכת הריח";
-		chaptersNames[HAR_BRACHOT][15] = "הר' ברכות: טו - ברכות הראייה";
-		chaptersNames[HAR_BRACHOT][16] = "הר' ברכות: טז - ברכת הגומל";
-		chaptersNames[HAR_BRACHOT][17] = "הר' ברכות: יז - ברכות ההודאה והשמחה";
+		chaptersNames[Util.HAR_BRACHOT][0]  = "הר' ברכות: תוכן";
+		chaptersNames[Util.HAR_BRACHOT][1]  = "הר' ברכות: א - פתיחה";
+		chaptersNames[Util.HAR_BRACHOT][2]  = "הר' ברכות: ב - נטילת ידיים לסעודה";
+		chaptersNames[Util.HAR_BRACHOT][3]  = "הר' ברכות: ג - ברכת המוציא";
+		chaptersNames[Util.HAR_BRACHOT][4]  = "הר' ברכות: ד - ברכת המזון";
+		chaptersNames[Util.HAR_BRACHOT][5]  = "הר' ברכות: ה - זימון";
+		chaptersNames[Util.HAR_BRACHOT][6]  = "הר' ברכות: ו - חמשת מיני דגן";
+		chaptersNames[Util.HAR_BRACHOT][7]  = "הר' ברכות: ז - ברכת היין";
+		chaptersNames[Util.HAR_BRACHOT][8]  = "הר' ברכות: ח - ברכת הפירות ושהכל";
+		chaptersNames[Util.HAR_BRACHOT][9]  = "הר' ברכות: ט - כללי ברכה ראשונה";
+		chaptersNames[Util.HAR_BRACHOT][10] = "הר' ברכות: י - ברכה אחרונה";
+		chaptersNames[Util.HAR_BRACHOT][11] = "הר' ברכות: יא - עיקר וטפל";
+		chaptersNames[Util.HAR_BRACHOT][12] = "הר' ברכות: יב - כללי ברכות";
+		chaptersNames[Util.HAR_BRACHOT][13] = "הר' ברכות: יג - דרך ארץ";
+		chaptersNames[Util.HAR_BRACHOT][14] = "הר' ברכות: יד - ברכת הריח";
+		chaptersNames[Util.HAR_BRACHOT][15] = "הר' ברכות: טו - ברכות הראייה";
+		chaptersNames[Util.HAR_BRACHOT][16] = "הר' ברכות: טז - ברכת הגומל";
+		chaptersNames[Util.HAR_BRACHOT][17] = "הר' ברכות: יז - ברכות ההודאה והשמחה";
 		/*HAR_YAMIM*/
-		chaptersNames[HAR_YAMIM][0] = "הר' ימים נוראים: תוכן";
-		chaptersNames[HAR_YAMIM][1] = "הר' ימים נוראים: א - הדין השכר והעונש";
-		chaptersNames[HAR_YAMIM][2] = "הר' ימים נוראים: ב - סליחות ותפילות";
-		chaptersNames[HAR_YAMIM][3] = "הר' ימים נוראים: ג - ראש השנה";
-		chaptersNames[HAR_YAMIM][4] = "הר' ימים נוראים: ד - מצוות השופר";
-		chaptersNames[HAR_YAMIM][5] = "הר' ימים נוראים: ה - עשרת ימי תשובה";
-		chaptersNames[HAR_YAMIM][6] = "הר' ימים נוראים: ו - יום הכיפורים";
-		chaptersNames[HAR_YAMIM][7] = "הר' ימים נוראים: ז - הלכות יום הכיפורים";
-		chaptersNames[HAR_YAMIM][8] = "הר' ימים נוראים: ח - דיני התענית";
-		chaptersNames[HAR_YAMIM][9] = "הר' ימים נוראים: ט - שאר עינויים";
-		chaptersNames[HAR_YAMIM][10] = "הר' ימים נוראים: י - עבודת יום הכיפורים";
+		chaptersNames[Util.HAR_YAMIM][0] = "הר' ימים נוראים: תוכן";
+		chaptersNames[Util.HAR_YAMIM][1] = "הר' ימים נוראים: א - הדין השכר והעונש";
+		chaptersNames[Util.HAR_YAMIM][2] = "הר' ימים נוראים: ב - סליחות ותפילות";
+		chaptersNames[Util.HAR_YAMIM][3] = "הר' ימים נוראים: ג - ראש השנה";
+		chaptersNames[Util.HAR_YAMIM][4] = "הר' ימים נוראים: ד - מצוות השופר";
+		chaptersNames[Util.HAR_YAMIM][5] = "הר' ימים נוראים: ה - עשרת ימי תשובה";
+		chaptersNames[Util.HAR_YAMIM][6] = "הר' ימים נוראים: ו - יום הכיפורים";
+		chaptersNames[Util.HAR_YAMIM][7] = "הר' ימים נוראים: ז - הלכות יום הכיפורים";
+		chaptersNames[Util.HAR_YAMIM][8] = "הר' ימים נוראים: ח - דיני התענית";
+		chaptersNames[Util.HAR_YAMIM][9] = "הר' ימים נוראים: ט - שאר עינויים";
+		chaptersNames[Util.HAR_YAMIM][10] = "הר' ימים נוראים: י - עבודת יום הכיפורים";
 	}
 
 	void innerSearch()
@@ -2533,13 +2489,13 @@ public class TextMain extends AppCompatActivity implements View.OnClickListener/
 
 	void addBookmark(){
 		bookmarkDialog = new Dialog(context);
-		if(MyLanguage == ENGLISH)
+		if(MyLanguage == Util.ENGLISH)
 			bookmarkDialog.setContentView(R.layout.add_bookmark_english);
-		else if(MyLanguage == RUSSIAN)
+		else if(MyLanguage == Util.RUSSIAN)
 			bookmarkDialog.setContentView(R.layout.add_bookmark_russian);
-		else if(MyLanguage == SPANISH)
+		else if(MyLanguage == Util.SPANISH)
 			bookmarkDialog.setContentView(R.layout.add_bookmark_spanish);
-		else if(MyLanguage == FRENCH)
+		else if(MyLanguage == Util.FRENCH)
 			bookmarkDialog.setContentView(R.layout.add_bookmark_french);
 		else
 			bookmarkDialog.setContentView(R.layout.add_bookmark);
@@ -2573,13 +2529,13 @@ public class TextMain extends AppCompatActivity implements View.OnClickListener/
 							index_end = Bookmarks.length();
 					}
 					Bookmarks = Bookmarks.substring(0, index) + strBookmark + Bookmarks.substring(index_end, Bookmarks.length());
-					if(MyLanguage == ENGLISH)
+					if(MyLanguage == Util.ENGLISH)
 						Toast.makeText(getApplicationContext(),	"Existing bookmark updated", Toast.LENGTH_SHORT).show();
-					else if(MyLanguage == RUSSIAN)
+					else if(MyLanguage == Util.RUSSIAN)
 						Toast.makeText(getApplicationContext(),	"Текущая закладка обновлена", Toast.LENGTH_SHORT).show();
-					else if(MyLanguage == SPANISH)
+					else if(MyLanguage == Util.SPANISH)
 						Toast.makeText(getApplicationContext(),	"Marcador existente actualizado", Toast.LENGTH_SHORT).show();
-					else if(MyLanguage == FRENCH)
+					else if(MyLanguage == Util.FRENCH)
 						Toast.makeText(getApplicationContext(),	"Le signet existant est mis à jour", Toast.LENGTH_SHORT).show();
 					else
 						Toast.makeText(getApplicationContext(),	"הסימניה הקיימת עודכנה", Toast.LENGTH_SHORT).show();
@@ -2587,13 +2543,13 @@ public class TextMain extends AppCompatActivity implements View.OnClickListener/
 				else
 				{
 					Bookmarks += "," + strBookmark;
-					if(MyLanguage == ENGLISH)
+					if(MyLanguage == Util.ENGLISH)
 						Toast.makeText(getApplicationContext(),	"New bookmark created", Toast.LENGTH_SHORT).show();
-					else if(MyLanguage == RUSSIAN)
+					else if(MyLanguage == Util.RUSSIAN)
 						Toast.makeText(getApplicationContext(),	"Создана новая закладка", Toast.LENGTH_SHORT).show();
-					else if(MyLanguage == SPANISH)
+					else if(MyLanguage == Util.SPANISH)
 						Toast.makeText(getApplicationContext(),	"Nuevo marcador creado", Toast.LENGTH_SHORT).show();
-					else if(MyLanguage == FRENCH)
+					else if(MyLanguage == Util.FRENCH)
 						Toast.makeText(getApplicationContext(),	"Nouveau signet créé", Toast.LENGTH_SHORT).show();
 					else
 						Toast.makeText(getApplicationContext(),	"סימניה חדשה נוצרה", Toast.LENGTH_SHORT).show();

@@ -32,8 +32,8 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
         MediaPlayer.OnInfoListener, MediaPlayer.OnBufferingUpdateListener, AudioManager.OnAudioFocusChangeListener {
 
     /*							0	1	2	3	4	5	6	7	8	9  10  11  12  13  14  15  16  17  18 19  20  21  22  23  24  25  26  27  28  29 30  31*/
-    public int[] lastChapter = {18, 9, 10, 17, 10, 10, 19, 19, 13, 16, 13, 10, 8, 16, 11, 30, 10, 26, 24, 17, 10, 12, 8, 30, 10, 26, 16, 15, 24, 30, 26, 30};
-
+//    public int[] lastChapter = {18, 9, 10, 17, 10, 10, 19, 19, 13, 16, 13, 10, 8, 16, 11, 30, 10, 26, 24, 17, 10, 12, 8, 30, 10, 26, 16, 15, 24, 30, 26, 30};
+    public Util util;
     private static MediaPlayer mediaPlayer;
     private String mediaUrl;
     private int resumePosition;
@@ -73,26 +73,27 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
 
     public static final String Broadcast_SERVICE_SKIP_NEXT = "com.rafraph.pnineyHalachaHashalem.ServiceSkipNext";
 
-    private static final int BRACHOT      	= 0;
-    private static final int GIYUR      	= 1;
-    private static final int HAAMVEHAAREZ 	= 2;
-    private static final int ZMANIM    		= 3;
-    private static final int TAHARAT   		= 4;
-    private static final int YAMIM    		= 5;
-    private static final int KASHRUT_A 		= 6;
-    private static final int KASHRUT_B 		= 7;
-    private static final int LIKUTIM_A 		= 8;
-    private static final int LIKUTIM_B 		= 9;
-    private static final int MOADIM    		= 10;
-    private static final int MISHPACHA   	= 11;
-    private static final int SUCOT			= 12;
-    private static final int PESACH			= 13;
-    private static final int SHVIIT			= 14;
-    private static final int SHABAT			= 15;
-    private static final int SIMCHAT		= 16;
-    private static final int TEFILA			= 17;
-    private static final int TEFILAT_NASHIM	= 18;
+//    private static final int BRACHOT      	= 0;
+//    private static final int GIYUR      	= 1;
+//    private static final int HAAMVEHAAREZ 	= 2;
+//    private static final int ZMANIM    		= 3;
+//    private static final int TAHARAT   		= 4;
+//    private static final int YAMIM    		= 5;
+//    private static final int KASHRUT_A 		= 6;
+//    private static final int KASHRUT_B 		= 7;
+//    private static final int LIKUTIM_A 		= 8;
+//    private static final int LIKUTIM_B 		= 9;
+//    private static final int MOADIM    		= 10;
+//    private static final int MISHPACHA   	= 11;
+//    private static final int SUCOT			= 12;
+//    private static final int PESACH			= 13;
+//    private static final int SHVIIT			= 14;
+//    private static final int SHABAT			= 15;
+//    private static final int SIMCHAT		= 16;
+//    private static final int TEFILA			= 17;
+//    private static final int TEFILAT_NASHIM	= 18;
     private float audioSpeed;
+    public static boolean alreadySkipOnceFlag = false;
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -102,6 +103,7 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
     @Override
     public void onCreate() {
         super.onCreate();
+        util = new Util(this);
         // Perform one-time setup procedures
 
         // Manage incoming phone calls during playback.
@@ -185,7 +187,7 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
     @Override
     public void onCompletion(MediaPlayer mp) {
         //Invoked when playback of a media source has completed.
-        if(timeElapsed > 40000 ) {//this strange condition is to prevent strange bug. If next button pressed and right after that skip_5_seconds pressed it cause to invoke onCompletion. So this condition prevent it
+        if(timeElapsed > 40000) {//this strange condition is to prevent strange bug. If next button pressed and right after that skip_5_seconds pressed it cause to invoke onCompletion. So this condition prevent it
             Intent broadcastIntent = new Intent(Broadcast_SERVICE_SKIP_NEXT);
             sendBroadcast(broadcastIntent);
         }
@@ -217,6 +219,7 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
 
     @Override
     public void onPrepared(MediaPlayer mp) {
+        alreadySkipOnceFlag = false;
         playMedia();
         finalTime = mp.getDuration(); // gets the song length in milliseconds from URL
         timeElapsed = mp.getCurrentPosition();
@@ -477,7 +480,10 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
     private BroadcastReceiver BR_skipToNext = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            skipToNext();
+            if(alreadySkipOnceFlag == false) {
+                alreadySkipOnceFlag = true;
+                skipToNext();
+            }
         }
     };
 
@@ -516,7 +522,7 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
 
         if(section == sections.size())//if it the last section
         {
-            if(chapter == lastChapter[book])//if it the last chapter
+            if(chapter == util.lastChapter[book])//if it the last chapter
             {
                 Toast.makeText(getApplicationContext(), "צדיק, אשריך! סיימת את הספר. חזור לתוכן הראשי ובחר את הספר הבא שלך.", Toast.LENGTH_SHORT).show();
                 return;
@@ -659,19 +665,19 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
             case 0:
                 // Play
                 playbackAction.setAction(ACTION_PLAY);
-                return PendingIntent.getService(this, actionNumber, playbackAction, 0);
+                return PendingIntent.getService(this, actionNumber, playbackAction, PendingIntent.FLAG_IMMUTABLE);
             case 1:
                 // Pause
                 playbackAction.setAction(ACTION_PAUSE);
-                return PendingIntent.getService(this, actionNumber, playbackAction, 0);
+                return PendingIntent.getService(this, actionNumber, playbackAction, PendingIntent.FLAG_IMMUTABLE);
             case 2:
                 // Next track
                 playbackAction.setAction(ACTION_NEXT);
-                return PendingIntent.getService(this, actionNumber, playbackAction, 0);
+                return PendingIntent.getService(this, actionNumber, playbackAction, PendingIntent.FLAG_IMMUTABLE);
             case 3:
                 // Previous track
                 playbackAction.setAction(ACTION_PREVIOUS);
-                return PendingIntent.getService(this, actionNumber, playbackAction, 0);
+                return PendingIntent.getService(this, actionNumber, playbackAction, PendingIntent.FLAG_IMMUTABLE);
             default:
                 break;
         }
@@ -700,61 +706,61 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
     {
         switch (book)
         {
-            case BRACHOT:
+            case Util.BRACHOT:
                 book_audio_id = 10;
                 return;
-//            case GIYUR:
+//            case Util.GIYUR:
 //                book_audio_id = 99;
 //                return;
-            case HAAMVEHAAREZ:
+            case Util.HAAMVEHAAREZ:
                 book_audio_id = 6;
                 return;
-            case ZMANIM:
+            case Util.ZMANIM:
                 book_audio_id = 5;
                 return;
-            case TAHARAT:
+            case Util.TAHARAT:
                 book_audio_id = 18;
                 return;
-            case YAMIM:
+            case Util.YAMIM:
                 book_audio_id = 15;
                 return;
-            case KASHRUT_A:
+            case Util.KASHRUT_A:
                 book_audio_id = 17;
                 return;
-            case KASHRUT_B:
+            case Util.KASHRUT_B:
                 book_audio_id = 17;
                 return;
-//            case LIKUTIM_A:
+//            case Util.LIKUTIM_A:
 //                book_audio_id = 99;
 //                return;
-//            case LIKUTIM_B:
+//            case Util.LIKUTIM_B:
 //                book_audio_id = 99;
 //                return;
-            case MOADIM:
+            case Util.MOADIM:
                 book_audio_id = 12;
                 return;
-            case MISHPACHA:
+            case Util.MISHPACHA:
                 book_audio_id = 11;
                 return;
-            case SUCOT:
+            case Util.SUCOT:
                 book_audio_id = 13;
                 return;
-            case PESACH:
+            case Util.PESACH:
                 book_audio_id = 4;
                 return;
-            case SHVIIT:
+            case Util.SHVIIT:
                 book_audio_id = 16;
                 return;
-            case SHABAT:
+            case Util.SHABAT:
                 book_audio_id = 1;
                 return;
-            case SIMCHAT:
+            case Util.SIMCHAT:
                 book_audio_id = 14;
                 return;
-            case TEFILA:
+            case Util.TEFILA:
                 book_audio_id = 2;
                 return;
-//            case TEFILAT_NASHIM:
+//            case Util.TEFILAT_NASHIM:
 //                book_audio_id = 99;
 //                return;
         }

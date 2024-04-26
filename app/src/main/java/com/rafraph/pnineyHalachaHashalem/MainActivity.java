@@ -23,41 +23,6 @@ import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity
 {
-	private static final int BRACHOT      	= 0;
-	private static final int GIYUR      	= 1;
-	private static final int HAAMVEHAAREZ 	= 2;
-	private static final int ZMANIM    		= 3;
-	private static final int TAHARAT   		= 4;
-	private static final int YAMIM    		= 5;
-	private static final int KASHRUT_A 		= 6;
-	private static final int KASHRUT_B 		= 7;
-	private static final int LIKUTIM_A 		= 8;
-	private static final int LIKUTIM_B 		= 9;
-	private static final int MOADIM    		= 10;
-	private static final int MISHPACHA   	= 11;
-	private static final int SUCOT			= 12;
-	private static final int PESACH			= 13;
-	private static final int SHVIIT			= 14;
-	private static final int SHABAT			= 15;
-	private static final int SIMCHAT		= 16;
-	private static final int TEFILA			= 17;
-	private static final int TEFILAT_NASHIM	= 18;
-	private static final int HAR_BRACHOT    = 19;
-	private static final int HAR_YAMIM      = 20;
-	private static final int HAR_MOADIM     = 21;
-	private static final int HAR_SUCOT      = 22;
-	private static final int HAR_SHABAT     = 23;
-	private static final int HAR_SIMCHAT    = 24;
-	private static final int BOOKS_HEB_NUMBER	= 25;
-	private static final int E_TEFILA       = 25;
-	private static final int E_PESACH       = 26;
-	private static final int E_ZMANIM       = 27;
-	private static final int E_WOMEN_PRAYER = 28;
-	private static final int E_SHABAT       = 29;
-	private static final int F_TEFILA       = 30;
-	private static final int S_SHABAT       = 31;
-	private static final int BOOKS_NUMBER	= 32;
-
 	public ExpandableListAdapter listAdapter;
 	ExpandableListView expListView;
 	LinearLayout LinearLayoutListGroup;
@@ -882,38 +847,38 @@ public class MainActivity extends AppCompatActivity
 		S_shabat.add("29 - Eruvín");
 		S_shabat.add("30 - Las \"áreas (\"tjumim\") del Shabat\"");
 
-		listDataChild.put(listDataHeader.get(BRACHOT), brachot); // Header, Child data
-		listDataChild.put(listDataHeader.get(GIYUR), giyur);
-		listDataChild.put(listDataHeader.get(HAAMVEHAAREZ), haam);
-		listDataChild.put(listDataHeader.get(ZMANIM), zmanim);
-		listDataChild.put(listDataHeader.get(TAHARAT), taharat);
-		listDataChild.put(listDataHeader.get(YAMIM), yamim);
-		listDataChild.put(listDataHeader.get(KASHRUT_A), kashrut_a);
-        listDataChild.put(listDataHeader.get(KASHRUT_B), kashrut_b);
-		listDataChild.put(listDataHeader.get(LIKUTIM_A), likutimA);
-		listDataChild.put(listDataHeader.get(LIKUTIM_B), likutimB);
-		listDataChild.put(listDataHeader.get(MOADIM), moadim);
-        listDataChild.put(listDataHeader.get(MISHPACHA), mishpacha);
-		listDataChild.put(listDataHeader.get(SUCOT), sucot);
-		listDataChild.put(listDataHeader.get(PESACH), pesach);
-		listDataChild.put(listDataHeader.get(SHVIIT), shviit);
-		listDataChild.put(listDataHeader.get(SHABAT), shabat);
-		listDataChild.put(listDataHeader.get(SIMCHAT), simchat);
-		listDataChild.put(listDataHeader.get(TEFILA), tefila);
-		listDataChild.put(listDataHeader.get(TEFILAT_NASHIM), tefilatNashim);
-		listDataChild.put(listDataHeader.get(HAR_BRACHOT), harchavot_brachot);
-		listDataChild.put(listDataHeader.get(HAR_YAMIM), harchavot_yamim);
-		listDataChild.put(listDataHeader.get(HAR_MOADIM), harchavot_moadim);
-		listDataChild.put(listDataHeader.get(HAR_SUCOT), harchavot_sucot);
-		listDataChild.put(listDataHeader.get(HAR_SHABAT), harchavot_shabat);
-		listDataChild.put(listDataHeader.get(HAR_SIMCHAT), harchavot_simchat);
-		listDataChild.put(listDataHeader.get(E_TEFILA), E_tefila);
-		listDataChild.put(listDataHeader.get(E_PESACH), E_pesach);
-		listDataChild.put(listDataHeader.get(E_ZMANIM), E_zmanim);
-		listDataChild.put(listDataHeader.get(E_WOMEN_PRAYER), E_Women_Prayer);
-		listDataChild.put(listDataHeader.get(E_SHABAT), E_Shabat);
-		listDataChild.put(listDataHeader.get(F_TEFILA), F_tefila);
-//		listDataChild.put(listDataHeader.get(S_SHABAT), S_shabat);
+		listDataChild.put(listDataHeader.get(util.BRACHOT), brachot); // Header, Child data
+		listDataChild.put(listDataHeader.get(util.GIYUR), giyur);
+		listDataChild.put(listDataHeader.get(util.HAAMVEHAAREZ), haam);
+		listDataChild.put(listDataHeader.get(util.ZMANIM), zmanim);
+		listDataChild.put(listDataHeader.get(util.TAHARAT), taharat);
+		listDataChild.put(listDataHeader.get(util.YAMIM), yamim);
+		listDataChild.put(listDataHeader.get(util.KASHRUT_A), kashrut_a);
+        listDataChild.put(listDataHeader.get(util.KASHRUT_B), kashrut_b);
+		listDataChild.put(listDataHeader.get(util.LIKUTIM_A), likutimA);
+		listDataChild.put(listDataHeader.get(util.LIKUTIM_B), likutimB);
+		listDataChild.put(listDataHeader.get(util.MOADIM), moadim);
+        listDataChild.put(listDataHeader.get(util.MISHPACHA), mishpacha);
+		listDataChild.put(listDataHeader.get(util.SUCOT), sucot);
+		listDataChild.put(listDataHeader.get(util.PESACH), pesach);
+		listDataChild.put(listDataHeader.get(util.SHVIIT), shviit);
+		listDataChild.put(listDataHeader.get(util.SHABAT), shabat);
+		listDataChild.put(listDataHeader.get(util.SIMCHAT), simchat);
+		listDataChild.put(listDataHeader.get(util.TEFILA), tefila);
+		listDataChild.put(listDataHeader.get(util.TEFILAT_NASHIM), tefilatNashim);
+		listDataChild.put(listDataHeader.get(util.HAR_BRACHOT), harchavot_brachot);
+		listDataChild.put(listDataHeader.get(util.HAR_YAMIM), harchavot_yamim);
+		listDataChild.put(listDataHeader.get(util.HAR_MOADIM), harchavot_moadim);
+		listDataChild.put(listDataHeader.get(util.HAR_SUCOT), harchavot_sucot);
+		listDataChild.put(listDataHeader.get(util.HAR_SHABAT), harchavot_shabat);
+		listDataChild.put(listDataHeader.get(util.HAR_SIMCHAT), harchavot_simchat);
+		listDataChild.put(listDataHeader.get(util.E_TEFILA), E_tefila);
+		listDataChild.put(listDataHeader.get(util.E_PESACH), E_pesach);
+		listDataChild.put(listDataHeader.get(util.E_ZMANIM), E_zmanim);
+		listDataChild.put(listDataHeader.get(util.E_WOMEN_PRAYER), E_Women_Prayer);
+		listDataChild.put(listDataHeader.get(util.E_SHABAT), E_Shabat);
+		listDataChild.put(listDataHeader.get(util.F_TEFILA), F_tefila);
+//		listDataChild.put(listDataHeader.get(util.S_SHABAT), S_shabat);
 
 	}//prepareListData
 
