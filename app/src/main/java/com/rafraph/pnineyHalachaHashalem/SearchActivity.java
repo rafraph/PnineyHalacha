@@ -163,9 +163,9 @@ public class SearchActivity extends AppCompatActivity {
         int size, i, j, index, index_anchor_start, index_anchor_end, anchorId=0, lastanchorId=0, globalCounter=0, chapterCounter=0, noteIndex = 0;
         byte[] buffer;
         String strText = null, strAnchor=null, section=null, sections=null;
-        String prefixAnchor="<a name=" ;
+        String prefixAnchor="<a id=" ;
 
-        for(i=0; i<Util.BOOKS_NUMBER; i++)
+        for(i=0; i<Util.BOOKS_HEB_NUMBER; i++)
         {
             for(j=1; j<=util.lastChapter[i]; j++)//starts from 1 since I don't need to search in "tochen" files
             {
