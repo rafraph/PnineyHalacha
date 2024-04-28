@@ -34,12 +34,4 @@
 
     </LinearLayout>
 
-    <!-- Add your right side icons here -->
-    <ImageView
-        android:id="@+id/action_config"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="20dp"
-        android:layout_marginRight="20dp"
-        android:src="@drawable/action_config" />
 </LinearLayout>
