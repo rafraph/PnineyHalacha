@@ -50,9 +50,9 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
             <!-- enable the search dialog to send searches to SearchableActivity -->
-            <meta-data
-                android:name="android.app.default_searchable"
-                android:value=".SearchableActivity" />
+<!--            <meta-data-->
+<!--                android:name="android.app.default_searchable"-->
+<!--                android:value=".SearchableActivity" />-->
         </activity>
         <activity
             android:name=".TextMain"
@@ -60,9 +60,9 @@
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
 
             <!-- enable the search dialog to send searches to SearchableActivity -->
-            <meta-data
-                android:name="android.app.default_searchable"
-                android:value=".SearchableActivity" />
+<!--            <meta-data-->
+<!--                android:name="android.app.default_searchable"-->
+<!--                android:value=".SearchableActivity" />-->
         </activity>
         <activity
             android:name=".About"
@@ -79,18 +79,18 @@
         <activity
             android:name=".Settings"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
-        <activity
-            android:name=".SearchableActivity"
-            android:exported="true"
-            android:theme="@android:style/Theme.NoTitleBar">
-            <intent-filter>
-                <action android:name="android.intent.action.SEARCH" />
-            </intent-filter>
+<!--        <activity-->
+<!--            android:name=".SearchableActivity"-->
+<!--            android:exported="true"-->
+<!--            android:theme="@android:style/Theme.NoTitleBar">-->
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.SEARCH" />-->
+<!--            </intent-filter>-->
 
-            <meta-data
-                android:name="android.app.searchable"
-                android:resource="@xml/searchable" />
-        </activity>
+<!--            <meta-data-->
+<!--                android:name="android.app.searchable"-->
+<!--                android:resource="@xml/searchable" />-->
+<!--        </activity>-->
         <activity
             android:name=".BookmarkActivity"
             android:label="@string/title_activity_bookmark"

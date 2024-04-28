@@ -88,6 +88,7 @@ public class SearchActivity extends AppCompatActivity {
 
         if(validQuery == true)
         {
+            listStrAnchor = new ArrayList<String>();
             searchListView = (ListView) findViewById(R.id.searchListView);
             deleteResults();//for cases where several searches done
             fillChaptersFiles();

@@ -552,12 +552,6 @@ public class TextMain extends AppCompatActivity implements View.OnClickListener/
             //webview.loadUrl("javascript:function myFunction() {var x = document.body;x.style.color = \"white\";var y = document.getElementsByClassName(\"left\"); y[0].style.display = 'none';} myFunction(); ");
 			webview.setBackgroundColor(0xFFFFFF);//black
 			llMainLayout.setBackgroundColor(Color.BLACK);
-			if(cameFromSearch == true)
-			{
-				bFindNext.setImageDrawable(resources.getDrawable(R.drawable.ic_action_down_black));
-				bFindPrevious.setImageDrawable(resources.getDrawable(R.drawable.ic_action_up_black));
-			}
-
 		} else {
 			webview.loadUrl("javascript:function myFunction() {var x = document.body;x.style.color = \"black\";} myFunction(); ");
 			webview.setBackgroundColor(0x000000);//white
