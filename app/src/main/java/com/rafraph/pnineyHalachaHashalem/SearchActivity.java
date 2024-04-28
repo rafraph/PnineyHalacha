@@ -223,7 +223,7 @@ public class SearchActivity extends AppCompatActivity {
                             if(chapterCounter==0)/*the first is the link*/
                             {
                                 sections += section;
-                                if(noteIndex < index)/*find in note*/
+                                if(noteIndex != -1 && noteIndex < index)/*find in note*/
                                     listStrAnchor.add("file:///android_asset/" + chaptersFiles[i][j]+":"+strAnchor);/*if all the results are in notes so the link will be to the first note*/
                                 else
                                     listStrAnchor.add("file:///android_asset/" + chaptersFiles[i][j] + "#" + anchorId);

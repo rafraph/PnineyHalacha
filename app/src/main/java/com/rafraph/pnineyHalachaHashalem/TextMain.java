@@ -425,7 +425,7 @@ public class TextMain extends AppCompatActivity implements View.OnClickListener/
 			public void run()
 			{ 
 				webview.loadUrl("javascript:function myFunction() {var x = document.body;x.style.color = \"white\";} myFunction(); ");
-				webview.findAll(query);
+				webview.findAllAsync(query);
 				try
 				{
 					Method m = WebView.class.getMethod("setFindIsUp", Boolean.TYPE);
@@ -1788,7 +1788,10 @@ public class TextMain extends AppCompatActivity implements View.OnClickListener/
 						else
 							finddelay(query);
 					} else {
-						webview.findAllAsync(query);
+						if(BlackBackground == 1)
+							WhiteTextAfterDelay();
+						else
+							webview.findAllAsync(query);
 					}
 
 					if (sectionsForToast.compareTo("") != 0)
