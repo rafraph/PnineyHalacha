@@ -37,21 +37,11 @@
         android:textSize="20dp" />
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="right"
-        android:text='1. עיצוב האפליקציה שודרג עם המון תוספות'
-        android:textSize="20dp"
-        android:textColor="#5A9B85"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
-
-
-    <TextView
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="right"
-        android:text='2. תיקוני באגים'
+        android:text=' 1. תיקוני באגים רבים. תודה רבה לכל המשתמשים שדיווחו על הבעיות'
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textColor="#5A9B85"
         android:textSize="20dp" />
@@ -90,7 +80,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="right"
-        android:text="תודה רבה למסייעים במלאכה: \n אלישע הנשקה והלל ג'אן - עריכת הטקסט \n אדיר מולאים - בודק ראשי \n הרב יונדב זר - הקראה \n אבישלום ג'אן, שילה בן נתן ודוד זר - עזרה בתכנות \n פדות ליברמן - עיצוב השער"
+        android:text="תודה רבה למסייעים במלאכה: \n אלישע הנשקה והלל ג'אן - עריכת הטקסט \n אדיר מולאים - בודק ראשי \n יהודה ארביב - צוות הבדיקות \n הרב יונדב זר - הקראה \n אבישלום ג'אן, שילה בן נתן ודוד זר - עזרה בתכנות \n אניה בורוכוב - עיצוב"
         android:textSize="15dp"
         android:textColor="#730005"
         android:textAppearance="?android:attr/textAppearanceLarge" />
