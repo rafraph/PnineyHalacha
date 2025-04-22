@@ -905,6 +905,38 @@ public class TextMain extends AppCompatActivity implements View.OnClickListener/
 
 	private void fillChaptersFiles()/*list of all assets*/
 	{
+		/*EMUNA*/
+		chaptersFiles[Util.EMUNA][0] = "file:///android_asset/emuna_tochen.html";
+		chaptersFiles[Util.EMUNA][1] = "file:///android_asset/emuna_1.html";
+		chaptersFiles[Util.EMUNA][2] = "file:///android_asset/emuna_2.html";
+		chaptersFiles[Util.EMUNA][3] = "file:///android_asset/emuna_3.html";
+		chaptersFiles[Util.EMUNA][4] = "file:///android_asset/emuna_4.html";
+		chaptersFiles[Util.EMUNA][5] = "file:///android_asset/emuna_5.html";
+		chaptersFiles[Util.EMUNA][6] = "file:///android_asset/emuna_6.html";
+		chaptersFiles[Util.EMUNA][7] = "file:///android_asset/emuna_7.html";
+		chaptersFiles[Util.EMUNA][8] = "file:///android_asset/emuna_8.html";
+		chaptersFiles[Util.EMUNA][9] = "file:///android_asset/emuna_9.html";
+		chaptersFiles[Util.EMUNA][10] = "file:///android_asset/emuna_10.html";
+		chaptersFiles[Util.EMUNA][11] = "file:///android_asset/emuna_11.html";
+		chaptersFiles[Util.EMUNA][12] = "file:///android_asset/emuna_12.html";
+		chaptersFiles[Util.EMUNA][13] = "file:///android_asset/emuna_13.html";
+		chaptersFiles[Util.EMUNA][14] = "file:///android_asset/emuna_14.html";
+		chaptersFiles[Util.EMUNA][15] = "file:///android_asset/emuna_15.html";
+		chaptersFiles[Util.EMUNA][16] = "file:///android_asset/emuna_16.html";
+		chaptersFiles[Util.EMUNA][17] = "file:///android_asset/emuna_17.html";
+		chaptersFiles[Util.EMUNA][18] = "file:///android_asset/emuna_18.html";
+		chaptersFiles[Util.EMUNA][19] = "file:///android_asset/emuna_19.html";
+		chaptersFiles[Util.EMUNA][20] = "file:///android_asset/emuna_20.html";
+		chaptersFiles[Util.EMUNA][21] = "file:///android_asset/emuna_21.html";
+		chaptersFiles[Util.EMUNA][22] = "file:///android_asset/emuna_22.html";
+		chaptersFiles[Util.EMUNA][23] = "file:///android_asset/emuna_23.html";
+		chaptersFiles[Util.EMUNA][24] = "file:///android_asset/emuna_24.html";
+		chaptersFiles[Util.EMUNA][25] = "file:///android_asset/emuna_25.html";
+		chaptersFiles[Util.EMUNA][26] = "file:///android_asset/emuna_26.html";
+		chaptersFiles[Util.EMUNA][27] = "file:///android_asset/emuna_27.html";
+		chaptersFiles[Util.EMUNA][28] = "file:///android_asset/emuna_28.html";
+		chaptersFiles[Util.EMUNA][29] = "file:///android_asset/emuna_29.html";
+		chaptersFiles[Util.EMUNA][30] = "file:///android_asset/emuna_30.html";
 		/*BRACHOT*/
 		chaptersFiles[Util.BRACHOT][0] = "file:///android_asset/brachot_tochen.html";
 		chaptersFiles[Util.BRACHOT][1] = "file:///android_asset/brachot_1.html";
@@ -1944,6 +1976,8 @@ public class TextMain extends AppCompatActivity implements View.OnClickListener/
 	{
 		switch (bookId)
 		{
+		case Util.EMUNA:
+			return "אמונה ומצוותיה";
 		case Util.BRACHOT:
 			return "ברכות";
 		case Util.GIYUR:
@@ -2015,6 +2049,38 @@ public class TextMain extends AppCompatActivity implements View.OnClickListener/
 
 	private void fillChaptersNames()
 	{
+		/*EMUNA*/
+		chaptersNames[Util.EMUNA][0] = "אמונה: תוכן";
+		chaptersNames[Util.EMUNA][1] = "אמונה: א - אמונת ישראל";
+		chaptersNames[Util.EMUNA][2] = "אמונה: ב - אמונה ועבודה זרה";
+		chaptersNames[Util.EMUNA][3] = "אמונה: ג - איסורי עבודה זרה";
+		chaptersNames[Util.EMUNA][4] = "אמונה: ד - מסירות נפש";
+		chaptersNames[Util.EMUNA][5] = "אמונה: ה - האיסור לבני נח";
+		chaptersNames[Util.EMUNA][6] = "אמונה: ו - נצרות";
+		chaptersNames[Util.EMUNA][7] = "אמונה: ז - אסלאם";
+		chaptersNames[Util.EMUNA][8] = "אמונה: ח - דתות המזרח";
+		chaptersNames[Util.EMUNA][9] = "אמונה: ט - עתיד הדתות";
+		chaptersNames[Util.EMUNA][10] = "אמונה: י - איסור הנאה";
+		chaptersNames[Util.EMUNA][11] = "אמונה: יא - מסחר ועסקים";
+		chaptersNames[Util.EMUNA][12] = "אמונה: יב - בתי פולחן וסמלים";
+		chaptersNames[Util.EMUNA][13] = "אמונה: יג - אל תפנו";
+		chaptersNames[Util.EMUNA][14] = "אמונה: יד - סייגים";
+		chaptersNames[Util.EMUNA][15] = "אמונה: טו - פיסול וציור";
+		chaptersNames[Util.EMUNA][16] = "אמונה: טז - הנבואה";
+		chaptersNames[Util.EMUNA][17] = "אמונה: יז - רוח הקודש";
+		chaptersNames[Util.EMUNA][18] = "אמונה: יח - טבע ונס";
+		chaptersNames[Util.EMUNA][19] = "אמונה: יט - כשפים";
+		chaptersNames[Util.EMUNA][20] = "אמונה: כ - קבלה מעשית";
+		chaptersNames[Util.EMUNA][21] = "אמונה: כא - רבנים ובעלי מופת";
+		chaptersNames[Util.EMUNA][22] = "אמונה: כב - קללות וברכות";
+		chaptersNames[Util.EMUNA][23] = "אמונה: כג - עין הרע";
+		chaptersNames[Util.EMUNA][24] = "אמונה: כד - קסמי עתידות";
+		chaptersNames[Util.EMUNA][25] = "אמונה: כה - אסטרולוגיה";
+		chaptersNames[Util.EMUNA][26] = "אמונה: כו - כשפי מתים ושדים";
+		chaptersNames[Util.EMUNA][27] = "אמונה: כז - חלומות";
+		chaptersNames[Util.EMUNA][28] = "אמונה: כח - חוקות הגויים";
+		chaptersNames[Util.EMUNA][29] = "אמונה: כט - ענייני רפואה";
+		chaptersNames[Util.EMUNA][30] = "אמונה: ל - אמונה בדורנו";
 		/*BRACHOT*/
 		chaptersNames[Util.BRACHOT][0] = "ברכות: תוכן";
 		chaptersNames[Util.BRACHOT][1] = "ברכות: א - פתיחה";

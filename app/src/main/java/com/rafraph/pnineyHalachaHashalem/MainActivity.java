@@ -173,6 +173,7 @@ public class MainActivity extends AppCompatActivity
 		listDataChild = new HashMap<String, List<String>>();
 
 		// Adding child data
+		listDataHeader.add("אמונה ומצוותיה");
 		listDataHeader.add("ברכות");
 		listDataHeader.add("גיור");
 		listDataHeader.add("העם והארץ");
@@ -208,6 +209,39 @@ public class MainActivity extends AppCompatActivity
 
 
 		// Adding child data
+		List<String> emuna = new ArrayList<String>();
+		emuna.add("תוכן מפורט, מבוא, מפתח");
+		emuna.add("א - אמונת ישראל");
+		emuna.add("ב - אמונה ועבודה זרה");
+		emuna.add("ג - איסורי עבודה זרה");
+		emuna.add("ד - מסירות נפש");
+		emuna.add("ה - האיסור לבני נח");
+		emuna.add("ו - נצרות");
+		emuna.add("ז - אסלאם");
+		emuna.add("ח - דתות המזרח");
+		emuna.add("ט - עתיד הדתות");
+		emuna.add("י - איסור הנאה");
+		emuna.add("יא - מסחר ועסקים");
+		emuna.add("יב - בתי פולחן וסמלים");
+		emuna.add("יג - אל תפנו");
+		emuna.add("יד - סייגים");
+		emuna.add("טו - פיסול וציור");
+		emuna.add("טז - הנבואה");
+		emuna.add("יז - רוח הקודש");
+		emuna.add("יח - טבע ונס");
+		emuna.add("יט - כשפים");
+		emuna.add("כ - קבלה מעשית");
+		emuna.add("כא - רבנים ובעלי מופת");
+		emuna.add("כב - קללות וברכות");
+		emuna.add("כג - עין הרע");
+		emuna.add("כד - קסמי עתידות");
+		emuna.add("כה - אסטרולוגיה");
+		emuna.add("כו - כשפי מתים ושדים");
+		emuna.add("כז - חלומות");
+		emuna.add("כח - חוקות הגויים");
+		emuna.add("כט - ענייני רפואה");
+		emuna.add("ל - אמונה בדורנו");
+
 		List<String> brachot = new ArrayList<String>();
 		brachot.add("תוכן מפורט, מבוא, מפתח");
 		brachot.add("א - פתיחה");
@@ -847,7 +881,8 @@ public class MainActivity extends AppCompatActivity
 		S_shabat.add("29 - Eruvín");
 		S_shabat.add("30 - Las \"áreas (\"tjumim\") del Shabat\"");
 
-		listDataChild.put(listDataHeader.get(util.BRACHOT), brachot); // Header, Child data
+		listDataChild.put(listDataHeader.get(util.EMUNA), emuna); // Header, Child data
+		listDataChild.put(listDataHeader.get(util.BRACHOT), brachot);
 		listDataChild.put(listDataHeader.get(util.GIYUR), giyur);
 		listDataChild.put(listDataHeader.get(util.HAAMVEHAAREZ), haam);
 		listDataChild.put(listDataHeader.get(util.ZMANIM), zmanim);
