@@ -40,12 +40,21 @@
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="right"
-        android:text=' 1. תיקוני באגים רבים. תודה רבה לכל המשתמשים שדיווחו על הבעיות'
+        android:layout_gravity="center"
+        android:text='בשעה טובה נוסף הספר החדש'
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textColor="#5A9B85"
         android:textSize="20dp" />
 
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text='"אמונה ומצוותיה"'
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="#5A9B85"
+        android:textSize="30dp" />
 
     <TextView
         android:layout_width="wrap_content"
